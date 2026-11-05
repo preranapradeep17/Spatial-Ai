@@ -1,0 +1,164 @@
+{
+  "frame_id": "frame_00002",
+  "image_filename": "rgb/frame_00002.png",
+  "depth_filename": "depth/frame_00002.npy",
+  "camera": {
+    "fx": 525.0,
+    "fy": 525.0,
+    "cx": 320.0,
+    "cy": 240.0,
+    "image_width": 640,
+    "image_height": 480,
+    "position": [
+      0.0,
+      1.5,
+      -2.65965931637689
+    ],
+    "rotation_quaternion": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  },
+  "objects": [
+    {
+      "object_id": "door_00",
+      "class_id": 4,
+      "class_name": "door",
+      "bbox_2d": {
+        "xmin": 432.9,
+        "ymin": 181.6,
+        "xmax": 518.5,
+        "ymax": 345.1
+      },
+      "position_world_3d": [
+        2.0,
+        1.2,
+        6.744
+      ],
+      "position_camera_3d": [
+        2.0,
+        -0.3,
+        6.744
+      ],
+      "distance_to_camera": 7.041,
+      "is_visible": true
+    },
+    {
+      "object_id": "fire_extinguisher_01",
+      "class_id": 5,
+      "class_name": "fire_extinguisher",
+      "bbox_2d": {
+        "xmin": 522.9,
+        "ymin": 264.9,
+        "xmax": 547.8,
+        "ymax": 334.6
+      },
+      "position_world_3d": [
+        2.162,
+        0.9,
+        5.271
+      ],
+      "position_camera_3d": [
+        2.162,
+        -0.6,
+        5.271
+      ],
+      "distance_to_camera": 5.729,
+      "is_visible": true
+    },
+    {
+      "object_id": "table_02",
+      "class_id": 0,
+      "class_name": "table",
+      "bbox_2d": {
+        "xmin": 264.3,
+        "ymin": 303.9,
+        "xmax": 536.8,
+        "ymax": 431.6
+      },
+      "position_world_3d": [
+        0.473,
+        0.75,
+        3.083
+      ],
+      "position_camera_3d": [
+        0.473,
+        -0.75,
+        3.083
+      ],
+      "distance_to_camera": 3.208,
+      "is_visible": true
+    },
+    {
+      "object_id": "monitor_03",
+      "class_id": 3,
+      "class_name": "monitor",
+      "bbox_2d": {
+        "xmin": 337.9,
+        "ymin": 297.5,
+        "xmax": 435.3,
+        "ymax": 377.2
+      },
+      "position_world_3d": [
+        0.376,
+        0.95,
+        2.965
+      ],
+      "position_camera_3d": [
+        0.376,
+        -0.55,
+        2.965
+      ],
+      "distance_to_camera": 3.039,
+      "is_visible": true
+    },
+    {
+      "object_id": "chair_04",
+      "class_id": 1,
+      "class_name": "chair",
+      "bbox_2d": {
+        "xmin": 82.2,
+        "ymin": 341.5,
+        "xmax": 192.9,
+        "ymax": 480.0
+      },
+      "position_world_3d": [
+        -0.989,
+        0.5,
+        2.846
+      ],
+      "position_camera_3d": [
+        -0.989,
+        -1.0,
+        2.846
+      ],
+      "distance_to_camera": 3.174,
+      "is_visible": true
+    },
+    {
+      "object_id": "laptop_05",
+      "class_id": 2,
+      "class_name": "laptop",
+      "bbox_2d": {
+        "xmin": 210.3,
+        "ymin": 357.8,
+        "xmax": 284.6,
+        "ymax": 410.8
+      },
+      "position_world_3d": [
+        -0.342,
+        0.82,
+        2.474
+      ],
+      "position_camera_3d": [
+        -0.342,
+        -0.68,
+        2.474
+      ],
+      "distance_to_camera": 2.589,
+      "is_visible": true
+    }
+  ]
+}

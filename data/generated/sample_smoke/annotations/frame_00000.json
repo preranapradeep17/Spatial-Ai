@@ -1,0 +1,95 @@
+{
+  "frame_id": "frame_00000",
+  "image_filename": "rgb/frame_00000.png",
+  "depth_filename": "depth/frame_00000.npy",
+  "camera": {
+    "fx": 525.0,
+    "fy": 525.0,
+    "cx": 320.0,
+    "cy": 240.0,
+    "image_width": 640,
+    "image_height": 480,
+    "position": [
+      0.0,
+      1.5,
+      -3.1394267984578836
+    ],
+    "rotation_quaternion": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  },
+  "objects": [
+    {
+      "object_id": "fire_extinguisher_00",
+      "class_id": 5,
+      "class_name": "fire_extinguisher",
+      "bbox_2d": {
+        "xmin": 576.4,
+        "ymin": 270.3,
+        "xmax": 606.7,
+        "ymax": 355.1
+      },
+      "position_world_3d": [
+        2.242,
+        0.9,
+        4.335
+      ],
+      "position_camera_3d": [
+        2.242,
+        -0.6,
+        4.335
+      ],
+      "distance_to_camera": 4.917,
+      "is_visible": true
+    },
+    {
+      "object_id": "laptop_01",
+      "class_id": 2,
+      "class_name": "laptop",
+      "bbox_2d": {
+        "xmin": 312.9,
+        "ymin": 339.1,
+        "xmax": 375.4,
+        "ymax": 383.7
+      },
+      "position_world_3d": [
+        0.135,
+        0.82,
+        2.941
+      ],
+      "position_camera_3d": [
+        0.135,
+        -0.68,
+        2.941
+      ],
+      "distance_to_camera": 3.022,
+      "is_visible": true
+    },
+    {
+      "object_id": "chair_02",
+      "class_id": 1,
+      "class_name": "chair",
+      "bbox_2d": {
+        "xmin": 0.0,
+        "ymin": 367.2,
+        "xmax": 110.7,
+        "ymax": 480.0
+      },
+      "position_world_3d": [
+        -1.205,
+        0.5,
+        2.27
+      ],
+      "position_camera_3d": [
+        -1.205,
+        -1.0,
+        2.27
+      ],
+      "distance_to_camera": 2.757,
+      "is_visible": true
+    }
+  ]
+}

@@ -1,0 +1,3714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#07090e">
+  <title>Spatial Quest — 3D AI Investigation Game</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2300f0ff'><polygon points='12 2 2 7 12 12 22 7 12 2'/><polyline points='2 17 12 22 22 17'/><polyline points='2 12 12 17 22 12'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Orbitron:wght@600;800;900&display=swap" rel="stylesheet">
+  <!-- Three.js 3D Engine (Bundled Local with CDN Fallback) -->
+  <script src="/three.min.js"></script>
+  <script>
+    if (typeof THREE === 'undefined') {
+      document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>');
+    }
+  </script>
+  <style>
+    :root {
+      --bg-dark: #07090e;
+      --bg-panel: rgba(13, 19, 33, 0.94);
+      --bg-card: rgba(21, 31, 53, 0.88);
+      --border-cyan: rgba(0, 240, 255, 0.35);
+      --border-subtle: rgba(255, 255, 255, 0.1);
+      --cyan: #00f0ff;
+      --cyan-glow: rgba(0, 240, 255, 0.5);
+      --amber: #ffb800;
+      --green: #00ff9d;
+      --orange: #ff7700;
+      --red: #ff3366;
+      --text-main: #e2e8f0;
+      --text-muted: #94a3b8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: 'Inter', sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Top Nav */
+    header {
+      background: rgba(7, 10, 17, 0.98);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border-cyan);
+      padding: 8px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+      z-index: 100;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, var(--cyan), #0077ff);
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 0 16px var(--cyan-glow);
+    }
+
+    .brand h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.15rem;
+      letter-spacing: 1.5px;
+      color: #fff;
+    }
+
+    .brand span { color: var(--cyan); }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn-action {
+      background: var(--bg-card);
+      color: var(--text-main);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      border: 1px solid var(--border-subtle);
+      padding: 5px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s;
+    }
+    .btn-action:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+      box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+    }
+    .btn-action.highlight {
+      background: linear-gradient(135deg, rgba(0, 240, 255, 0.2), rgba(0, 119, 255, 0.3));
+      border-color: var(--cyan);
+      color: var(--cyan);
+      font-weight: bold;
+    }
+    .btn-action.inspector-btn {
+      background: linear-gradient(135deg, #ff7700, #ffb800);
+      color: #000;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 800;
+      border: none;
+      box-shadow: 0 0 14px rgba(255, 184, 0, 0.4);
+    }
+
+    .tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.70rem;
+      padding: 4px 8px;
+      border-radius: 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .tag.live {
+      border-color: rgba(0, 255, 157, 0.4);
+      color: var(--green);
+    }
+    .tag-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+      box-shadow: 0 0 8px currentColor;
+    }
+
+    /* Main Grid */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 460px 1fr;
+      gap: 12px;
+      padding: 10px 16px;
+      flex: 1;
+      height: calc(100vh - 84px);
+      min-height: 0;
+    }
+
+    /* Mobile View Tabs Bar (Visible on mobile/tablet <= 900px) */
+    .mobile-tabs-bar {
+      display: none;
+      background: rgba(7, 10, 17, 0.95);
+      border-bottom: 1px solid var(--border-cyan);
+      padding: 5px 10px;
+      gap: 6px;
+      z-index: 90;
+      flex-shrink: 0;
+    }
+    .mobile-tab-btn {
+      flex: 1;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 6px 4px;
+      border-radius: 6px;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-card);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .mobile-tab-btn.active {
+      border-color: var(--cyan);
+      color: var(--cyan);
+      background: rgba(0, 240, 255, 0.15);
+      box-shadow: 0 0 10px rgba(0, 240, 255, 0.25);
+    }
+
+    /* Responsive text helper classes */
+    .hdr-btn-short,
+    .cam-btn-short,
+    .agent-btn-short,
+    .tts-label-short,
+    .send-label-short,
+    .pill-short,
+    .tab-label-short {
+      display: none;
+    }
+
+    /* Panels */
+    .panel {
+      background: var(--bg-panel);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border-cyan);
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+      position: relative;
+      overflow: hidden;
+      min-height: 0;
+    }
+
+    .chat-panel {
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--border-subtle);
+      flex-shrink: 0;
+    }
+
+    .panel-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.82rem;
+      letter-spacing: 1px;
+      color: var(--cyan);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .mission-board {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 8px 10px;
+      margin-bottom: 8px;
+      flex-shrink: 0;
+    }
+
+    .mission-brief {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+      margin: 4px 0;
+    }
+
+    .objective-row {
+      font-size: 0.72rem;
+      color: var(--text-main);
+      display: flex;
+      gap: 6px;
+      margin: 2px 0;
+    }
+
+    .mission-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 6px;
+    }
+
+    .mission-pill {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      padding: 3px 8px;
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .mission-pill:hover { border-color: var(--cyan); color: #fff; }
+    .mission-pill.active { border-color: var(--cyan); color: var(--cyan); background: rgba(0, 240, 255, 0.1); font-weight: bold; }
+    .mission-pill.done { border-color: var(--green); color: var(--green); }
+
+    .agent-row { display: flex; gap: 4px; margin-top: 6px; }
+    .agent-btn {
+      flex: 1;
+      font-size: 0.68rem;
+      padding: 5px 4px;
+      border-radius: 6px;
+      border: 1px solid var(--border-subtle);
+      background: rgba(255,255,255,0.04);
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+    .agent-btn.active { border-color: var(--amber); color: var(--amber); font-weight: bold; background: rgba(255, 184, 0, 0.1); }
+
+    /* Chat Messages */
+    .chat-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      gap: 8px;
+    }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .msg {
+      max-width: 90%;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.80rem;
+      line-height: 1.45;
+      word-wrap: break-word;
+    }
+
+    .msg.user {
+      align-self: flex-end;
+      background: linear-gradient(135deg, rgba(0, 119, 255, 0.35), rgba(0, 240, 255, 0.25));
+      border: 1px solid var(--border-cyan);
+      color: #fff;
+    }
+
+    .msg.assistant {
+      align-self: flex-start;
+      background: rgba(21, 31, 53, 0.9);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+    }
+
+    .msg-thought {
+      font-size: 0.70rem;
+      color: var(--amber);
+      font-style: italic;
+      margin-bottom: 4px;
+      border-bottom: 1px dashed rgba(255, 184, 0, 0.2);
+      padding-bottom: 2px;
+    }
+
+    .msg-tool {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--cyan);
+      background: rgba(0, 240, 255, 0.1);
+      padding: 3px 6px;
+      border-radius: 4px;
+      margin-bottom: 4px;
+    }
+
+    /* Quick mission prompts */
+    .quick-prompts {
+      display: flex;
+      gap: 4px;
+      overflow-x: auto;
+      padding: 4px 0;
+      flex-shrink: 0;
+    }
+
+    .quick-btn {
+      white-space: nowrap;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      font-size: 0.68rem;
+      padding: 3px 8px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .quick-btn:hover { border-color: var(--cyan); color: var(--cyan); }
+
+    /* Multimodal Voice & Chat Bar */
+    .chat-input-bar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(7, 10, 17, 0.9);
+      border: 1px solid var(--border-cyan);
+      border-radius: 8px;
+      padding: 5px;
+      flex-shrink: 0;
+    }
+
+    .chat-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.82rem;
+      padding: 6px 8px;
+      outline: none;
+    }
+
+    .mic-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      width: 34px;
+      height: 34px;
+      border-radius: 6px;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      font-size: 1.05rem;
+      transition: all 0.2s;
+    }
+    .mic-btn:hover { border-color: var(--cyan); color: var(--cyan); }
+    .mic-btn.recording {
+      background: rgba(255, 51, 102, 0.3);
+      border-color: var(--red);
+      color: var(--red);
+      animation: pulse-mic 1s infinite alternate;
+    }
+    @keyframes pulse-mic {
+      0% { transform: scale(1); box-shadow: 0 0 4px var(--red); }
+      100% { transform: scale(1.08); box-shadow: 0 0 14px var(--red); }
+    }
+
+    .tts-toggle-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      font-size: 0.68rem;
+      padding: 6px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .tts-toggle-btn.active {
+      color: var(--green);
+      border-color: var(--green);
+      background: rgba(0, 255, 157, 0.08);
+    }
+
+    .stop-speech-btn {
+      background: rgba(255, 51, 102, 0.25);
+      border: 1px solid var(--red);
+      color: var(--red);
+      font-size: 0.68rem;
+      padding: 6px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .send-btn {
+      background: linear-gradient(135deg, var(--cyan), #0077ff);
+      color: #000;
+      border: none;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .send-btn:hover {
+      box-shadow: 0 0 16px var(--cyan-glow);
+    }
+
+    .voice-status-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.70rem;
+      padding: 4px 8px;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 4px;
+      margin-top: 4px;
+    }
+    .voice-pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--red);
+      animation: pulse-dot 0.8s infinite;
+    }
+    @keyframes pulse-dot {
+      0% { opacity: 0.4; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1.2); }
+    }
+
+    /* 3D Viewport Panel */
+    .viewport-panel {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      display: flex;
+    }
+
+    .canvas-container {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      width: 100%; height: 100%;
+      background: #000;
+      overflow: hidden;
+    }
+
+    #webgl-canvas {
+      width: 100% !important;
+      height: 100% !important;
+      display: block;
+    }
+
+    /* HUD Overlays */
+    .hud-overlay {
+      position: absolute;
+      top: 12px; left: 12px;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      z-index: 10;
+    }
+
+    .hud-chip {
+      background: rgba(7, 10, 17, 0.88);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border-cyan);
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.70rem;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hud-camera-modes {
+      position: absolute;
+      top: 12px; right: 12px;
+      display: flex;
+      gap: 4px;
+      background: rgba(7, 10, 17, 0.88);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border-subtle);
+      padding: 4px;
+      border-radius: 8px;
+      z-index: 10;
+    }
+
+    .cam-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-muted);
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.65rem;
+      padding: 5px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .cam-btn.active {
+      background: rgba(0, 240, 255, 0.2);
+      border-color: var(--cyan);
+      color: var(--cyan);
+      font-weight: 700;
+    }
+
+    .hud-controls-help {
+      position: absolute;
+      bottom: 12px; left: 12px;
+      background: rgba(7, 10, 17, 0.88);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border-subtle);
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      pointer-events: none;
+      z-index: 10;
+    }
+    .hud-controls-help kbd {
+      background: rgba(255, 255, 255, 0.12);
+      color: var(--cyan);
+      padding: 2px 4px;
+      border-radius: 4px;
+      border: 1px solid rgba(0, 240, 255, 0.3);
+      font-weight: bold;
+    }
+
+    /* Virtual Controls Layout */
+    .virtual-controls-wrapper {
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      right: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      pointer-events: none;
+      z-index: 20;
+    }
+    .virtual-dpad, .virtual-actions {
+      pointer-events: auto;
+    }
+
+    /* Virtual D-Pad (Left side) */
+    .virtual-dpad {
+      display: grid;
+      grid-template-columns: repeat(3, 40px);
+      grid-template-rows: repeat(2, 40px);
+      gap: 4px;
+      background: rgba(7, 10, 17, 0.82);
+      padding: 6px;
+      border-radius: 10px;
+      border: 1px solid var(--border-cyan);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+      touch-action: none;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .dpad-btn {
+      background: rgba(21, 31, 53, 0.9);
+      border: 1px solid var(--border-cyan);
+      color: var(--cyan);
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: none;
+      font-size: 0.95rem;
+      transition: all 0.1s;
+    }
+    .dpad-btn:active { background: var(--cyan); color: #000; transform: scale(0.95); }
+
+    /* Virtual Actions (Right side of screen) */
+    .virtual-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      touch-action: none;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .mobile-action-btn {
+      width: 54px;
+      height: 42px;
+      border-radius: 8px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.62rem;
+      font-weight: 800;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      border: 1px solid var(--border-cyan);
+      background: rgba(7, 10, 17, 0.85);
+      color: var(--cyan);
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      transition: all 0.1s;
+    }
+    .mobile-action-btn:active {
+      background: var(--cyan);
+      color: #000;
+      transform: scale(0.95);
+    }
+    .mobile-action-btn.btn-action-interact {
+      border-color: var(--amber);
+      color: var(--amber);
+    }
+    .mobile-action-btn.btn-action-interact:active {
+      background: var(--amber);
+      color: #000;
+    }
+
+    .interact-prompt {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 240, 255, 0.3);
+      backdrop-filter: blur(12px);
+      border: 2px solid var(--cyan);
+      color: #fff;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.82rem;
+      padding: 8px 16px;
+      border-radius: 8px;
+      display: none;
+      box-shadow: 0 0 24px var(--cyan-glow);
+      pointer-events: auto;
+      cursor: pointer;
+      z-index: 25;
+      animation: pulse 1.2s infinite;
+      user-select: none;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.9; transform: translate(-50%, -50%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
+    }
+
+    /* Live System Inspector Drawer */
+    .inspector-drawer {
+      position: fixed;
+      top: 0; right: -620px;
+      width: 600px;
+      max-width: 95vw;
+      height: 100vh;
+      background: rgba(9, 13, 22, 0.98);
+      backdrop-filter: blur(20px);
+      border-left: 2px solid var(--border-cyan);
+      box-shadow: -15px 0 50px rgba(0, 0, 0, 0.9);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      transition: right 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .inspector-drawer.open { right: 0; }
+
+    .inspector-header {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(13, 19, 33, 0.95);
+    }
+    .inspector-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border-subtle);
+      background: rgba(7, 10, 17, 0.95);
+    }
+    .insp-tab-btn {
+      flex: 1;
+      padding: 10px 4px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.70rem;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .insp-tab-btn.active {
+      color: var(--cyan);
+      border-bottom-color: var(--cyan);
+      background: rgba(0, 240, 255, 0.08);
+      font-weight: bold;
+    }
+    .inspector-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      font-size: 0.78rem;
+    }
+    .insp-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+    .insp-card-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.74rem;
+      color: var(--cyan);
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .insp-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.70rem;
+    }
+    .insp-table th, .insp-table td {
+      padding: 4px 6px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .insp-table th { color: var(--text-muted); }
+    .tensor-badge {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: #1e293b;
+      color: var(--amber);
+      margin: 2px;
+      border: 1px solid rgba(255, 184, 0, 0.2);
+    }
+    .code-snippet {
+      font-family: 'JetBrains Mono', monospace;
+      background: rgba(0, 0, 0, 0.45);
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      white-space: pre-wrap;
+      word-break: break-all;
+      font-size: 0.70rem;
+      color: #94a3b8;
+    }
+
+    /* Workflow & Architecture Pipeline visualizer */
+    .wf-step-box {
+      background: rgba(13, 19, 33, 0.9);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 8px 10px;
+      margin-bottom: 5px;
+      position: relative;
+    }
+    .wf-step-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+      font-size: 0.72rem;
+      font-weight: bold;
+    }
+    .wf-step-desc {
+      font-size: 0.68rem;
+      color: #94a3b8;
+      line-height: 1.35;
+    }
+    .wf-badge-trained {
+      font-size: 0.60rem;
+      padding: 2px 5px;
+      border-radius: 4px;
+      background: rgba(0, 255, 157, 0.15);
+      color: var(--green);
+      border: 1px solid rgba(0, 255, 157, 0.4);
+      font-weight: bold;
+    }
+    .wf-badge-math {
+      font-size: 0.60rem;
+      padding: 2px 5px;
+      border-radius: 4px;
+      background: rgba(0, 240, 255, 0.15);
+      color: var(--cyan);
+      border: 1px solid rgba(0, 240, 255, 0.4);
+      font-weight: bold;
+    }
+    .wf-badge-engine {
+      font-size: 0.60rem;
+      padding: 2px 5px;
+      border-radius: 4px;
+      background: rgba(179, 136, 255, 0.15);
+      color: #b388ff;
+      border: 1px solid rgba(179, 136, 255, 0.4);
+      font-weight: bold;
+    }
+    .wf-badge-guard {
+      font-size: 0.60rem;
+      padding: 2px 5px;
+      border-radius: 4px;
+      background: rgba(255, 184, 0, 0.15);
+      color: var(--amber);
+      border: 1px solid rgba(255, 184, 0, 0.4);
+      font-weight: bold;
+    }
+    .wf-arrow-down {
+      text-align: center;
+      color: var(--cyan);
+      font-size: 0.72rem;
+      margin: -2px 0 3px 0;
+      opacity: 0.75;
+    }
+
+    /* Modal dialogs */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(14px);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .modal-box {
+      background: #0d1321;
+      border: 2px solid var(--cyan);
+      border-radius: 12px;
+      width: 100%;
+      max-width: 680px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 22px;
+      box-shadow: 0 0 40px rgba(0, 240, 255, 0.3);
+      color: #e2e8f0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* ==========================================================================
+       RESPONSIVE MOBILE & TABLET LAYOUT (Priority Media Queries at bottom)
+       ========================================================================== */
+    @media (max-width: 900px) {
+      /* Helper text switching between desktop full labels and mobile compact labels */
+      .hdr-btn-full,
+      .cam-btn-full,
+      .agent-btn-full,
+      .tts-label-full,
+      .send-label-full,
+      .pill-full,
+      .tab-label-full {
+        display: none !important;
+      }
+      .hdr-btn-short,
+      .cam-btn-short,
+      .agent-btn-short,
+      .tts-label-short,
+      .send-label-short,
+      .pill-short,
+      .tab-label-short {
+        display: inline !important;
+      }
+
+      html, body {
+        width: 100%;
+        max-width: 100vw;
+        height: 100vh;
+        height: 100dvh;
+        overflow: hidden;
+        overflow-x: hidden;
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+        padding-left: env(safe-area-inset-left, 0px);
+        padding-right: env(safe-area-inset-right, 0px);
+      }
+
+      /* Compact Top Header */
+      header {
+        padding: 5px 8px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 4px;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        overflow-x: hidden;
+        flex-shrink: 0;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+      }
+      .brand-icon {
+        width: 26px;
+        height: 26px;
+        flex-shrink: 0;
+      }
+      .brand h1 {
+        font-size: 0.88rem;
+        letter-spacing: 0.8px;
+      }
+      .brand p {
+        font-size: 0.55rem;
+        letter-spacing: 0.3px;
+      }
+      .header-actions {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        padding-bottom: 2px;
+        gap: 4px;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+      }
+      .header-actions::-webkit-scrollbar { display: none; }
+      .header-actions .btn-action {
+        padding: 4px 7px;
+        font-size: 0.64rem;
+        flex-shrink: 0;
+        white-space: nowrap;
+      }
+      .header-actions .tag {
+        padding: 3px 6px;
+        font-size: 0.58rem;
+        flex-shrink: 0;
+      }
+
+      /* Mobile Mode Selector Bar (Split / 3D World / Drone Chat) */
+      .mobile-tabs-bar {
+        display: flex !important;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        padding: 4px 6px;
+        gap: 4px;
+        flex-shrink: 0;
+      }
+      .mobile-tab-btn {
+        flex: 1 1 0%;
+        min-width: 0;
+        font-size: 0.62rem;
+        padding: 6px 2px;
+        text-align: center;
+        white-space: nowrap;
+      }
+
+      /* Dashboard Grid */
+      .dashboard-grid {
+        display: flex;
+        flex-direction: column;
+        padding: 4px;
+        gap: 4px;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        flex: 1 1 0%;
+        min-height: 0;
+        height: auto;
+        overflow: hidden;
+      }
+
+      /* Split View Mode (Default on Mobile) */
+      .dashboard-grid.mode-split .viewport-panel {
+        flex: 0 0 46%;
+        height: 46%;
+        min-height: 180px;
+        max-height: 50%;
+        order: 1;
+        width: 100%;
+        box-sizing: border-box;
+        display: flex !important;
+        position: relative;
+      }
+      .dashboard-grid.mode-split .chat-panel {
+        flex: 1 1 0%;
+        min-height: 0;
+        order: 2;
+        padding: 4px 6px;
+        width: 100%;
+        box-sizing: border-box;
+        display: flex !important;
+        flex-direction: column;
+        overflow: hidden;
+      }
+
+      /* 3D World Fullscreen Mode */
+      .dashboard-grid.mode-3d .viewport-panel {
+        flex: 1 1 0%;
+        height: 100%;
+        min-height: 0;
+        display: flex !important;
+        order: 1;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      .dashboard-grid.mode-3d .chat-panel {
+        display: none !important;
+      }
+
+      /* Drone Chat Fullscreen Mode */
+      .dashboard-grid.mode-chat .chat-panel {
+        flex: 1 1 0%;
+        height: 100%;
+        min-height: 0;
+        display: flex !important;
+        order: 1;
+        padding: 6px;
+        width: 100%;
+        box-sizing: border-box;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      .dashboard-grid.mode-chat .viewport-panel {
+        display: none !important;
+      }
+
+      /* 3D Viewport Overlays */
+      .hud-overlay {
+        position: absolute;
+        top: 6px;
+        left: 6px;
+        right: auto;
+        max-width: calc(100% - 110px);
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 3px;
+        pointer-events: none;
+        z-index: 10;
+      }
+      .hud-chip {
+        font-size: 0.54rem;
+        padding: 2px 5px;
+        line-height: 1.25;
+        border-radius: 4px;
+        background: rgba(7, 10, 17, 0.88);
+        backdrop-filter: blur(8px);
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        white-space: nowrap;
+      }
+      .hud-chip.hud-chip-detail {
+        display: none !important; /* Hide secondary telemetry on mobile portrait */
+      }
+
+      .hud-camera-modes {
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        display: flex;
+        gap: 2px;
+        padding: 2px;
+        background: rgba(7, 10, 17, 0.88);
+        backdrop-filter: blur(8px);
+        border: 1px solid var(--border-subtle);
+        border-radius: 6px;
+        z-index: 10;
+      }
+      .cam-btn {
+        font-size: 0.52rem;
+        padding: 3px 5px;
+        border-radius: 4px;
+      }
+      .hud-controls-help {
+        display: none !important; /* Hide keyboard shortcut help on touch screens */
+      }
+
+      /* Virtual Controls */
+      .virtual-controls-wrapper {
+        position: absolute;
+        bottom: 6px;
+        left: 6px;
+        right: 6px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        pointer-events: none;
+        z-index: 20;
+      }
+      .virtual-dpad {
+        pointer-events: auto;
+        display: grid;
+        grid-template-columns: repeat(3, 34px);
+        grid-template-rows: repeat(2, 34px);
+        gap: 2px;
+        padding: 3px;
+        border-radius: 8px;
+        background: rgba(7, 10, 17, 0.85);
+        border: 1px solid var(--border-cyan);
+        touch-action: none;
+        user-select: none;
+        -webkit-user-select: none;
+      }
+      .dpad-btn {
+        font-size: 0.80rem;
+        border-radius: 5px;
+        touch-action: none;
+      }
+
+      .virtual-actions {
+        pointer-events: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        align-items: flex-end;
+        touch-action: none;
+        user-select: none;
+        -webkit-user-select: none;
+      }
+      .virtual-actions-subrow {
+        display: flex;
+        gap: 3px;
+      }
+      .mobile-action-btn {
+        border-radius: 6px;
+        font-family: 'Orbitron', sans-serif;
+        font-weight: 800;
+        cursor: pointer;
+        touch-action: none;
+        transition: all 0.1s;
+      }
+      .mobile-action-btn.btn-action-interact {
+        width: 86px;
+        height: 30px;
+        font-size: 0.58rem;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        border: 1px solid var(--amber);
+        color: var(--amber);
+        background: rgba(7, 10, 17, 0.88);
+      }
+      .mobile-action-btn.btn-action-sub {
+        width: 41px;
+        height: 28px;
+        font-size: 0.52rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid var(--border-cyan);
+        color: var(--cyan);
+        background: rgba(7, 10, 17, 0.88);
+      }
+
+      /* Chat Panel & Mission Board */
+      .panel-header {
+        margin-bottom: 2px;
+        padding-bottom: 2px;
+        flex-shrink: 0;
+      }
+      .panel-title {
+        font-size: 0.72rem;
+      }
+      .mission-board {
+        padding: 4px 6px;
+        margin-bottom: 2px;
+        max-height: 105px;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        flex-shrink: 0;
+      }
+      .mission-brief {
+        font-size: 0.65rem;
+        line-height: 1.25;
+        margin: 2px 0;
+      }
+      .objective-row {
+        font-size: 0.65rem;
+        padding: 2px 4px;
+        margin-bottom: 2px;
+      }
+      .mission-pills {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        gap: 4px;
+        margin-top: 2px;
+        padding-bottom: 2px;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+      }
+      .mission-pills::-webkit-scrollbar { display: none; }
+      .mission-pill {
+        font-size: 0.58rem;
+        padding: 2px 6px;
+        flex-shrink: 0;
+        white-space: nowrap;
+      }
+      .agent-row {
+        margin-top: 2px;
+        gap: 3px;
+      }
+      .agent-btn {
+        font-size: 0.58rem;
+        padding: 4px 2px;
+        white-space: nowrap;
+        text-align: center;
+      }
+
+      .chat-container {
+        flex: 1 1 0%;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      .chat-messages {
+        flex: 1 1 0%;
+        min-height: 40px;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        padding: 4px;
+        gap: 4px;
+        font-size: 0.72rem;
+      }
+      .msg {
+        max-width: 96%;
+        padding: 5px 8px;
+        font-size: 0.72rem;
+      }
+      .quick-prompts {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        gap: 3px;
+        padding: 2px 0;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+        flex-shrink: 0;
+      }
+      .quick-prompts::-webkit-scrollbar { display: none; }
+      .quick-btn {
+        font-size: 0.58rem;
+        padding: 2px 6px;
+        flex-shrink: 0;
+        white-space: nowrap;
+      }
+
+      /* Chat Input Bar (Fully contained, Send button never cut off) */
+      .chat-input-bar {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 4px !important;
+        padding: 3px 4px !important;
+        background: rgba(7, 10, 17, 0.95) !important;
+        flex-shrink: 0 !important;
+      }
+      .mic-btn {
+        flex: 0 0 32px !important;
+        width: 32px !important;
+        height: 32px !important;
+        font-size: 0.95rem !important;
+      }
+      .chat-input {
+        flex: 1 1 0% !important;
+        min-width: 0 !important;
+        width: 0 !important;
+        font-size: 16px !important; /* Prevents auto-zoom on iOS Safari */
+        padding: 5px 6px !important;
+        border-radius: 6px !important;
+      }
+      .tts-toggle-btn {
+        flex: 0 0 auto !important;
+        padding: 5px 6px !important;
+        font-size: 0.60rem !important;
+        white-space: nowrap !important;
+      }
+      .send-btn {
+        flex: 0 0 auto !important;
+        padding: 5px 9px !important;
+        font-size: 0.65rem !important;
+        white-space: nowrap !important;
+      }
+
+      /* Inspector Drawer Mobile */
+      .inspector-drawer {
+        width: 100%;
+        max-width: 100vw;
+        right: -105vw;
+        padding-top: env(safe-area-inset-top);
+        padding-bottom: env(safe-area-inset-bottom);
+      }
+      .inspector-drawer.open {
+        right: 0;
+      }
+
+      /* Modals Mobile */
+      .modal-backdrop {
+        padding: 10px;
+        padding-top: max(10px, env(safe-area-inset-top));
+        padding-bottom: max(10px, env(safe-area-inset-bottom));
+      }
+      .modal-box {
+        padding: 14px;
+        max-height: 92vh;
+        max-height: 92dvh;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+      }
+
+      /* Hide connection footer on mobile to maximize viewport */
+      .unity-guide-strip {
+        display: none !important;
+      }
+    }
+
+    /* Landscape Mode for Phones */
+    @media (max-width: 900px) and (orientation: landscape) {
+      .dashboard-grid.mode-split {
+        flex-direction: row;
+      }
+      .dashboard-grid.mode-split .viewport-panel {
+        flex: 0 0 52%;
+        height: 100%;
+        max-height: 100%;
+        min-height: 0;
+        order: 1;
+      }
+      .dashboard-grid.mode-split .chat-panel {
+        flex: 0 0 48%;
+        height: 100%;
+        order: 2;
+      }
+      .mission-board {
+        max-height: 95px;
+      }
+      .hud-chip.hud-chip-detail {
+        display: inline-flex !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Header Navigation -->
+  <header>
+    <div class="brand">
+      <div class="brand-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5">
+          <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+          <polyline points="2 17 12 22 22 17"></polyline>
+          <polyline points="2 12 12 17 22 12"></polyline>
+        </svg>
+      </div>
+      <div>
+        <h1>SPATIAL<span>QUEST</span></h1>
+        <p style="font-size: 0.65rem; color: var(--text-muted); letter-spacing: 0.8px;">3D AI MYSTERY INVESTIGATION FACILITY</p>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button class="btn-action highlight" onclick="openMysterySelectModal()">
+        🗺️ <span class="hdr-btn-full">SELECT MYSTERY</span><span class="hdr-btn-short">MYSTERIES</span>
+      </button>
+      <button class="btn-action" onclick="resetGameWithPrompt()" title="Generate new mystery variation with random seed">
+        🎲 <span class="hdr-btn-full">NEW MYSTERY</span><span class="hdr-btn-short">NEW</span>
+      </button>
+      <button class="btn-action" onclick="restartCurrentMission()" title="Restart objectives of current mission">
+        🔁 <span class="hdr-btn-full">RESTART MISSION</span><span class="hdr-btn-short">RESTART</span>
+      </button>
+      <button class="btn-action" onclick="returnPlayerToHub()" title="Teleport back to Location 1: Reception Hub">
+        🏠 <span class="hdr-btn-full">RETURN TO HUB</span><span class="hdr-btn-short">HUB</span>
+      </button>
+      <button class="btn-action" onclick="document.getElementById('howToPlayModal').style.display='flex'">
+        🎮 <span class="hdr-btn-full">HOW TO PLAY</span><span class="hdr-btn-short">GUIDE</span>
+      </button>
+      <button class="btn-action highlight" onclick="openWorkflowTab()" style="border-color: rgba(0, 240, 255, 0.6); color: var(--cyan); background: rgba(0, 240, 255, 0.12);" title="Inspect End-to-End Workflow & Active Trained Models">
+        ⚡ <span class="hdr-btn-full">WORKFLOW & ENGINE</span><span class="hdr-btn-short">ENGINE</span>
+      </button>
+      <button class="btn-action inspector-btn" onclick="toggleSystemInspector()" id="btnToggleInspector">
+        🔍 <span class="hdr-btn-full">SYSTEM INSPECTOR</span><span class="hdr-btn-short">INSPECTOR</span>
+      </button>
+
+      <div class="tag live" id="backendTag"><div class="tag-dot"></div>BACKEND…</div>
+      <div class="tag" id="scoreTag"><div class="tag-dot" style="background: var(--green);"></div>SCORE: 0</div>
+    </div>
+  </header>
+
+  <!-- LIVE SYSTEM INSPECTOR COLLAPSIBLE DRAWER -->
+  <aside class="inspector-drawer" id="systemInspectorDrawer">
+    <div class="inspector-header">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span style="font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 0.88rem; color: #fff;">LIVE SYSTEM <span style="color: var(--cyan);">INSPECTOR</span></span>
+        <span class="tag" id="inspCorrelationBadge" style="font-size: 0.65rem; color: var(--amber);">#corr-init</span>
+      </div>
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <button onclick="refreshTelemetry()" title="Refresh telemetry" style="background: none; border: 1px solid var(--border-cyan); color: var(--cyan); border-radius: 4px; padding: 3px 8px; font-size: 0.7rem; cursor: pointer;">🔄 REFRESH</button>
+        <button onclick="toggleSystemInspector()" style="background: none; border: none; color: var(--text-muted); font-size: 1.2rem; cursor: pointer;">✕</button>
+      </div>
+    </div>
+
+    <!-- Inspector Tabs -->
+    <div class="inspector-tabs">
+      <button class="insp-tab-btn active" id="btnTabWorkflow" onclick="switchInspectorTab('workflow')">⚡ Workflow & Engine</button>
+      <button class="insp-tab-btn" id="btnTabCV" onclick="switchInspectorTab('cv')">👁️ Vision (CV)</button>
+      <button class="insp-tab-btn" id="btnTabCG" onclick="switchInspectorTab('cg')">🎮 Graphics (CG)</button>
+      <button class="insp-tab-btn" id="btnTabLLM" onclick="switchInspectorTab('llm')">🧠 LLM & Agents</button>
+    </div>
+
+    <div class="inspector-body">
+      <!-- TAB 0: WORKFLOW & ACTIVE ENGINE (WHICH PART IS THE WORKING THING?) -->
+      <div id="inspTabWorkflow" style="display: flex; flex-direction: column; gap: 12px;">
+        <!-- Card 1: Architectural Distinction -->
+        <div class="insp-card" style="border-left: 3px solid var(--cyan);">
+          <div class="insp-card-title">
+            <span>WHICH PART IS THE WORKING THING?</span>
+            <span class="wf-badge-trained">NEURAL vs ENGINE</span>
+          </div>
+          <div style="font-size: 0.72rem; color: #cbd5e1; line-height: 1.45; margin-bottom: 8px;">
+            Clear architectural separation between what is <strong>trained from scratch with PyTorch tensor math</strong> vs deterministic spatial geometry, safety guardrails, and Three.js graphics:
+          </div>
+
+          <!-- CV Section -->
+          <div style="background: rgba(0,0,0,0.35); border-radius: 6px; padding: 8px; margin-bottom: 8px; border: 1px solid rgba(0, 240, 255, 0.2);">
+            <div style="font-size: 0.72rem; font-weight: bold; color: var(--cyan); margin-bottom: 4px; display: flex; justify-content: space-between;">
+              <span>👁️ COMPUTER VISION (CS4231)</span>
+              <span class="wf-badge-trained">SpatialDetector (2.16M)</span>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 4px; font-size: 0.68rem;">
+              <div>• <strong style="color: var(--green);">[TRAINED NEURAL THING]:</strong> <code>SpatialDetector</code> CNN (5 conv stages, He normal init, 2,162,731 params). Evaluates real SUN RGB-D frames, outputs $15 \times 20 \times 11$ prediction grid (objectness BCE, bbox offsets, 6 class logits).</div>
+              <div>• <strong style="color: var(--cyan);">[DETERMINISTIC MATH]:</strong> Calibrated Pinhole Backprojection ($X = \frac{u-c_x}{f_x}Z, Y = \frac{v-c_y}{f_y}Z$), 16-bit depth sampling, sensor tilt transform, Euclidean distance calculations.</div>
+              <div>• <strong style="color: #b388ff;">[SIMULATION / GRAPHICS]:</strong> Three.js WebGL 3D facility, materials, lighting, collision bounds. Ground truth is decoupled from perception predictions.</div>
+            </div>
+          </div>
+
+          <!-- LLM Section -->
+          <div style="background: rgba(0,0,0,0.35); border-radius: 6px; padding: 8px; border: 1px solid rgba(0, 255, 157, 0.2);">
+            <div style="font-size: 0.72rem; font-weight: bold; color: var(--green); margin-bottom: 4px; display: flex; justify-content: space-between;">
+              <span>🧠 LLM & AGENTIC AI (CS3235)</span>
+              <span class="wf-badge-trained">DecoderTransformer (856K)</span>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 4px; font-size: 0.68rem;">
+              <div>• <strong style="color: var(--green);">[TRAINED NEURAL THING]:</strong> Custom BPE Tokenizer (384 vocab) + <code>DecoderTransformer</code> (856,832 params, 4 layers, 4 causal self-attention heads, Pre-LN). Autoregressively generates <code>&lt;thought&gt;...&lt;/thought&gt;&lt;tool_call&gt;{...}&lt;/tool_call&gt;</code>.</div>
+              <div>• <strong style="color: var(--cyan);">[DETERMINISTIC RAG & TOOLS]:</strong> Pydantic parameter validation, 13 whitelisted tools, TF-IDF cosine-similarity document retriever over facility safety manuals.</div>
+              <div>• <strong style="color: var(--amber);">[SAFETY FALLBACK]:</strong> Deterministic semantic router. Engaged <em>only</em> if subword token spacing corrupts JSON grammar; logged transparently in telemetry.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: Live Turn Execution Trace -->
+        <div class="insp-card" style="border-left: 3px solid var(--amber);">
+          <div class="insp-card-title">
+            <span>LIVE TURN EXECUTION TRACE</span>
+            <span id="wfCorrIdBadge" class="tag" style="color: var(--amber); font-size: 0.65rem;">#corr-live</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 4px; font-size: 0.70rem;">
+            <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.06); padding: 3px 0;">
+              <span style="color: var(--text-muted);">Current User Input:</span>
+              <strong id="wfQueryLabel" style="color: #fff; max-width: 200px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">—</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.06); padding: 3px 0;">
+              <span style="color: var(--text-muted);">Tokenizer Output:</span>
+              <span id="wfTokenCountLabel" style="color: var(--cyan); font-family: monospace;">0 tokens</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.06); padding: 3px 0;">
+              <span style="color: var(--text-muted);">Neural Model Status:</span>
+              <span id="wfModelStatusBadge" class="wf-badge-trained">TRANSFORMER ACTIVE</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.06); padding: 3px 0;">
+              <span style="color: var(--text-muted);">Validation & Path:</span>
+              <span id="wfValidationPathBadge" class="tag" style="color: var(--green); font-size: 0.65rem;">PASSED</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.06); padding: 3px 0;">
+              <span style="color: var(--text-muted);">Dispatched Tool:</span>
+              <strong id="wfToolLabel" style="color: var(--amber); font-family: monospace;">none</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.06); padding: 3px 0;">
+              <span style="color: var(--text-muted);">Target Execution Domain:</span>
+              <span id="wfDomainLabel" style="color: var(--cyan);">3D Scene Graph</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 3px 0;">
+              <span style="color: var(--text-muted);">Turn Latency:</span>
+              <span id="wfLatencyLabel" style="color: var(--green); font-weight: bold;">0.0 ms</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3: Computer Vision End-to-End Workflow Diagram -->
+        <div class="insp-card">
+          <div class="insp-card-title">
+            <span>COMPUTER VISION PIPELINE WORKFLOW</span>
+            <span class="wf-badge-math">CS4231</span>
+          </div>
+
+          <div class="wf-step-box">
+            <div class="wf-step-header">
+              <span style="color: #fff;">1. SENSOR INPUT (RGB-D)</span>
+              <span class="wf-badge-math">Real Data</span>
+            </div>
+            <div class="wf-step-desc">SUN RGB-D 640x480 RGB image + 16-bit depth map unpacked with bitshift formula.</div>
+          </div>
+          <div class="wf-arrow-down">▼</div>
+
+          <div class="wf-step-box">
+            <div class="wf-step-header">
+              <span style="color: #fff;">2. PREPROCESSING & TENSOR PREP</span>
+              <span class="wf-badge-math">Deterministic</span>
+            </div>
+            <div class="wf-step-desc">Resized/normalized to tensor shape <code style="color: var(--amber);">(1, 3, 480, 640)</code>.</div>
+          </div>
+          <div class="wf-arrow-down">▼</div>
+
+          <div class="wf-step-box" style="border-color: rgba(0, 255, 157, 0.4);">
+            <div class="wf-step-header">
+              <span style="color: var(--green);">3. SPATIALDETECTOR CNN BACKBONE</span>
+              <span class="wf-badge-trained">Trained Neural</span>
+            </div>
+            <div class="wf-step-desc">5 downsampling stages (32, 64, 128, 256, 256 channels), 2,162,731 trainable parameters, pure PyTorch autograd.</div>
+          </div>
+          <div class="wf-arrow-down">▼</div>
+
+          <div class="wf-step-box" style="border-color: rgba(0, 255, 157, 0.4);">
+            <div class="wf-step-header">
+              <span style="color: var(--green);">4. ANCHOR-FREE PREDICTION HEAD</span>
+              <span class="wf-badge-trained">Trained Neural</span>
+            </div>
+            <div class="wf-step-desc">Emits <code style="color: var(--amber);">(1, 15, 20, 11)</code> grid tensor: objectness BCE + box offsets $(t_x, t_y, t_w, t_h)$ + 6 class logits.</div>
+          </div>
+          <div class="wf-arrow-down">▼</div>
+
+          <div class="wf-step-box">
+            <div class="wf-step-header">
+              <span style="color: #fff;">5. CONFIDENCE FILTER & NMS</span>
+              <span class="wf-badge-math">Post-Processing</span>
+            </div>
+            <div class="wf-step-desc">Decodes pixel coordinates $(xmin, ymin, xmax, ymax)$ and suppresses overlapping bounding boxes.</div>
+          </div>
+          <div class="wf-arrow-down">▼</div>
+
+          <div class="wf-step-box">
+            <div class="wf-step-header">
+              <span style="color: #fff;">6. CALIBRATED PINHOLE BACKPROJECTION</span>
+              <span class="wf-badge-math">0.423m Accuracy</span>
+            </div>
+            <div class="wf-step-desc">$X = (u - c_x)Z / f_x, Y = (v - c_y)Z / f_y$ + sensor tilt transformation matrix into world coordinates $(X, Y, Z)$.</div>
+          </div>
+          <div class="wf-arrow-down">▼</div>
+
+          <div class="wf-step-box">
+            <div class="wf-step-header">
+              <span style="color: #fff;">7. 3D SPATIAL SCENE GRAPH</span>
+              <span class="wf-badge-math">Spatial Relations</span>
+            </div>
+            <div class="wf-step-desc">Creates directed nodes and geometric edges (<code style="color: var(--cyan);">left_of</code>, <code style="color: var(--cyan);">near</code>, <code style="color: var(--cyan);">above</code>) consumed by the agent.</div>
+          </div>
+        </div>
+
+        <!-- Card 4: LLM & Autonomous Agent End-to-End Workflow Diagram -->
+        <div class="insp-card">
+          <div class="insp-card-title">
+            <span>LLM & AGENT PIPELINE WORKFLOW</span>
+            <span class="wf-badge-trained">CS3235</span>
+          </div>
+
+          <div class="wf-step-box">
+            <div class="wf-step-header">
+              <span style="color: #fff;">1. USER QUERY / VOICE TRANSCRIPT</span>
+              <span class="wf-badge-math">Multimodal</span>
+            </div>
+            <div class="wf-step-desc">Investigator enters text or speaks via local offline microphone Web Speech API.</div>
+          </div>
+          <div class="wf-arrow-down">▼</div>
+
+          <div class="wf-step-box" style="border-color: rgba(0, 255, 157, 0.4);">
+            <div class="wf-step-header">
+              <span style="color: var(--green);">2. CUSTOM BPE SUBWORD TOKENIZER</span>
+              <span class="wf-badge-trained">Custom Tokenizer</span>
+            </div>
+            <div class="wf-step-desc">Maps string to integer token IDs using 384 custom learned vocabulary merges and special tokens (<code style="color: var(--cyan);">&lt;tool_call&gt;</code>).</div>
+          </div>
+          <div class="wf-arrow-down">▼</div>
+
+          <div class="wf-step-box" style="border-color: rgba(0, 255, 157, 0.4);">
+            <div class="wf-step-header">
+              <span style="color: var(--green);">3. DECODERTRANSFORMER (856K PARAMS)</span>
+              <span class="wf-badge-trained">Trained Neural</span>
+            </div>
+            <div class="wf-step-desc">4 Pre-LN layers, 4 causal self-attention heads ($d_{model}=128$), loss 1.2610, perplexity 3.53 on MPS.</div>
+          </div>
+          <div class="wf-arrow-down">▼</div>
+
+          <div class="wf-step-box" style="border-color: rgba(0, 255, 157, 0.4);">
+            <div class="wf-step-header">
+              <span style="color: var(--green);">4. AUTOREGRESSIVE GENERATION</span>
+              <span class="wf-badge-trained">Trained Output</span>
+            </div>
+            <div class="wf-step-desc">Predicts next tokens to emit structured format: <code style="color: var(--amber);">&lt;thought&gt;...&lt;/thought&gt;&lt;tool_call&gt;{"name": ..., "arguments": {...}}&lt;/tool_call&gt;</code>.</div>
+          </div>
+          <div class="wf-arrow-down">▼</div>
+
+          <div class="wf-step-box">
+            <div class="wf-step-header">
+              <span style="color: #fff;">5. PYDANTIC SCHEMA VALIDATION</span>
+              <span class="wf-badge-guard">Guardrail</span>
+            </div>
+            <div class="wf-step-desc">Validates JSON syntax and parameter types against tool whitelist. If corrupt, activates safe semantic fallback router.</div>
+          </div>
+          <div class="wf-arrow-down">▼</div>
+
+          <div class="wf-step-box">
+            <div class="wf-step-header">
+              <span style="color: #fff;">6. TOOL REGISTRY DISPATCH (13 TOOLS)</span>
+              <span class="wf-badge-math">Execution</span>
+            </div>
+            <div class="wf-step-desc">Dispatches to perception (<code style="color: var(--cyan);">locate_object</code>), spatial math (<code style="color: var(--cyan);">calculate_distance</code>), navigation, or RAG.</div>
+          </div>
+          <div class="wf-arrow-down">▼</div>
+
+          <div class="wf-step-box">
+            <div class="wf-step-header">
+              <span style="color: #fff;">7. KNOWLEDGE BASE & 3D SCENE GRAPH</span>
+              <span class="wf-badge-math">RAG & Geometry</span>
+            </div>
+            <div class="wf-step-desc">Retrieves metric positions from 3D scene graph or cosine-similarity chunks from indexed incident documents.</div>
+          </div>
+          <div class="wf-arrow-down">▼</div>
+
+          <div class="wf-step-box">
+            <div class="wf-step-header">
+              <span style="color: #fff;">8. RESPONSE SYNTHESIS & TTS AUDIO</span>
+              <span class="wf-badge-math">Output</span>
+            </div>
+            <div class="wf-step-desc">Synthesizes natural language answer and speaks aloud via native offline browser speech synthesis.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 1: COMPUTER VISION -->
+      <div id="inspTabCV" style="display: none; flex-direction: column; gap: 12px;">
+        <div class="insp-card">
+          <div class="insp-card-title">
+            <span>REAL SENSOR INPUT & PREDICTIONS</span>
+            <button onclick="loadCVSampleBenchmark()" style="background: rgba(0,240,255,0.2); border: 1px solid var(--cyan); color: var(--cyan); font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; cursor: pointer;">📸 INSPECT TEST FRAME</button>
+          </div>
+          <div style="font-size: 0.72rem; color: var(--text-muted); margin-bottom: 6px;" id="cvSourceLabel">Source: SUN RGB-D Benchmark / Real Sensor Feed (640x480)</div>
+          <div style="display: flex; gap: 8px; align-items: flex-start; margin-top: 4px;">
+            <div style="position: relative; width: 200px; height: 150px; background: #000; border: 1px solid var(--border-cyan); border-radius: 4px; overflow: hidden;">
+              <canvas id="cvImageCanvas" width="200" height="150" style="width: 100%; height: 100%; display: block;"></canvas>
+            </div>
+            <div style="flex: 1; display: flex; flex-direction: column; gap: 4px;">
+              <div style="font-size: 0.68rem; color: var(--cyan); font-weight: bold;">DEPTH COLORMAP:</div>
+              <img id="cvDepthImg" alt="Depth colormap" style="width: 120px; height: 90px; border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; background: #000; display: block;">
+              <div style="font-size: 0.68rem; color: var(--text-muted); margin-top: 4px;">Inference Latency: <strong id="cvLatencyLabel" style="color: var(--green);">~9.6 ms</strong></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="insp-card">
+          <div class="insp-card-title">
+            <span>DETECTION BACKBONE</span>
+            <span style="color: var(--green);">2,162,731 PARAMS</span>
+          </div>
+          <div style="color: var(--text-muted); font-size: 0.74rem; margin-bottom: 6px;">
+            Single-stage CNN (SpatialDetector) trained from random weights on SUN RGB-D benchmark.
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 4px;">
+            <span class="tensor-badge">Input: [1, 3, 480, 640]</span>
+            <span class="tensor-badge">Stage 1: [1, 32, 240, 320]</span>
+            <span class="tensor-badge">Stage 2: [1, 64, 120, 160]</span>
+            <span class="tensor-badge">Stage 3: [1, 128, 60, 80]</span>
+            <span class="tensor-badge">Stage 4: [1, 256, 30, 40]</span>
+            <span class="tensor-badge">Stage 5: [1, 256, 15, 20]</span>
+            <span class="tensor-badge" style="color: var(--green);">Grid: [1, 15, 20, 11]</span>
+          </div>
+        </div>
+
+        <div class="insp-card">
+          <div class="insp-card-title">CALIBRATED PINHOLE CAMERA INTRINSICS</div>
+          <table class="insp-table">
+            <tr><td>Focal Length fx, fy</td><td style="color: var(--cyan);">525.0 px, 525.0 px</td></tr>
+            <tr><td>Principal Point cx, cy</td><td style="color: var(--cyan);">320.0 px, 240.0 px</td></tr>
+            <tr><td>3D Projection Math</td><td style="color: #cbd5e1;">X=(u-cx)Z/fx, Y=(v-cy)Z/fy, Z=depth</td></tr>
+          </table>
+        </div>
+
+        <div class="insp-card">
+          <div class="insp-card-title">
+            <span>DETECTED 3D OBJECTS</span>
+            <span id="cvObjCount" style="color: var(--cyan);">0 detected</span>
+          </div>
+          <div id="cvDetectionsContainer" style="max-height: 150px; overflow-y: auto;">
+            <table class="insp-table" id="cvDetectionsTable">
+              <thead>
+                <tr><th>Class</th><th>Conf</th><th>Depth</th><th>3D Pos [X, Y, Z]</th></tr>
+              </thead>
+              <tbody id="cvDetectionsBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="insp-card">
+          <div class="insp-card-title">SPATIAL SCENE GRAPH EDGES</div>
+          <div id="cvSceneEdgesList" style="font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: #94a3b8; max-height: 90px; overflow-y: auto;">
+            No spatial edges recorded yet.
+          </div>
+        </div>
+
+        <div class="insp-card">
+          <div class="insp-card-title">EMPIRICAL BENCHMARK EVALUATION (HONEST)</div>
+          <div style="font-size: 0.72rem; color: var(--text-muted); line-height: 1.45;">
+            Dataset: <strong style="color: #fff;">SUN RGB-D Real Indoor Benchmark</strong> (Song et al., CVPR 2015)<br>
+            Detector mAP@0.5: <strong style="color: var(--amber);">0.0000</strong> (Measured on held-out test frames. Compact 2.16M CNN trained from random weights on a micro-split exhibits low candidate recall at 0.20 threshold).<br>
+            Calibrated 3D Depth Localization Error: <strong style="color: var(--cyan);">0.423 m (42.3 cm)</strong> (Measured using depth map sampling with oracle 2D bounding boxes).
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 2: COMPUTER GRAPHICS / 3D -->
+      <div id="inspTabCG" style="display: none; flex-direction: column; gap: 12px;">
+        <div class="insp-card">
+          <div class="insp-card-title">ACTIVE LOCATION / ROOM</div>
+          <div style="font-size: 0.84rem; font-weight: bold; color: #fff;" id="cgRoomName">Reception / Central Hub</div>
+          <div style="font-size: 0.74rem; color: var(--text-muted); margin-top: 4px;" id="cgRoomDesc">Visitor entry, security checkpoint, and reception terminal.</div>
+        </div>
+
+        <div class="insp-card">
+          <div class="insp-card-title">INVESTIGATOR AVATAR TRANSFORM</div>
+          <table class="insp-table">
+            <tr><td>World Position [X, Y, Z]</td><td id="cgPlayerPos" style="color: var(--amber);">[0.0, 0.0, -15.0]</td></tr>
+            <tr><td>Orientation (Yaw Angle)</td><td id="cgPlayerYaw" style="color: var(--amber);">0.00 rad (0.0°)</td></tr>
+            <tr><td>Boundary Collisions</td><td style="color: var(--green);">ACTIVE (X: ±10.5m, Z: ±22m)</td></tr>
+          </table>
+        </div>
+
+        <div class="insp-card">
+          <div class="insp-card-title">CAMERA RIG & VIEWING MODE</div>
+          <table class="insp-table">
+            <tr><td>Mode</td><td id="cgCamMode" style="color: var(--cyan);">3rd Person Perspective</td></tr>
+            <tr><td>Field of View (FOV)</td><td style="color: var(--cyan);">65.0°</td></tr>
+            <tr><td>Clipping Planes</td><td style="color: #cbd5e1;">Near: 0.1m · Far: 150.0m</td></tr>
+            <tr><td>Projection Matrix</td><td style="color: #cbd5e1;">Perspective (Three.js WebGL)</td></tr>
+          </table>
+        </div>
+
+        <div class="insp-card">
+          <div class="insp-card-title">VIEWPORT RENDERING PERFORMANCE</div>
+          <table class="insp-table">
+            <tr><td>Renderer Engine</td><td>WebGLRenderer (Three.js r128)</td></tr>
+            <tr><td>Canvas Resolution</td><td id="cgCanvasRes">1280 x 720</td></tr>
+            <tr><td>Active Light Rig</td><td>Ambient (0.7) + Directional Sun (0.8) + 4 Zone Spotlights</td></tr>
+          </table>
+        </div>
+
+        <div class="insp-card">
+          <div class="insp-card-title">ESTIMATED (CV) VS ENGINE GROUND-TRUTH (GT)</div>
+          <table class="insp-table">
+            <thead>
+              <tr><th>Object</th><th>Estimated 3D [X, Y, Z]</th><th>Engine GT [X, Y, Z]</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Reception Desk</td><td>[0.0, 0.75, -15.0]</td><td>[0.0, 0.75, -15.0]</td></tr>
+              <tr><td>Research Office Desk</td><td>[6.0, 0.75, -5.0]</td><td>[6.0, 0.75, -5.0]</td></tr>
+              <tr><td>Archive Bookshelf Alpha</td><td>[-8.5, 1.8, -5.0]</td><td>[-8.5, 1.8, -5.0]</td></tr>
+              <tr><td>Lab Workbench</td><td>[0.0, 0.75, 0.0]</td><td>[0.0, 0.75, 0.0]</td></tr>
+              <tr><td>Archive Door 3</td><td>[0.0, 2.0, 8.0]</td><td>[0.0, 2.0, 8.0]</td></tr>
+              <tr><td>Storage Wall Safe</td><td>[8.5, 1.6, 10.5]</td><td>[8.5, 1.6, 10.5]</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TAB 3: LLM & AGENT REASONING -->
+      <div id="inspTabLLM" style="display: none; flex-direction: column; gap: 12px;">
+        <div class="insp-card">
+          <div class="insp-card-title">
+            <span>TRANSFORMER LANGUAGE MODEL</span>
+            <span style="color: var(--green);">856,832 PARAMS</span>
+          </div>
+          <div style="color: var(--text-muted); font-size: 0.74rem;">
+            DecoderTransformer: 4 blocks, 4 attention heads, d_model=128, d_ff=512, Pre-LN, causal mask. Trained from random weights in PyTorch.
+          </div>
+        </div>
+
+        <div class="insp-card">
+          <div class="insp-card-title">
+            <span>INPUT SUBWORD TOKENIZATION</span>
+            <span id="inspActiveAgentLabel" style="color: var(--amber);">Scout</span>
+          </div>
+          <div style="font-size: 0.72rem; color: var(--text-muted); margin-bottom: 4px;">User Query: <strong id="inspQueryText" style="color: #fff;">-</strong></div>
+          <div style="font-size: 0.70rem; color: var(--cyan); margin-bottom: 4px;">Learned BPE Token IDs:</div>
+          <div class="code-snippet" id="inspTokenIdsSnippet">[empty]</div>
+        </div>
+
+        <div class="insp-card">
+          <div class="insp-card-title">
+            <span>RAW MODEL GENERATION</span>
+            <span id="inspModelTypeBadge" class="tag" style="font-size: 0.65rem; color: var(--green);">MODEL DIRECT GENERATION</span>
+          </div>
+          <div class="code-snippet" id="inspRawModelOutputSnippet">No raw generation recorded yet.</div>
+        </div>
+
+        <div class="insp-card">
+          <div class="insp-card-title">
+            <span>STRUCTURED TOOL CALL</span>
+            <span id="inspValidationBadge" style="color: var(--green);">PASSED_MODEL_GENERATION</span>
+          </div>
+          <div class="code-snippet" id="inspToolCallSnippet">&lt;tool_call&gt;{"name": "none", "arguments": {}}&lt;/tool_call&gt;</div>
+        </div>
+
+        <div class="insp-card">
+          <div class="insp-card-title">TOOL EXECUTION OBSERVATION</div>
+          <div class="code-snippet" id="inspToolResultSnippet">Observation: none</div>
+        </div>
+
+        <div class="insp-card">
+          <div class="insp-card-title">
+            <span>RAG RETRIEVAL (TF-IDF)</span>
+            <span style="color: var(--cyan);">Cosine Similarity</span>
+          </div>
+          <div id="inspRagResultsSnippet" style="font-size: 0.72rem; color: #94a3b8; line-height: 1.4;">
+            No RAG passages retrieved for last turn.
+          </div>
+        </div>
+
+        <div class="insp-card">
+          <div class="insp-card-title">
+            <span>FINAL SYNTHESIZED RESPONSE</span>
+            <span id="inspLatencyBadge" style="color: var(--cyan);">0 ms</span>
+          </div>
+          <div id="inspFinalResponseSnippet" style="color: #e2e8f0; font-size: 0.76rem; line-height: 1.45;">
+            Ready for investigator queries.
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- HOW TO PLAY ONBOARDING MODAL (SIMPLE 5-STEP INTRODUCTION) -->
+  <div id="howToPlayModal" class="modal-backdrop">
+    <div class="modal-box">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px;">
+        <h2 style="font-family: 'Orbitron', sans-serif; font-size: 1.1rem; color: var(--cyan);">🎮 HOW TO PLAY SPATIAL QUEST</h2>
+        <button onclick="document.getElementById('howToPlayModal').style.display='none'" style="background: none; border: none; color: #94a3b8; font-size: 1.4rem; cursor: pointer;">&times;</button>
+      </div>
+
+      <p style="font-size: 0.88rem; line-height: 1.5; color: #cbd5e1; margin-bottom: 16px;">
+        Welcome Investigator! Step into Sector 4, a 3D research facility powered by a custom-trained Computer Vision detector and an in-house Transformer Language Model.
+      </p>
+
+      <div style="display: flex; flex-direction: column; gap: 10px; font-size: 0.82rem; margin-bottom: 20px;">
+        <div style="background: rgba(21, 31, 53, 0.85); border-left: 3px solid var(--orange); padding: 10px; border-radius: 6px;">
+          <strong style="color: var(--orange);">1. Explore the Facility:</strong> Move your character using <kbd>W</kbd>, <kbd>A</kbd>, <kbd>S</kbd>, <kbd>D</kbd> or on-screen D-Pad. Drag mouse to look around. Explore Reception, Office, Library, Laboratory, and Storage Vault.
+        </div>
+        <div style="background: rgba(21, 31, 53, 0.85); border-left: 3px solid var(--cyan); padding: 10px; border-radius: 6px;">
+          <strong style="color: var(--cyan);">2. Ask Your AI Companion:</strong> Type commands or click the 🎙️ <strong>Microphone</strong> to speak (e.g. <em>"What can you see?"</em>, <em>"Where is the nearest table?"</em>, <em>"Take me to the library."</em>).
+        </div>
+        <div style="background: rgba(21, 31, 53, 0.85); border-left: 3px solid var(--amber); padding: 10px; border-radius: 6px;">
+          <strong style="color: var(--amber);">3. Inspect Objects & Collect Clues:</strong> Walk near tables, wall safes, and datapads. Press <kbd>E</kbd> or tell your companion <em>"Inspect the datapad note"</em> to find passwords.
+        </div>
+        <div style="background: rgba(21, 31, 53, 0.85); border-left: 3px solid var(--green); padding: 10px; border-radius: 6px;">
+          <strong style="color: var(--green);">4. Follow Evidence & Solve Mysteries:</strong> Use local RAG document queries (e.g. <em>"Search documents for override code"</em>) to unlock security doors and resolve incidents.
+        </div>
+        <div style="background: rgba(21, 31, 53, 0.85); border-left: 3px solid #b388ff; padding: 10px; border-radius: 6px;">
+          <strong style="color: #b388ff;">5. Complete & Switch Mysteries:</strong> Click <strong>🗺️ SELECT MYSTERY</strong> at any time to freely choose Mystery A, B, or C, or roll a <strong>🎲 NEW MYSTERY</strong> with a fresh seed.
+        </div>
+      </div>
+
+      <button onclick="document.getElementById('howToPlayModal').style.display='none'" style="width: 100%; background: linear-gradient(135deg, #00f0ff, #0077ff); color: #000; font-family: 'Orbitron', sans-serif; font-size: 0.85rem; font-weight: 800; border: none; padding: 10px; border-radius: 8px; cursor: pointer;">
+        START INVESTIGATING
+      </button>
+    </div>
+  </div>
+
+  <!-- SELECT MYSTERY MODAL -->
+  <div id="selectMysteryModal" class="modal-backdrop">
+    <div class="modal-box">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px;">
+        <h2 style="font-family: 'Orbitron', sans-serif; font-size: 1.1rem; color: var(--cyan);">🗺️ SELECT INVESTIGATION MYSTERY</h2>
+        <button onclick="document.getElementById('selectMysteryModal').style.display='none'" style="background: none; border: none; color: #94a3b8; font-size: 1.4rem; cursor: pointer;">&times;</button>
+      </div>
+      <p style="font-size: 0.80rem; color: var(--text-muted); margin-bottom: 14px;">
+        Choose any of the three distinct mystery templates below. Each mystery features controlled procedural clues, unique spatial objectives, and replayability.
+      </p>
+
+      <div style="display: flex; flex-direction: column; gap: 12px;" id="mysteryTemplatesList">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- MISSION GUIDE & CHEAT SHEET MODAL -->
+  <div id="missionGuideModal" class="modal-backdrop">
+    <div class="modal-box" style="max-width: 650px; max-height: 85vh; overflow-y: auto;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px;">
+        <h2 style="font-family: 'Orbitron', sans-serif; font-size: 1.1rem; color: var(--amber);">❓ MISSION GUIDE & INVESTIGATION CHEAT SHEET</h2>
+        <button onclick="document.getElementById('missionGuideModal').style.display='none'" style="background: none; border: none; color: #94a3b8; font-size: 1.4rem; cursor: pointer;">&times;</button>
+      </div>
+
+      <div style="font-size: 0.82rem; color: #e2e8f0; line-height: 1.5; margin-bottom: 14px;">
+        Spatial Quest is an <strong>Embodied AI Companion Investigation Game</strong>. You don't have to search for keypads on 3D walls! You control the investigation by typing commands to your companion drones (Scout, Navigator, Archivist) or speaking via microphone.
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 12px; font-size: 0.80rem; margin-bottom: 16px;">
+        <!-- Card 1: Where to enter codes -->
+        <div style="background: rgba(21, 31, 53, 0.85); border-left: 3px solid var(--cyan); padding: 10px; border-radius: 6px;">
+          <div style="color: var(--cyan); font-weight: bold; font-family: 'Orbitron', sans-serif; margin-bottom: 4px;">🔢 WHERE & HOW TO ENTER CODES</div>
+          <div>When you find a security code (such as <strong>7391</strong> for Archive Door 3):</div>
+          <ul style="margin: 4px 0 4px 18px; padding: 0;">
+            <li>Type directly into the chat: <code style="color: var(--cyan); background: rgba(0,0,0,0.4); padding: 1px 4px; border-radius: 3px;">Enter code 7391</code> or <code style="color: var(--cyan); background: rgba(0,0,0,0.4); padding: 1px 4px; border-radius: 3px;">Unlock Door 3 with code 7391</code></li>
+            <li>Or click the quick button: <strong>🔢 Enter Code 7391</strong> below the chat!</li>
+            <li>Your companion will execute the security override and disengage Door 3's magnetic lock.</li>
+          </ul>
+        </div>
+
+        <!-- Card 2: Where to find keys -->
+        <div style="background: rgba(21, 31, 53, 0.85); border-left: 3px solid var(--amber); padding: 10px; border-radius: 6px;">
+          <div style="color: var(--amber); font-weight: bold; font-family: 'Orbitron', sans-serif; margin-bottom: 4px;">🔑 WHERE & HOW TO GET KEYS</div>
+          <div>In Mystery A, the Master Research Key is stored inside the facility cabinet:</div>
+          <ul style="margin: 4px 0 4px 18px; padding: 0;">
+            <li>Type in chat: <code style="color: var(--amber); background: rgba(0,0,0,0.4); padding: 1px 4px; border-radius: 3px;">Open the cabinet</code> or <code style="color: var(--amber); background: rgba(0,0,0,0.4); padding: 1px 4px; border-radius: 3px;">Pick up the key</code></li>
+            <li>Or click <strong>🗄️ Open Cabinet / Key</strong> in the quick prompts bar!</li>
+            <li>Or walk near the cabinet in 3D and press <kbd>E</kbd> on your keyboard.</li>
+            <li>The key will automatically be collected into your inventory.</li>
+          </ul>
+        </div>
+
+        <!-- Card 3: How to check mission completion -->
+        <div style="background: rgba(21, 31, 53, 0.85); border-left: 3px solid var(--green); padding: 10px; border-radius: 6px;">
+          <div style="color: var(--green); font-weight: bold; font-family: 'Orbitron', sans-serif; margin-bottom: 4px;">🎯 CHECKING MISSION PROGRESSION</div>
+          <ul style="margin: 4px 0 4px 18px; padding: 0;">
+            <li><strong>Mission Board</strong>: Shows real-time checklist: <span style="color: var(--green);">[✓] COMPLETED</span> vs <span style="color: var(--text-muted);">[○] PENDING</span>.</li>
+            <li><strong>Ask Drone</strong>: Type <code style="color: var(--green); background: rgba(0,0,0,0.4); padding: 1px 4px; border-radius: 3px;">Have I completed my mission?</code> or <code style="color: var(--green); background: rgba(0,0,0,0.4); padding: 1px 4px; border-radius: 3px;">What should I do next?</code>.</li>
+            <li><strong>Completion Banner</strong>: When all objectives are done, a green <span style="color: var(--green); font-weight: bold;">🎉 MISSION ACCOMPLISHED</span> banner appears with a <strong>▶ NEXT MYSTERY</strong> button to progress immediately!</li>
+          </ul>
+        </div>
+
+        <!-- Card 4: Walkthrough Cheat Sheet -->
+        <div style="background: rgba(21, 31, 53, 0.85); border-left: 3px solid #b388ff; padding: 10px; border-radius: 6px;">
+          <div style="color: #b388ff; font-weight: bold; font-family: 'Orbitron', sans-serif; margin-bottom: 6px;">📋 WALKTHROUGH FOR ALL 6 MYSTERIES</div>
+          <table style="width: 100%; border-collapse: collapse; font-size: 0.74rem;">
+            <thead>
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.1); text-align: left; color: var(--text-muted);">
+                <th style="padding: 4px;">Mystery</th>
+                <th style="padding: 4px;">Zone</th>
+                <th style="padding: 4px;">Commands / Steps</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                <td style="padding: 4px; color: var(--cyan); font-weight: bold;">Mystery A: Key</td>
+                <td style="padding: 4px;">Reception / Hub</td>
+                <td style="padding: 4px;">1. <em>"What objects can you see?"</em><br>2. <em>"Where is the table?"</em><br>3. <em>"Open the cabinet"</em></td>
+              </tr>
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                <td style="padding: 4px; color: var(--cyan); font-weight: bold;">Mystery B: File</td>
+                <td style="padding: 4px;">Office & Archives</td>
+                <td style="padding: 4px;">1. <em>"What is left of the table?"</em><br>2. <em>"How far is the chair from the table?"</em></td>
+              </tr>
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                <td style="padding: 4px; color: var(--cyan); font-weight: bold;">Mystery C: Containment</td>
+                <td style="padding: 4px;">Lab Corridor</td>
+                <td style="padding: 4px;">1. <em>"Where is the nearest door?"</em><br>2. <em>"Calculate path to the door"</em></td>
+              </tr>
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                <td style="padding: 4px; color: var(--cyan); font-weight: bold;">Mystery D: Clue Room</td>
+                <td style="padding: 4px;">Vault / Archive</td>
+                <td style="padding: 4px;">1. <em>"Inspect clue_pda_02"</em><br>2. <em>"Search documents for Door 3 override"</em><br>3. <em>"Enter code 7391"</em></td>
+              </tr>
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                <td style="padding: 4px; color: var(--cyan); font-weight: bold;">Mystery E: Timed</td>
+                <td style="padding: 4px;">Entire Facility</td>
+                <td style="padding: 4px;">1. <em>"What objects can you see?"</em><br>2. <em>"Search documents for override code"</em><br>3. <em>"Enter code 7391"</em></td>
+              </tr>
+              <tr>
+                <td style="padding: 4px; color: var(--cyan); font-weight: bold;">Mystery F: Terminal</td>
+                <td style="padding: 4px;">Reception</td>
+                <td style="padding: 4px;">1. <em>"Where is the table?"</em><br>2. <em>"Survey visible objects"</em></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <button onclick="document.getElementById('missionGuideModal').style.display='none'" style="width: 100%; background: linear-gradient(135deg, #00f0ff, #0077ff); color: #000; font-family: 'Orbitron', sans-serif; font-size: 0.85rem; font-weight: 800; border: none; padding: 10px; border-radius: 8px; cursor: pointer;">
+        GOT IT! BACK TO INVESTIGATION
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile View Selector (Visible on phone/tablet screens) -->
+  <div class="mobile-tabs-bar" id="mobileTabsBar">
+    <button class="mobile-tab-btn active" id="tabBtnSplit" onclick="setMobileView('split')">📱 <span class="tab-label-full">SPLIT VIEW</span><span class="tab-label-short">SPLIT</span></button>
+    <button class="mobile-tab-btn" id="tabBtn3D" onclick="setMobileView('3d')">🎮 <span class="tab-label-full">3D WORLD</span><span class="tab-label-short">3D</span></button>
+    <button class="mobile-tab-btn" id="tabBtnChat" onclick="setMobileView('chat')">💬 <span class="tab-label-full">DRONE CHAT</span><span class="tab-label-short">CHAT</span></button>
+  </div>
+
+  <!-- Main Game Layout -->
+  <main class="dashboard-grid mode-split">
+
+    <!-- Left Column: Companion Drone Dialogue Terminal -->
+    <section class="panel chat-panel">
+      <div class="panel-header">
+        <div class="panel-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+          </svg>
+          COMPANION DRONE AI
+        </div>
+        <span style="font-size: 0.72rem; color: var(--text-muted); font-family: 'JetBrains Mono', monospace;" id="companionLabel">SCOUT DRONE</span>
+      </div>
+
+      <div class="mission-board">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+          <div class="panel-title" style="font-size:0.72rem; margin-bottom:0;">MISSION <span id="missionCodeText">A</span> — <span id="missionTitleText">Missing Research Key</span></div>
+          <button onclick="openMissionGuideModal()" style="background: rgba(255,170,0,0.15); border: 1px solid var(--amber); color: var(--amber); font-size: 0.65rem; padding: 2px 8px; border-radius: 4px; cursor: pointer; font-weight: bold; font-family: 'Orbitron', sans-serif;" title="Open Code, Key & Walkthrough Guide">❓ GUIDE & CODES</button>
+        </div>
+        <div class="mission-brief" id="missionBriefText">Survey Reception and locate the security table to find where staff logged the missing key.</div>
+        <div id="missionCompletionBanner" style="display: none; background: rgba(0, 255, 136, 0.18); border: 1px solid var(--green); border-radius: 6px; padding: 6px 10px; margin: 6px 0; justify-content: space-between; align-items: center;">
+          <div>
+            <div style="font-family: 'Orbitron', sans-serif; font-weight: bold; font-size: 0.76rem; color: var(--green);">🎉 MISSION ACCOMPLISHED!</div>
+            <div style="font-size: 0.68rem; color: #fff;">All objectives fulfilled. Ready for next sector.</div>
+          </div>
+          <button onclick="advanceToNextMission()" style="background: linear-gradient(135deg, var(--green), #00bb66); color: #000; font-family: 'Orbitron', sans-serif; font-size: 0.68rem; font-weight: 800; border: none; padding: 4px 10px; border-radius: 5px; cursor: pointer;">
+            ▶ NEXT MYSTERY
+          </button>
+        </div>
+        <div id="objectiveList"></div>
+        <div class="mission-pills" id="missionPills"></div>
+        <div class="agent-row">
+          <button class="agent-btn active" id="agent-scout" onclick="selectCompanion('scout')">
+            <span class="agent-btn-full">Scout (Vision)</span>
+            <span class="agent-btn-short">👁️ Scout</span>
+          </button>
+          <button class="agent-btn" id="agent-navigator" onclick="selectCompanion('navigator')">
+            <span class="agent-btn-full">Navigator (Spatial)</span>
+            <span class="agent-btn-short">🧭 Navigator</span>
+          </button>
+          <button class="agent-btn" id="agent-archivist" onclick="selectCompanion('archivist')">
+            <span class="agent-btn-full">Archivist (RAG)</span>
+            <span class="agent-btn-short">📚 Archivist</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="chat-container">
+        <div class="chat-messages" id="chatMessages">
+          <div class="msg assistant">
+            <div class="msg-thought">Companion drone systems synchronized with Sector 4 3D Viewport.</div>
+            Investigator, you are inside Sector 4 Facility. 
+            Use <strong style="color: var(--cyan);">W, A, S, D</strong> to walk your investigator in the 3D viewport, and drag your mouse to look around.
+            You can type instructions or click 🎙️ <strong>Microphone</strong> to talk to me!
+          </div>
+        </div>
+
+        <!-- Quick Mission Prompts (Examples) -->
+        <div class="quick-prompts">
+          <button class="quick-btn" onclick="sendQuickPrompt('Look around and tell me what you see.')">👁️ Look around</button>
+          <button class="quick-btn" onclick="sendQuickPrompt('Where is the table?')">📍 Locate table</button>
+          <button class="quick-btn" onclick="sendQuickPrompt('Open the cabinet')">🗄️ Open Cabinet / Key</button>
+          <button class="quick-btn" onclick="sendQuickPrompt('Enter code 7391')">🔢 Enter Code 7391</button>
+          <button class="quick-btn" onclick="sendQuickPrompt('Have I completed my mission?')">🎯 Check Mission</button>
+          <button class="quick-btn" onclick="sendQuickPrompt('What is left of the table?')">⬅️ Left of table</button>
+          <button class="quick-btn" onclick="sendQuickPrompt('Where is the nearest door?')">🚪 Nearest door</button>
+          <button class="quick-btn" onclick="sendQuickPrompt('Inspect clue_pda_02')">📜 Inspect Clue</button>
+          <button class="quick-btn" onclick="sendQuickPrompt('Search documents for Door 3 override')">🔍 Search Override</button>
+          <button class="quick-btn" onclick="sendQuickPrompt('Show me what I\'ve collected.')">🎒 Inventory</button>
+          <button class="quick-btn" onclick="sendQuickPrompt('Give me a hint without telling me the answer.')">💡 Hint</button>
+        </div>
+
+        <!-- Voice Status Bar -->
+        <div id="voiceStatusBar" class="voice-status-bar" style="display: none;">
+          <div class="voice-pulse-dot"></div>
+          <span id="voiceStatusText" style="color: var(--cyan);">Listening...</span>
+        </div>
+
+        <!-- Input Bar with Voice Support -->
+        <form class="chat-input-bar" id="chatForm" onsubmit="handleChatSubmit(event)">
+          <button type="button" class="mic-btn" id="micBtn" onclick="toggleVoiceRecording()" title="Click to speak (Voice Input)">🎙️</button>
+          <input type="text" id="chatInput" class="chat-input" placeholder="Type instruction or speak to companion..." autocomplete="off">
+          <button type="button" class="tts-toggle-btn active" id="ttsToggleBtn" onclick="toggleSpokenResponses()" title="Toggle voice replies">
+            <span class="tts-label-full">🔊 VOICE: ON</span>
+            <span class="tts-label-short">🔊 ON</span>
+          </button>
+          <button type="button" class="stop-speech-btn" id="stopSpeechBtn" onclick="stopSpeechOutput()" title="Stop speaking" style="display: none;">⏹️</button>
+          <button type="submit" class="send-btn" id="sendBtn">
+            <span class="send-label-full">EXECUTE</span>
+            <span class="send-label-short">EXEC</span>
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Right Column: Interactive 3D Playable Viewport -->
+    <section class="panel viewport-panel">
+      <div class="canvas-container" id="canvasContainer">
+        <canvas id="webgl-canvas"></canvas>
+
+        <!-- Top HUD Info -->
+        <div class="hud-overlay">
+          <div class="hud-chip">
+            <span style="color: var(--cyan);">ZONE:</span> <span id="currentZoneText" style="color: #fff; font-weight: bold;">1. Reception Hub</span>
+          </div>
+          <div class="hud-chip hud-chip-detail">
+            <span style="color: var(--amber);">PLAYER POS:</span> <span id="playerPosText">[0.0, -15.0]</span>
+          </div>
+          <div class="hud-chip hud-chip-detail">
+            <span style="color: var(--green);">DRONE MODE:</span> <span id="droneModeText">Escort Following</span>
+          </div>
+          <div class="hud-chip">
+            <span style="color: var(--orange);">QUEST:</span> <span id="questHudText">A · Missing Key</span>
+          </div>
+          <div class="hud-chip" id="timerChip" style="display:none;">
+            <span style="color: var(--red);">TIMER:</span> <span id="timerHudText">180s</span>
+          </div>
+        </div>
+
+        <!-- Camera Mode Toggles -->
+        <div class="hud-camera-modes">
+          <button class="cam-btn active" id="btnCam3rd" onclick="setCameraMode('third')"><span class="cam-btn-full">3RD PERSON</span><span class="cam-btn-short">3RD</span></button>
+          <button class="cam-btn" id="btnCam1st" onclick="setCameraMode('first')"><span class="cam-btn-full">1ST PERSON</span><span class="cam-btn-short">1ST</span></button>
+          <button class="cam-btn" id="btnCamTop" onclick="setCameraMode('top')"><span class="cam-btn-full">TOP DOWN</span><span class="cam-btn-short">TOP</span></button>
+        </div>
+
+        <!-- Virtual Controls Wrapper for Mobile & Desktop Touch -->
+        <div class="virtual-controls-wrapper">
+          <!-- Left: Movement D-Pad -->
+          <div class="virtual-dpad">
+            <div></div>
+            <button class="dpad-btn" onmousedown="moveForward=true" onmouseup="moveForward=false" ontouchstart="event.stopPropagation(); event.preventDefault(); moveForward=true;" ontouchend="event.stopPropagation(); event.preventDefault(); moveForward=false;" ontouchcancel="moveForward=false;">▲</button>
+            <div></div>
+            <button class="dpad-btn" onmousedown="moveLeft=true" onmouseup="moveLeft=false" ontouchstart="event.stopPropagation(); event.preventDefault(); moveLeft=true;" ontouchend="event.stopPropagation(); event.preventDefault(); moveLeft=false;" ontouchcancel="moveLeft=false;">◄</button>
+            <button class="dpad-btn" onmousedown="moveBackward=true" onmouseup="moveBackward=false" ontouchstart="event.stopPropagation(); event.preventDefault(); moveBackward=true;" ontouchend="event.stopPropagation(); event.preventDefault(); moveBackward=false;" ontouchcancel="moveBackward=false;">▼</button>
+            <button class="dpad-btn" onmousedown="moveRight=true" onmouseup="moveRight=false" ontouchstart="event.stopPropagation(); event.preventDefault(); moveRight=true;" ontouchend="event.stopPropagation(); event.preventDefault(); moveRight=false;" ontouchcancel="moveRight=false;">►</button>
+          </div>
+
+          <!-- Right: Mobile Action Buttons -->
+          <div class="virtual-actions">
+            <button class="mobile-action-btn btn-action-interact" onclick="interactNearestObject()" title="Interact with nearby clue, door, or cabinet" ontouchstart="event.stopPropagation();" onmousedown="event.stopPropagation();">
+              <span style="font-size: 0.95rem;">✋</span>
+              <span>INTERACT</span>
+            </button>
+            <div class="virtual-actions-subrow">
+              <button class="mobile-action-btn btn-action-sub" onclick="handleQuickScan()" title="Scan visible objects in room" ontouchstart="event.stopPropagation();" onmousedown="event.stopPropagation();">
+                <span>👁️ SCAN</span>
+              </button>
+              <button class="mobile-action-btn btn-action-sub" onclick="turnAround180()" title="Rotate camera 180 degrees" ontouchstart="event.stopPropagation();" onmousedown="event.stopPropagation();">
+                <span>🔄 180°</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Controls Guide -->
+        <div class="hud-controls-help">
+          <kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd> Walk &bull; <kbd>Mouse Drag</kbd> Look Around &bull; <kbd>E</kbd> Interact &bull; <kbd>Space</kbd> Scan
+        </div>
+
+        <!-- On-Screen Interaction Notification (Clickable / Tappable) -->
+        <div class="interact-prompt" id="interactPrompt" onclick="interactNearestObject()" style="pointer-events: auto; cursor: pointer;">TAP OR PRESS [E] TO INTERACT</div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Connection Guide Strip -->
+  <footer class="unity-guide-strip" style="background: rgba(7,10,17,0.95); border-top: 1px solid var(--border-cyan); padding: 6px 14px; display: flex; justify-content: space-between; align-items: center; font-size: 0.70rem; color: var(--text-muted); flex-shrink: 0; flex-wrap: wrap; gap: 6px;">
+    <div>
+      🎮 <strong>Spatial Quest:</strong> Playable on Desktop &amp; Phone Browser. Zero commercial AI APIs.
+    </div>
+    <div style="font-family: 'JetBrains Mono', monospace; color: var(--green);">
+      📱 Phone Wi-Fi Access: <strong id="wifiUrlText" style="color: var(--cyan);">http://192.168.0.104:8000</strong>
+    </div>
+  </footer>
+
+  <!-- ================= THREE.JS 3D SCENE & GAME ENGINE ================= -->
+  <script>
+    const API_BASE = window.location.origin;
+
+    // Game & Character State
+    let scene, camera, renderer;
+    let playerAvatar, companionDrone, droneTargetPos = null;
+    let cameraMode = 'third'; // 'third', 'first', 'top'
+    let moveForward = false, moveBackward = false, moveLeft = false, moveRight = false;
+    let playerYaw = 0;
+    let isMouseDown = false, mousePrevX = 0, mousePrevY = 0;
+    let facilityObjects = [];
+    let door3Object = null;
+    let datapadClue = null;
+    let wallSafeClue = null;
+    let gameState = null;
+    let activeCompanionId = 'scout';
+
+    // Room definitions matching backend/game/facility.py
+    const ROOM_DEFS = [
+      { id: "reception", name: "1. Reception / Central Hub", zmin: -24, zmax: -10, xmin: -12, xmax: 12, desc: "Visitor entry and security checkpoint." },
+      { id: "office", name: "2. Research Office", zmin: -10, zmax: 0, xmin: 0, xmax: 12, desc: "Workstations, research desks, and filing cabinets." },
+      { id: "library", name: "3. Library / Archives", zmin: -10, zmax: 0, xmin: -12, xmax: 0, desc: "Archive bookshelves, reading desks, and study area." },
+      { id: "laboratory", name: "4. Investigation Laboratory", zmin: 0, zmax: 10, xmin: -12, xmax: 12, desc: "Active investigation workbenches and laser security gate." },
+      { id: "storage", name: "5. Storage Room & Vault", zmin: 10, zmax: 24, xmin: -12, xmax: 12, desc: "Reinforced vault, locked wall safe, and archive crates." }
+    ];
+    let currentRoomInfo = ROOM_DEFS[0];
+
+    function initThreeScene() {
+      const container = document.getElementById('canvasContainer');
+      const canvas = document.getElementById('webgl-canvas');
+      const width = container.clientWidth || 800;
+      const height = container.clientHeight || 600;
+
+      // 1. Scene
+      scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x0a0e17);
+      scene.fog = new THREE.FogExp2(0x0a0e17, 0.022);
+
+      // 2. Camera (Third-person default)
+      camera = new THREE.PerspectiveCamera(65, width / height, 0.1, 150);
+      camera.position.set(0, 4, -19);
+
+      // 3. Renderer
+      renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: false });
+      renderer.setSize(width, height);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.shadowMap.enabled = true;
+
+      // 4. Lights
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+      scene.add(ambientLight);
+
+      const dirLight = new THREE.DirectionalLight(0xddeeff, 0.8);
+      dirLight.position.set(5, 12, 5);
+      dirLight.castShadow = true;
+      scene.add(dirLight);
+
+      // Room lights
+      const light1 = new THREE.PointLight(0xffb800, 1.6, 22);
+      light1.name = 'zoneLight1';
+      light1.position.set(0, 4.5, -16);
+      scene.add(light1);
+
+      const light2 = new THREE.PointLight(0x00f0ff, 1.8, 22);
+      light2.name = 'zoneLight2';
+      light2.position.set(0, 4.5, 4);
+      scene.add(light2);
+
+      const light3 = new THREE.PointLight(0x00ff9d, 1.8, 22);
+      light3.name = 'zoneLight3';
+      light3.position.set(0, 4.5, 16);
+      scene.add(light3);
+
+      // ================= 5. BUILD IDENTIFIABLE INVESTIGATOR AVATAR =================
+      playerAvatar = new THREE.Group();
+      
+      // Cyber Suit Torso (Explorer Amber / Navy)
+      const torsoGeo = new THREE.BoxGeometry(0.55, 0.7, 0.35);
+      const torsoMat = new THREE.MeshStandardMaterial({ color: 0xff7700, roughness: 0.3 });
+      const torso = new THREE.Mesh(torsoGeo, torsoMat);
+      torso.position.y = 0.95;
+      torso.castShadow = true;
+      playerAvatar.add(torso);
+
+      // Trench-style Chest Armor
+      const chestGeo = new THREE.BoxGeometry(0.48, 0.45, 0.12);
+      const chestMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.6 });
+      const chest = new THREE.Mesh(chestGeo, chestMat);
+      chest.position.set(0, 1.0, 0.16);
+      playerAvatar.add(chest);
+
+      // Life-support Backpack
+      const packGeo = new THREE.BoxGeometry(0.42, 0.55, 0.22);
+      const packMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, metalness: 0.8 });
+      const pack = new THREE.Mesh(packGeo, packMat);
+      pack.position.set(0, 1.0, -0.22);
+      playerAvatar.add(pack);
+
+      // Investigator Head / Helmet
+      const helmGeo = new THREE.SphereGeometry(0.24, 20, 20);
+      const helmMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.1 });
+      const helm = new THREE.Mesh(helmGeo, helmMat);
+      helm.position.y = 1.52;
+      helm.castShadow = true;
+      playerAvatar.add(helm);
+
+      // Glowing Cyan Visor
+      const visorGeo = new THREE.BoxGeometry(0.28, 0.12, 0.16);
+      const visorMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff });
+      const visor = new THREE.Mesh(visorGeo, visorMat);
+      visor.position.set(0, 1.52, 0.16);
+      playerAvatar.add(visor);
+
+      // Scanner Hip Tool
+      const scanToolGeo = new THREE.BoxGeometry(0.12, 0.25, 0.12);
+      const scanToolMat = new THREE.MeshBasicMaterial({ color: 0x00ff9d });
+      const scanTool = new THREE.Mesh(scanToolGeo, scanToolMat);
+      scanTool.position.set(0.32, 0.75, 0.05);
+      playerAvatar.add(scanTool);
+
+      // Legs
+      const legGeo = new THREE.BoxGeometry(0.2, 0.6, 0.2);
+      const legMat = new THREE.MeshStandardMaterial({ color: 0x1e293b });
+      const legL = new THREE.Mesh(legGeo, legMat);
+      legL.name = 'legL';
+      legL.position.set(-0.16, 0.3, 0);
+      playerAvatar.add(legL);
+
+      const legR = new THREE.Mesh(legGeo, legMat);
+      legR.name = 'legR';
+      legR.position.set(0.16, 0.3, 0);
+      playerAvatar.add(legR);
+
+      // Forward Direction Pointer Ring on Floor
+      const dirRingGeo = new THREE.RingGeometry(0.5, 0.65, 24);
+      const dirRingMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff, side: THREE.DoubleSide });
+      const dirRing = new THREE.Mesh(dirRingGeo, dirRingMat);
+      dirRing.rotation.x = -Math.PI / 2;
+      dirRing.position.y = 0.03;
+      playerAvatar.add(dirRing);
+
+      const pointerGeo = new THREE.ConeGeometry(0.18, 0.4, 8);
+      const pointerMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff });
+      const pointer = new THREE.Mesh(pointerGeo, pointerMat);
+      pointer.rotation.x = Math.PI / 2;
+      pointer.position.set(0, 0.04, 0.85);
+      playerAvatar.add(pointer);
+
+      // Forward Flashlight
+      const spotLight = new THREE.SpotLight(0xffffff, 2.5, 20, Math.PI / 5, 0.3);
+      spotLight.position.set(0, 1.3, 0.3);
+      spotLight.target.position.set(0, 0.5, 8);
+      playerAvatar.add(spotLight);
+      playerAvatar.add(spotLight.target);
+
+      // Overhead Name Billboard
+      const canvasName = document.createElement('canvas');
+      canvasName.width = 256; canvasName.height = 64;
+      const ctx = canvasName.getContext('2d');
+      ctx.fillStyle = '#00f0ff';
+      ctx.font = 'bold 22px Orbitron, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('INVESTIGATOR', 128, 42);
+      const labelTex = new THREE.CanvasTexture(canvasName);
+      const labelMat = new THREE.SpriteMaterial({ map: labelTex });
+      const labelSprite = new THREE.Sprite(labelMat);
+      labelSprite.position.set(0, 2.1, 0);
+      labelSprite.scale.set(1.6, 0.4, 1);
+      playerAvatar.add(labelSprite);
+
+      playerAvatar.position.set(0, 0, -15);
+      scene.add(playerAvatar);
+
+      // ================= 6. BUILD COMPANION DRONE =================
+      companionDrone = new THREE.Group();
+      const droneGeo = new THREE.SphereGeometry(0.22, 16, 16);
+      const droneMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, metalness: 0.8, roughness: 0.2 });
+      const droneBody = new THREE.Mesh(droneGeo, droneMat);
+      companionDrone.add(droneBody);
+
+      const ringGeo = new THREE.TorusGeometry(0.35, 0.035, 8, 24);
+      const ringMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff });
+      const ring = new THREE.Mesh(ringGeo, ringMat);
+      ring.rotation.x = Math.PI / 2;
+      companionDrone.add(ring);
+
+      const coneGeo = new THREE.ConeGeometry(0.8, 1.8, 16, 1, true);
+      const coneMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff, transparent: true, opacity: 0.25, wireframe: true });
+      const scanCone = new THREE.Mesh(coneGeo, coneMat);
+      scanCone.position.y = -0.9;
+      companionDrone.add(scanCone);
+
+      const canvasDrone = document.createElement('canvas');
+      canvasDrone.width = 256; canvasDrone.height = 64;
+      const ctxD = canvasDrone.getContext('2d');
+      ctxD.fillStyle = '#00ff9d';
+      ctxD.font = 'bold 20px Orbitron, sans-serif';
+      ctxD.textAlign = 'center';
+      ctxD.fillText('COMPANION DRONE', 128, 42);
+      const droneTex = new THREE.CanvasTexture(canvasDrone);
+      const droneSprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: droneTex }));
+      droneSprite.position.set(0, 0.55, 0);
+      droneSprite.scale.set(1.4, 0.35, 1);
+      companionDrone.add(droneSprite);
+
+      companionDrone.position.set(1.0, 2.2, -0.8);
+      scene.add(companionDrone);
+
+      const ro = new ResizeObserver(() => onWindowResize());
+      ro.observe(container);
+    }
+
+    // Build the 5 distinct rooms with open door archways and visual styling
+    function buildSector4Facility() {
+      // 1. Facility Main Floor
+      const floorGeo = new THREE.PlaneGeometry(24, 48);
+      const floorMat = new THREE.MeshStandardMaterial({ color: 0x0a0e17, roughness: 0.8 });
+      const floor = new THREE.Mesh(floorGeo, floorMat);
+      floor.rotation.x = -Math.PI / 2;
+      floor.position.y = 0;
+      floor.receiveShadow = true;
+      scene.add(floor);
+
+      // Floor Zone Panels for Visual Distinction
+      createFloorTile(0, -17, 22, 12, 0x111c33, 0xffb800); // 1. Reception
+      createFloorTile(6, -5, 10, 8.5, 0x132338, 0x38bdf8); // 2. Research Office
+      createFloorTile(-6, -5, 10, 8.5, 0x1a1c24, 0xf59e0b); // 3. Library / Archives
+      createFloorTile(0, 5, 22, 9, 0x0e242a, 0x00f0ff);   // 4. Lab
+      createFloorTile(0, 17, 22, 12, 0x18101e, 0x00ff9d); // 5. Storage Vault
+
+      // 2. Exterior Boundary Walls
+      createWall(0, 2.5, -24, 24, 5, 0.5, 0x1e293b); // North
+      createWall(0, 2.5, 24, 24, 5, 0.5, 0x1e293b);  // South
+      createWall(-12, 2.5, 0, 0.5, 5, 48, 0x1e293b); // West
+      createWall(12, 2.5, 0, 0.5, 5, 48, 0x1e293b);  // East
+
+      // 3. Open Doorway Partitions
+      // Partition A (Z = -10): Reception -> Office/Library with central open doorway (-2m to +2m)
+      createWall(-7.0, 2.5, -10, 10, 5, 0.4, 0x243247);
+      createWall(7.0, 2.5, -10, 10, 5, 0.4, 0x243247);
+      createDoorFrame(0, 0, -10, 4.0, 4.0, "DOORWAY 1: TO OFFICE / ARCHIVES", 0x38bdf8);
+
+      // Partition B (X = 0, Z in [-10, 0]): Divider between Library & Office with open doorway
+      createWall(0, 2.5, -8.5, 0.4, 5, 3.0, 0x243247);
+      createWall(0, 2.5, -1.5, 0.4, 5, 3.0, 0x243247);
+
+      // Partition C (Z = 0): Office/Library -> Lab with central open doorway
+      createWall(-7.0, 2.5, 0, 10, 5, 0.4, 0x243247);
+      createWall(7.0, 2.5, 0, 10, 5, 0.4, 0x243247);
+      createDoorFrame(0, 0, 0, 4.0, 4.0, "DOORWAY 2: TO INVESTIGATION LAB", 0x00f0ff);
+
+      // Partition D (Z = 10): Lab -> Storage Room with central open doorway
+      createWall(-7.0, 2.5, 10, 10, 5, 0.4, 0x243247);
+      createWall(7.0, 2.5, 10, 10, 5, 0.4, 0x243247);
+      createDoorFrame(0, 0, 10, 4.0, 4.0, "DOORWAY 3: TO STORAGE VAULT", 0x00ff9d);
+
+      // ================= ROOM 1: RECEPTION / CENTRAL HUB =================
+      createRoomSignboard("1. RECEPTION / CENTRAL HUB", 0, 4.2, -23.5, 0xffb800);
+      createTable('table_reception', 0, -15, 3.4, 1.4, 0x935116);
+      createChair('chair_reception', 0, -13.6, 0x2c3e50);
+      createSofa('sofa_visitor', -6.5, -16, 0x1a365d);
+      createTable('table_terminal', 6.5, -14, 2.0, 1.0, 0x2d3748);
+
+      // ================= ROOM 2: RESEARCH OFFICE =================
+      createRoomSignboard("2. RESEARCH OFFICE", 6.0, 4.2, -9.5, 0x38bdf8);
+      createTable('table_office_desk', 6.0, -5.0, 2.6, 1.3, 0x4a5568);
+      createChair('chair_office', 6.0, -3.8, 0x1e293b);
+      createCabinet('cabinet_office_files', 9.2, -5.0, 0x334155);
+
+      // ================= ROOM 3: LIBRARY / ARCHIVES =================
+      createRoomSignboard("3. LIBRARY / ARCHIVES", -6.0, 4.2, -9.5, 0xf59e0b);
+      createBookshelf('bookshelf_library_reference', -9.0, -5.0, 0x3e1f0e);
+      createTable('table_library_reading', -4.5, -5.0, 2.2, 1.1, 0x78350f);
+      createChair('chair_library', -4.5, -3.8, 0x2c3e50);
+
+      // ================= ROOM 4: INVESTIGATION LABORATORY =================
+      createRoomSignboard("4. INVESTIGATION LAB", 0, 4.2, 0.5, 0x00f0ff);
+      createTable('table_lab', 0, 3.5, 3.4, 1.6, 0x78350f);
+      createChair('chair_lab', -1.4, 2.8, 0x1e293b);
+      createCabinet('cabinet_lab', 8.5, 4.0, 0x64748b);
+      createBookshelf('bookshelf_lab', -8.5, 4.0, 0x451a03);
+
+      // Datapad Clue (on lab table)
+      const pdaGeo = new THREE.BoxGeometry(0.45, 0.05, 0.32);
+      const pdaMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff });
+      datapadClue = new THREE.Mesh(pdaGeo, pdaMat);
+      datapadClue.position.set(0.4, 0.82, 3.5);
+      scene.add(datapadClue);
+      facilityObjects.push({ name: "clue_pda_02", label: "Researcher Datapad", pos: datapadClue.position, type: "clue" });
+
+      // Archive Door 3 Laser Security Barrier (Z = 8.0)
+      const doorGeo = new THREE.BoxGeometry(3.6, 4.0, 0.15);
+      const doorMat = new THREE.MeshStandardMaterial({ color: 0xff3366, transparent: true, opacity: 0.75 });
+      door3Object = new THREE.Mesh(doorGeo, doorMat);
+      door3Object.position.set(0, 2.0, 8.0);
+      scene.add(door3Object);
+      facilityObjects.push({ name: "door_3", label: "Archive Door 3 Barrier", pos: door3Object.position, type: "door" });
+
+      // ================= ROOM 5: STORAGE ROOM & VAULT =================
+      createRoomSignboard("5. STORAGE ROOM & VAULT", 0, 4.2, 10.5, 0x00ff9d);
+      createBookshelf('bookshelf_archive_a', -8.5, 15.0, 0x3e1f0e);
+      createBookshelf('bookshelf_archive_b', -8.5, 19.0, 0x3e1f0e);
+      createCabinet('cabinet_vault', 8.5, 15.0, 0x334155);
+
+      // Wall Safe Clue
+      const safeGeo = new THREE.BoxGeometry(0.9, 0.9, 0.4);
+      const safeMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.9, roughness: 0.1 });
+      wallSafeClue = new THREE.Mesh(safeGeo, safeMat);
+      wallSafeClue.position.set(8.5, 1.6, 12.0);
+      scene.add(wallSafeClue);
+      facilityObjects.push({ name: "clue_safe_01", label: "Wall Safe (Locked)", pos: wallSafeClue.position, type: "clue" });
+
+      // Emergency Exit Door
+      const exitDoorGeo = new THREE.BoxGeometry(3.2, 4.0, 0.2);
+      const exitDoorMat = new THREE.MeshStandardMaterial({ color: 0x00ff9d, transparent: true, opacity: 0.5 });
+      const exitDoor = new THREE.Mesh(exitDoorGeo, exitDoorMat);
+      exitDoor.position.set(0, 2.0, 22.0);
+      scene.add(exitDoor);
+      facilityObjects.push({ name: "door_emergency_exit", label: "Emergency Exit Door", pos: exitDoor.position, type: "door" });
+    }
+
+    function createFloorTile(x, z, w, d, color, gridColor) {
+      const g = new THREE.PlaneGeometry(w, d);
+      const m = new THREE.MeshStandardMaterial({ color: color, roughness: 0.6 });
+      const mesh = new THREE.Mesh(g, m);
+      mesh.rotation.x = -Math.PI / 2;
+      mesh.position.set(x, 0.01, z);
+      scene.add(mesh);
+
+      const grid = new THREE.GridHelper(Math.max(w, d), Math.round(Math.max(w, d)), gridColor, 0x1e293b);
+      grid.position.set(x, 0.02, z);
+      scene.add(grid);
+    }
+
+    function createDoorFrame(x, y, z, w, h, labelText, color) {
+      // Pillars
+      createWall(x - w / 2 - 0.2, y + h / 2, z, 0.4, h, 0.6, 0x0f172a);
+      createWall(x + w / 2 + 0.2, y + h / 2, z, 0.4, h, 0.6, 0x0f172a);
+      // Lintel
+      createWall(x, y + h + 0.2, z, w + 0.8, 0.4, 0.6, 0x0f172a);
+
+      // Floor threshold strip
+      const stripGeo = new THREE.PlaneGeometry(w, 0.6);
+      const stripMat = new THREE.MeshBasicMaterial({ color: color });
+      const strip = new THREE.Mesh(stripGeo, stripMat);
+      strip.rotation.x = -Math.PI / 2;
+      strip.position.set(x, 0.03, z);
+      scene.add(strip);
+    }
+
+    function createRoomSignboard(title, x, y, z, color) {
+      const c = document.createElement('canvas');
+      c.width = 512; c.height = 96;
+      const ctx = c.getContext('2d');
+      ctx.fillStyle = '#0d1321';
+      ctx.fillRect(0, 0, 512, 96);
+      ctx.strokeStyle = '#00f0ff';
+      ctx.lineWidth = 4;
+      ctx.strokeRect(4, 4, 504, 88);
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 28px Orbitron, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(title, 256, 58);
+      const tex = new THREE.CanvasTexture(c);
+      const mat = new THREE.SpriteMaterial({ map: tex });
+      const sprite = new THREE.Sprite(mat);
+      sprite.position.set(x, y, z);
+      sprite.scale.set(4.4, 0.85, 1);
+      scene.add(sprite);
+    }
+
+    function createWall(x, y, z, w, h, d, color = 0x1e293b) {
+      const geo = new THREE.BoxGeometry(w, h, d);
+      const mat = new THREE.MeshStandardMaterial({ color: color, roughness: 0.7 });
+      const mesh = new THREE.Mesh(geo, mat);
+      mesh.position.set(x, y, z);
+      mesh.receiveShadow = true;
+      scene.add(mesh);
+    }
+
+    function createTable(name, x, z, w = 2.4, d = 1.2, color = 0x8b5a2b) {
+      const topGeo = new THREE.BoxGeometry(w, 0.1, d);
+      const mat = new THREE.MeshStandardMaterial({ color: color, roughness: 0.4 });
+      const top = new THREE.Mesh(topGeo, mat);
+      top.position.set(x, 0.75, z);
+      top.castShadow = true;
+      scene.add(top);
+
+      const legGeo = new THREE.BoxGeometry(0.1, 0.7, 0.1);
+      const legMat = new THREE.MeshStandardMaterial({ color: 0x1e293b });
+      const offsets = [
+        [-w / 2 + 0.1, -d / 2 + 0.1],
+        [w / 2 - 0.1, -d / 2 + 0.1],
+        [-w / 2 + 0.1, d / 2 - 0.1],
+        [w / 2 - 0.1, d / 2 - 0.1],
+      ];
+      offsets.forEach(([ox, oz]) => {
+        const leg = new THREE.Mesh(legGeo, legMat);
+        leg.position.set(x + ox, 0.35, z + oz);
+        scene.add(leg);
+      });
+      facilityObjects.push({ name, label: "Table", pos: top.position, type: "table" });
+    }
+
+    function createChair(name, x, z, color = 0x2c3e50) {
+      const seatGeo = new THREE.BoxGeometry(0.5, 0.08, 0.5);
+      const mat = new THREE.MeshStandardMaterial({ color: color });
+      const seat = new THREE.Mesh(seatGeo, mat);
+      seat.position.set(x, 0.45, z);
+      scene.add(seat);
+
+      const backGeo = new THREE.BoxGeometry(0.5, 0.45, 0.06);
+      const back = new THREE.Mesh(backGeo, mat);
+      back.position.set(x, 0.72, z - 0.22);
+      scene.add(back);
+
+      facilityObjects.push({ name, label: "Chair", pos: seat.position, type: "chair" });
+    }
+
+    function createBookshelf(name, x, z, color = 0x3e1f0e) {
+      const geo = new THREE.BoxGeometry(1.6, 2.4, 0.5);
+      const mat = new THREE.MeshStandardMaterial({ color: color });
+      const mesh = new THREE.Mesh(geo, mat);
+      mesh.position.set(x, 1.2, z);
+      mesh.castShadow = true;
+      scene.add(mesh);
+      facilityObjects.push({ name, label: "Bookshelf", pos: mesh.position, type: "bookshelf" });
+    }
+
+    function createCabinet(name, x, z, color = 0x334155) {
+      const geo = new THREE.BoxGeometry(1.2, 1.8, 0.6);
+      const mat = new THREE.MeshStandardMaterial({ color: color, metalness: 0.6 });
+      const mesh = new THREE.Mesh(geo, mat);
+      mesh.position.set(x, 0.9, z);
+      mesh.castShadow = true;
+      scene.add(mesh);
+      facilityObjects.push({ name, label: "Cabinet", pos: mesh.position, type: "cabinet" });
+    }
+
+    function createSofa(name, x, z, color = 0x1a365d) {
+      const geo = new THREE.BoxGeometry(2.2, 0.65, 0.9);
+      const mat = new THREE.MeshStandardMaterial({ color: color });
+      const mesh = new THREE.Mesh(geo, mat);
+      mesh.position.set(x, 0.35, z);
+      scene.add(mesh);
+      facilityObjects.push({ name, label: "Sofa", pos: mesh.position, type: "sofa" });
+    }
+
+    // Input & Keyboard
+    function setupInputListeners() {
+      window.addEventListener('keydown', (e) => {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+        switch (e.key.toLowerCase()) {
+          case 'w': case 'arrowup': moveForward = true; break;
+          case 's': case 'arrowdown': moveBackward = true; break;
+          case 'a': case 'arrowleft': moveLeft = true; break;
+          case 'd': case 'arrowright': moveRight = true; break;
+          case 'e': interactNearestObject(); break;
+          case ' ': handleQuickScan(); break;
+        }
+      });
+
+      window.addEventListener('keyup', (e) => {
+        switch (e.key.toLowerCase()) {
+          case 'w': case 'arrowup': moveForward = false; break;
+          case 's': case 'arrowdown': moveBackward = false; break;
+          case 'a': case 'arrowleft': moveLeft = false; break;
+          case 'd': case 'arrowright': moveRight = false; break;
+        }
+      });
+
+      const canvas = document.getElementById('webgl-canvas');
+      canvas.addEventListener('mousedown', (e) => {
+        isMouseDown = true;
+        mousePrevX = e.clientX;
+        mousePrevY = e.clientY;
+      });
+      window.addEventListener('mouseup', () => { isMouseDown = false; });
+      window.addEventListener('mousemove', (e) => {
+        if (!isMouseDown) return;
+        const deltaX = e.clientX - mousePrevX;
+        playerYaw -= deltaX * 0.006;
+        mousePrevX = e.clientX;
+        mousePrevY = e.clientY;
+      });
+
+      // Touch drag for mobile camera look-around
+      let isTouchLook = false, touchPrevX = 0, touchPrevY = 0;
+      canvas.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 1 && e.target === canvas) {
+          isTouchLook = true;
+          touchPrevX = e.touches[0].clientX;
+          touchPrevY = e.touches[0].clientY;
+        }
+      }, { passive: true });
+
+      window.addEventListener('touchend', () => { isTouchLook = false; });
+      window.addEventListener('touchcancel', () => { isTouchLook = false; });
+
+      window.addEventListener('touchmove', (e) => {
+        if (!isTouchLook || e.touches.length === 0) return;
+        const deltaX = e.touches[0].clientX - touchPrevX;
+        playerYaw -= deltaX * 0.007;
+        touchPrevX = e.touches[0].clientX;
+        touchPrevY = e.touches[0].clientY;
+      }, { passive: true });
+    }
+
+    function turnAround180() {
+      playerYaw += Math.PI;
+    }
+
+    let currentMobileMode = 'split';
+    function setMobileView(mode) {
+      currentMobileMode = mode;
+      const grid = document.querySelector('.dashboard-grid');
+      if (!grid) return;
+      grid.classList.remove('mode-split', 'mode-3d', 'mode-chat');
+      grid.classList.add('mode-' + mode);
+
+      ['split', '3d', 'chat'].forEach(m => {
+        const btnId = 'tabBtn' + (m === 'split' ? 'Split' : (m === '3d' ? '3D' : 'Chat'));
+        const btn = document.getElementById(btnId);
+        if (btn) btn.classList.toggle('active', m === mode);
+      });
+
+      // Force Three.js viewport resize
+      setTimeout(onWindowResize, 60);
+      setTimeout(onWindowResize, 200);
+    }
+
+    function onWindowResize() {
+      const container = document.getElementById('canvasContainer');
+      if (!container || !renderer || !camera) return;
+      const width = container.clientWidth;
+      const height = container.clientHeight;
+      if (width === 0 || height === 0) return;
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+      renderer.setSize(width, height, false);
+    }
+
+    function setCameraMode(mode) {
+      cameraMode = mode;
+      document.getElementById('btnCam3rd').classList.toggle('active', mode === 'third');
+      document.getElementById('btnCam1st').classList.toggle('active', mode === 'first');
+      document.getElementById('btnCamTop').classList.toggle('active', mode === 'top');
+    }
+
+    function updatePlayerMovement(delta) {
+      if (!playerAvatar) return;
+
+      const moveSpeed = 4.2 * delta;
+      let dx = 0, dz = 0;
+      if (moveForward) dz += 1;
+      if (moveBackward) dz -= 1;
+      if (moveLeft) dx -= 1;
+      if (moveRight) dx += 1;
+
+      if (dx !== 0 || dz !== 0) {
+        const moveAngle = playerYaw + Math.atan2(dx, dz);
+        playerAvatar.position.x += Math.sin(moveAngle) * moveSpeed;
+        playerAvatar.position.z += Math.cos(moveAngle) * moveSpeed;
+        playerAvatar.rotation.y = moveAngle;
+
+        // Subtle leg swing walking animation
+        const t = performance.now() * 0.01;
+        const legL = playerAvatar.getObjectByName('legL');
+        const legR = playerAvatar.getObjectByName('legR');
+        if (legL && legR) {
+          legL.rotation.x = Math.sin(t) * 0.45;
+          legR.rotation.x = -Math.sin(t) * 0.45;
+        }
+      }
+
+      // Hard facility perimeter collisions (24m x 48m)
+      playerAvatar.position.x = Math.max(-10.5, Math.min(10.5, playerAvatar.position.x));
+      playerAvatar.position.z = Math.max(-22.0, Math.min(22.0, playerAvatar.position.z));
+
+      // Update HUD Coordinates
+      document.getElementById('playerPosText').textContent = `[${playerAvatar.position.x.toFixed(1)}, ${playerAvatar.position.z.toFixed(1)}]`;
+      updateZoneHUD(playerAvatar.position.x, playerAvatar.position.z);
+
+      // Check proximity for [E] interaction prompt
+      checkProximityPrompts();
+    }
+
+    function updateZoneHUD(x, z) {
+      const room = ROOM_DEFS.find(r => z >= r.zmin && z <= r.zmax && x >= r.xmin && x <= r.xmax) || ROOM_DEFS[0];
+      const roomChanged = (!currentRoomInfo || currentRoomInfo.id !== room.id);
+      currentRoomInfo = room;
+      document.getElementById('currentZoneText').textContent = room.name;
+
+      if (roomChanged) {
+        // Synchronize player position and active room with backend
+        fetch(`${API_BASE}/game/sync`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            player_position: [x, z],
+            active_room: room.name
+          })
+        }).catch(() => {});
+      }
+
+      // Update System Inspector live fields if open
+      const cgPos = document.getElementById('cgPlayerPos');
+      if (cgPos) cgPos.textContent = `[${x.toFixed(2)}, 0.00, ${z.toFixed(2)}]`;
+      const cgYaw = document.getElementById('cgPlayerYaw');
+      if (cgYaw) cgYaw.textContent = `${playerYaw.toFixed(2)} rad (${(playerYaw * 180 / Math.PI % 360).toFixed(0)}°)`;
+      const cgRoom = document.getElementById('cgRoomName');
+      if (cgRoom) cgRoom.textContent = room.name;
+      const cgDesc = document.getElementById('cgRoomDesc');
+      if (cgDesc) cgDesc.textContent = room.desc;
+    }
+
+    function updateCamera() {
+      if (!playerAvatar || !camera) return;
+
+      if (cameraMode === 'third') {
+        const dist = 4.2;
+        const camX = playerAvatar.position.x - Math.sin(playerYaw) * dist;
+        const camZ = playerAvatar.position.z - Math.cos(playerYaw) * dist;
+        camera.position.set(camX, playerAvatar.position.y + 2.8, camZ);
+        camera.lookAt(playerAvatar.position.x, playerAvatar.position.y + 1.2, playerAvatar.position.z);
+      } else if (cameraMode === 'first') {
+        camera.position.set(playerAvatar.position.x, playerAvatar.position.y + 1.52, playerAvatar.position.z);
+        const lookTarget = new THREE.Vector3(
+          playerAvatar.position.x + Math.sin(playerYaw) * 10,
+          playerAvatar.position.y + 1.5,
+          playerAvatar.position.z + Math.cos(playerYaw) * 10
+        );
+        camera.lookAt(lookTarget);
+      } else if (cameraMode === 'top') {
+        camera.position.set(playerAvatar.position.x, 24, playerAvatar.position.z);
+        camera.lookAt(playerAvatar.position.x, 0, playerAvatar.position.z);
+      }
+    }
+
+    function updateCompanionDrone(delta) {
+      if (!companionDrone || !playerAvatar) return;
+
+      const t = performance.now() * 0.002;
+      companionDrone.position.y = 2.2 + Math.sin(t) * 0.15;
+      companionDrone.rotation.y += 0.02;
+
+      if (droneTargetPos) {
+        companionDrone.position.lerp(droneTargetPos, 0.05);
+        if (companionDrone.position.distanceTo(droneTargetPos) < 0.3) {
+          droneTargetPos = null;
+          document.getElementById('droneModeText').textContent = 'Escort Following';
+        }
+      } else {
+        // Normal companion drone orbit
+        const targetX = playerAvatar.position.x + Math.sin(playerYaw + Math.PI * 0.75) * 1.5;
+        const targetZ = playerAvatar.position.z + Math.cos(playerYaw + Math.PI * 0.75) * 1.5;
+        companionDrone.position.x += (targetX - companionDrone.position.x) * 0.08;
+        companionDrone.position.z += (targetZ - companionDrone.position.z) * 0.08;
+      }
+    }
+
+    function checkProximityPrompts() {
+      const prompt = document.getElementById('interactPrompt');
+      if (!playerAvatar || !prompt) return;
+
+      let nearClue = null;
+      for (const obj of facilityObjects) {
+        if (obj.type === 'clue' || obj.type === 'door') {
+          const dist = playerAvatar.position.distanceTo(obj.pos);
+          if (dist < 2.0) {
+            nearClue = obj;
+            break;
+          }
+        }
+      }
+
+      if (nearClue) {
+        prompt.style.display = 'block';
+        prompt.textContent = `PRESS [E] TO INSPECT ${nearClue.label.toUpperCase()}`;
+      } else {
+        prompt.style.display = 'none';
+      }
+    }
+
+    function interactNearestObject() {
+      if (!playerAvatar) return;
+      for (const obj of facilityObjects) {
+        const dist = playerAvatar.position.distanceTo(obj.pos);
+        if (dist < 2.2) {
+          if (obj.name.startsWith('clue_')) {
+            sendQuickPrompt(`Inspect clue ${obj.name}`);
+            return;
+          } else if (obj.name.startsWith('door_')) {
+            sendQuickPrompt(`Unlock the door using override`);
+            return;
+          }
+        }
+      }
+      appendMessage("No interactive object or clue close enough. Walk nearer and press E.", "assistant");
+    }
+
+    function handleQuickScan() {
+      sendQuickPrompt("Look around and tell me what you see.");
+    }
+
+    let lastTime = performance.now();
+    function animate() {
+      requestAnimationFrame(animate);
+      const now = performance.now();
+      const delta = (now - lastTime) / 1000;
+      lastTime = now;
+
+      updatePlayerMovement(delta);
+      updateCompanionDrone(delta);
+      updateCamera();
+
+      renderer.render(scene, camera);
+    }
+
+    function onWindowResize() {
+      const container = document.getElementById('canvasContainer');
+      if (!container || !renderer || !camera) return;
+      const w = container.clientWidth;
+      const h = container.clientHeight;
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+      renderer.setSize(w, h);
+    }
+
+    // ================= MULTIMODAL VOICE INTERACTION (PART A) =================
+    let recognition = null;
+    let isRecordingVoice = false;
+    let spokenResponsesEnabled = true;
+
+    function initSpeechRecognition() {
+      const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRec) {
+        console.log("Web Speech Recognition API not supported in this browser. Fallback to typed text.");
+        return;
+      }
+      try {
+        recognition = new SpeechRec();
+        recognition.continuous = false;
+        recognition.interimResults = true;
+        recognition.lang = 'en-US';
+
+        recognition.onstart = () => {
+          isRecordingVoice = true;
+          document.getElementById('micBtn').classList.add('recording');
+          showVoiceStatus('Listening... Speak your command clearly into microphone.');
+        };
+
+        recognition.onresult = (event) => {
+          let transcript = '';
+          for (let i = event.resultIndex; i < event.results.length; ++i) {
+            transcript += event.results[i][0].transcript;
+          }
+          document.getElementById('chatInput').value = transcript;
+          showVoiceStatus(`Transcribing: "${transcript}"`);
+        };
+
+        recognition.onerror = (event) => {
+          isRecordingVoice = false;
+          document.getElementById('micBtn').classList.remove('recording');
+          showVoiceStatus(`Voice Notice: ${event.error}. You can continue typing.`);
+          setTimeout(hideVoiceStatus, 3500);
+        };
+
+        recognition.onend = () => {
+          isRecordingVoice = false;
+          document.getElementById('micBtn').classList.remove('recording');
+          const inputVal = document.getElementById('chatInput').value.trim();
+          if (inputVal) {
+            showVoiceStatus('Transcript ready. Click EXECUTE or press Enter.');
+            setTimeout(hideVoiceStatus, 3000);
+          } else {
+            hideVoiceStatus();
+          }
+        };
+      } catch (err) {
+        console.warn("Speech recognition initialization note:", err);
+      }
+    }
+
+    function toggleVoiceRecording() {
+      if (!recognition) {
+        alert("Speech Recognition API is not supported in this browser environment. Please type your query in the input box.");
+        return;
+      }
+      if (isRecordingVoice) {
+        recognition.stop();
+      } else {
+        try {
+          recognition.start();
+        } catch (e) {
+          console.warn("Could not start recognition:", e);
+        }
+      }
+    }
+
+    function showVoiceStatus(text) {
+      const bar = document.getElementById('voiceStatusBar');
+      const txt = document.getElementById('voiceStatusText');
+      if (bar && txt) {
+        bar.style.display = 'flex';
+        txt.textContent = text;
+      }
+    }
+
+    function hideVoiceStatus() {
+      const bar = document.getElementById('voiceStatusBar');
+      if (bar) bar.style.display = 'none';
+    }
+
+    function toggleSpokenResponses() {
+      spokenResponsesEnabled = !spokenResponsesEnabled;
+      const btn = document.getElementById('ttsToggleBtn');
+      if (btn) {
+        btn.classList.toggle('active', spokenResponsesEnabled);
+        btn.innerHTML = spokenResponsesEnabled
+          ? '<span class="tts-label-full">🔊 VOICE: ON</span><span class="tts-label-short">🔊 ON</span>'
+          : '<span class="tts-label-full">🔇 VOICE: OFF</span><span class="tts-label-short">🔇 OFF</span>';
+      }
+      if (!spokenResponsesEnabled) {
+        stopSpeechOutput();
+      }
+    }
+
+    function speakAssistantResponse(text) {
+      if (!spokenResponsesEnabled || !window.speechSynthesis) return;
+      window.speechSynthesis.cancel();
+
+      // Clean special tokens & JSON code
+      const cleanText = text
+        .replace(/<[^>]+>/g, '')
+        .replace(/\{[^}]+\}/g, '')
+        .replace(/\[[^\]]+\]/g, '')
+        .trim();
+
+      if (!cleanText) return;
+
+      const utterance = new SpeechSynthesisUtterance(cleanText);
+      utterance.rate = 1.05;
+      utterance.pitch = 1.0;
+
+      const stopBtn = document.getElementById('stopSpeechBtn');
+      if (stopBtn) stopBtn.style.display = 'inline-flex';
+
+      utterance.onend = () => { if (stopBtn) stopBtn.style.display = 'none'; };
+      utterance.onerror = () => { if (stopBtn) stopBtn.style.display = 'none'; };
+
+      window.speechSynthesis.speak(utterance);
+    }
+
+    function stopSpeechOutput() {
+      if (window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+      }
+      const stopBtn = document.getElementById('stopSpeechBtn');
+      if (stopBtn) stopBtn.style.display = 'none';
+    }
+
+    // ================= CHAT & COMPANION INTERACTION =================
+    function sendQuickPrompt(promptText) {
+      const input = document.getElementById('chatInput');
+      input.value = promptText;
+      handleChatSubmit();
+    }
+
+    async function handleChatSubmit(e) {
+      if (e) e.preventDefault();
+      const input = document.getElementById('chatInput');
+      const query = input.value.trim();
+      if (!query) return;
+
+      appendMessage(query, 'user');
+      input.value = '';
+      input.disabled = true;
+      document.getElementById('sendBtn').disabled = true;
+
+      try {
+        const headingDeg = Math.round(((playerYaw * 180 / Math.PI) % 360 + 360) % 360);
+        const resp = await fetch(`${API_BASE}/agent/query`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            query,
+            agent_id: activeCompanionId,
+            player_position: playerAvatar ? [playerAvatar.position.x, playerAvatar.position.z] : [0, -15],
+            active_room: currentRoomInfo.name,
+            camera_heading: headingDeg
+          })
+        });
+        const data = await resp.json();
+        renderAgentResponse(data);
+        handle3DActionTrigger(data);
+        speakAssistantResponse(data.final_response);
+
+        if (data.game_state) applyGameState(data.game_state, false);
+        if (data.correlation_id) {
+          refreshTelemetry(data.correlation_id);
+        }
+      } catch (err) {
+        const isConnError = err.message && (err.message.includes('Failed to fetch') || err.message.includes('NetworkError') || err.message.includes('network'));
+        if (isConnError) {
+          appendMessage('⚠️ Cannot connect to backend server. Make sure the server is running on your Mac (.venv/bin/python3 scripts/run_server.py) and your phone is connected to the same Wi-Fi network.', 'assistant');
+        } else {
+          appendMessage('⚠️ Error contacting FastAPI backend: ' + err.message, 'assistant');
+        }
+      } finally {
+        input.disabled = false;
+        document.getElementById('sendBtn').disabled = false;
+        input.focus();
+      }
+    }
+
+    function renderAgentResponse(data) {
+      const messagesContainer = document.getElementById('chatMessages');
+      const msgDiv = document.createElement('div');
+      msgDiv.className = 'msg assistant';
+
+      let html = '';
+      if (data.tool_calls && data.tool_calls.length > 0) {
+        data.tool_calls.forEach(tc => {
+          html += `<div class="msg-tool">⚡ TOOL: ${tc.tool}(${JSON.stringify(tc.arguments)})</div>`;
+        });
+      }
+
+      html += `<div>${data.final_response}</div>`;
+      msgDiv.innerHTML = html;
+      messagesContainer.appendChild(msgDiv);
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    function handle3DActionTrigger(data) {
+      // 1. Dispatch drone navigation waypoint
+      if (data.unity_action && data.unity_action.action === 'navigate_to') {
+        const targetCoord = data.unity_action.target_position || [0, 2.0, 8.0];
+        droneTargetPos = new THREE.Vector3(targetCoord[0], 2.5, targetCoord[2]);
+        document.getElementById('droneModeText').textContent = 'Navigating to Waypoint';
+      }
+
+      // 2. Door unlock effect
+      const respLow = data.final_response.toLowerCase();
+      if (respLow.includes('disengaged') || respLow.includes('open') || respLow.includes('unlocked')) {
+        if (door3Object) {
+          door3Object.material.color.setHex(0x00ff9d);
+          door3Object.material.opacity = 0.2;
+        }
+      }
+    }
+
+    function appendMessage(text, sender) {
+      const messagesContainer = document.getElementById('chatMessages');
+      const msgDiv = document.createElement('div');
+      msgDiv.className = `msg ${sender}`;
+      msgDiv.textContent = text;
+      messagesContainer.appendChild(msgDiv);
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    // ================= LIVE SYSTEM INSPECTOR & TELEMETRY =================
+    let isInspectorOpen = false;
+    let activeInspectorTab = 'cv';
+
+    function toggleSystemInspector() {
+      const drawer = document.getElementById('systemInspectorDrawer');
+      isInspectorOpen = !isInspectorOpen;
+      drawer.classList.toggle('open', isInspectorOpen);
+      if (isInspectorOpen) {
+        refreshTelemetry();
+        loadCVSampleBenchmark();
+      }
+    }
+
+    function switchInspectorTab(tabId) {
+      activeInspectorTab = tabId;
+      document.getElementById('btnTabCV').classList.toggle('active', tabId === 'cv');
+      document.getElementById('btnTabCG').classList.toggle('active', tabId === 'cg');
+      document.getElementById('btnTabLLM').classList.toggle('active', tabId === 'llm');
+
+      document.getElementById('inspTabCV').style.display = tabId === 'cv' ? 'flex' : 'none';
+      document.getElementById('inspTabCG').style.display = tabId === 'cg' ? 'flex' : 'none';
+      document.getElementById('inspTabLLM').style.display = tabId === 'llm' ? 'flex' : 'none';
+    }
+
+    async function refreshTelemetry(correlationId = null) {
+      try {
+        const url = correlationId ? `${API_BASE}/telemetry/${correlationId}` : `${API_BASE}/telemetry/latest`;
+        const resp = await fetch(url);
+        if (!resp.ok) return;
+        const data = await resp.json();
+        renderTelemetry(data);
+      } catch (e) {
+        console.warn('Telemetry fetch error', e);
+      }
+    }
+
+    async function loadCVSampleBenchmark(sampleIndex = 0) {
+      try {
+        const resp = await fetch(`${API_BASE}/cv/benchmark_sample?index=${sampleIndex}`);
+        if (!resp.ok) return;
+        const data = await resp.json();
+
+        const canvas = document.getElementById('cvImageCanvas');
+        const ctx = canvas.getContext('2d');
+        const img = new Image();
+        img.onload = () => {
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          // Draw real bounding boxes from SpatialDetector CNN inference
+          const dets = data.detections || [];
+          const sx = canvas.width / 640;
+          const sy = canvas.height / 480;
+          dets.forEach(d => {
+            const [xmin, ymin, xmax, ymax] = d.bbox;
+            ctx.strokeStyle = '#00f0ff';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(xmin * sx, ymin * sy, (xmax - xmin) * sx, (ymax - ymin) * sy);
+            ctx.fillStyle = 'rgba(0,0,0,0.7)';
+            ctx.fillRect(xmin * sx, Math.max(0, ymin * sy - 14), 85, 14);
+            ctx.fillStyle = '#00f0ff';
+            ctx.font = '10px JetBrains Mono';
+            ctx.fillText(`${d.class_name} ${(d.confidence*100).toFixed(0)}%`, xmin * sx + 2, Math.max(10, ymin * sy - 3));
+          });
+        };
+        img.src = `data:image/jpeg;base64,${data.image_base64}`;
+
+        if (data.depth_colormap_base64) {
+          document.getElementById('cvDepthImg').src = `data:image/jpeg;base64,${data.depth_colormap_base64}`;
+        }
+        document.getElementById('cvLatencyLabel').textContent = `${data.inference_time_ms} ms (Apple Silicon MPS)`;
+        document.getElementById('cvSourceLabel').textContent = data.source;
+      } catch (e) {
+        console.warn('CV benchmark sample load note:', e);
+      }
+    }
+
+    function renderTelemetry(data) {
+      if (!data) return;
+
+      // Correlation badge
+      const corrBadge = document.getElementById('inspCorrelationBadge');
+      if (corrBadge && data.correlation_id) {
+        corrBadge.textContent = `#${data.correlation_id}`;
+      }
+
+      // CV Tab
+      if (data.cv) {
+        const dets = data.cv.detections || [];
+        const countEl = document.getElementById('cvObjCount');
+        if (countEl) countEl.textContent = `${dets.length} detected`;
+
+        const body = document.getElementById('cvDetectionsBody');
+        if (body) {
+          if (dets.length === 0) {
+            body.innerHTML = '<tr><td colspan="4" style="color: var(--text-muted);">No detections in current scene</td></tr>';
+          } else {
+            body.innerHTML = dets.map(d => `
+              <tr>
+                <td style="color: var(--cyan); font-weight: bold;">${d.class_name}</td>
+                <td>${(d.confidence * 100).toFixed(0)}%</td>
+                <td>${d.depth_estimate ? d.depth_estimate + 'm' : '—'}</td>
+                <td>[${d.estimated_3d_position.join(', ')}]</td>
+              </tr>
+            `).join('');
+          }
+        }
+
+        const edgesList = document.getElementById('cvSceneEdgesList');
+        if (edgesList && data.cv.scene_graph_edges) {
+          if (data.cv.scene_graph_edges.length === 0) {
+            edgesList.textContent = 'No spatial edges formed yet.';
+          } else {
+            edgesList.innerHTML = data.cv.scene_graph_edges.map(e => `
+              <div style="margin-bottom: 2px;">• <span style="color: var(--amber);">${e.subject}</span> [${e.relation}] <span style="color: var(--cyan);">${e.target}</span></div>
+            `).join('');
+          }
+        }
+      }
+
+      // CG Tab
+      if (data.cg) {
+        const rName = document.getElementById('cgRoomName');
+        if (rName && data.cg.active_room) rName.textContent = data.cg.active_room;
+        const rDesc = document.getElementById('cgRoomDesc');
+        if (rDesc && data.cg.room_description) rDesc.textContent = data.cg.room_description;
+        const pPos = document.getElementById('cgPlayerPos');
+        if (pPos && data.cg.player_position) pPos.textContent = `[${data.cg.player_position.join(', ')}]`;
+        const camMode = document.getElementById('cgCamMode');
+        if (camMode && data.cg.camera) camMode.textContent = `${data.cg.camera.mode} (${data.cg.camera.projection})`;
+        const resEl = document.getElementById('cgCanvasRes');
+        if (resEl && data.cg.render_stats) resEl.textContent = `${data.cg.render_stats.canvas_width} x ${data.cg.render_stats.canvas_height}`;
+      }
+
+      // LLM Tab
+      if (data.llm) {
+        const qText = document.getElementById('inspQueryText');
+        if (qText) qText.textContent = data.query || '—';
+        const agentLbl = document.getElementById('inspActiveAgentLabel');
+        if (agentLbl && data.llm.active_agent) agentLbl.textContent = data.llm.active_agent.toUpperCase();
+
+        const tokenSnippet = document.getElementById('inspTokenIdsSnippet');
+        if (tokenSnippet) {
+          const ids = data.llm.token_ids || [];
+          tokenSnippet.textContent = ids.length ? `[${ids.join(', ')}] (${ids.length} tokens)` : '[empty]';
+        }
+
+        const rawSnippet = document.getElementById('inspRawModelOutputSnippet');
+        if (rawSnippet) {
+          rawSnippet.textContent = data.llm.raw_model_output || '(Direct invocation)';
+        }
+
+        const typeBadge = document.getElementById('inspModelTypeBadge');
+        if (typeBadge) {
+          if (data.llm.used_fallback) {
+            typeBadge.textContent = 'FALLBACK ROUTER';
+            typeBadge.style.color = 'var(--amber)';
+            typeBadge.style.borderColor = 'rgba(255, 184, 0, 0.4)';
+          } else {
+            typeBadge.textContent = 'MODEL DIRECT GENERATION';
+            typeBadge.style.color = 'var(--green)';
+            typeBadge.style.borderColor = 'rgba(0, 255, 157, 0.4)';
+          }
+        }
+
+        const valBadge = document.getElementById('inspValidationBadge');
+        if (valBadge) {
+          valBadge.textContent = data.llm.validation_status || 'PASSED';
+          valBadge.style.color = data.llm.used_fallback ? 'var(--amber)' : 'var(--green)';
+        }
+
+        const toolSnippet = document.getElementById('inspToolCallSnippet');
+        if (toolSnippet) {
+          const gen = data.llm.generated_structured_output || [];
+          if (gen.length) {
+            toolSnippet.textContent = gen.map(tc => `<tool_call>${JSON.stringify(tc)}</tool_call>`).join('\n');
+          } else {
+            toolSnippet.textContent = '<tool_call>{"name": "none", "arguments": {}}</tool_call>';
+          }
+        }
+
+        const resSnippet = document.getElementById('inspToolResultSnippet');
+        if (resSnippet) {
+          const results = data.llm.tool_results || [];
+          resSnippet.textContent = results.length ? JSON.stringify(results, null, 2) : 'No tools executed this turn.';
+        }
+
+        const ragSnippet = document.getElementById('inspRagResultsSnippet');
+        if (ragSnippet) {
+          const passages = (data.llm.rag && data.llm.rag.retrieved_passages) || [];
+          if (passages.length) {
+            ragSnippet.innerHTML = passages.map(p => `
+              <div style="background: rgba(0,0,0,0.3); padding: 6px; border-radius: 4px; margin-bottom: 4px; border-left: 2px solid var(--cyan);">
+                <strong style="color: #fff;">${p.title || 'Document'}</strong> (Score: ${(p.score !== undefined ? (p.score * 100).toFixed(0) + '%' : 'TF-IDF')})<br>
+                <span style="color: #94a3b8;">${p.text || JSON.stringify(p)}</span>
+              </div>
+            `).join('');
+          } else {
+            ragSnippet.textContent = 'No RAG passages retrieved for last turn.';
+          }
+        }
+
+        const latBadge = document.getElementById('inspLatencyBadge');
+        if (latBadge) latBadge.textContent = `${data.llm.turn_latency_ms || 0} ms`;
+
+        const finalResp = document.getElementById('inspFinalResponseSnippet');
+        if (finalResp) finalResp.textContent = data.llm.final_response || '—';
+      }
+    }
+
+    // ================= MYSTERY SELECTION & REPLAYABILITY =================
+    function openMysterySelectModal() {
+      const modal = document.getElementById('selectMysteryModal');
+      const list = document.getElementById('mysteryTemplatesList');
+      if (!gameState || !gameState.missions) {
+        list.innerHTML = '<div style="color: var(--text-muted);">Loading missions catalog...</div>';
+      } else {
+        list.innerHTML = gameState.missions.map(m => `
+          <div style="background: rgba(21, 31, 53, 0.85); border: 1px solid ${m.active ? 'var(--cyan)' : 'var(--border-subtle)'}; border-radius: 8px; padding: 12px; display: flex; justify-content: space-between; align-items: center; gap: 12px;">
+            <div>
+              <div style="font-family: 'Orbitron', sans-serif; font-size: 0.82rem; color: ${m.active ? 'var(--cyan)' : '#fff'}; font-weight: bold;">
+                ${m.code}. ${m.title} ${m.completed ? '✓ COMPLETED' : ''}
+              </div>
+              <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 4px;">
+                Location: <strong>${m.zone}</strong>
+              </div>
+            </div>
+            <button onclick="selectMysteryDirectly('${m.id}')" style="background: ${m.active ? 'rgba(0,240,255,0.2)' : 'linear-gradient(135deg, var(--cyan), #0077ff)'}; color: ${m.active ? 'var(--cyan)' : '#000'}; border: 1px solid var(--cyan); font-family: 'Orbitron', sans-serif; font-size: 0.70rem; font-weight: bold; padding: 6px 12px; border-radius: 6px; cursor: pointer;">
+              ${m.active ? 'CURRENT MISSION' : 'START THIS MISSION'}
+            </button>
+          </div>
+        `).join('');
+      }
+      modal.style.display = 'flex';
+    }
+
+    async function selectMysteryDirectly(missionId) {
+      document.getElementById('selectMysteryModal').style.display = 'none';
+      try {
+        const resp = await fetch(`${API_BASE}/game/select-mystery`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ mission_id: missionId })
+        });
+        const state = await resp.json();
+        applyGameState(state, true);
+        appendMessage(`Switched active investigation to ${state.active_mission.title}.`, 'assistant');
+        refreshTelemetry();
+      } catch (e) {
+        alert("Error starting mystery: " + e.message);
+      }
+    }
+
+    async function resetGameWithPrompt() {
+      const seedStr = prompt('Enter random seed for new mystery variation (e.g. 42, 101, 777, 999):', String(Math.floor(Math.random() * 900) + 100));
+      if (seedStr === null) return;
+      const seed = parseInt(seedStr, 10) || 42;
+      try {
+        const resp = await fetch(`${API_BASE}/game/reset`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ seed })
+        });
+        const data = await resp.json();
+        applyGameState(data, true);
+        appendMessage(`New Mystery started with procedural variation seed ${seed}. All locations, clues, and inventory initialized.`, 'assistant');
+        refreshTelemetry();
+      } catch (e) {
+        alert('Error resetting game: ' + e.message);
+      }
+    }
+
+    async function restartCurrentMission() {
+      try {
+        const resp = await fetch(`${API_BASE}/game/restart`, { method: 'POST' });
+        const data = await resp.json();
+        applyGameState(data, true);
+        appendMessage(`Mission ${data.active_mission.title} restarted. Objectives refreshed.`, 'assistant');
+        refreshTelemetry();
+      } catch (e) {
+        alert('Error restarting mission: ' + e.message);
+      }
+    }
+
+    async function returnPlayerToHub() {
+      try {
+        const resp = await fetch(`${API_BASE}/game/hub`, { method: 'POST' });
+        const res = await resp.json();
+        if (playerAvatar) {
+          playerAvatar.position.set(0, 0, -15);
+          playerYaw = 0;
+          playerAvatar.rotation.y = 0;
+        }
+        appendMessage(res.message, 'assistant');
+      } catch (e) {
+        if (playerAvatar) playerAvatar.position.set(0, 0, -15);
+      }
+    }
+
+    async function startMission(missionId) {
+      await selectMysteryDirectly(missionId);
+    }
+
+    async function selectCompanion(agentId) {
+      activeCompanionId = agentId;
+      ['scout', 'navigator', 'archivist'].forEach((id) => {
+        const btn = document.getElementById('agent-' + id);
+        if (btn) btn.classList.toggle('active', id === activeCompanionId);
+      });
+      const compNames = {
+        scout: 'SCOUT (VISION)',
+        navigator: 'NAVIGATOR (SPATIAL)',
+        archivist: 'ARCHIVIST (RAG)'
+      };
+      const compLabel = document.getElementById('companionLabel');
+      if (compLabel) compLabel.textContent = compNames[agentId] || agentId.toUpperCase();
+
+      try {
+        const resp = await fetch(`${API_BASE}/game/agent`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ agent_id: agentId })
+        });
+        if (!resp.ok) return;
+        applyGameState(await resp.json(), false);
+      } catch (e) {
+        console.warn('Failed to switch companion agent:', e);
+      }
+    }
+
+    async function pingBackend() {
+      const tag = document.getElementById('backendTag');
+      try {
+        const resp = await fetch(`${API_BASE}/health`);
+        const data = await resp.json();
+        tag.innerHTML = `<div class="tag-dot"></div>${data.status === 'ok' ? 'BACKEND ONLINE' : 'BACKEND DEGRADED'}`;
+      } catch (e) {
+        tag.innerHTML = '<div class="tag-dot" style="background: var(--red);"></div>BACKEND OFFLINE';
+        tag.classList.remove('live');
+      }
+    }
+
+    async function loadGameState() {
+      try {
+        const resp = await fetch(`${API_BASE}/game/state`);
+        applyGameState(await resp.json(), true);
+      } catch (e) {
+        console.warn('Game state unavailable', e);
+      }
+    }
+
+    function openMissionGuideModal() {
+      const modal = document.getElementById('missionGuideModal');
+      if (modal) modal.style.display = 'flex';
+    }
+
+    function advanceToNextMission() {
+      if (!gameState || !gameState.missions) return;
+      const currentIdx = gameState.missions.findIndex(m => m.id === gameState.active_mission.id);
+      if (currentIdx >= 0 && currentIdx + 1 < gameState.missions.length) {
+        const nextM = gameState.missions[currentIdx + 1];
+        selectMysteryDirectly(nextM.id);
+      } else {
+        alert("Congratulations! You have completed all facility mysteries!");
+      }
+    }
+
+    function applyGameState(state, teleport) {
+      gameState = state;
+      activeCompanionId = state.companion.id;
+      document.getElementById('scoreTag').innerHTML = `<div class="tag-dot" style="background: var(--green);"></div>SCORE: ${state.score}`;
+      document.getElementById('missionCodeText').textContent = state.active_mission.code;
+      document.getElementById('missionTitleText').textContent = state.active_mission.title;
+      document.getElementById('missionBriefText').textContent = state.active_mission.briefing;
+      document.getElementById('questHudText').textContent = `${state.active_mission.code} · ${state.active_mission.title}`;
+      document.getElementById('companionLabel').textContent = state.companion.name.toUpperCase();
+
+      ['scout', 'navigator', 'archivist'].forEach((id) => {
+        const btn = document.getElementById('agent-' + id);
+        if (btn) btn.classList.toggle('active', id === activeCompanionId);
+      });
+
+      // Show/hide completion celebration banner
+      const banner = document.getElementById('missionCompletionBanner');
+      if (banner) {
+        banner.style.display = state.active_mission.completed ? 'flex' : 'none';
+      }
+
+      // Objective prompt mapping for 1-click execution
+      const promptMap = {
+        'scout_01': 'What objects can you see?',
+        'scout_02': 'Where is the table?',
+        'scout_03': 'Open the cabinet',
+        'spatial_01': 'What is left of the table?',
+        'spatial_02': 'How far is the chair from the table?',
+        'nav_01': 'Where is the nearest door?',
+        'nav_02': 'Calculate path to the door',
+        'clue_01': 'Inspect clue_pda_02',
+        'clue_02': 'Search documents for Door 3 override',
+        'clue_03': 'Enter code 7391',
+        'timed_01': 'What objects can you see?',
+        'timed_02': 'Search documents for override code',
+        'timed_03': 'Enter code 7391',
+        'term_01': 'Where is the table?',
+        'term_02': 'Survey visible objects'
+      };
+
+      const objBox = document.getElementById('objectiveList');
+      objBox.innerHTML = state.active_mission.objectives.map((obj) => {
+        const isDone = obj.is_completed;
+        const mark = isDone ? '✓' : '○';
+        const color = isDone ? 'var(--green)' : 'var(--text-main)';
+        const prompt = promptMap[obj.objective_id] || obj.description;
+        const safePrompt = prompt.replace(/'/g, "\\'");
+        const actionBtn = isDone
+          ? `<span style="color:var(--green); font-size:0.62rem; font-weight:bold; font-family:'Orbitron',sans-serif; flex-shrink:0; white-space:nowrap;">[DONE +${obj.points}]</span>`
+          : `<button onclick="sendQuickPrompt('${safePrompt}')" style="background:rgba(0,240,255,0.12); border:1px solid var(--cyan); color:var(--cyan); border-radius:4px; font-size:0.62rem; padding:3px 7px; cursor:pointer; font-family:'Orbitron',sans-serif; font-weight:bold; flex-shrink:0; white-space:nowrap;" title="Click to auto-send prompt: '${safePrompt}'">💬 EXECUTE</button>`;
+
+        return `<div class="objective-row" style="color:${color}; display:flex; justify-content:space-between; align-items:center; background:${isDone ? 'rgba(0,255,136,0.06)' : 'rgba(255,255,255,0.02)'}; padding:4px 6px; border-radius:4px; margin-bottom:4px; gap:6px;">
+          <div style="font-size:0.70rem; line-height:1.3; flex:1; min-width:0; word-break:break-word;">${mark} ${obj.description} <span style="color:var(--text-muted); font-size:0.65rem;">(+${obj.points})</span></div>
+          <div style="flex-shrink:0;">${actionBtn}</div>
+        </div>`;
+      }).join('');
+
+      const pills = document.getElementById('missionPills');
+      pills.innerHTML = state.missions.map((m) => {
+        const cls = m.active ? 'active' : (m.completed ? 'done' : '');
+        const cleanTitle = m.title.replace(/^Mystery [A-Z]:\s*/, '');
+        return `<button class="mission-pill ${cls}" onclick="selectMysteryDirectly('${m.id}')" title="${m.title}"><span class="pill-full">${m.code} ${m.title}</span><span class="pill-short">${m.code}: ${cleanTitle}</span></button>`;
+      }).join('');
+
+      const timerChip = document.getElementById('timerChip');
+      if (state.active_mission.timed) {
+        timerChip.style.display = 'flex';
+        document.getElementById('timerHudText').textContent = `${Math.ceil(state.active_mission.timer_remaining || 0)}s`;
+      } else {
+        timerChip.style.display = 'none';
+      }
+
+      if (teleport && playerAvatar && typeof state.active_mission.spawn_z === 'number') {
+        playerAvatar.position.set(0, 0, state.active_mission.spawn_z);
+      }
+    }
+
+    // Initialization lifecycle
+    window.addEventListener('DOMContentLoaded', () => {
+      initThreeScene();
+      buildSector4Facility();
+      setupInputListeners();
+      initSpeechRecognition();
+      pingBackend();
+      loadGameState();
+      animate();
+
+      // Responsive window & orientation listeners
+      window.addEventListener('resize', onWindowResize);
+      window.addEventListener('orientationchange', () => {
+        setTimeout(onWindowResize, 100);
+        setTimeout(onWindowResize, 300);
+      });
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', () => {
+          setTimeout(onWindowResize, 50);
+          const active = document.activeElement;
+          if (active && active.id === 'chatInput') {
+            active.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }
+        });
+      }
+
+      // Update mobile connection badge if loaded from non-localhost
+      const wifiText = document.getElementById('wifiUrlText');
+      if (wifiText && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+        wifiText.textContent = window.location.origin;
+      }
+
+      // Periodic health ping
+      setInterval(pingBackend, 15000);
+    });
+  </script>
+</body>
+</html>

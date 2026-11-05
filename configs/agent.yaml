@@ -1,0 +1,87 @@
+# Agent and RAG Configuration for Spatial Quest
+
+agent:
+  name: "spatial_quest_investigation_agent"
+  max_iterations_per_turn: 4
+  tool_schema_version: "2.0"
+  system_prompt: >
+    You are a Spatial Quest companion drone inside Sector 4.
+    Perceive objects, compute spatial relations, retrieve facility documents,
+    and emit validated JSON tool calls. Never execute arbitrary code.
+
+companions:
+  - id: scout
+    name: "Scout Drone"
+    description: Vision survey and localization
+    role: investigation
+  - id: navigator
+    name: "Navigator Drone"
+    description: Spatial relations, distances, and waypoint navigation
+    role: spatial_nav
+  - id: archivist
+    name: "Archivist Drone"
+    description: Clue inspection, RAG search, and environment interaction
+    role: knowledge
+
+logical_roles:
+  - id: investigation
+    name: "Investigation Agent"
+    description: Specializes in object detection, visual clues, and physical interactions.
+    enabled: true
+    allowed_tools: ["get_visible_objects", "locate_object", "inspect_clue", "interact_with_object", "inspect_object_closely"]
+  - id: spatial_nav
+    name: "Spatial / Navigation Agent"
+    description: Specializes in 3D Euclidean distances, geometric relations, waypoints, and navigation.
+    enabled: true
+    allowed_tools: ["query_spatial_relation", "calculate_distance", "find_nearest_target", "find_nearest_exit", "find_path", "navigate_to"]
+  - id: knowledge
+    name: "Knowledge Agent"
+    description: Specializes in TF-IDF RAG document retrieval, safety protocols, hints, and uncertainty analysis.
+    enabled: true
+    allowed_tools: ["search_documents", "search_safety_manual", "get_inventory", "get_mission_objectives", "request_hint", "explain_uncertainty"]
+
+tools:
+  spatial:
+    - name: "get_visible_objects"
+      description: "List all currently detected objects in the scene with their 3D coordinates."
+    - name: "locate_object"
+      description: "Locate a specific object by class name."
+      parameters: ["object_name"]
+    - name: "query_spatial_relation"
+      description: "Determine spatial relationship (left_of, right_of, near, on) for an object."
+      parameters: ["object_name", "relation"]
+    - name: "calculate_distance"
+      description: "Calculate Euclidean 3D distance between two detected objects."
+      parameters: ["object_a", "object_b"]
+    - name: "find_nearest_target"
+      description: "Find the closest object of a given class."
+      parameters: ["target_class"]
+    - name: "find_nearest_exit"
+      description: "Find the nearest door or exit relative to the avatar/camera."
+    - name: "find_path"
+      description: "Compute obstacle-avoiding waypoints to a destination."
+      parameters: ["destination"]
+    - name: "navigate_to"
+      description: "Direct the companion drone toward a destination object."
+      parameters: ["destination"]
+  investigation:
+    - name: "inspect_clue"
+      description: "Inspect an interactive clue object."
+      parameters: ["clue_id"]
+    - name: "interact_with_object"
+      description: "Unlock doors, safes, or terminals after validation."
+      parameters: ["object_id"]
+  knowledge:
+    - name: "search_documents"
+      description: "TF-IDF RAG search over facility incident logs."
+      parameters: ["query"]
+    - name: "search_safety_manual"
+      description: "Search laboratory safety manual and emergency rules."
+      parameters: ["query"]
+
+rag:
+  chunk_size_words: 80
+  chunk_overlap_words: 20
+  vectorizer: "tfidf"
+  top_k: 3
+  documents_dir: "data/documents"

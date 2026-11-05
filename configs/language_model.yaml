@@ -1,0 +1,39 @@
+# Custom Transformer Language Model Configuration for SpatialAI
+# Small Domain-Specific Decoder-Only Transformer
+
+model:
+  name: "spatial_transformer_v1"
+  vocab_size: 1024         # Learned subword or character vocabulary
+  max_seq_len: 256
+  d_model: 128             # Hidden dimension
+  n_heads: 4               # Multi-head attention heads (head_dim = 32)
+  n_layers: 4              # Transformer decoder blocks
+  d_ff: 512                # Feed-forward network hidden dimension (4 * d_model)
+  dropout: 0.1
+  bias: False
+
+tokenizer:
+  type: "bpe_subword"      # Custom BPE or char tokenizer
+  special_tokens:
+    pad_token: "<pad>"
+    bos_token: "<s>"
+    eos_token: "</s>"
+    unk_token: "<unk>"
+    tool_start: "<tool>"
+    tool_end: "</tool>"
+
+pretraining:
+  batch_size: 16
+  learning_rate: 0.0005
+  min_lr: 0.00005
+  weight_decay: 0.01
+  epochs: 20
+  device: "auto"
+  seed: 42
+  grad_clip: 1.0
+
+instruction_tuning:
+  batch_size: 16
+  learning_rate: 0.0002
+  epochs: 15
+  tool_loss_weight: 2.0

@@ -1,0 +1,49 @@
+{
+  "metadata": {
+    "dataset_name": "Spatial Quest LM Training Dialogues",
+    "scale": 2500,
+    "compliance": "AGENTS.md Zero-Fabrication Policy"
+  },
+  "before_audit": {
+    "valid_examples": 2320,
+    "valid_pct": 92.8,
+    "invalid_or_flawed": 180,
+    "invalid_pct": 7.2,
+    "exact_duplicates": 1881,
+    "exact_duplicate_pct": 75.24,
+    "unique_inquiries": 224,
+    "inquiry_diversity_pct": 8.96,
+    "missing_tools": [
+      "inspect_clue"
+    ],
+    "missing_tools_count": 1,
+    "coordinate_discrepancies": 2015,
+    "answer_leaks_in_args": 125,
+    "geographic_mismatches": 55,
+    "test_query_leakage_pct": 95.92,
+    "test_paraphrase_leakage_pct": 94.8,
+    "unique_held_out_test_inquiries": 17,
+    "checkpoint_loss_on_format": 4.459,
+    "checkpoint_tool_accuracy": 0.0
+  },
+  "after_audit": {
+    "valid_examples": 2500,
+    "valid_pct": 100.0,
+    "invalid_or_flawed": 0,
+    "invalid_pct": 0.0,
+    "exact_duplicates": 0,
+    "exact_duplicate_pct": 0.0,
+    "unique_inquiries": 487,
+    "inquiry_diversity_pct": 19.48,
+    "missing_tools": [],
+    "missing_tools_count": 0,
+    "coordinate_discrepancies": 0,
+    "answer_leaks_in_args": 0,
+    "geographic_mismatches": 0,
+    "test_query_leakage_pct": 0.0,
+    "test_paraphrase_leakage_pct": 0.0,
+    "unique_held_out_test_inquiries": 51,
+    "checkpoint_loss_on_format": 6.8225,
+    "checkpoint_tool_accuracy": 0.0
+  }
+}

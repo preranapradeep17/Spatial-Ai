@@ -1,0 +1,32 @@
+[
+  {
+    "id": "DOC-001",
+    "title": "Facility Incident Report 104-A: Power Surge and Anomaly",
+    "content": "On October 14 at 02:45 hours, an unexpected power surge destabilized the containment grid in Zone 2 (Investigation Lab). The primary automated magnetic lock on Archive Door 3 disengaged into emergency lockdown mode. Research staff evacuated immediately via the South Corridor. Initial sensor sweeps indicate non-standard electromagnetic emissions near the central research table."
+  },
+  {
+    "id": "DOC-002",
+    "title": "Facility Safety Protocol 22: Hazardous Chemical Containment",
+    "content": "Safety Protocol 22 dictates immediate quarantine upon detection of volatile chemical leakage or unknown vapor. All personnel must don Level B protective respirators. Ventilation scrubbers must be engaged from the Terminal Console in Reception. Under no circumstances should flammable solvent containers be moved closer than 2.0 meters from energized electrical conduits or battery storage cabinets."
+  },
+  {
+    "id": "DOC-003",
+    "title": "Facility Access Matrix & Security Clearance",
+    "content": "Access to Zone 3 (Clue Archive) is strictly restricted to Level 3 certified researchers. The physical biometric reader is currently offline due to the surge. Authorized entry requires entering the 4-digit manual security override code into the wall keypad adjacent to the Archive Door. Security badges are issued at Reception Desk A."
+  },
+  {
+    "id": "DOC-004",
+    "title": "Maintenance Log: Door 3 Manual Override Procedure",
+    "content": "Notice to Facility Engineers: Following the circuit breaker trip in Sector 2, the keypad on Door 3 was reset to default emergency maintenance code 7391. A physical backup key is stored in the lower right drawer of the steel cabinet situated next to the bookshelf in the main investigation laboratory. Keep this information confidential."
+  },
+  {
+    "id": "DOC-005",
+    "title": "Evidence Catalog: Artifact Omega Classification",
+    "content": "Item Reference #Omega-09: Recovered from the archaeological excavation site at Sector 7. The artifact exhibits anomalous gravitational lensing within a 0.5 meter radius. Radiation output is non-ionizing but interferes with optical depth sensors. Proper retrieval requires using titanium tongs located on the observation table before placement into the lead-lined containment canister."
+  },
+  {
+    "id": "DOC-006",
+    "title": "Emergency Evacuation & Waypoint Navigation Guide",
+    "content": "In an active containment alarm, follow the green LED floor strips leading to the Primary Egress Door in the Reception area. Maintain a safe distance of at least 1.5 meters from damaged partitions or fallen furniture. Companion drones are programmed to mark viable navigation waypoints directly on the operator HUD."
+  }
+]

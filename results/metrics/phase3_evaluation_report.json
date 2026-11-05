@@ -1,0 +1,920 @@
+{
+  "evaluation_metadata": {
+    "test_split_path": "data/corpora/corrected_test.jsonl",
+    "total_held_out_samples": 251,
+    "device": "mps",
+    "timestamp": "2026-11-04 12:12:22"
+  },
+  "checkpoint_comparison": {
+    "legacy_checkpoint": {
+      "checkpoint_path": "models/language_model/transformer_legacy_checkpoint.pt",
+      "samples_tested": 50,
+      "cross_entropy_loss": 6.8225,
+      "perplexity": 918.28,
+      "valid_json_pct": 88.0,
+      "correct_tool_pct": 0.0,
+      "valid_args_pct": 70.0,
+      "exact_match_pct": 0.0
+    },
+    "phase3_checkpoint": {
+      "checkpoint_path": "models/language_model/transformer_phase3_best.pt",
+      "samples_tested": 251,
+      "cross_entropy_loss": 0.1765,
+      "perplexity": 1.19,
+      "valid_json_pct": 99.2,
+      "correct_tool_pct": 50.6,
+      "valid_args_pct": 99.2,
+      "exact_match_pct": 22.31
+    }
+  },
+  "raw_transformer_metrics": {
+    "total_evaluated": 251,
+    "cross_entropy_loss": 0.1765,
+    "perplexity": 1.19,
+    "valid_json_count": 249,
+    "valid_json_pct": 99.2,
+    "correct_tool_count": 127,
+    "correct_tool_pct": 50.6,
+    "valid_args_count": 249,
+    "valid_args_pct": 99.2,
+    "exact_match_count": 56,
+    "exact_match_pct": 22.31,
+    "per_tool_accuracy": {
+      "calculate_distance": {
+        "expected_count": 18,
+        "correct_count": 18,
+        "tool_accuracy_pct": 100.0,
+        "exact_match_count": 0,
+        "exact_match_pct": 0.0
+      },
+      "explain_unreachable": {
+        "expected_count": 19,
+        "correct_count": 18,
+        "tool_accuracy_pct": 94.74,
+        "exact_match_count": 18,
+        "exact_match_pct": 94.74
+      },
+      "find_nearest_exit": {
+        "expected_count": 18,
+        "correct_count": 16,
+        "tool_accuracy_pct": 88.89,
+        "exact_match_count": 16,
+        "exact_match_pct": 88.89
+      },
+      "find_nearest_target": {
+        "expected_count": 34,
+        "correct_count": 0,
+        "tool_accuracy_pct": 0.0,
+        "exact_match_count": 0,
+        "exact_match_pct": 0.0
+      },
+      "find_path": {
+        "expected_count": 21,
+        "correct_count": 15,
+        "tool_accuracy_pct": 71.43,
+        "exact_match_count": 2,
+        "exact_match_pct": 9.52
+      },
+      "get_inventory": {
+        "expected_count": 9,
+        "correct_count": 7,
+        "tool_accuracy_pct": 77.78,
+        "exact_match_count": 2,
+        "exact_match_pct": 22.22
+      },
+      "get_visible_objects": {
+        "expected_count": 66,
+        "correct_count": 14,
+        "tool_accuracy_pct": 21.21,
+        "exact_match_count": 4,
+        "exact_match_pct": 6.06
+      },
+      "inspect_object_closely": {
+        "expected_count": 17,
+        "correct_count": 17,
+        "tool_accuracy_pct": 100.0,
+        "exact_match_count": 11,
+        "exact_match_pct": 64.71
+      },
+      "interact_with_object": {
+        "expected_count": 19,
+        "correct_count": 0,
+        "tool_accuracy_pct": 0.0,
+        "exact_match_count": 0,
+        "exact_match_pct": 0.0
+      },
+      "locate_object": {
+        "expected_count": 11,
+        "correct_count": 11,
+        "tool_accuracy_pct": 100.0,
+        "exact_match_count": 3,
+        "exact_match_pct": 27.27
+      },
+      "navigate_to": {
+        "expected_count": 11,
+        "correct_count": 11,
+        "tool_accuracy_pct": 100.0,
+        "exact_match_count": 0,
+        "exact_match_pct": 0.0
+      },
+      "search_safety_manual": {
+        "expected_count": 8,
+        "correct_count": 0,
+        "tool_accuracy_pct": 0.0,
+        "exact_match_count": 0,
+        "exact_match_pct": 0.0
+      }
+    },
+    "confusion_matrix": {
+      "calculate_distance": {
+        "calculate_distance": 18
+      },
+      "get_visible_objects": {
+        "get_visible_objects": 14,
+        "locate_object": 3,
+        "explain_uncertainty": 35,
+        "INVALID_OUTPUT": 1,
+        "inspect_object_closely": 13
+      },
+      "inspect_object_closely": {
+        "inspect_object_closely": 17
+      },
+      "explain_unreachable": {
+        "explain_unreachable": 18,
+        "find_nearest_exit": 1
+      },
+      "interact_with_object": {
+        "find_nearest_exit": 12,
+        "explain_unreachable": 7
+      },
+      "locate_object": {
+        "locate_object": 11
+      },
+      "find_path": {
+        "find_path": 15,
+        "query_spatial_relation": 6
+      },
+      "get_inventory": {
+        "get_inventory": 7,
+        "get_game_guide": 2
+      },
+      "search_safety_manual": {
+        "get_inventory": 6,
+        "get_game_guide": 2
+      },
+      "navigate_to": {
+        "navigate_to": 11
+      },
+      "find_nearest_target": {
+        "explain_unreachable": 1,
+        "get_current_location": 16,
+        "find_nearest_exit": 11,
+        "navigate_to": 2,
+        "find_path": 3,
+        "INVALID_OUTPUT": 1
+      },
+      "find_nearest_exit": {
+        "find_nearest_exit": 16,
+        "get_current_location": 2
+      }
+    },
+    "failed_examples": [
+      {
+        "idx": 0,
+        "query": "Calculate the metric distance from bookshelf to door.",
+        "expected_tool": "calculate_distance",
+        "expected_args": {
+          "object_a": "bookshelf",
+          "object_b": "door"
+        },
+        "predicted_tool": "calculate_distance",
+        "predicted_args": {
+          "object_a": "table",
+          "object_b": "table"
+        },
+        "generated_text": "<thought>Compute 3D Euclidean distance between table.</thought><tool_call>{\"name\":\"calculate_distance\",\"arguments\":{\"object_a\":\"table\",\"object_b\":\"table\"}}</tool_call>",
+        "reason": "ARG_MISMATCH"
+      },
+      {
+        "idx": 1,
+        "query": "Calculate the metric distance from door to bookshelf.",
+        "expected_tool": "calculate_distance",
+        "expected_args": {
+          "object_a": "door",
+          "object_b": "bookshelf"
+        },
+        "predicted_tool": "calculate_distance",
+        "predicted_args": {
+          "object_a": "table",
+          "object_b": "table"
+        },
+        "generated_text": "<thought>Compute 3D Euclidean distance between table.</thought><tool_call>{\"name\":\"calculate_distance\",\"arguments\":{\"object_a\":\"table\",\"object_b\":\"table\"}}</tool_call>",
+        "reason": "ARG_MISMATCH"
+      },
+      {
+        "idx": 2,
+        "query": "Calculate the metric distance from cabinet to chair.",
+        "expected_tool": "calculate_distance",
+        "expected_args": {
+          "object_a": "cabinet",
+          "object_b": "chair"
+        },
+        "predicted_tool": "calculate_distance",
+        "predicted_args": {
+          "object_a": "table",
+          "object_b": "table"
+        },
+        "generated_text": "<thought>Compute 3D Euclidean distance between table.</thought><tool_call>{\"name\":\"calculate_distance\",\"arguments\":{\"object_a\":\"table\",\"object_b\":\"table\"}}</tool_call>",
+        "reason": "ARG_MISMATCH"
+      },
+      {
+        "idx": 3,
+        "query": "Calculate the metric distance from table to chair.",
+        "expected_tool": "calculate_distance",
+        "expected_args": {
+          "object_a": "table",
+          "object_b": "chair"
+        },
+        "predicted_tool": "calculate_distance",
+        "predicted_args": {
+          "object_a": "table",
+          "object_b": "table"
+        },
+        "generated_text": "<thought>Compute 3D Euclidean distance between table.</thought><tool_call>{\"name\":\"calculate_distance\",\"arguments\":{\"object_a\":\"table\",\"object_b\":\"table\"}}</tool_call>",
+        "reason": "ARG_MISMATCH"
+      },
+      {
+        "idx": 4,
+        "query": "Calculate the metric distance from bookshelf to cabinet.",
+        "expected_tool": "calculate_distance",
+        "expected_args": {
+          "object_a": "bookshelf",
+          "object_b": "cabinet"
+        },
+        "predicted_tool": "calculate_distance",
+        "predicted_args": {
+          "object_a": "table",
+          "object_b": "table"
+        },
+        "generated_text": "<thought>Compute 3D Euclidean distance between bookshelf.</thought><tool_call>{\"name\":\"calculate_distance\",\"arguments\":{\"object_a\":\"table\",\"object_b\":\"table\"}}</tool_call>",
+        "reason": "ARG_MISMATCH"
+      },
+      {
+        "idx": 5,
+        "query": "Calculate the metric distance from bookshelf to cabinet.",
+        "expected_tool": "calculate_distance",
+        "expected_args": {
+          "object_a": "bookshelf",
+          "object_b": "cabinet"
+        },
+        "predicted_tool": "calculate_distance",
+        "predicted_args": {
+          "object_a": "table",
+          "object_b": "table"
+        },
+        "generated_text": "<thought>Compute 3D Euclidean distance between table.</thought><tool_call>{\"name\":\"calculate_distance\",\"arguments\":{\"object_a\":\"table\",\"object_b\":\"table\"}}</tool_call>",
+        "reason": "ARG_MISMATCH"
+      },
+      {
+        "idx": 6,
+        "query": "Calculate the metric distance from table to door.",
+        "expected_tool": "calculate_distance",
+        "expected_args": {
+          "object_a": "table",
+          "object_b": "door"
+        },
+        "predicted_tool": "calculate_distance",
+        "predicted_args": {
+          "object_a": "table",
+          "object_b": "table"
+        },
+        "generated_text": "<thought>Compute 3D Euclidean distance between table.</thought><tool_call>{\"name\":\"calculate_distance\",\"arguments\":{\"object_a\":\"table\",\"object_b\":\"table\"}}</tool_call>",
+        "reason": "ARG_MISMATCH"
+      },
+      {
+        "idx": 7,
+        "query": "Calculate the metric distance from chair to table.",
+        "expected_tool": "calculate_distance",
+        "expected_args": {
+          "object_a": "chair",
+          "object_b": "table"
+        },
+        "predicted_tool": "calculate_distance",
+        "predicted_args": {
+          "object_a": "table",
+          "object_b": "table"
+        },
+        "generated_text": "<thought>Compute 3D Euclidean distance between table.</thought><tool_call>{\"name\":\"calculate_distance\",\"arguments\":{\"object_a\":\"table\",\"object_b\":\"table\"}}</tool_call>",
+        "reason": "ARG_MISMATCH"
+      },
+      {
+        "idx": 8,
+        "query": "Calculate the metric distance from door to cabinet.",
+        "expected_tool": "calculate_distance",
+        "expected_args": {
+          "object_a": "door",
+          "object_b": "cabinet"
+        },
+        "predicted_tool": "calculate_distance",
+        "predicted_args": {
+          "object_a": "table",
+          "object_b": "table"
+        },
+        "generated_text": "<thought>Compute 3D Euclidean distance between table.</thought><tool_call>{\"name\":\"calculate_distance\",\"arguments\":{\"object_a\":\"table\",\"object_b\":\"table\"}}</tool_call>",
+        "reason": "ARG_MISMATCH"
+      },
+      {
+        "idx": 9,
+        "query": "Calculate the metric distance from table to bookshelf.",
+        "expected_tool": "calculate_distance",
+        "expected_args": {
+          "object_a": "table",
+          "object_b": "bookshelf"
+        },
+        "predicted_tool": "calculate_distance",
+        "predicted_args": {
+          "object_a": "table",
+          "object_b": "table"
+        },
+        "generated_text": "<thought>Compute 3D Euclidean distance between cabinet.</thought><tool_call>{\"name\":\"calculate_distance\",\"arguments\":{\"object_a\":\"table\",\"object_b\":\"table\"}}</tool_call>",
+        "reason": "ARG_MISMATCH"
+      },
+      {
+        "idx": 10,
+        "query": "Calculate the metric distance from door to table.",
+        "expected_tool": "calculate_distance",
+        "expected_args": {
+          "object_a": "door",
+          "object_b": "table"
+        },
+        "predicted_tool": "calculate_distance",
+        "predicted_args": {
+          "object_a": "table",
+          "object_b": "table"
+        },
+        "generated_text": "<thought>Compute 3D Euclidean distance between table.</thought><tool_call>{\"name\":\"calculate_distance\",\"arguments\":{\"object_a\":\"table\",\"object_b\":\"table\"}}</tool_call>",
+        "reason": "ARG_MISMATCH"
+      },
+      {
+        "idx": 11,
+        "query": "Calculate the metric distance from cabinet to table.",
+        "expected_tool": "calculate_distance",
+        "expected_args": {
+          "object_a": "cabinet",
+          "object_b": "table"
+        },
+        "predicted_tool": "calculate_distance",
+        "predicted_args": {
+          "object_a": "table",
+          "object_b": "table"
+        },
+        "generated_text": "<thought>Compute 3D Euclidean distance between table.</thought><tool_call>{\"name\":\"calculate_distance\",\"arguments\":{\"object_a\":\"table\",\"object_b\":\"table\"}}</tool_call>",
+        "reason": "ARG_MISMATCH"
+      },
+      {
+        "idx": 12,
+        "query": "Calculate the metric distance from chair to table.",
+        "expected_tool": "calculate_distance",
+        "expected_args": {
+          "object_a": "chair",
+          "object_b": "table"
+        },
+        "predicted_tool": "calculate_distance",
+        "predicted_args": {
+          "object_a": "table",
+          "object_b": "table"
+        },
+        "generated_text": "<thought>Compute 3D Euclidean distance between table.</thought><tool_call>{\"name\":\"calculate_distance\",\"arguments\":{\"object_a\":\"table\",\"object_b\":\"table\"}}</tool_call>",
+        "reason": "ARG_MISMATCH"
+      },
+      {
+        "idx": 13,
+        "query": "Calculate the metric distance from cabinet to table.",
+        "expected_tool": "calculate_distance",
+        "expected_args": {
+          "object_a": "cabinet",
+          "object_b": "table"
+        },
+        "predicted_tool": "calculate_distance",
+        "predicted_args": {
+          "object_a": "table",
+          "object_b": "table"
+        },
+        "generated_text": "<thought>Compute 3D Euclidean distance between bookshelf.</thought><tool_call>{\"name\":\"calculate_distance\",\"arguments\":{\"object_a\":\"table\",\"object_b\":\"table\"}}</tool_call>",
+        "reason": "ARG_MISMATCH"
+      },
+      {
+        "idx": 14,
+        "query": "Calculate the metric distance from chair to table.",
+        "expected_tool": "calculate_distance",
+        "expected_args": {
+          "object_a": "chair",
+          "object_b": "table"
+        },
+        "predicted_tool": "calculate_distance",
+        "predicted_args": {
+          "object_a": "table",
+          "object_b": "table"
+        },
+        "generated_text": "<thought>Compute 3D Euclidean distance between table.</thought><tool_call>{\"name\":\"calculate_distance\",\"arguments\":{\"object_a\":\"table\",\"object_b\":\"table\"}}</tool_call>",
+        "reason": "ARG_MISMATCH"
+      },
+      {
+        "idx": 15,
+        "query": "Calculate the metric distance from sofa to table.",
+        "expected_tool": "calculate_distance",
+        "expected_args": {
+          "object_a": "sofa",
+          "object_b": "table"
+        },
+        "predicted_tool": "calculate_distance",
+        "predicted_args": {
+          "object_a": "table",
+          "object_b": "table"
+        },
+        "generated_text": "<thought>Compute 3D Euclidean distance between table.</thought><tool_call>{\"name\":\"calculate_distance\",\"arguments\":{\"object_a\":\"table\",\"object_b\":\"table\"}}</tool_call>",
+        "reason": "ARG_MISMATCH"
+      },
+      {
+        "idx": 16,
+        "query": "Calculate the metric distance from cabinet to bookshelf.",
+        "expected_tool": "calculate_distance",
+        "expected_args": {
+          "object_a": "cabinet",
+          "object_b": "bookshelf"
+        },
+        "predicted_tool": "calculate_distance",
+        "predicted_args": {
+          "object_a": "table",
+          "object_b": "table"
+        },
+        "generated_text": "<thought>Compute 3D Euclidean distance between bookshelf.</thought><tool_call>{\"name\":\"calculate_distance\",\"arguments\":{\"object_a\":\"table\",\"object_b\":\"table\"}}</tool_call>",
+        "reason": "ARG_MISMATCH"
+      },
+      {
+        "idx": 17,
+        "query": "Calculate the metric distance from chair to table.",
+        "expected_tool": "calculate_distance",
+        "expected_args": {
+          "object_a": "chair",
+          "object_b": "table"
+        },
+        "predicted_tool": "calculate_distance",
+        "predicted_args": {
+          "object_a": "table",
+          "object_b": "table"
+        },
+        "generated_text": "<thought>Compute 3D Euclidean distance between table.</thought><tool_call>{\"name\":\"calculate_distance\",\"arguments\":{\"object_a\":\"table\",\"object_b\":\"table\"}}</tool_call>",
+        "reason": "ARG_MISMATCH"
+      },
+      {
+        "idx": 18,
+        "query": "Could you perform an optical sweep of this area?",
+        "expected_tool": "get_visible_objects",
+        "expected_args": {
+          "room_name": null,
+          "player_position": null,
+          "camera_heading": null,
+          "filter_fov": false
+        },
+        "predicted_tool": "get_visible_objects",
+        "predicted_args": {
+          "room_name": null,
+          "player_heading": null,
+          "filter_fov": false
+        },
+        "generated_text": "<thought>Retrieve the number of table instances detected objects.</thought><tool_call>{\"name\":\"get_visible_objects\",\"arguments\":{\"room_name\":null,\"player_heading\":null,\"filter_fov\":false}}</tool_call>",
+        "reason": "ARG_MISMATCH"
+      },
+      {
+        "idx": 19,
+        "query": "Could you perform an optical sweep of this area?",
+        "expected_tool": "get_visible_objects",
+        "expected_args": {
+          "room_name": null,
+          "player_position": null,
+          "camera_heading": null,
+          "filter_fov": false
+        },
+        "predicted_tool": "locate_object",
+        "predicted_args": {
+          "object_name": "table"
+        },
+        "generated_text": "<thought>Retrieve the 3D metric coordinates of table inStorage Room.</thought><tool_call>{\"name\":\"locate_object\",\"arguments\":{\"object_name\":\"table\"}}</tool_call>",
+        "reason": "TOOL_MISMATCH"
+      },
+      {
+        "idx": 20,
+        "query": "Could you perform an optical sweep of this area?",
+        "expected_tool": "get_visible_objects",
+        "expected_args": {
+          "room_name": null,
+          "player_position": null,
+          "camera_heading": null,
+          "filter_fov": false
+        },
+        "predicted_tool": "get_visible_objects",
+        "predicted_args": {
+          "room_name": null,
+          "player_heading": null,
+          "filter_fov": false
+        },
+        "generated_text": "<thought>Retrieve the number of table instances detected objects.</thought><tool_call>{\"name\":\"get_visible_objects\",\"arguments\":{\"room_name\":null,\"player_heading\":null,\"filter_fov\":false}}</tool_call>",
+        "reason": "ARG_MISMATCH"
+      },
+      {
+        "idx": 21,
+        "query": "Could you perform an optical sweep of this area?",
+        "expected_tool": "get_visible_objects",
+        "expected_args": {
+          "room_name": null,
+          "player_position": null,
+          "camera_heading": null,
+          "filter_fov": false
+        },
+        "predicted_tool": "locate_object",
+        "predicted_args": {
+          "object_name": "table"
+        },
+        "generated_text": "<thought>Retrieve the 3D metric coordinates of table inStorage Room.</thought><tool_call>{\"name\":\"locate_object\",\"arguments\":{\"object_name\":\"table\"}}</tool_call>",
+        "reason": "TOOL_MISMATCH"
+      },
+      {
+        "idx": 22,
+        "query": "Could you perform an optical sweep of this area?",
+        "expected_tool": "get_visible_objects",
+        "expected_args": {
+          "room_name": null,
+          "player_position": null,
+          "camera_heading": null,
+          "filter_fov": false
+        },
+        "predicted_tool": "get_visible_objects",
+        "predicted_args": {
+          "object_name": "table"
+        },
+        "generated_text": "<thought>Retrieve the number of table inReception/Central Hub.</thought><tool_call>{\"name\":\"get_visible_objects\",\"arguments\":{\"object_name\":\"table\"}}</tool_call>",
+        "reason": "ARG_MISMATCH"
+      },
+      {
+        "idx": 23,
+        "query": "Could you perform an optical sweep of this area?",
+        "expected_tool": "get_visible_objects",
+        "expected_args": {
+          "room_name": null,
+          "player_position": null,
+          "camera_heading": null,
+          "filter_fov": false
+        },
+        "predicted_tool": "get_visible_objects",
+        "predicted_args": {
+          "object_name": "table"
+        },
+        "generated_text": "<thought>Retrieve the number of table inReception/Central Hub.</thought><tool_call>{\"name\":\"get_visible_objects\",\"arguments\":{\"object_name\":\"table\"}}</tool_call>",
+        "reason": "ARG_MISMATCH"
+      },
+      {
+        "idx": 24,
+        "query": "Could you perform an optical sweep of this area?",
+        "expected_tool": "get_visible_objects",
+        "expected_args": {
+          "room_name": null,
+          "player_position": null,
+          "camera_heading": null,
+          "filter_fov": false
+        },
+        "predicted_tool": "get_visible_objects",
+        "predicted_args": {
+          "object_name": "table"
+        },
+        "generated_text": "<thought>Retrieve the number of table inReception/Central Hub.</thought><tool_call>{\"name\":\"get_visible_objects\",\"arguments\":{\"object_name\":\"table\"}}</tool_call>",
+        "reason": "ARG_MISMATCH"
+      }
+    ],
+    "sample_predictions": [
+      {
+        "query": "Calculate the metric distance from bookshelf to door.",
+        "expected_tool": "calculate_distance",
+        "predicted_tool": "calculate_distance",
+        "generated_text": "<thought>Compute 3D Euclidean distance between table.</thought><tool_call>{\"name\":\"calculate_distance\",\"arguments\":{\"object_a\":\"table\",\"object_b\":\"table\"}}</tool_call>",
+        "tool_correct": true,
+        "exact_match": false
+      },
+      {
+        "query": "Calculate the metric distance from door to bookshelf.",
+        "expected_tool": "calculate_distance",
+        "predicted_tool": "calculate_distance",
+        "generated_text": "<thought>Compute 3D Euclidean distance between table.</thought><tool_call>{\"name\":\"calculate_distance\",\"arguments\":{\"object_a\":\"table\",\"object_b\":\"table\"}}</tool_call>",
+        "tool_correct": true,
+        "exact_match": false
+      },
+      {
+        "query": "Calculate the metric distance from cabinet to chair.",
+        "expected_tool": "calculate_distance",
+        "predicted_tool": "calculate_distance",
+        "generated_text": "<thought>Compute 3D Euclidean distance between table.</thought><tool_call>{\"name\":\"calculate_distance\",\"arguments\":{\"object_a\":\"table\",\"object_b\":\"table\"}}</tool_call>",
+        "tool_correct": true,
+        "exact_match": false
+      },
+      {
+        "query": "Calculate the metric distance from table to chair.",
+        "expected_tool": "calculate_distance",
+        "predicted_tool": "calculate_distance",
+        "generated_text": "<thought>Compute 3D Euclidean distance between table.</thought><tool_call>{\"name\":\"calculate_distance\",\"arguments\":{\"object_a\":\"table\",\"object_b\":\"table\"}}</tool_call>",
+        "tool_correct": true,
+        "exact_match": false
+      },
+      {
+        "query": "Calculate the metric distance from bookshelf to cabinet.",
+        "expected_tool": "calculate_distance",
+        "predicted_tool": "calculate_distance",
+        "generated_text": "<thought>Compute 3D Euclidean distance between bookshelf.</thought><tool_call>{\"name\":\"calculate_distance\",\"arguments\":{\"object_a\":\"table\",\"object_b\":\"table\"}}</tool_call>",
+        "tool_correct": true,
+        "exact_match": false
+      },
+      {
+        "query": "Calculate the metric distance from bookshelf to cabinet.",
+        "expected_tool": "calculate_distance",
+        "predicted_tool": "calculate_distance",
+        "generated_text": "<thought>Compute 3D Euclidean distance between table.</thought><tool_call>{\"name\":\"calculate_distance\",\"arguments\":{\"object_a\":\"table\",\"object_b\":\"table\"}}</tool_call>",
+        "tool_correct": true,
+        "exact_match": false
+      },
+      {
+        "query": "Calculate the metric distance from table to door.",
+        "expected_tool": "calculate_distance",
+        "predicted_tool": "calculate_distance",
+        "generated_text": "<thought>Compute 3D Euclidean distance between table.</thought><tool_call>{\"name\":\"calculate_distance\",\"arguments\":{\"object_a\":\"table\",\"object_b\":\"table\"}}</tool_call>",
+        "tool_correct": true,
+        "exact_match": false
+      },
+      {
+        "query": "Calculate the metric distance from chair to table.",
+        "expected_tool": "calculate_distance",
+        "predicted_tool": "calculate_distance",
+        "generated_text": "<thought>Compute 3D Euclidean distance between table.</thought><tool_call>{\"name\":\"calculate_distance\",\"arguments\":{\"object_a\":\"table\",\"object_b\":\"table\"}}</tool_call>",
+        "tool_correct": true,
+        "exact_match": false
+      },
+      {
+        "query": "Calculate the metric distance from door to cabinet.",
+        "expected_tool": "calculate_distance",
+        "predicted_tool": "calculate_distance",
+        "generated_text": "<thought>Compute 3D Euclidean distance between table.</thought><tool_call>{\"name\":\"calculate_distance\",\"arguments\":{\"object_a\":\"table\",\"object_b\":\"table\"}}</tool_call>",
+        "tool_correct": true,
+        "exact_match": false
+      },
+      {
+        "query": "Calculate the metric distance from table to bookshelf.",
+        "expected_tool": "calculate_distance",
+        "predicted_tool": "calculate_distance",
+        "generated_text": "<thought>Compute 3D Euclidean distance between cabinet.</thought><tool_call>{\"name\":\"calculate_distance\",\"arguments\":{\"object_a\":\"table\",\"object_b\":\"table\"}}</tool_call>",
+        "tool_correct": true,
+        "exact_match": false
+      },
+      {
+        "query": "Calculate the metric distance from door to table.",
+        "expected_tool": "calculate_distance",
+        "predicted_tool": "calculate_distance",
+        "generated_text": "<thought>Compute 3D Euclidean distance between table.</thought><tool_call>{\"name\":\"calculate_distance\",\"arguments\":{\"object_a\":\"table\",\"object_b\":\"table\"}}</tool_call>",
+        "tool_correct": true,
+        "exact_match": false
+      },
+      {
+        "query": "Calculate the metric distance from cabinet to table.",
+        "expected_tool": "calculate_distance",
+        "predicted_tool": "calculate_distance",
+        "generated_text": "<thought>Compute 3D Euclidean distance between table.</thought><tool_call>{\"name\":\"calculate_distance\",\"arguments\":{\"object_a\":\"table\",\"object_b\":\"table\"}}</tool_call>",
+        "tool_correct": true,
+        "exact_match": false
+      },
+      {
+        "query": "Calculate the metric distance from chair to table.",
+        "expected_tool": "calculate_distance",
+        "predicted_tool": "calculate_distance",
+        "generated_text": "<thought>Compute 3D Euclidean distance between table.</thought><tool_call>{\"name\":\"calculate_distance\",\"arguments\":{\"object_a\":\"table\",\"object_b\":\"table\"}}</tool_call>",
+        "tool_correct": true,
+        "exact_match": false
+      },
+      {
+        "query": "Calculate the metric distance from cabinet to table.",
+        "expected_tool": "calculate_distance",
+        "predicted_tool": "calculate_distance",
+        "generated_text": "<thought>Compute 3D Euclidean distance between bookshelf.</thought><tool_call>{\"name\":\"calculate_distance\",\"arguments\":{\"object_a\":\"table\",\"object_b\":\"table\"}}</tool_call>",
+        "tool_correct": true,
+        "exact_match": false
+      },
+      {
+        "query": "Calculate the metric distance from chair to table.",
+        "expected_tool": "calculate_distance",
+        "predicted_tool": "calculate_distance",
+        "generated_text": "<thought>Compute 3D Euclidean distance between table.</thought><tool_call>{\"name\":\"calculate_distance\",\"arguments\":{\"object_a\":\"table\",\"object_b\":\"table\"}}</tool_call>",
+        "tool_correct": true,
+        "exact_match": false
+      }
+    ]
+  },
+  "combined_agent_metrics": {
+    "queries_evaluated": 28,
+    "correct_queries": 28,
+    "accuracy_pct": 100.0,
+    "details": [
+      {
+        "query": "What objects can you see?",
+        "expected_tool": "get_visible_objects",
+        "actual_tool": "get_visible_objects",
+        "correct": true,
+        "guardrail_status": "MODE_GUARDRAIL_SCOUT_VISIBLE_OBJECTS"
+      },
+      {
+        "query": "Find the nearest table.",
+        "expected_tool": "find_nearest_target",
+        "actual_tool": "find_nearest_target",
+        "correct": true,
+        "guardrail_status": "MODE_GUARDRAIL_SCOUT_NEAREST_TARGET"
+      },
+      {
+        "query": "What is closest to me?",
+        "expected_tool": "find_nearest_target",
+        "actual_tool": "find_nearest_target",
+        "correct": true,
+        "guardrail_status": "MODE_GUARDRAIL_NAVIGATOR_NEAREST_TO_ME"
+      },
+      {
+        "query": "What is near the desk?",
+        "expected_tool": "query_spatial_relation",
+        "actual_tool": "query_spatial_relation",
+        "correct": true,
+        "guardrail_status": "MODE_GUARDRAIL_NAVIGATOR_SPATIAL_RELATION"
+      },
+      {
+        "query": "Which object is next to the bookshelf?",
+        "expected_tool": "query_spatial_relation",
+        "actual_tool": "query_spatial_relation",
+        "correct": true,
+        "guardrail_status": "MODE_GUARDRAIL_NAVIGATOR_SPATIAL_RELATION"
+      },
+      {
+        "query": "Take me to the library.",
+        "expected_tool": "navigate_to",
+        "actual_tool": "navigate_to",
+        "correct": true,
+        "guardrail_status": "MODE_GUARDRAIL_NAVIGATOR_NAVIGATE_TO"
+      },
+      {
+        "query": "Where is the research key?",
+        "expected_tool": "locate_object",
+        "actual_tool": "locate_object",
+        "correct": true,
+        "guardrail_status": "MODE_GUARDRAIL_MISSION_LOCATE_KEY"
+      },
+      {
+        "query": "What should I do next?",
+        "expected_tool": "get_mission_objectives",
+        "actual_tool": "get_mission_objectives",
+        "correct": true,
+        "guardrail_status": "MODE_GUARDRAIL_MISSION_NEXT_ACTION"
+      },
+      {
+        "query": "Have I completed my mission?",
+        "expected_tool": "get_mission_objectives",
+        "actual_tool": "get_mission_objectives",
+        "correct": true,
+        "guardrail_status": "MODE_GUARDRAIL_ARCHIVIST_MISSION_OBJECTIVES"
+      },
+      {
+        "query": "Show my inventory.",
+        "expected_tool": "get_inventory",
+        "actual_tool": "get_inventory",
+        "correct": true,
+        "guardrail_status": "MODE_GUARDRAIL_ARCHIVIST_INVENTORY"
+      },
+      {
+        "query": "Read the note.",
+        "expected_tool": "inspect_clue",
+        "actual_tool": "inspect_clue",
+        "correct": true,
+        "guardrail_status": "MODE_GUARDRAIL_ARCHIVIST_INSPECT_CLUE"
+      },
+      {
+        "query": "Give me a hint.",
+        "expected_tool": "request_hint",
+        "actual_tool": "request_hint",
+        "correct": true,
+        "guardrail_status": "MODE_GUARDRAIL_ARCHIVIST_REQUEST_HINT"
+      },
+      {
+        "query": "Why can't you detect the object?",
+        "expected_tool": "explain_uncertainty",
+        "actual_tool": "explain_uncertainty",
+        "correct": true,
+        "guardrail_status": "MODE_GUARDRAIL_UNIVERSAL_EXPLAIN_UNCERTAINTY"
+      },
+      {
+        "query": "List all visible objects in this sector.",
+        "expected_tool": "get_visible_objects",
+        "actual_tool": "get_visible_objects",
+        "correct": true,
+        "guardrail_status": "MODE_GUARDRAIL_SCOUT_VISIBLE_OBJECTS"
+      },
+      {
+        "query": "Can you guide me towards the office?",
+        "expected_tool": "navigate_to",
+        "actual_tool": "navigate_to",
+        "correct": true,
+        "guardrail_status": "MODE_GUARDRAIL_NAVIGATOR_NAVIGATE_TO"
+      },
+      {
+        "query": "How far is the chair from the table?",
+        "expected_tool": "calculate_distance",
+        "actual_tool": "calculate_distance",
+        "correct": true,
+        "guardrail_status": "MODE_GUARDRAIL_NAVIGATOR_CALCULATE_DISTANCE"
+      },
+      {
+        "query": "What items are currently in my bag?",
+        "expected_tool": "get_inventory",
+        "actual_tool": "get_inventory",
+        "correct": true,
+        "guardrail_status": "MODE_GUARDRAIL_ARCHIVIST_INVENTORY"
+      },
+      {
+        "query": "Tell me what my goals are.",
+        "expected_tool": "get_mission_objectives",
+        "actual_tool": "get_mission_objectives",
+        "correct": true,
+        "guardrail_status": "MODE_GUARDRAIL_ARCHIVIST_MISSION_OBJECTIVES"
+      },
+      {
+        "query": "Explain why that destination is blocked.",
+        "expected_tool": "explain_unreachable",
+        "actual_tool": "explain_unreachable",
+        "correct": true,
+        "guardrail_status": "MODE_GUARDRAIL_UNIVERSAL_EXPLAIN_UNREACHABLE"
+      },
+      {
+        "query": "wat objcts can u see?",
+        "expected_tool": "get_visible_objects",
+        "actual_tool": "get_visible_objects",
+        "correct": true,
+        "guardrail_status": "MODE_GUARDRAIL_SCOUT_VISIBLE_OBJECTS"
+      },
+      {
+        "query": "fnd the nerest tabl",
+        "expected_tool": "find_nearest_target",
+        "actual_tool": "find_nearest_target",
+        "correct": true,
+        "guardrail_status": "MODE_GUARDRAIL_SCOUT_NEAREST_TARGET"
+      },
+      {
+        "query": "tke me to libary",
+        "expected_tool": "navigate_to",
+        "actual_tool": "navigate_to",
+        "correct": true,
+        "guardrail_status": "MODE_GUARDRAIL_NAVIGATOR_NAVIGATE_TO"
+      },
+      {
+        "query": "giv me a hnt",
+        "expected_tool": "request_hint",
+        "actual_tool": "request_hint",
+        "correct": true,
+        "guardrail_status": "MODE_GUARDRAIL_ARCHIVIST_REQUEST_HINT"
+      },
+      {
+        "query": "shw my invntory",
+        "expected_tool": "get_inventory",
+        "actual_tool": "get_inventory",
+        "correct": true,
+        "guardrail_status": "MODE_GUARDRAIL_ARCHIVIST_INVENTORY"
+      },
+      {
+        "query": "What is that over there?",
+        "expected_tool": "explain_uncertainty",
+        "actual_tool": "explain_uncertainty",
+        "correct": true,
+        "guardrail_status": "MODE_GUARDRAIL_SCOUT_AMBIGUOUS_POINTING"
+      },
+      {
+        "query": "How do I play?",
+        "expected_tool": "get_game_guide",
+        "actual_tool": "get_game_guide",
+        "correct": true,
+        "guardrail_status": "MODE_GUARDRAIL_UNIVERSAL_GAME_GUIDE"
+      },
+      {
+        "query": "Tell me about this room.",
+        "expected_tool": "get_current_location",
+        "actual_tool": "get_current_location",
+        "correct": true,
+        "guardrail_status": "MODE_GUARDRAIL_NAVIGATOR_LOCATION"
+      },
+      {
+        "query": "Calculate a path to the door.",
+        "expected_tool": "find_path",
+        "actual_tool": "find_path",
+        "correct": true,
+        "guardrail_status": "MODE_GUARDRAIL_NAVIGATOR_FIND_PATH"
+      }
+    ]
+  }
+}

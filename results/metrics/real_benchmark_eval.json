@@ -1,0 +1,22 @@
+{
+  "mAP_50": 0.0,
+  "overall_precision": 0.0,
+  "overall_recall": 0.0,
+  "per_class_ap": {
+    "table": 0.0,
+    "chair": 0.0,
+    "door": 0.0,
+    "bookshelf": 0.0,
+    "sofa": 0.0,
+    "cabinet": 0.0
+  },
+  "gt_counts": {
+    "table": 3,
+    "chair": 3,
+    "door": 2,
+    "bookshelf": 1,
+    "sofa": 1,
+    "cabinet": 2
+  },
+  "mean_latency_ms": 68.78
+}

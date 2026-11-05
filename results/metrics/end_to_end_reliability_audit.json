@@ -1,0 +1,768 @@
+{
+  "agent_eval": [
+    {
+      "query": "What objects can you see?",
+      "expected_tool": "get_visible_objects",
+      "actual_tool": "get_visible_objects",
+      "actual_args": {
+        "room_name": "Reception / Central Hub",
+        "player_position": [
+          0.0,
+          -15.0
+        ],
+        "camera_heading": null,
+        "filter_fov": false
+      },
+      "validation_status": "MODE_GUARDRAIL_SCOUT_VISIBLE_OBJECTS",
+      "correct": true,
+      "arg_error": "",
+      "error": "",
+      "final_response": "\ud83d\udc41\ufe0f **[Scout Drone \u2014 Optical Perception Feed]**\nSurvey complete inside Reception / Central Hub. Identified 4 objects:\n\u2022 **Table**: coordinates [0.0, 0.75, -15.0] | 91% confidence (Scene Graph Registry Layout) | 15.0m predefined facility depth\n\u2022 **Chair**: coordinates [0.0, 0.45, -13.8] | 91% confidence (Scene Graph Registry Layout) | 13.8m predefined facility depth\n\u2022 **Sofa**: coordinates [-6.5, 0.3, -16.0] | 91% confidence (Scene Graph Registry Layout) | 17.3m predefined facility depth\n\u2022 **Table**: coordinates [6.5, 0.75, -14.0] | 91% confidence (Scene Graph Registry Layout) | 15.4m predefined facility depth\n\n\u2022 **Data Source**: Facility Scene Graph Registry (Zero-Fabrication Policy: Camera frame is not passed to SpatialDetector CNN during conversational query; coordinates and 91% confidence reflect static facility layout).\n\u2022 **Camera Frustum**: 3D positions verified against facility geometry. Unobserved objects are not fabricated.",
+      "duration": 0.672
+    },
+    {
+      "query": "Find the nearest table.",
+      "expected_tool": "find_nearest_target",
+      "actual_tool": "find_nearest_target",
+      "actual_args": {
+        "target_class": "table",
+        "player_position": [
+          0.0,
+          -15.0
+        ],
+        "reference_object": null
+      },
+      "validation_status": "MODE_GUARDRAIL_SCOUT_NEAREST_TARGET",
+      "correct": true,
+      "arg_error": "",
+      "error": "",
+      "final_response": "\ud83d\udc41\ufe0f **[Scout Drone]** The closest table is 0.75 meters away at coordinates [0.0, 0.75, -15.0] inside Reception / Central Hub (in your current room).",
+      "duration": 0.135
+    },
+    {
+      "query": "What is closest to me?",
+      "expected_tool": "find_nearest_target",
+      "actual_tool": "find_nearest_target",
+      "actual_args": {
+        "target_class": "any",
+        "player_position": [
+          0.0,
+          -15.0
+        ],
+        "reference_object": null
+      },
+      "validation_status": "MODE_GUARDRAIL_NAVIGATOR_NEAREST_TO_ME",
+      "correct": true,
+      "arg_error": "",
+      "error": "",
+      "final_response": "\ud83e\udded **[Navigator Drone]** The closest table is 0.75 meters away at coordinates [0.0, 0.75, -15.0] inside Reception / Central Hub (in your current room).",
+      "duration": 0.159
+    },
+    {
+      "query": "What is near the desk?",
+      "expected_tool": "query_spatial_relation",
+      "actual_tool": "query_spatial_relation",
+      "actual_args": {
+        "object_name": "desk",
+        "relation": "near"
+      },
+      "validation_status": "MODE_GUARDRAIL_NAVIGATOR_SPATIAL_RELATION",
+      "correct": true,
+      "arg_error": "",
+      "error": "",
+      "final_response": "\ud83e\udded **[Navigator Drone]** Objects near desk: chair (1.24m away), chair (1.04m away), chair (1.04m away), chair (1.55m away).",
+      "duration": 0.162
+    },
+    {
+      "query": "Which object is next to the bookshelf?",
+      "expected_tool": "query_spatial_relation",
+      "actual_tool": "query_spatial_relation",
+      "actual_args": {
+        "object_name": "bookshelf",
+        "relation": "near"
+      },
+      "validation_status": "MODE_GUARDRAIL_NAVIGATOR_SPATIAL_RELATION",
+      "correct": true,
+      "arg_error": "",
+      "error": "",
+      "final_response": "\ud83e\udded **[Navigator Drone]** No objects found with relation 'near' to bookshelf.",
+      "duration": 0.164
+    },
+    {
+      "query": "Take me to the library.",
+      "expected_tool": "navigate_to",
+      "actual_tool": "navigate_to",
+      "actual_args": {
+        "destination": "library",
+        "player_position": [
+          0.0,
+          -15.0
+        ],
+        "current_room": "Reception / Central Hub"
+      },
+      "validation_status": "MODE_GUARDRAIL_NAVIGATOR_NAVIGATE_TO",
+      "correct": true,
+      "arg_error": "",
+      "error": "",
+      "final_response": "\ud83e\udded **[Navigator Drone \u2014 GPS Navigation]**\n\ud83d\udccd GPS Navigation to Library (10.97m away):\n\u2022 Origin: Reception / Central Hub\n\u2022 Destination: Library / Archives\n\u2022 Turn-by-Turn Route:\n  1. \u2b06\ufe0f Head straight North from Reception / Central Hub toward the main corridor archway (proceed 5.0m).\n  2. \u2196\ufe0f Turn left (West) through the archway into the Library / Archives.\n  3. \u2b05\ufe0f Walk 4.5m West past the reference bookshelves, then bear North for 5.0m.\n  4. \ud83c\udfaf Destination reached: The Library / Archives is located at coordinates [-4.5, 0.8, -5.0].\n\nNavigation command dispatched: Guiding companion avatar to library at [-4.5, 0.75, -5.0].",
+      "duration": 0.099
+    },
+    {
+      "query": "Where is the research key?",
+      "expected_tool": "locate_object",
+      "actual_tool": "locate_object",
+      "actual_args": {
+        "object_name": "key"
+      },
+      "validation_status": "MODE_GUARDRAIL_MISSION_LOCATE_KEY",
+      "correct": true,
+      "arg_error": "",
+      "error": "",
+      "final_response": "\ud83d\udd0d **[Investigation Status \u2014 Mystery A: Missing Research Key]**\nEvidence assessment for 'key':\n\u2022 **Visual FOV**: Not visible in the current camera frame.\n\u2022 **3D Scene Graph**: Not registered as a detected physical object in the current scene model.\n\u2022 **Mission Briefing**: A master facility key is missing. Survey Reception and locate the security table to find where staff logged it (reported near lab cabinet). Retrieve the key into inventory to complete the mission.\n\u2022 **Archival Evidence (Maintenance Log: Door 3 Manual Override Procedure)**:\n  \"Notice to Facility Engineers: Following the circuit breaker trip in Sector 2, the keypad on Door 3 was reset to default emergency maintenance code 7391. A physical backup key is stored in the lower right drawer of the st...\"\n\n\ud83d\udca1 **Next Investigation Action**: The key was logged at the Reception security table and reported near the Investigation Lab cabinet. Ask 'Take me to the security table' to inspect the log, or navigate to the lab cabinet!",
+      "duration": 0.16
+    },
+    {
+      "query": "What should I do next?",
+      "expected_tool": "get_mission_objectives",
+      "actual_tool": "get_mission_objectives",
+      "actual_args": {},
+      "validation_status": "MODE_GUARDRAIL_MISSION_NEXT_ACTION",
+      "correct": true,
+      "arg_error": "",
+      "error": "",
+      "final_response": "\ud83c\udfaf **[Investigation Plan \u2014 Mystery A: Missing Research Key]**\nActive Mission Objectives:\n  \u2022 [\u25cb] Ask: what objects are visible?\n  \u2022 [\u25cb] Locate the table in the facility\n  \u2022 [\u25cb] Retrieve the missing Research Key into your inventory\n\n\ud83d\udca1 **Recommended Next Investigation Steps**:\n1. Survey Reception and locate the security table where staff logged the missing key.\n2. Cross-reference facility maintenance logs (DOC-004) regarding the lab cabinet backup key.\n3. Navigate to the Investigation Lab cabinet to search the drawer.",
+      "duration": 0.162
+    },
+    {
+      "query": "Have I completed my mission?",
+      "expected_tool": "get_mission_objectives",
+      "actual_tool": "get_mission_objectives",
+      "actual_args": {},
+      "validation_status": "MODE_GUARDRAIL_ARCHIVIST_MISSION_OBJECTIVES",
+      "correct": true,
+      "arg_error": "",
+      "error": "",
+      "final_response": "\ud83d\udcda **[Archivist Drone]** Active Mission Objectives for Mystery A: Missing Research Key: [\u25cb] Ask: what objects are visible? | [\u25cb] Locate the table in the facility | [\u25cb] Retrieve the missing Research Key into your inventory",
+      "duration": 0.164
+    },
+    {
+      "query": "Show my inventory.",
+      "expected_tool": "get_inventory",
+      "actual_tool": "get_inventory",
+      "actual_args": {},
+      "validation_status": "MODE_GUARDRAIL_ARCHIVIST_INVENTORY",
+      "correct": true,
+      "arg_error": "",
+      "error": "",
+      "final_response": "\ud83d\udcda **[Archivist Drone]** Investigator Inventory (0 items): No items collected yet..",
+      "duration": 0.161
+    },
+    {
+      "query": "Read the note.",
+      "expected_tool": "inspect_clue",
+      "actual_tool": "inspect_clue",
+      "actual_args": {
+        "clue_id": "clue_pda_02"
+      },
+      "validation_status": "MODE_GUARDRAIL_ARCHIVIST_INSPECT_CLUE",
+      "correct": true,
+      "arg_error": "",
+      "error": "",
+      "final_response": "\ud83d\udcda **[Archivist Drone]** Clue 'Researcher's Forgotten Datapad': A cracked datapad resting on the table. Screen shows: 'Containment grid destabilized. Code hidden behind bookshelf.' Hint: Inspect the bookshelf in Zone 2.",
+      "duration": 0.162
+    },
+    {
+      "query": "Give me a hint.",
+      "expected_tool": "request_hint",
+      "actual_tool": "request_hint",
+      "actual_args": {
+        "topic": "mission_progression"
+      },
+      "validation_status": "MODE_GUARDRAIL_ARCHIVIST_REQUEST_HINT",
+      "correct": true,
+      "arg_error": "",
+      "error": "",
+      "final_response": "\ud83d\udcda **[Archivist Drone \u2014 Tactical Investigation Hint]**\n\u2022 **Mystery**: Mystery A: Missing Research Key\n\u2022 **Topic Focus**: Mission progression\n\u2022 **Tactical Guidance**: Hint for 'Ask: what objects are visible?': Try using get_visible_objects. Ask the companion drone: 'What objects are visible?' then 'Where is the table?' and interact with the cabinet to collect the research key.",
+      "duration": 0.17
+    },
+    {
+      "query": "Why can't you detect the object?",
+      "expected_tool": "explain_uncertainty",
+      "actual_tool": "explain_uncertainty",
+      "actual_args": {
+        "query": "Why can't you detect the object?",
+        "reason": null
+      },
+      "validation_status": "MODE_GUARDRAIL_UNIVERSAL_EXPLAIN_UNCERTAINTY",
+      "correct": true,
+      "arg_error": "",
+      "error": "",
+      "final_response": "\ud83d\udc41\ufe0f **[Scout Drone \u2014 Perception Confidence & Sensor Diagnostics]**\n\u2022 Status: Perception uncertainty analyzed.\n\u2022 Target Assessment: Why can't you detect the object?.\n\u2022 Zero-Hallucination & Zero-Fabrication Policy: Unobserved or occluded objects are not fabricated.\n\u2022 CNN Diagnostics: From-scratch SpatialDetector CNN processes 224x224 RGB-D frames. Visual uncertainty increases for novel viewing angles or occluded geometry.",
+      "duration": 0.155
+    },
+    {
+      "query": "List all visible objects in this sector.",
+      "expected_tool": "get_visible_objects",
+      "actual_tool": "get_visible_objects",
+      "actual_args": {
+        "room_name": "Reception / Central Hub",
+        "player_position": [
+          0.0,
+          -15.0
+        ],
+        "camera_heading": null,
+        "filter_fov": false
+      },
+      "validation_status": "MODE_GUARDRAIL_SCOUT_VISIBLE_OBJECTS",
+      "correct": true,
+      "arg_error": "",
+      "error": "",
+      "final_response": "\ud83d\udc41\ufe0f **[Scout Drone \u2014 Optical Perception Feed]**\nSurvey complete inside Reception / Central Hub. Identified 4 objects:\n\u2022 **Table**: coordinates [0.0, 0.75, -15.0] | 91% confidence (Scene Graph Registry Layout) | 15.0m predefined facility depth\n\u2022 **Chair**: coordinates [0.0, 0.45, -13.8] | 91% confidence (Scene Graph Registry Layout) | 13.8m predefined facility depth\n\u2022 **Sofa**: coordinates [-6.5, 0.3, -16.0] | 91% confidence (Scene Graph Registry Layout) | 17.3m predefined facility depth\n\u2022 **Table**: coordinates [6.5, 0.75, -14.0] | 91% confidence (Scene Graph Registry Layout) | 15.4m predefined facility depth\n\n\u2022 **Data Source**: Facility Scene Graph Registry (Zero-Fabrication Policy: Camera frame is not passed to SpatialDetector CNN during conversational query; coordinates and 91% confidence reflect static facility layout).\n\u2022 **Camera Frustum**: 3D positions verified against facility geometry. Unobserved objects are not fabricated.",
+      "duration": 0.167
+    },
+    {
+      "query": "Can you guide me towards the office?",
+      "expected_tool": "navigate_to",
+      "actual_tool": "navigate_to",
+      "actual_args": {
+        "destination": "towards the office",
+        "player_position": [
+          0.0,
+          -15.0
+        ],
+        "current_room": "Reception / Central Hub"
+      },
+      "validation_status": "MODE_GUARDRAIL_NAVIGATOR_NAVIGATE_TO",
+      "correct": true,
+      "arg_error": "",
+      "error": "",
+      "final_response": "\ud83e\udded **[Navigator Drone \u2014 GPS Navigation]**\n\ud83d\udccd GPS Navigation to Towards the office in Research Office (11.66m away):\n\u2022 Origin: Reception / Central Hub\n\u2022 Destination: Research Office\n\u2022 Turn-by-Turn Route:\n  1. \u2b06\ufe0f Head straight North from Reception / Central Hub toward the main corridor archway (proceed 5.0m).\n  2. \u2197\ufe0f Turn right (East) through the archway into the Research Office.\n  3. \u27a1\ufe0f Walk 6.0m East past the admin workstations, then bear North for 5.0m.\n  4. \ud83c\udfaf Destination reached: The Research Office is located at coordinates [6.0, 0.8, -5.0].\n\nNavigation command dispatched: Guiding companion avatar to towards the office at [6.0, 0.75, -5.0].",
+      "duration": 0.168
+    },
+    {
+      "query": "How far is the chair from the table?",
+      "expected_tool": "calculate_distance",
+      "actual_tool": "calculate_distance",
+      "actual_args": {
+        "object_a": "chair",
+        "object_b": "table"
+      },
+      "validation_status": "MODE_GUARDRAIL_NAVIGATOR_CALCULATE_DISTANCE",
+      "correct": true,
+      "arg_error": "",
+      "error": "",
+      "final_response": "\ud83e\udded **[Navigator Drone]** The Euclidean distance between chair and table is 1.24 meters.",
+      "duration": 0.166
+    },
+    {
+      "query": "What items are currently in my bag?",
+      "expected_tool": "get_inventory",
+      "actual_tool": "get_inventory",
+      "actual_args": {},
+      "validation_status": "MODE_GUARDRAIL_ARCHIVIST_INVENTORY",
+      "correct": true,
+      "arg_error": "",
+      "error": "",
+      "final_response": "\ud83d\udcda **[Archivist Drone]** Investigator Inventory (0 items): No items collected yet..",
+      "duration": 0.167
+    },
+    {
+      "query": "Tell me what my goals are.",
+      "expected_tool": "get_mission_objectives",
+      "actual_tool": "get_mission_objectives",
+      "actual_args": {},
+      "validation_status": "MODE_GUARDRAIL_ARCHIVIST_MISSION_OBJECTIVES",
+      "correct": true,
+      "arg_error": "",
+      "error": "",
+      "final_response": "\ud83d\udcda **[Archivist Drone]** Active Mission Objectives for Mystery A: Missing Research Key: [\u25cb] Ask: what objects are visible? | [\u25cb] Locate the table in the facility | [\u25cb] Retrieve the missing Research Key into your inventory",
+      "duration": 0.166
+    },
+    {
+      "query": "Explain why that destination is blocked.",
+      "expected_tool": "explain_unreachable",
+      "actual_tool": "explain_unreachable",
+      "actual_args": {
+        "query": "Explain why that destination is blocked.",
+        "destination": null
+      },
+      "validation_status": "MODE_GUARDRAIL_UNIVERSAL_EXPLAIN_UNREACHABLE",
+      "correct": true,
+      "arg_error": "",
+      "error": "",
+      "final_response": "\u2139\ufe0f **Target Status & Navigation Advice**:\nTarget objects become unreachable if the local camera hasn't detected them, if the scene graph was unseeded, or if security doors are sealed.\n\n**Facility Table Locations**:\n\u2022 Reception / Central Hub: table at [0.0, 0.8, -15.0]\n\u2022 Reception / Central Hub: table at [6.5, 0.8, -14.0]\n\u2022 Research Office: table at [6.0, 0.8, -5.0]\n\u2022 Library / Archives: table at [-4.5, 0.8, -5.0]\n\u2022 Investigation Laboratory: table at [0.0, 0.8, 0.0]\n\n\ud83d\udca1 You can ask: 'Take me to the laboratory table' or 'Take me to the office table'.",
+      "duration": 0.167
+    },
+    {
+      "query": "wat objcts can u see?",
+      "expected_tool": "get_visible_objects",
+      "actual_tool": "get_visible_objects",
+      "actual_args": {
+        "room_name": "Reception / Central Hub",
+        "player_position": [
+          0.0,
+          -15.0
+        ],
+        "camera_heading": null,
+        "filter_fov": false
+      },
+      "validation_status": "MODE_GUARDRAIL_SCOUT_VISIBLE_OBJECTS",
+      "correct": true,
+      "arg_error": "",
+      "error": "",
+      "final_response": "\ud83d\udc41\ufe0f **[Scout Drone \u2014 Optical Perception Feed]**\nSurvey complete inside Reception / Central Hub. Identified 4 objects:\n\u2022 **Table**: coordinates [0.0, 0.75, -15.0] | 91% confidence (Scene Graph Registry Layout) | 15.0m predefined facility depth\n\u2022 **Chair**: coordinates [0.0, 0.45, -13.8] | 91% confidence (Scene Graph Registry Layout) | 13.8m predefined facility depth\n\u2022 **Sofa**: coordinates [-6.5, 0.3, -16.0] | 91% confidence (Scene Graph Registry Layout) | 17.3m predefined facility depth\n\u2022 **Table**: coordinates [6.5, 0.75, -14.0] | 91% confidence (Scene Graph Registry Layout) | 15.4m predefined facility depth\n\n\u2022 **Data Source**: Facility Scene Graph Registry (Zero-Fabrication Policy: Camera frame is not passed to SpatialDetector CNN during conversational query; coordinates and 91% confidence reflect static facility layout).\n\u2022 **Camera Frustum**: 3D positions verified against facility geometry. Unobserved objects are not fabricated.",
+      "duration": 0.163
+    },
+    {
+      "query": "fnd the nerest tabl",
+      "expected_tool": "find_nearest_target",
+      "actual_tool": "find_nearest_target",
+      "actual_args": {
+        "target_class": "table",
+        "player_position": [
+          0.0,
+          -15.0
+        ],
+        "reference_object": null
+      },
+      "validation_status": "MODE_GUARDRAIL_SCOUT_NEAREST_TARGET",
+      "correct": true,
+      "arg_error": "",
+      "error": "",
+      "final_response": "\ud83d\udc41\ufe0f **[Scout Drone]** The closest table is 0.75 meters away at coordinates [0.0, 0.75, -15.0] inside Reception / Central Hub (in your current room).",
+      "duration": 0.163
+    },
+    {
+      "query": "tke me to libary",
+      "expected_tool": "navigate_to",
+      "actual_tool": "navigate_to",
+      "actual_args": {
+        "destination": "library",
+        "player_position": [
+          0.0,
+          -15.0
+        ],
+        "current_room": "Reception / Central Hub"
+      },
+      "validation_status": "MODE_GUARDRAIL_NAVIGATOR_NAVIGATE_TO",
+      "correct": true,
+      "arg_error": "",
+      "error": "",
+      "final_response": "\ud83e\udded **[Navigator Drone \u2014 GPS Navigation]**\n\ud83d\udccd GPS Navigation to Library (10.97m away):\n\u2022 Origin: Reception / Central Hub\n\u2022 Destination: Library / Archives\n\u2022 Turn-by-Turn Route:\n  1. \u2b06\ufe0f Head straight North from Reception / Central Hub toward the main corridor archway (proceed 5.0m).\n  2. \u2196\ufe0f Turn left (West) through the archway into the Library / Archives.\n  3. \u2b05\ufe0f Walk 4.5m West past the reference bookshelves, then bear North for 5.0m.\n  4. \ud83c\udfaf Destination reached: The Library / Archives is located at coordinates [-4.5, 0.8, -5.0].\n\nNavigation command dispatched: Guiding companion avatar to library at [-4.5, 0.75, -5.0].",
+      "duration": 0.164
+    },
+    {
+      "query": "giv me a hnt",
+      "expected_tool": "request_hint",
+      "actual_tool": "request_hint",
+      "actual_args": {
+        "topic": "mission_progression"
+      },
+      "validation_status": "MODE_GUARDRAIL_ARCHIVIST_REQUEST_HINT",
+      "correct": true,
+      "arg_error": "",
+      "error": "",
+      "final_response": "\ud83d\udcda **[Archivist Drone \u2014 Tactical Investigation Hint]**\n\u2022 **Mystery**: Mystery A: Missing Research Key\n\u2022 **Topic Focus**: Mission progression\n\u2022 **Tactical Guidance**: Hint for 'Ask: what objects are visible?': Try using get_visible_objects. Ask the companion drone: 'What objects are visible?' then 'Where is the table?' and interact with the cabinet to collect the research key.",
+      "duration": 0.163
+    },
+    {
+      "query": "shw my invntory",
+      "expected_tool": "get_inventory",
+      "actual_tool": "get_inventory",
+      "actual_args": {},
+      "validation_status": "MODE_GUARDRAIL_ARCHIVIST_INVENTORY",
+      "correct": true,
+      "arg_error": "",
+      "error": "",
+      "final_response": "\ud83d\udcda **[Archivist Drone]** Investigator Inventory (0 items): No items collected yet..",
+      "duration": 0.163
+    },
+    {
+      "query": "What is that over there?",
+      "expected_tool": "explain_uncertainty",
+      "actual_tool": "explain_uncertainty",
+      "actual_args": {
+        "query": "What is that over there?",
+        "reason": "unspecified_target"
+      },
+      "validation_status": "MODE_GUARDRAIL_SCOUT_AMBIGUOUS_POINTING",
+      "correct": true,
+      "arg_error": "",
+      "error": "",
+      "final_response": "\ud83d\udc41\ufe0f **[Scout Drone \u2014 Perception Confidence & Sensor Diagnostics]**\n\u2022 Status: Perception uncertainty analyzed.\n\u2022 Target Assessment: What is that over there?.\n\u2022 Zero-Hallucination & Zero-Fabrication Policy: Unobserved or occluded objects are not fabricated.\n\u2022 CNN Diagnostics: From-scratch SpatialDetector CNN processes 224x224 RGB-D frames. Visual uncertainty increases for novel viewing angles or occluded geometry.",
+      "duration": 0.158
+    },
+    {
+      "query": "How do I play?",
+      "expected_tool": "get_game_guide",
+      "actual_tool": "get_game_guide",
+      "actual_args": {
+        "topic": "all"
+      },
+      "validation_status": "MODE_GUARDRAIL_UNIVERSAL_GAME_GUIDE",
+      "correct": true,
+      "arg_error": "",
+      "error": "",
+      "final_response": "\ud83c\udfae **Welcome to Spatial Quest \u2014 Gameplay & Investigation Guide**\n\n**1. Mission Objective & Setting**\nYou are an investigator exploring a 5-room research facility (Reception, Research Office, Library / Archives, Investigation Lab, Storage Vault). Your objective is to solve active mysteries (Mysteries A through E) by surveying rooms, inspecting 3D clues, finding security codes, and unlocking restricted areas like Vault Door 3.\n\n**2. Movement & Camera Controls**\n\u2022 **Avatar Movement**: Use `W`, `A`, `S`, `D` or the Arrow Keys to walk freely through all 5 facility zones.\n\u2022 **Camera Modes**: Toggle `1ST PERSON`, `3RD PERSON`, or `TOP-DOWN` on the camera toolbar.\n\u2022 **Voice & Speech**: Click the microphone icon `\ud83c\udf99\ufe0f` to talk to me hands-free. Toggle `\ud83d\udd0a VOICE: ON` to hear spoken audio answers aloud.\n\u2022 **Missions**: Click `NEW MYSTERY` to select a case (Mysteries A\u2013E) or `RESTART MISSION` to replay.\n\n**3. How to Interact with Your Companion Drone (Me!)**\nYou can talk to me in natural language. Here is what I can do for you:\n\u2022 \ud83d\uddfa\ufe0f **Turn-by-Turn GPS Navigation**: Ask *\"Take me to the table\"*, *\"Guide me to the lab\"*, or *\"Where is the nearest door?\"* to get Google Maps-style step-by-step walking turns and waypoints.\n\u2022 \ud83d\udd0d **3D Perception & Vision**: Ask *\"What can you see?\"*, *\"Where is the chair?\"*, or *\"Can you find the laptop?\"* to detect objects with bounding boxes and depths.\n\u2022 \ud83d\udccf **Spatial Measurements**: Ask *\"How far is the desk from the chair?\"* or *\"Which object is closest?\"* to compute metric distances.\n\u2022 \ud83d\udd75\ufe0f **Clue & Puzzle Investigation**: Ask *\"Inspect the PDA\"*, *\"Examine the wall safe\"*, or *\"Unlock the safe\"*.\n\u2022 \ud83d\udcda **Facility Manuals & RAG**: Ask *\"Search documents for emergency override code\"* or *\"What should I do in a fire?\"*.\n\u2022 \ud83c\udfaf **Tactical Status**: Ask *\"What are my objectives?\"*, *\"Show inventory\"*, or *\"Give me a hint\"* if you are stuck!",
+      "duration": 0.183
+    },
+    {
+      "query": "Tell me about this room.",
+      "expected_tool": "get_current_location",
+      "actual_tool": "get_current_location",
+      "actual_args": {
+        "player_position": [
+          0.0,
+          -15.0
+        ],
+        "active_room": "Reception / Central Hub"
+      },
+      "validation_status": "MODE_GUARDRAIL_NAVIGATOR_LOCATION",
+      "correct": true,
+      "arg_error": "",
+      "error": "",
+      "final_response": "\ud83e\udded **[Navigator Drone \u2014 3D Spatial Telemetry]**\n\u2022 **Current Stance**: Reception / Central Hub at coordinates [0.0, 0.0, -15.0]\n\u2022 **Room Geometry**: Visitor entry, main security checkpoint, and security terminal.\n\u2022 **Adjacent Corridors & Zones**: Reception (Z < -10), Research Office (Z -10..0, East), Library (Z -10..0, West), Laboratory (Z 0..10), Storage Vault (Z > 10).\n\nGPS spatial positioning active. You can ask for turn-by-turn guidance to any room or landmark (e.g. 'Take me to the Library' or 'Guide me to the table').",
+      "duration": 0.166
+    },
+    {
+      "query": "Who are you?",
+      "expected_tool": "get_game_guide",
+      "actual_tool": "get_game_guide",
+      "actual_args": {
+        "topic": "introduction"
+      },
+      "validation_status": "MODE_GUARDRAIL_UNIVERSAL_INTRO",
+      "correct": true,
+      "arg_error": "",
+      "error": "",
+      "final_response": "\ud83d\udc4b I am your autonomous AI Companion Drone for Spatial Quest! I assist you throughout the facility with real-time 3D object detection, Google Maps-style turn-by-turn navigation (e.g. 'Take me to the table'), metric distance calculations, clue examination, and facility document retrieval. Ask me 'How to play' anytime for complete controls and gameplay instructions!",
+      "duration": 0.164
+    }
+  ],
+  "multi_turn": [
+    {
+      "turn": 1,
+      "query": "What objects can you see?",
+      "expected_tool": "get_visible_objects",
+      "actual_tool": "get_visible_objects",
+      "actual_args": {
+        "room_name": "Reception / Central Hub",
+        "player_position": [
+          0.0,
+          -15.0
+        ],
+        "camera_heading": null,
+        "filter_fov": false
+      },
+      "final_response": "\ud83d\udc41\ufe0f **[Scout Drone \u2014 Optical Perception Feed]**\nSurvey complete inside Reception / Central Hub. Identified 4 objects:\n\u2022 *...",
+      "last_mentioned": null,
+      "player_stance": [
+        0.0,
+        0.0,
+        -15.0
+      ]
+    },
+    {
+      "turn": 2,
+      "query": "Which one is closest to me?",
+      "expected_tool": "find_nearest_target",
+      "actual_tool": "find_nearest_target",
+      "actual_args": {
+        "target_class": "any",
+        "player_position": [
+          0.0,
+          -15.0
+        ],
+        "reference_object": null
+      },
+      "final_response": "\ud83e\udded **[Navigator Drone]** The closest table is 0.75 meters away at coordinates [0.0, 0.75, -15.0] inside Reception / Centr...",
+      "last_mentioned": "table",
+      "player_stance": [
+        0.0,
+        0.0,
+        -15.0
+      ]
+    },
+    {
+      "turn": 3,
+      "query": "Take me there.",
+      "expected_tool": "navigate_to",
+      "actual_tool": "navigate_to",
+      "actual_args": {
+        "destination": "security table",
+        "player_position": [
+          0.0,
+          -15.0
+        ],
+        "current_room": "Reception / Central Hub"
+      },
+      "final_response": "\ud83e\udded **[Navigator Drone \u2014 GPS Navigation]**\n\ud83d\udccd GPS Navigation to Security table in Reception / Central Hub (0.0m away):\n\u2022 Or...",
+      "last_mentioned": "security table",
+      "player_stance": [
+        0.0,
+        0.75,
+        -15.0
+      ]
+    },
+    {
+      "turn": 4,
+      "query": "How far is it from here?",
+      "expected_tool": "find_nearest_target",
+      "actual_tool": "find_nearest_target",
+      "actual_args": {
+        "target_class": "table",
+        "player_position": [
+          0.0,
+          -15.0
+        ],
+        "reference_object": null
+      },
+      "final_response": "\ud83e\udded **[Navigator Drone]** The closest table is 0.75 meters away at coordinates [0.0, 0.75, -15.0] inside Reception / Centr...",
+      "last_mentioned": "table",
+      "player_stance": [
+        0.0,
+        0.75,
+        -15.0
+      ]
+    }
+  ],
+  "negative_cases": [
+    {
+      "query": "Where is the laptop?",
+      "scenario": "Non-existent object in facility",
+      "expected_tool": "explain_uncertainty",
+      "actual_tool": "explain_uncertainty",
+      "response_sample": "\ud83d\udc41\ufe0f **[Scout Drone \u2014 Perception Confidence & Sensor Diagnostics]**\n\u2022 Status: Perception uncertainty analyzed.\n\u2022 Target Assessment: No laptop ...",
+      "zero_fabrication_maintained": true
+    },
+    {
+      "query": "Where is the quantum microscope?",
+      "scenario": "Non-existent object in facility",
+      "expected_tool": "explain_uncertainty",
+      "actual_tool": "explain_uncertainty",
+      "response_sample": "\ud83d\udc41\ufe0f **[Scout Drone \u2014 Perception Confidence & Sensor Diagnostics]**\n\u2022 Status: Perception uncertainty analyzed.\n\u2022 Target Assessment: No quantum...",
+      "zero_fabrication_maintained": true
+    },
+    {
+      "query": "What objects can you see?",
+      "scenario": "Empty Chamber test",
+      "expected_tool": "get_visible_objects",
+      "actual_tool": "get_visible_objects",
+      "response_sample": "\ud83d\udc41\ufe0f **[Scout Drone \u2014 Optical Perception Feed]**\nSurvey complete inside Empty Quarantine Chamber. No objects registered or visible in this sec...",
+      "zero_fabrication_maintained": true
+    },
+    {
+      "query": "Take me to the moon base.",
+      "scenario": "Invalid destination",
+      "expected_tool": "navigate_to",
+      "actual_tool": "navigate_to",
+      "response_sample": "Destination target is unreachable from current position....",
+      "zero_fabrication_maintained": true
+    },
+    {
+      "query": "Show my inventory.",
+      "scenario": "Empty inventory check",
+      "expected_tool": "get_inventory",
+      "actual_tool": "get_inventory",
+      "response_sample": "\ud83d\udcda **[Archivist Drone]** Investigator Inventory (0 items): No items collected yet.....",
+      "zero_fabrication_maintained": true
+    },
+    {
+      "query": "Search documents for secret alien blueprints.",
+      "scenario": "Unavailable documentation query",
+      "expected_tool": "search_documents",
+      "actual_tool": "search_documents",
+      "response_sample": "\ud83d\udcda **[Archivist Drone]** No matching facility documentation found in Sector 4 archives for query: 'Search documents for secret alien blueprin...",
+      "zero_fabrication_maintained": true
+    }
+  ],
+  "raw_transformer": {
+    "total_tested": 50,
+    "valid_json_count": 47,
+    "valid_json_pct": 94.0,
+    "correct_tool_count": 47,
+    "correct_tool_pct": 94.0,
+    "valid_args_count": 46,
+    "valid_args_pct": 92.0,
+    "samples": [
+      {
+        "user_prompt_snippet": "What is the function of the Reception / Central Hub?",
+        "expected_tool": "get_current_location",
+        "raw_generated_text": "<thought>Retrieve facility room metadataand functional description forReception/Central Hub.</thought><tool_call>{\"name\":\"get_current_location\",\"arguments\":{}}</tool_call>",
+        "parsed_tool": "get_current_location",
+        "parsed_args": {
+          "player_position": null,
+          "active_room": null
+        },
+        "is_valid_json": true,
+        "tool_correct": true
+      },
+      {
+        "user_prompt_snippet": "Survey the current room for objects.",
+        "expected_tool": "get_visible_objects",
+        "raw_generated_text": "<thought>Survey the visual sensor feed inResearch Office toidentify all detected objects.</thought><tool_call>{\"name\":\"get_visible_objects\",\"arguments\":{}}</tool_call>",
+        "parsed_tool": "get_visible_objects",
+        "parsed_args": {
+          "room_name": null,
+          "player_position": null,
+          "camera_heading": null,
+          "filter_fov": false
+        },
+        "is_valid_json": true,
+        "tool_correct": true
+      },
+      {
+        "user_prompt_snippet": "What is to the left of the chair?",
+        "expected_tool": "query_spatial_relation",
+        "raw_generated_text": "<thought>Query directional left_of relationship relative tochair.</thought><tool_call>{\"name\":\"query_spatial_relation\",\"arguments\":{\"object_name\":\"chair\",\"relation\":\"left_of\"}}</tool_call>",
+        "parsed_tool": "query_spatial_relation",
+        "parsed_args": {
+          "object_name": "chair",
+          "relation": "left_of"
+        },
+        "is_valid_json": true,
+        "tool_correct": true
+      },
+      {
+        "user_prompt_snippet": "Disengage the door_3.",
+        "expected_tool": "interact_with_object",
+        "raw_generated_text": "<thought>Execute environmental physical interaction ondoor_3.</thought><tool_call>{\"name\":\"interact_with_object\",\"arguments\":{\"object_id\":\"door_3\"}}</tool_call>",
+        "parsed_tool": "interact_with_object",
+        "parsed_args": {
+          "object_id": "door_3"
+        },
+        "is_valid_json": true,
+        "tool_correct": true
+      },
+      {
+        "user_prompt_snippet": "What are you uncertain about?",
+        "expected_tool": "explain_uncertainty",
+        "raw_generated_text": "<thought>Inspect visual perception confidence threshold and depth uncertainty margins.</thought><tool_call>{\"name\":\"explain_uncertainty\",\"arguments\":{\"query\":\"detection confidence analysis\"}}</tool_call>",
+        "parsed_tool": "explain_uncertainty",
+        "parsed_args": {
+          "query": "detection confidence analysis",
+          "reason": null
+        },
+        "is_valid_json": true,
+        "tool_correct": true
+      },
+      {
+        "user_prompt_snippet": "Disengage the door_3.",
+        "expected_tool": "interact_with_object",
+        "raw_generated_text": "<thought>Execute environmental physical interaction ondoor_3.</thought><tool_call>{\"name\":\"interact_with_object\",\"arguments\":{\"object_id\":\"door_3\"}}</tool_call>",
+        "parsed_tool": "interact_with_object",
+        "parsed_args": {
+          "object_id": "door_3"
+        },
+        "is_valid_json": true,
+        "tool_correct": true
+      },
+      {
+        "user_prompt_snippet": "Can you find the chair here?",
+        "expected_tool": "locate_object",
+        "raw_generated_text": "<thought>Retrieve the 3D metric coordinates of the chair inReception/Central Hub.</thought><tool_call>{\"name\":\"locate_object\",\"arguments\":{\"object_name\":\"chair\"}}</tool_call>",
+        "parsed_tool": "locate_object",
+        "parsed_args": {
+          "object_name": "chair"
+        },
+        "is_valid_json": true,
+        "tool_correct": true
+      },
+      {
+        "user_prompt_snippet": "What is the distance between the cabinet and the table?",
+        "expected_tool": "calculate_distance",
+        "raw_generated_text": "<thought>Compute 3D Euclidean distance between cabinet and table.</thought><tool_call>{\"name\":\"calculate_distance\",\"arguments\":{\"object_a\":\"cabinet\",\"object_b\":\"table\"}}</tool_call>",
+        "parsed_tool": "calculate_distance",
+        "parsed_args": {
+          "object_a": "cabinet",
+          "object_b": "table"
+        },
+        "is_valid_json": true,
+        "tool_correct": true
+      },
+      {
+        "user_prompt_snippet": "Which object is closest to the table?",
+        "expected_tool": "find_nearest_target",
+        "raw_generated_text": "<thought>Find the nearest geometric neighbor totable.</thought><tool_call>{\"name\":\"find_nearest_target\",\"arguments\":{\"target_class\":\"bookshelf\"}}</tool_call>",
+        "parsed_tool": "find_nearest_target",
+        "parsed_args": {
+          "target_class": "bookshelf",
+          "player_position": null,
+          "reference_object": null
+        },
+        "is_valid_json": true,
+        "tool_correct": true
+      },
+      {
+        "user_prompt_snippet": "Calculate a path to the door",
+        "expected_tool": "find_path",
+        "raw_generated_text": "<thought>Compute obstacle-avoiding 3D geometric waypoints todoor.</thought><tool_call>{\"name\":\"find_path\",\"arguments\":{\"destination\":\"door\"}}</tool_call>",
+        "parsed_tool": "find_path",
+        "parsed_args": {
+          "destination": "door",
+          "player_position": null,
+          "current_room": null
+        },
+        "is_valid_json": true,
+        "tool_correct": true
+      },
+      {
+        "user_prompt_snippet": "What is to the right of the table?",
+        "expected_tool": "query_spatial_relation",
+        "raw_generated_text": "<thought>Query directional right_of relationship relative totable.</thought><tool_call>{\"name\":\"query_spatial_relation\",\"arguments\":{\"object_name\":\"table\",\"relation\":\"right_of\"}}</tool_call>",
+        "parsed_tool": "query_spatial_relation",
+        "parsed_args": {
+          "object_name": "table",
+          "relation": "right_of"
+        },
+        "is_valid_json": true,
+        "tool_correct": true
+      },
+      {
+        "user_prompt_snippet": "What is to the right of the door?",
+        "expected_tool": "query_spatial_relation",
+        "raw_generated_text": "<thought>Query directional right_of relationship relative todoor.</thought><tool_call>{\"name\":\"query_spatial_relation\",\"arguments\":{\"object_name\":\"door\",\"relation\":\"right_of\"}}</tool_call>",
+        "parsed_tool": "query_spatial_relation",
+        "parsed_args": {
+          "object_name": "door",
+          "relation": "right_of"
+        },
+        "is_valid_json": true,
+        "tool_correct": true
+      },
+      {
+        "user_prompt_snippet": "Can you find the datapad_case?",
+        "expected_tool": "explain_uncertainty",
+        "raw_generated_text": "<thought>Target datapad_case isnot detected inReception/Central Hub.Report sensor absence and explainuncertainty.</thought><tool_call>{\"name\":\"explain_uncertainty\",\"arguments\":{\"query\":\"No datapad_case detected inReception",
+        "parsed_tool": null,
+        "parsed_args": {},
+        "is_valid_json": false,
+        "tool_correct": false
+      },
+      {
+        "user_prompt_snippet": "Which way leads to the next section?",
+        "expected_tool": "find_nearest_exit",
+        "raw_generated_text": "<thought>Locate nearest doorway orarchway threshold tonavigate egress.</thought><tool_call>{\"name\":\"find_nearest_exit\",\"arguments\":{}}</tool_call>",
+        "parsed_tool": "find_nearest_exit",
+        "parsed_args": {
+          "player_position": null
+        },
+        "is_valid_json": true,
+        "tool_correct": true
+      },
+      {
+        "user_prompt_snippet": "What are the waypoints to the laboratory?",
+        "expected_tool": "find_path",
+        "raw_generated_text": "<thought>Compute obstacle-avoiding 3D geometric waypoints tolaboratory.</thought><tool_call>{\"name\":\"find_path\",\"arguments\":{\"destination\":\"laboratory\"}}</tool_call>",
+        "parsed_tool": "find_path",
+        "parsed_args": {
+          "destination": "laboratory",
+          "player_position": null,
+          "current_room": null
+        },
+        "is_valid_json": true,
+        "tool_correct": true
+      }
+    ]
+  }
+}

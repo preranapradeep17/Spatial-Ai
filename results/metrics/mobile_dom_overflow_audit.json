@@ -1,0 +1,218 @@
+[
+  {
+    "profile": "iPhone SE / 13 mini",
+    "windowWidth": 500,
+    "docScrollWidth": 500,
+    "bodyScrollWidth": 500,
+    "hasHorizontalOverflow": false,
+    "overflowingElementsCount": 15,
+    "overflowingSample": [
+      {
+        "tag": "BUTTON",
+        "id": "btnToggleInspector",
+        "cls": "btn-action inspector-btn",
+        "right": 524,
+        "overflow": 24
+      },
+      {
+        "tag": "SPAN",
+        "id": "",
+        "cls": "hdr-btn-short",
+        "right": 517,
+        "overflow": 17
+      },
+      {
+        "tag": "DIV",
+        "id": "backendTag",
+        "cls": "tag live",
+        "right": 600,
+        "overflow": 100
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "cls": "tag-dot",
+        "right": 541,
+        "overflow": 41
+      },
+      {
+        "tag": "DIV",
+        "id": "scoreTag",
+        "cls": "tag",
+        "right": 677,
+        "overflow": 177
+      }
+    ],
+    "chatInputWidth": 48,
+    "chatInputFullyVisible": true,
+    "micVisible": true,
+    "sendVisible": true,
+    "ttsVisible": true,
+    "dpadVisible": true,
+    "actionsVisible": true,
+    "canvasHeight": 377,
+    "freeCanvasHeight": 283
+  },
+  {
+    "profile": "iPhone 12 / 13 / 14",
+    "windowWidth": 500,
+    "docScrollWidth": 500,
+    "bodyScrollWidth": 500,
+    "hasHorizontalOverflow": false,
+    "overflowingElementsCount": 13,
+    "overflowingSample": [
+      {
+        "tag": "BUTTON",
+        "id": "btnToggleInspector",
+        "cls": "btn-action inspector-btn",
+        "right": 524,
+        "overflow": 24
+      },
+      {
+        "tag": "SPAN",
+        "id": "",
+        "cls": "hdr-btn-short",
+        "right": 517,
+        "overflow": 17
+      },
+      {
+        "tag": "DIV",
+        "id": "backendTag",
+        "cls": "tag live",
+        "right": 600,
+        "overflow": 100
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "cls": "tag-dot",
+        "right": 541,
+        "overflow": 41
+      },
+      {
+        "tag": "DIV",
+        "id": "scoreTag",
+        "cls": "tag",
+        "right": 677,
+        "overflow": 177
+      }
+    ],
+    "chatInputWidth": 301,
+    "chatInputFullyVisible": true,
+    "micVisible": true,
+    "sendVisible": true,
+    "ttsVisible": true,
+    "dpadVisible": true,
+    "actionsVisible": true,
+    "canvasHeight": 252,
+    "freeCanvasHeight": 158
+  },
+  {
+    "profile": "iPhone 11 / XR",
+    "windowWidth": 500,
+    "docScrollWidth": 500,
+    "bodyScrollWidth": 500,
+    "hasHorizontalOverflow": false,
+    "overflowingElementsCount": 13,
+    "overflowingSample": [
+      {
+        "tag": "BUTTON",
+        "id": "btnToggleInspector",
+        "cls": "btn-action inspector-btn",
+        "right": 524,
+        "overflow": 24
+      },
+      {
+        "tag": "SPAN",
+        "id": "",
+        "cls": "hdr-btn-short",
+        "right": 517,
+        "overflow": 17
+      },
+      {
+        "tag": "DIV",
+        "id": "backendTag",
+        "cls": "tag live",
+        "right": 600,
+        "overflow": 100
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "cls": "tag-dot",
+        "right": 541,
+        "overflow": 41
+      },
+      {
+        "tag": "DIV",
+        "id": "scoreTag",
+        "cls": "tag",
+        "right": 677,
+        "overflow": 177
+      }
+    ],
+    "chatInputWidth": 301,
+    "chatInputFullyVisible": true,
+    "micVisible": true,
+    "sendVisible": true,
+    "ttsVisible": true,
+    "dpadVisible": true,
+    "actionsVisible": true,
+    "canvasHeight": 273,
+    "freeCanvasHeight": 179
+  },
+  {
+    "profile": "iPhone 14/15/16 Pro Max",
+    "windowWidth": 500,
+    "docScrollWidth": 500,
+    "bodyScrollWidth": 500,
+    "hasHorizontalOverflow": false,
+    "overflowingElementsCount": 13,
+    "overflowingSample": [
+      {
+        "tag": "BUTTON",
+        "id": "btnToggleInspector",
+        "cls": "btn-action inspector-btn",
+        "right": 524,
+        "overflow": 24
+      },
+      {
+        "tag": "SPAN",
+        "id": "",
+        "cls": "hdr-btn-short",
+        "right": 517,
+        "overflow": 17
+      },
+      {
+        "tag": "DIV",
+        "id": "backendTag",
+        "cls": "tag live",
+        "right": 600,
+        "overflow": 100
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "cls": "tag-dot",
+        "right": 541,
+        "overflow": 41
+      },
+      {
+        "tag": "DIV",
+        "id": "scoreTag",
+        "cls": "tag",
+        "right": 677,
+        "overflow": 177
+      }
+    ],
+    "chatInputWidth": 301,
+    "chatInputFullyVisible": true,
+    "micVisible": true,
+    "sendVisible": true,
+    "ttsVisible": true,
+    "dpadVisible": true,
+    "actionsVisible": true,
+    "canvasHeight": 290,
+    "freeCanvasHeight": 196
+  }
+]

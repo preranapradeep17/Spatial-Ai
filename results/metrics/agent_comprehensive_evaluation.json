@@ -1,0 +1,144 @@
+{
+  "evaluation_timestamp": "2026-11-04 08:08:04",
+  "total_test_samples": 250,
+  "evaluation_duration_seconds": 49.37,
+  "metrics": {
+    "1_tool_selection_accuracy_pct": 62.4,
+    "2_object_identification_accuracy_pct": 52.63,
+    "3_spatial_reasoning_accuracy_pct": 89.47,
+    "4_negative_observation_handling_pct": 28.57,
+    "5_conversational_context_retention_pct": 100.0,
+    "6_rag_answer_faithfulness_pct": 42.42,
+    "7_hallucination_rate_pct": 0.0,
+    "8_end_to_end_task_success_rate_pct": 88.0
+  },
+  "category_breakdown": {
+    "scene_understanding": {
+      "total": 33,
+      "correct": 14,
+      "accuracy_pct": 42.42
+    },
+    "object_understanding": {
+      "total": 38,
+      "correct": 20,
+      "accuracy_pct": 52.63
+    },
+    "spatial_reasoning": {
+      "total": 57,
+      "correct": 51,
+      "accuracy_pct": 89.47
+    },
+    "navigation_interaction": {
+      "total": 47,
+      "correct": 28,
+      "accuracy_pct": 59.57
+    },
+    "contextual_negative": {
+      "total": 42,
+      "correct": 12,
+      "accuracy_pct": 28.57
+    },
+    "investigation_rag": {
+      "total": 33,
+      "correct": 31,
+      "accuracy_pct": 93.94
+    }
+  },
+  "per_tool_stats": {
+    "get_current_location": {
+      "expected": 20,
+      "predicted": 10,
+      "correct": 8
+    },
+    "get_visible_objects": {
+      "expected": 16,
+      "predicted": 15,
+      "correct": 3
+    },
+    "query_spatial_relation": {
+      "expected": 22,
+      "predicted": 20,
+      "correct": 20
+    },
+    "interact_with_object": {
+      "expected": 12,
+      "predicted": 8,
+      "correct": 8
+    },
+    "find_nearest_exit": {
+      "expected": 13,
+      "predicted": 35,
+      "correct": 6
+    },
+    "explain_uncertainty": {
+      "expected": 32,
+      "predicted": 19,
+      "correct": 11
+    },
+    "get_game_guide": {
+      "expected": 4,
+      "predicted": 13,
+      "correct": 4
+    },
+    "locate_object": {
+      "expected": 14,
+      "predicted": 9,
+      "correct": 9
+    },
+    "calculate_distance": {
+      "expected": 15,
+      "predicted": 11,
+      "correct": 11
+    },
+    "find_nearest_target": {
+      "expected": 20,
+      "predicted": 20,
+      "correct": 20
+    },
+    "find_path": {
+      "expected": 17,
+      "predicted": 8,
+      "correct": 6
+    },
+    "explain_unreachable": {
+      "expected": 10,
+      "predicted": 1,
+      "correct": 1
+    },
+    "get_mission_objectives": {
+      "expected": 5,
+      "predicted": 5,
+      "correct": 5
+    },
+    "inspect_object_closely": {
+      "expected": 8,
+      "predicted": 8,
+      "correct": 8
+    },
+    "search_documents": {
+      "expected": 12,
+      "predicted": 10,
+      "correct": 10
+    },
+    "navigate_to": {
+      "expected": 18,
+      "predicted": 16,
+      "correct": 14
+    },
+    "request_hint": {
+      "expected": 3,
+      "predicted": 3,
+      "correct": 3
+    },
+    "get_inventory": {
+      "expected": 5,
+      "predicted": 5,
+      "correct": 5
+    },
+    "search_safety_manual": {
+      "expected": 4,
+      "predicted": 4,
+      "correct": 4
+    }
+  }
+}

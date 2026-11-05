@@ -1,0 +1,21 @@
+{
+  "split_sizes": {
+    "train": 2000,
+    "val": 248,
+    "test": 252,
+    "total": 2500
+  },
+  "exact_query_leakage": {
+    "val_leaked": 0,
+    "val_leakage_pct": 0.0,
+    "test_leaked": 0,
+    "test_leakage_pct": 0.0
+  },
+  "paraphrase_query_leakage": {
+    "val_paraphrase_leaked": 0,
+    "val_paraphrase_leakage_pct": 0.0,
+    "test_paraphrase_leaked": 0,
+    "test_paraphrase_leakage_pct": 0.0
+  },
+  "leakage_assessment": "CLEAN: Semantic intent clustering guarantees zero query and paraphrase leakage across splits."
+}

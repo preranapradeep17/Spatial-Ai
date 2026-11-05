@@ -1,0 +1,178 @@
+{
+  "summary": {
+    "total_examples": 2500,
+    "valid_examples": 2500,
+    "valid_percentage": 100.0,
+    "invalid_examples": 0,
+    "invalid_percentage": 0.0,
+    "semantic_correctness_percentage": 100.0,
+    "exact_duplicate_count": 0,
+    "exact_duplicate_percentage": 0.0,
+    "unique_inquiry_count": 487,
+    "inquiry_diversity_percentage": 19.48,
+    "missing_tools_count": 0,
+    "missing_tools": [],
+    "argument_validation_failures": 0,
+    "answer_leakage_count": 0,
+    "geographic_discrepancies": 0,
+    "coordinate_discrepancies": 0,
+    "unsupported_objects_count": 0
+  },
+  "tool_distribution": {
+    "calculate_distance": {
+      "count": 125,
+      "percentage": 5.0
+    },
+    "explain_uncertainty": {
+      "count": 337,
+      "percentage": 13.48
+    },
+    "explain_unreachable": {
+      "count": 113,
+      "percentage": 4.52
+    },
+    "find_nearest_exit": {
+      "count": 133,
+      "percentage": 5.32
+    },
+    "find_nearest_target": {
+      "count": 125,
+      "percentage": 5.0
+    },
+    "find_path": {
+      "count": 150,
+      "percentage": 6.0
+    },
+    "get_current_location": {
+      "count": 267,
+      "percentage": 10.68
+    },
+    "get_game_guide": {
+      "count": 41,
+      "percentage": 1.64
+    },
+    "get_inventory": {
+      "count": 48,
+      "percentage": 1.92
+    },
+    "get_mission_objectives": {
+      "count": 33,
+      "percentage": 1.32
+    },
+    "get_visible_objects": {
+      "count": 200,
+      "percentage": 8.0
+    },
+    "inspect_clue": {
+      "count": 43,
+      "percentage": 1.72
+    },
+    "inspect_object_closely": {
+      "count": 100,
+      "percentage": 4.0
+    },
+    "interact_with_object": {
+      "count": 150,
+      "percentage": 6.0
+    },
+    "locate_object": {
+      "count": 100,
+      "percentage": 4.0
+    },
+    "navigate_to": {
+      "count": 150,
+      "percentage": 6.0
+    },
+    "query_spatial_relation": {
+      "count": 250,
+      "percentage": 10.0
+    },
+    "request_hint": {
+      "count": 28,
+      "percentage": 1.12
+    },
+    "search_documents": {
+      "count": 64,
+      "percentage": 2.56
+    },
+    "search_safety_manual": {
+      "count": 43,
+      "percentage": 1.72
+    }
+  },
+  "category_distribution": {
+    "object_understanding": 400,
+    "spatial_reasoning": 500,
+    "scene_understanding": 400,
+    "contextual_negative": 450,
+    "navigation_interaction": 450,
+    "investigation_rag": 300
+  },
+  "agent_mode_distribution": {
+    "SCOUT": 737,
+    "NAVIGATOR": 1463,
+    "ARCHIVIST": 300
+  },
+  "top_repeated_queries": [
+    {
+      "query": "Why isn't it detected on that surface?",
+      "count": 35,
+      "percentage": 1.4
+    },
+    {
+      "query": "Give me a briefing on this room.",
+      "count": 34,
+      "percentage": 1.36
+    },
+    {
+      "query": "Describe our immediate surroundings and room purpose.",
+      "count": 29,
+      "percentage": 1.16
+    },
+    {
+      "query": "Why is the laptop not visible there?",
+      "count": 29,
+      "percentage": 1.16
+    },
+    {
+      "query": "Why can't you see the laptop on it?",
+      "count": 26,
+      "percentage": 1.04
+    },
+    {
+      "query": "Identify our current location in Sector 4.",
+      "count": 25,
+      "percentage": 1.0
+    },
+    {
+      "query": "wher is the exit?",
+      "count": 25,
+      "percentage": 1.0
+    },
+    {
+      "query": "Explain why that object is missing from the surface.",
+      "count": 22,
+      "percentage": 0.88
+    },
+    {
+      "query": "Which way leads to the next section?",
+      "count": 21,
+      "percentage": 0.84
+    },
+    {
+      "query": "What is your margin of error?",
+      "count": 21,
+      "percentage": 0.84
+    },
+    {
+      "query": "Confirm active room designation.",
+      "count": 20,
+      "percentage": 0.8
+    },
+    {
+      "query": "Where is the exit from this room?",
+      "count": 20,
+      "percentage": 0.8
+    }
+  ]
+}

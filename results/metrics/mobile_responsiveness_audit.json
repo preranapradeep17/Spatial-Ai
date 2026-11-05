@@ -1,0 +1,50 @@
+[
+  {
+    "profile": "iPhone SE / 13 mini",
+    "width": 375,
+    "height": 667,
+    "screenshot": "results/screenshots/mobile_verification/iphone_se_375.png",
+    "size_bytes": 64501,
+    "status": "OK"
+  },
+  {
+    "profile": "iPhone 12 / 13 / 14",
+    "width": 390,
+    "height": 844,
+    "screenshot": "results/screenshots/mobile_verification/iphone_13_390.png",
+    "size_bytes": 86241,
+    "status": "OK"
+  },
+  {
+    "profile": "iPhone 11 / XR / Plus",
+    "width": 414,
+    "height": 896,
+    "screenshot": "results/screenshots/mobile_verification/iphone_11_414.png",
+    "size_bytes": 94364,
+    "status": "OK"
+  },
+  {
+    "profile": "iPhone 14/15/16 Pro Max",
+    "width": 430,
+    "height": 932,
+    "screenshot": "results/screenshots/mobile_verification/iphone_promax_430.png",
+    "size_bytes": 93835,
+    "status": "OK"
+  },
+  {
+    "profile": "iPhone 13 Landscape",
+    "width": 844,
+    "height": 390,
+    "screenshot": "results/screenshots/mobile_verification/iphone_landscape_844.png",
+    "size_bytes": 88444,
+    "status": "OK"
+  },
+  {
+    "profile": "Desktop Verification",
+    "width": 1280,
+    "height": 820,
+    "screenshot": "results/screenshots/mobile_verification/desktop_1280.png",
+    "size_bytes": 144841,
+    "status": "OK"
+  }
+]

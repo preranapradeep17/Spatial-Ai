@@ -1,0 +1,118 @@
+{
+  "frame_id": "frame_00001",
+  "image_filename": "rgb/frame_00001.png",
+  "depth_filename": "depth/frame_00001.npy",
+  "camera": {
+    "fx": 525.0,
+    "fy": 525.0,
+    "cx": 320.0,
+    "cy": 240.0,
+    "image_width": 640,
+    "image_height": 480,
+    "position": [
+      0.0,
+      1.5,
+      -2.5297972194380702
+    ],
+    "rotation_quaternion": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  },
+  "objects": [
+    {
+      "object_id": "door_00",
+      "class_id": 4,
+      "class_name": "door",
+      "bbox_2d": {
+        "xmin": 108.1,
+        "ymin": 177.7,
+        "xmax": 199.5,
+        "ymax": 352.2
+      },
+      "position_world_3d": [
+        -2.0,
+        1.2,
+        6.317
+      ],
+      "position_camera_3d": [
+        -2.0,
+        -0.3,
+        6.317
+      ],
+      "distance_to_camera": 6.633,
+      "is_visible": true
+    },
+    {
+      "object_id": "laptop_01",
+      "class_id": 2,
+      "class_name": "laptop",
+      "bbox_2d": {
+        "xmin": 299.7,
+        "ymin": 334.1,
+        "xmax": 359.1,
+        "ymax": 376.5
+      },
+      "position_world_3d": [
+        0.055,
+        0.82,
+        3.095
+      ],
+      "position_camera_3d": [
+        0.055,
+        -0.68,
+        3.095
+      ],
+      "distance_to_camera": 3.17,
+      "is_visible": true
+    },
+    {
+      "object_id": "table_02",
+      "class_id": 0,
+      "class_name": "table",
+      "bbox_2d": {
+        "xmin": 141.4,
+        "ymin": 305.5,
+        "xmax": 421.0,
+        "ymax": 436.6
+      },
+      "position_world_3d": [
+        -0.222,
+        0.75,
+        3.004
+      ],
+      "position_camera_3d": [
+        -0.222,
+        -0.75,
+        3.004
+      ],
+      "distance_to_camera": 3.104,
+      "is_visible": true
+    },
+    {
+      "object_id": "chair_03",
+      "class_id": 1,
+      "class_name": "chair",
+      "bbox_2d": {
+        "xmin": 20.7,
+        "ymin": 362.4,
+        "xmax": 154.2,
+        "ymax": 480.0
+      },
+      "position_world_3d": [
+        -1.045,
+        0.5,
+        2.359
+      ],
+      "position_camera_3d": [
+        -1.045,
+        -1.0,
+        2.359
+      ],
+      "distance_to_camera": 2.767,
+      "is_visible": true
+    }
+  ]
+}

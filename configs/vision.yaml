@@ -1,0 +1,41 @@
+# Computer Vision Configuration for SpatialAI
+# Custom Single-Stage CNN Object Detector
+
+model:
+  name: "spatial_detector_v1"
+  num_classes: 6
+  classes:
+    - "table"             # ID 0
+    - "chair"             # ID 1
+    - "door"              # ID 2
+    - "bookshelf"         # ID 3
+    - "sofa"              # ID 4
+    - "cabinet"           # ID 5
+  input_resolution: [640, 480]  # [width, height]
+  backbone_channels: [32, 64, 128, 256, 256]
+  grid_size: [20, 15]     # [grid_w, grid_h] (32x downsampling from 640x480)
+  boxes_per_cell: 1       # Anchor-free center offset prediction
+
+training:
+  batch_size: 8
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  epochs: 25
+  device: "auto"          # 'mps', 'cuda', 'cpu', or 'auto'
+  seed: 42
+  loss_weights:
+    objectness: 1.0
+    bounding_box: 5.0
+    classification: 1.0
+
+dataset:
+  primary_benchmark: "sunrgbd"
+  data_dir: "data/sunrgbd"
+  synthetic_eval_dir: "data/generated/sample_smoke"
+  max_depth_meters: 8.0
+
+camera:
+  fx: 525.0
+  fy: 525.0
+  cx: 320.0
+  cy: 240.0

@@ -1,0 +1,4775 @@
+{
+  "vocab_size": 1024,
+  "special_tokens": [
+    "<pad>",
+    "<s>",
+    "</s>",
+    "<unk>",
+    "<tool_call>",
+    "</tool_call>",
+    "<thought>",
+    "</thought>",
+    "<observation>",
+    "</observation>"
+  ],
+  "token_to_id": {
+    "<pad>": 0,
+    "<s>": 1,
+    "</s>": 2,
+    "<unk>": 3,
+    "<tool_call>": 4,
+    "</tool_call>": 5,
+    "<thought>": 6,
+    "</thought>": 7,
+    "<observation>": 8,
+    "</observation>": 9,
+    "\"": 10,
+    "#": 11,
+    "&": 12,
+    "'": 13,
+    "(": 14,
+    ")": 15,
+    ",": 16,
+    "-": 17,
+    ".": 18,
+    "/": 19,
+    "0": 20,
+    "1": 21,
+    "2": 22,
+    "3": 23,
+    "4": 24,
+    "5": 25,
+    "6": 26,
+    "7": 27,
+    "8": 28,
+    "9": 29,
+    ":": 30,
+    "<": 31,
+    "</w>": 32,
+    ">": 33,
+    "?": 34,
+    "A": 35,
+    "B": 36,
+    "C": 37,
+    "D": 38,
+    "E": 39,
+    "F": 40,
+    "G": 41,
+    "H": 42,
+    "I": 43,
+    "J": 44,
+    "K": 45,
+    "L": 46,
+    "M": 47,
+    "N": 48,
+    "O": 49,
+    "P": 50,
+    "Q": 51,
+    "R": 52,
+    "S": 53,
+    "T": 54,
+    "U": 55,
+    "V": 56,
+    "W": 57,
+    "Y": 58,
+    "Z": 59,
+    "[": 60,
+    "]": 61,
+    "_": 62,
+    "a": 63,
+    "b": 64,
+    "c": 65,
+    "d": 66,
+    "e": 67,
+    "f": 68,
+    "g": 69,
+    "h": 70,
+    "i": 71,
+    "j": 72,
+    "k": 73,
+    "l": 74,
+    "m": 75,
+    "n": 76,
+    "o": 77,
+    "p": 78,
+    "q": 79,
+    "r": 80,
+    "s": 81,
+    "t": 82,
+    "u": 83,
+    "v": 84,
+    "w": 85,
+    "x": 86,
+    "y": 87,
+    "z": 88,
+    "{": 89,
+    "}": 90,
+    ".</w>": 91,
+    ":</w>": 92,
+    "e</w>": 93,
+    "-</w>": 94,
+    "\"</w>": 95,
+    "0</w>": 96,
+    ",</w>": 97,
+    "t</w>": 98,
+    "oo": 99,
+    "in": 100,
+    "ab": 101,
+    "s</w>": 102,
+    "f</w>": 103,
+    "ti": 104,
+    "on": 105,
+    "r</w>": 106,
+    "el": 107,
+    "<</w>": 108,
+    "></w>": 109,
+    "5</w>": 110,
+    "[</w>": 111,
+    "]</w>": 112,
+    "th": 113,
+    "le</w>": 114,
+    "able</w>": 115,
+    "t_": 116,
+    "is</w>": 117,
+    "table</w>": 118,
+    "en": 119,
+    "ou": 120,
+    "ar": 121,
+    "al": 122,
+    "on</w>": 123,
+    "ch": 124,
+    "8</w>": 125,
+    "gh": 126,
+    "sh": 127,
+    "tion</w>": 128,
+    "of</w>": 129,
+    "t_of</w>": 130,
+    "boo": 131,
+    "book": 132,
+    "booksh": 133,
+    "bookshel": 134,
+    "/</w>": 135,
+    "bookshelf</w>": 136,
+    "es": 137,
+    "an": 138,
+    "y</w>": 139,
+    "cal": 140,
+    "l</w>": 141,
+    "ation</w>": 142,
+    "ST": 143,
+    "ght</w>": 144,
+    "le": 145,
+    "M</w>": 146,
+    "SI": 147,
+    "S</w>": 148,
+    "AT": 149,
+    "ATI": 150,
+    "thou": 151,
+    "thought</w>": 152,
+    "too": 153,
+    "tool": 154,
+    "tool_": 155,
+    "tool_cal": 156,
+    "tool_call</w>": 157,
+    "{</w>": 158,
+    "}</w>": 159,
+    "6</w>": 160,
+    "cha": 161,
+    "chai": 162,
+    "chair</w>": 163,
+    "et</w>": 164,
+    "lef": 165,
+    "left_of</w>": 166,
+    "cab": 167,
+    "cabin": 168,
+    "cabinet</w>": 169,
+    "4</w>": 170,
+    "1</w>": 171,
+    "2</w>": 172,
+    "ec": 173,
+    "to": 174,
+    "ent": 175,
+    "int": 176,
+    "li": 177,
+    "gation</w>": 178,
+    "er": 179,
+    "na": 180,
+    "ves": 181,
+    "vesti": 182,
+    "vestigation</w>": 183,
+    "me</w>": 184,
+    "arg": 185,
+    "ment": 186,
+    "an</w>": 187,
+    "ri": 188,
+    "name</w>": 189,
+    "ument": 190,
+    "ou</w>": 191,
+    "the</w>": 192,
+    "are</w>": 193,
+    "d</w>": 194,
+    "ent</w>": 195,
+    "ron": 196,
+    "uments</w>": 197,
+    "NT": 198,
+    "NT</w>": 199,
+    "investigation</w>": 200,
+    "LE": 201,
+    "dron": 202,
+    "SY": 203,
+    "SYST": 204,
+    "SYSTE": 205,
+    "SYSTEM</w>": 206,
+    "You</w>": 207,
+    "intel": 208,
+    "intelli": 209,
+    "intellig": 210,
+    "intelligent</w>": 211,
+    "drone</w>": 212,
+    "RO": 213,
+    "ROO": 214,
+    "ROOM</w>": 215,
+    "VI": 216,
+    "VISI": 217,
+    "VISIB": 218,
+    "VISIBLE": 219,
+    "VISIBLE</w>": 220,
+    "OB": 221,
+    "OBJ": 222,
+    "OBJE": 223,
+    "OBJEC": 224,
+    "OBJECT": 225,
+    "OBJECTS</w>": 226,
+    "SP": 227,
+    "SPATI": 228,
+    "SPATIA": 229,
+    "SPATIAL": 230,
+    "SPATIAL</w>": 231,
+    "RE": 232,
+    "REL": 233,
+    "RELATI": 234,
+    "RELATIO": 235,
+    "RELATION": 236,
+    "RELATIONS</w>": 237,
+    "US": 238,
+    "USE": 239,
+    "USER": 240,
+    "USER</w>": 241,
+    "AS": 242,
+    "ASSI": 243,
+    "ASSIST": 244,
+    "ASSISTA": 245,
+    "ASSISTANT</w>": 246,
+    "arguments</w>": 247,
+    "doo": 248,
+    "ne": 249,
+    "ob": 250,
+    "et": 251,
+    "door</w>": 252,
+    "obj": 253,
+    "objec": 254,
+    "fa": 255,
+    "?</w>": 256,
+    "ra": 257,
+    "la": 258,
+    "righ": 259,
+    "right_of</w>": 260,
+    "nea": 261,
+    "near</w>": 262,
+    "ce</w>": 263,
+    "al</w>": 264,
+    "m</w>": 265,
+    "to</w>": 266,
+    "14</w>": 267,
+    "oc": 268,
+    "so": 269,
+    "3</w>": 270,
+    "is": 271,
+    "in</w>": 272,
+    "te": 273,
+    "ch</w>": 274,
+    "oom</w>": 275,
+    "Wh": 276,
+    "rel": 277,
+    "In": 278,
+    "uer": 279,
+    "un": 280,
+    "te</w>": 281,
+    "ur": 282,
+    "ep": 283,
+    "fi": 284,
+    "sofa": 285,
+    "es</w>": 286,
+    "sofa</w>": 287,
+    "or</w>": 288,
+    "re": 289,
+    "ta": 290,
+    "pa": 291,
+    "object_": 292,
+    "tor": 293,
+    "tory</w>": 294,
+    "ge</w>": 295,
+    "ve</w>": 296,
+    "etri": 297,
+    "and</w>": 298,
+    "ib": 299,
+    "abo": 300,
+    "abora": 301,
+    "aboratory</w>": 302,
+    "quer": 303,
+    "pla": 304,
+    "at</w>": 305,
+    "ex": 306,
+    "ge": 307,
+    "ear": 308,
+    "unc": 309,
+    "ty</w>": 310,
+    "Ar": 311,
+    "Investigation</w>": 312,
+    "Laboratory</w>": 313,
+    "p</w>": 314,
+    "tora": 315,
+    "torage</w>": 316,
+    "ves</w>": 317,
+    "'</w>": 318,
+    "b</w>": 319,
+    "ary</w>": 320,
+    "loc": 321,
+    "What</w>": 322,
+    "rary</w>": 323,
+    "ci": 324,
+    "ffi": 325,
+    "ffice</w>": 326,
+    "eption</w>": 327,
+    "lity</w>": 328,
+    "ted</w>": 329,
+    "om": 330,
+    "Arch": 331,
+    "Archi": 332,
+    "tan": 333,
+    "uncer": 334,
+    "uncerta": 335,
+    "Lib": 336,
+    "Library</w>": 337,
+    "Archives</w>": 338,
+    "esear": 339,
+    "Storage</w>": 340,
+    "Room</w>": 341,
+    "esearch</w>": 342,
+    "Research</w>": 343,
+    "det": 344,
+    "detec": 345,
+    "query</w>": 346,
+    "Office</w>": 347,
+    "for</w>": 348,
+    "vi": 349,
+    "Rec": 350,
+    "a</w>": 351,
+    "Reception</w>": 352,
+    "entr": 353,
+    "tion": 354,
+    "entral</w>": 355,
+    "Central</w>": 356,
+    "Hu": 357,
+    "Hub</w>": 358,
+    "ol": 359,
+    "room</w>": 360,
+    "er</w>": 361,
+    "or": 362,
+    "cility</w>": 363,
+    "ac": 364,
+    "ing": 365,
+    "facility</w>": 366,
+    "get_": 367,
+    "expla": 368,
+    "sen": 369,
+    "istan": 370,
+    "uncertaint": 371,
+    "uncertainty</w>": 372,
+    "fin": 373,
+    "si": 374,
+    "detected</w>": 375,
+    "ing</w>": 376,
+    "object</w>": 377,
+    "etrie": 378,
+    "Retrie": 379,
+    "Retrieve</w>": 380,
+    "it</w>": 381,
+    "22</w>": 382,
+    "wa": 383,
+    "18</w>": 384,
+    "rea": 385,
+    "near": 386,
+    "neares": 387,
+    "ts</w>": 388,
+    "relation</w>": 389,
+    "9</w>": 390,
+    "ga": 391,
+    "15</w>": 392,
+    "13</w>": 393,
+    "16</w>": 394,
+    "vis": 395,
+    "th</w>": 396,
+    "d_": 397,
+    "af": 398,
+    "saf": 399,
+    "explain": 400,
+    "explain_": 401,
+    "object_name</w>": 402,
+    "con": 403,
+    "po": 404,
+    "des": 405,
+    "ro": 406,
+    "doc": 407,
+    "ute</w>": 408,
+    "c</w>": 409,
+    "cl": 410,
+    "navi": 411,
+    "tin": 412,
+    "tination</w>": 413,
+    "you</w>": 414,
+    "lap": 415,
+    "lapto": 416,
+    "laptop</w>": 417,
+    "omp": 418,
+    "pec": 419,
+    "spec": 420,
+    "find_": 421,
+    "reach": 422,
+    "etric</w>": 423,
+    "de</w>": 424,
+    "door": 425,
+    "objects</w>": 426,
+    "targ": 427,
+    "spa": 428,
+    "spati": 429,
+    "D</w>": 430,
+    "3D</w>": 431,
+    "cur": 432,
+    "curr": 433,
+    "rela": 434,
+    "ere</w>": 435,
+    "ual</w>": 436,
+    "te_": 437,
+    "den": 438,
+    "res": 439,
+    "ev": 440,
+    "distan": 441,
+    "distance</w>": 442,
+    "senso": 443,
+    "sensor</w>": 444,
+    "explain_uncertainty</w>": 445,
+    "this</w>": 446,
+    "ork": 447,
+    "orkb": 448,
+    "orkben": 449,
+    "orkbench</w>": 450,
+    "clo": 451,
+    "clos": 452,
+    "inter": 453,
+    "interac": 454,
+    "way</w>": 455,
+    "ow": 456,
+    "ints</w>": 457,
+    "ed</w>": 458,
+    "location</w>": 459,
+    "ow</w>": 460,
+    "destination</w>": 461,
+    "Ex": 462,
+    "ss": 463,
+    "relev": 464,
+    "relevan": 465,
+    "relevant</w>": 466,
+    "document": 467,
+    "documentation</w>": 468,
+    "naviga": 469,
+    "tive</w>": 470,
+    "safe</w>": 471,
+    "mi": 472,
+    "unreach": 473,
+    "unreachable</w>": 474,
+    "y_": 475,
+    "al_": 476,
+    "cal</w>": 477,
+    "Comp": 478,
+    "get_curr": 479,
+    "get_curren": 480,
+    "get_current_": 481,
+    "get_current_location</w>": 482,
+    "exit</w>": 483,
+    "Compute</w>": 484,
+    "eg": 485,
+    "ometric</w>": 486,
+    "ate</w>": 487,
+    "geometric</w>": 488,
+    "all</w>": 489,
+    "Loc": 490,
+    "Locate</w>": 491,
+    "target</w>": 492,
+    "n</w>": 493,
+    "oun": 494,
+    "tur": 495,
+    "turn</w>": 496,
+    "visib": 497,
+    "obs": 498,
+    "nearest</w>": 499,
+    "find_neares": 500,
+    "find_nearest_": 501,
+    "How</w>": 502,
+    "tional</w>": 503,
+    "door_": 504,
+    "door_3</w>": 505,
+    "Quer": 506,
+    "Query</w>": 507,
+    "relation": 508,
+    "relationsh": 509,
+    "relationshi": 510,
+    "relationship</w>": 511,
+    "query_": 512,
+    "query_spati": 513,
+    "query_spatial_": 514,
+    "query_spatial_relation</w>": 515,
+    "path</w>": 516,
+    "erm": 517,
+    "ermin": 518,
+    "o</w>": 519,
+    "thre": 520,
+    "thresh": 521,
+    "threshol": 522,
+    "threshold</w>": 523,
+    "no": 524,
+    "not</w>": 525,
+    "absen": 526,
+    "absence</w>": 527,
+    "lock": 528,
+    "igh": 529,
+    "Us": 530,
+    "User</w>": 531,
+    "workbench</w>": 532,
+    "Ass": 533,
+    "Assistan": 534,
+    "Assistant</w>": 535,
+    "dep": 536,
+    "depth</w>": 537,
+    "co": 538,
+    "confi": 539,
+    "confiden": 540,
+    "visual</w>": 541,
+    "confidence</w>": 542,
+    "sur": 543,
+    "cu": 544,
+    "resol": 545,
+    "resolu": 546,
+    "resolution</w>": 547,
+    "loca": 548,
+    "cula": 549,
+    "mer": 550,
+    "Inspec": 551,
+    "Inspect</w>": 552,
+    "get_visib": 553,
+    "get_visible": 554,
+    "get_visible_": 555,
+    "get_visible_objects</w>": 556,
+    "ely</w>": 557,
+    "closely</w>": 558,
+    "inspec": 559,
+    "ypo": 560,
+    "Why</w>": 561,
+    "waypo": 562,
+    "waypoints</w>": 563,
+    "out</w>": 564,
+    "ad": 565,
+    "cri": 566,
+    "there</w>": 567,
+    "en</w>": 568,
+    "ata": 569,
+    "we": 570,
+    "bet": 571,
+    "betwe": 572,
+    "between</w>": 573,
+    "Fin": 574,
+    "Find</w>": 575,
+    "sear": 576,
+    "search": 577,
+    "search_": 578,
+    "func": 579,
+    "Whi": 580,
+    "Which</w>": 581,
+    "Des": 582,
+    "pro": 583,
+    "uc": 584,
+    "las": 585,
+    "navigate</w>": 586,
+    "Rep": 587,
+    "Repor": 588,
+    "Report</w>": 589,
+    "clas": 590,
+    "ca": 591,
+    "can</w>": 592,
+    "est</w>": 593,
+    "ph": 594,
+    "phy": 595,
+    "physi": 596,
+    "physical</w>": 597,
+    "ir": 598,
+    "wi": 599,
+    "sion</w>": 600,
+    "st": 601,
+    "with": 602,
+    "Exec": 603,
+    "Execute</w>": 604,
+    "envi": 605,
+    "environ": 606,
+    "environment": 607,
+    "environmental</w>": 608,
+    "interaction</w>": 609,
+    "interact_": 610,
+    "interact_with": 611,
+    "interact_with_": 612,
+    "interact_with_object</w>": 613,
+    "object_i": 614,
+    "object_id</w>": 615,
+    "esi": 616,
+    "col": 617,
+    "Is</w>": 618,
+    "04</w>": 619,
+    "vo": 620,
+    "Inci": 621,
+    "Incid": 622,
+    "Incident</w>": 623,
+    "104</w>": 624,
+    "obsta": 625,
+    "obstac": 626,
+    "obstacle</w>": 627,
+    "avo": 628,
+    "avoi": 629,
+    "avoid": 630,
+    "avoiding</w>": 631,
+    "find_path</w>": 632,
+    "Can</w>": 633,
+    "find</w>": 634,
+    "dar": 635,
+    "active</w>": 636,
+    "Expla": 637,
+    "Explain</w>": 638,
+    "locked</w>": 639,
+    "Det": 640,
+    "Determin": 641,
+    "Determine</w>": 642,
+    "play": 643,
+    "player</w>": 644,
+    "posi": 645,
+    "position</w>": 646,
+    "boun": 647,
+    "boundar": 648,
+    "boundari": 649,
+    "boundaries</w>": 650,
+    "about</w>": 651,
+    "cro": 652,
+    "k</w>": 653,
+    "I</w>": 654,
+    "denti": 655,
+    "dentif": 656,
+    "dentify</w>": 657,
+    "man": 658,
+    "tifa": 659,
+    "tifac": 660,
+    "tifact</w>": 661,
+    "Om": 662,
+    "Omeg": 663,
+    "Omega</w>": 664,
+    "Sur": 665,
+    "met": 666,
+    "ey</w>": 667,
+    "Artifact</w>": 668,
+    "ress</w>": 669,
+    "search_doc": 670,
+    "search_documents</w>": 671,
+    "oor</w>": 672,
+    "doorway</w>": 673,
+    "arch": 674,
+    "archway</w>": 675,
+    "egress</w>": 676,
+    "find_nearest_exit</w>": 677,
+    "Surv": 678,
+    "Survey</w>": 679,
+    "Door</w>": 680,
+    "dur": 681,
+    "dis": 682,
+    "ani": 683,
+    "anion</w>": 684,
+    "navigation</w>": 685,
+    "metad": 686,
+    "metadata": 687,
+    "metadata</w>": 688,
+    "functional</w>": 689,
+    "descri": 690,
+    "descrip": 691,
+    "description</w>": 692,
+    "se": 693,
+    "see</w>": 694,
+    "ov": 695,
+    "Pl": 696,
+    "Plan</w>": 697,
+    "colli": 698,
+    "collision</w>": 699,
+    "fre": 700,
+    "free</w>": 701,
+    "by</w>": 702,
+    "rou": 703,
+    "route</w>": 704,
+    "dispa": 705,
+    "dispat": 706,
+    "dispatch</w>": 707,
+    "comp": 708,
+    "companion</w>": 709,
+    "navigate_": 710,
+    "navigate_to</w>": 711,
+    "metric</w>": 712,
+    "over": 713,
+    "ride</w>": 714,
+    "code</w>": 715,
+    "e_": 716,
+    "override</w>": 717,
+    "de": 718,
+    "int</w>": 719,
+    "spatial</w>": 720,
+    "prox": 721,
+    "proxi": 722,
+    "proximi": 723,
+    "proximity</w>": 724,
+    "Where</w>": 725,
+    "Euc": 726,
+    "Eucli": 727,
+    "Euclide": 728,
+    "Euclidean</w>": 729,
+    "calcula": 730,
+    "calculate_": 731,
+    "calculate_distance</w>": 732,
+    "object_a</w>": 733,
+    "object_b</w>": 734,
+    "fro": 735,
+    "from</w>": 736,
+    "do</w>": 737,
+    "tes</w>": 738,
+    "closest</w>": 739,
+    "neigh": 740,
+    "neighb": 741,
+    "neighbor</w>": 742,
+    "find_nearest_target</w>": 743,
+    "targe": 744,
+    "target_": 745,
+    "target_clas": 746,
+    "target_class</w>": 747,
+    "ui": 748,
+    "laboratory</w>": 749,
+    "dir": 750,
+    "direc": 751,
+    "coo": 752,
+    "coor": 753,
+    "coord": 754,
+    "coordin": 755,
+    "coordina": 756,
+    "coordinates</w>": 757,
+    "directional</w>": 758,
+    "relative</w>": 759,
+    "abi": 760,
+    "par": 761,
+    "parti": 762,
+    "partition": 763,
+    "partitions</w>": 764,
+    "Targ": 765,
+    "Target</w>": 766,
+    "explain</w>": 767,
+    "No</w>": 768,
+    "reachabi": 769,
+    "reachability</w>": 770,
+    "const": 771,
+    "constra": 772,
+    "constraints</w>": 773,
+    "camer": 774,
+    "camera</w>": 775,
+    "FO": 776,
+    "FOV": 777,
+    "FOV</w>": 778,
+    "limi": 779,
+    "limits</w>": 780,
+    "explain_unreachable</w>": 781,
+    "Destination</w>": 782,
+    "safet": 783,
+    "we</w>": 784,
+    "vation</w>": 785,
+    "op": 786,
+    "son": 787,
+    "opti": 788,
+    "optical</w>": 789,
+    "located</w>": 790,
+    "obser": 791,
+    "observation</w>": 792,
+    "can": 793,
+    "clu": 794,
+    "HI": 795,
+    "HIST": 796,
+    "HISTO": 797,
+    "HISTOR": 798,
+    "HISTORY": 799,
+    "HISTORY</w>": 800,
+    "Workbench</w>": 801,
+    "75</w>": 802,
+    "Scan": 803,
+    "Scann": 804,
+    "Scanning</w>": 805,
+    "surfa": 806,
+    "surface</w>": 807,
+    "Sy": 808,
+    "Syn": 809,
+    "Synth": 810,
+    "Synthesi": 811,
+    "Synthesiz": 812,
+    "Synthesize</w>": 813,
+    "conte": 814,
+    "contex": 815,
+    "context": 816,
+    "contextual</w>": 817,
+    "reason": 818,
+    "reasoning</w>": 819,
+    "sm": 820,
+    "small</w>": 821,
+    "detection</w>": 822,
+    "per": 823,
+    "right</w>": 824,
+    "fe": 825,
+    "feed</w>": 826,
+    "identify</w>": 827,
+    "uncertain</w>": 828,
+    "perc": 829,
+    "perception</w>": 830,
+    "marg": 831,
+    "margin": 832,
+    "margins</w>": 833,
+    "anal": 834,
+    "analy": 835,
+    "analys": 836,
+    "analysis</w>": 837,
+    "for": 838,
+    "stan": 839,
+    "termin": 840,
+    "ber</w>": 841,
+    "wer</w>": 842,
+    "surge</w>": 843,
+    "stanc": 844,
+    "stances</w>": 845,
+    "Per": 846,
+    "Perfor": 847,
+    "Perform</w>": 848,
+    "high": 849,
+    "high</w>": 850,
+    "crop</w>": 851,
+    "inspection</w>": 852,
+    "inspect_": 853,
+    "inspect_object_": 854,
+    "inspect_object_closely</w>": 855,
+    "power</w>": 856,
+    "storage</w>": 857,
+    "many</w>": 858,
+    "Coun": 859,
+    "Count</w>": 860,
+    "nu": 861,
+    "num": 862,
+    "number</w>": 863,
+    "instances</w>": 864,
+    "locate_": 865,
+    "locate_object</w>": 866,
+    "nex": 867,
+    "next</w>": 868,
+    "current</w>": 869,
+    "objecti": 870,
+    "objectives</w>": 871,
+    "uide</w>": 872,
+    "han": 873,
+    "hand": 874,
+    "merg": 875,
+    "mergen": 876,
+    "mergenc": 877,
+    "mergency</w>": 878,
+    "qu": 879,
+    "emergency</w>": 880,
+    "requ": 881,
+    "during</w>": 882,
+    "enga": 883,
+    "hint</w>": 884,
+    "pass": 885,
+    "passcode</w>": 886,
+    "Dis": 887,
+    "Disenga": 888,
+    "Disengage</w>": 889,
+    "ke": 890,
+    "key": 891,
+    "Cal": 892,
+    "Calcula": 893,
+    "Calculate</w>": 894,
+    "lib": 895,
+    "library</w>": 896,
+    "keyc": 897,
+    "keycar": 898,
+    "keycard</w>": 899,
+    "lock</w>": 900,
+    "Un": 901,
+    "fir": 902,
+    "fire</w>": 903,
+    "safety</w>": 904,
+    "am</w>": 905,
+    "Unlock</w>": 906,
+    "office</w>": 907,
+    "bac": 908,
+    "back": 909,
+    "ha": 910,
+    "backpa": 911,
+    "backpac": 912,
+    "backpack</w>": 913,
+    "ak": 914,
+    "clue_": 915,
+    "terminal</w>": 916,
+    "au": 917,
+    "lt</w>": 918,
+    "Tak": 919,
+    "Take</w>": 920,
+    "vau": 921,
+    "vault</w>": 922,
+    "mis": 923,
+    "guide</w>": 924,
+    "be</w>": 925,
+    "Descri": 926,
+    "Describe</w>": 927,
+    "lay": 928,
+    "layout</w>": 929,
+    "visible</w>": 930,
+    "A</w>": 931,
+    "here</w>": 932,
+    "sec": 933,
+    "lead": 934,
+    "wh": 935,
+    "leads</w>": 936,
+    "section</w>": 937,
+    "hap": 938,
+    "happ": 939,
+    "happen": 940,
+    "happened</w>": 941,
+    "data": 942,
+    "datapa": 943,
+    "datapad_": 944,
+    "datapad_ca": 945,
+    "datapad_cas": 946,
+    "datapad_case</w>": 947,
+    "besi": 948,
+    "beside</w>": 949,
+    "ven": 950,
+    "ventory</w>": 951,
+    "roc": 952,
+    "roce": 953,
+    "rocedur": 954,
+    "sifi": 955,
+    "sific": 956,
+    "sification</w>": 957,
+    "gi": 958,
+    "handle</w>": 959,
+    "classification</w>": 960,
+    "handl": 961,
+    "handling</w>": 962,
+    "procedur": 963,
+    "procedures</w>": 964,
+    "lea": 965,
+    "far</w>": 966,
+    "stuc": 967,
+    "stuck</w>": 968,
+    "give</w>": 969,
+    "clue</w>": 970,
+    "Hint</w>": 971,
+    "request</w>": 972,
+    "reques": 973,
+    "request_": 974,
+    "request_hint</w>": 975,
+    "left</w>": 976,
+    "any": 977,
+    "anyth": 978,
+    "anything</w>": 979,
+    "acu": 980,
+    "toco": 981,
+    "tocol</w>": 982,
+    "function</w>": 983,
+    "leave</w>": 984,
+    "micro": 985,
+    "micros": 986,
+    "microsco": 987,
+    "microscop": 988,
+    "microscope</w>": 989,
+    "evacu": 990,
+    "shou": 991,
+    "shoul": 992,
+    "should</w>": 993,
+    "manual</w>": 994,
+    "Sec": 995,
+    "Fir": 996,
+    "Fire</w>": 997,
+    "protocol</w>": 998,
+    "search_safet": 999,
+    "search_safety_": 1000,
+    "search_safety_manual</w>": 1001,
+    "evacuation</w>": 1002,
+    "tor</w>": 1003,
+    "Tel": 1004,
+    "Tell</w>": 1005,
+    "Sector</w>": 1006,
+    "01</w>": 1007,
+    "03</w>": 1008,
+    "Na": 1009,
+    "Navi": 1010,
+    "Ac": 1011,
+    "clue_saf": 1012,
+    "clue_safe_": 1013,
+    "clue_safe_01</w>": 1014,
+    "clue_termin": 1015,
+    "clue_terminal_": 1016,
+    "clue_terminal_03</w>": 1017,
+    "Identify</w>": 1018,
+    "our</w>": 1019,
+    "Naviga": 1020,
+    "Navigate</w>": 1021,
+    "missi": 1022,
+    "mission": 1023
+  },
+  "merges": [
+    [
+      ".",
+      "</w>"
+    ],
+    [
+      ":",
+      "</w>"
+    ],
+    [
+      "e",
+      "</w>"
+    ],
+    [
+      "-",
+      "</w>"
+    ],
+    [
+      "\"",
+      "</w>"
+    ],
+    [
+      "0",
+      "</w>"
+    ],
+    [
+      ",",
+      "</w>"
+    ],
+    [
+      "t",
+      "</w>"
+    ],
+    [
+      "o",
+      "o"
+    ],
+    [
+      "i",
+      "n"
+    ],
+    [
+      "a",
+      "b"
+    ],
+    [
+      "s",
+      "</w>"
+    ],
+    [
+      "f",
+      "</w>"
+    ],
+    [
+      "t",
+      "i"
+    ],
+    [
+      "o",
+      "n"
+    ],
+    [
+      "r",
+      "</w>"
+    ],
+    [
+      "e",
+      "l"
+    ],
+    [
+      "<",
+      "</w>"
+    ],
+    [
+      ">",
+      "</w>"
+    ],
+    [
+      "5",
+      "</w>"
+    ],
+    [
+      "[",
+      "</w>"
+    ],
+    [
+      "]",
+      "</w>"
+    ],
+    [
+      "t",
+      "h"
+    ],
+    [
+      "l",
+      "e</w>"
+    ],
+    [
+      "ab",
+      "le</w>"
+    ],
+    [
+      "t",
+      "_"
+    ],
+    [
+      "i",
+      "s</w>"
+    ],
+    [
+      "t",
+      "able</w>"
+    ],
+    [
+      "e",
+      "n"
+    ],
+    [
+      "o",
+      "u"
+    ],
+    [
+      "a",
+      "r"
+    ],
+    [
+      "a",
+      "l"
+    ],
+    [
+      "on",
+      "</w>"
+    ],
+    [
+      "c",
+      "h"
+    ],
+    [
+      "8",
+      "</w>"
+    ],
+    [
+      "g",
+      "h"
+    ],
+    [
+      "s",
+      "h"
+    ],
+    [
+      "ti",
+      "on</w>"
+    ],
+    [
+      "o",
+      "f</w>"
+    ],
+    [
+      "t_",
+      "of</w>"
+    ],
+    [
+      "b",
+      "oo"
+    ],
+    [
+      "boo",
+      "k"
+    ],
+    [
+      "book",
+      "sh"
+    ],
+    [
+      "booksh",
+      "el"
+    ],
+    [
+      "/",
+      "</w>"
+    ],
+    [
+      "bookshel",
+      "f</w>"
+    ],
+    [
+      "e",
+      "s"
+    ],
+    [
+      "a",
+      "n"
+    ],
+    [
+      "y",
+      "</w>"
+    ],
+    [
+      "c",
+      "al"
+    ],
+    [
+      "l",
+      "</w>"
+    ],
+    [
+      "a",
+      "tion</w>"
+    ],
+    [
+      "S",
+      "T"
+    ],
+    [
+      "gh",
+      "t</w>"
+    ],
+    [
+      "l",
+      "e"
+    ],
+    [
+      "M",
+      "</w>"
+    ],
+    [
+      "S",
+      "I"
+    ],
+    [
+      "S",
+      "</w>"
+    ],
+    [
+      "A",
+      "T"
+    ],
+    [
+      "AT",
+      "I"
+    ],
+    [
+      "th",
+      "ou"
+    ],
+    [
+      "thou",
+      "ght</w>"
+    ],
+    [
+      "t",
+      "oo"
+    ],
+    [
+      "too",
+      "l"
+    ],
+    [
+      "tool",
+      "_"
+    ],
+    [
+      "tool_",
+      "cal"
+    ],
+    [
+      "tool_cal",
+      "l</w>"
+    ],
+    [
+      "{",
+      "</w>"
+    ],
+    [
+      "}",
+      "</w>"
+    ],
+    [
+      "6",
+      "</w>"
+    ],
+    [
+      "ch",
+      "a"
+    ],
+    [
+      "cha",
+      "i"
+    ],
+    [
+      "chai",
+      "r</w>"
+    ],
+    [
+      "e",
+      "t</w>"
+    ],
+    [
+      "le",
+      "f"
+    ],
+    [
+      "lef",
+      "t_of</w>"
+    ],
+    [
+      "c",
+      "ab"
+    ],
+    [
+      "cab",
+      "in"
+    ],
+    [
+      "cabin",
+      "et</w>"
+    ],
+    [
+      "4",
+      "</w>"
+    ],
+    [
+      "1",
+      "</w>"
+    ],
+    [
+      "2",
+      "</w>"
+    ],
+    [
+      "e",
+      "c"
+    ],
+    [
+      "t",
+      "o"
+    ],
+    [
+      "en",
+      "t"
+    ],
+    [
+      "in",
+      "t"
+    ],
+    [
+      "l",
+      "i"
+    ],
+    [
+      "g",
+      "ation</w>"
+    ],
+    [
+      "e",
+      "r"
+    ],
+    [
+      "n",
+      "a"
+    ],
+    [
+      "v",
+      "es"
+    ],
+    [
+      "ves",
+      "ti"
+    ],
+    [
+      "vesti",
+      "gation</w>"
+    ],
+    [
+      "m",
+      "e</w>"
+    ],
+    [
+      "ar",
+      "g"
+    ],
+    [
+      "m",
+      "ent"
+    ],
+    [
+      "an",
+      "</w>"
+    ],
+    [
+      "r",
+      "i"
+    ],
+    [
+      "na",
+      "me</w>"
+    ],
+    [
+      "u",
+      "ment"
+    ],
+    [
+      "ou",
+      "</w>"
+    ],
+    [
+      "th",
+      "e</w>"
+    ],
+    [
+      "ar",
+      "e</w>"
+    ],
+    [
+      "d",
+      "</w>"
+    ],
+    [
+      "en",
+      "t</w>"
+    ],
+    [
+      "r",
+      "on"
+    ],
+    [
+      "ument",
+      "s</w>"
+    ],
+    [
+      "N",
+      "T"
+    ],
+    [
+      "NT",
+      "</w>"
+    ],
+    [
+      "in",
+      "vestigation</w>"
+    ],
+    [
+      "L",
+      "E"
+    ],
+    [
+      "d",
+      "ron"
+    ],
+    [
+      "S",
+      "Y"
+    ],
+    [
+      "SY",
+      "ST"
+    ],
+    [
+      "SYST",
+      "E"
+    ],
+    [
+      "SYSTE",
+      "M</w>"
+    ],
+    [
+      "Y",
+      "ou</w>"
+    ],
+    [
+      "int",
+      "el"
+    ],
+    [
+      "intel",
+      "li"
+    ],
+    [
+      "intelli",
+      "g"
+    ],
+    [
+      "intellig",
+      "ent</w>"
+    ],
+    [
+      "dron",
+      "e</w>"
+    ],
+    [
+      "R",
+      "O"
+    ],
+    [
+      "RO",
+      "O"
+    ],
+    [
+      "ROO",
+      "M</w>"
+    ],
+    [
+      "V",
+      "I"
+    ],
+    [
+      "VI",
+      "SI"
+    ],
+    [
+      "VISI",
+      "B"
+    ],
+    [
+      "VISIB",
+      "LE"
+    ],
+    [
+      "VISIBLE",
+      "</w>"
+    ],
+    [
+      "O",
+      "B"
+    ],
+    [
+      "OB",
+      "J"
+    ],
+    [
+      "OBJ",
+      "E"
+    ],
+    [
+      "OBJE",
+      "C"
+    ],
+    [
+      "OBJEC",
+      "T"
+    ],
+    [
+      "OBJECT",
+      "S</w>"
+    ],
+    [
+      "S",
+      "P"
+    ],
+    [
+      "SP",
+      "ATI"
+    ],
+    [
+      "SPATI",
+      "A"
+    ],
+    [
+      "SPATIA",
+      "L"
+    ],
+    [
+      "SPATIAL",
+      "</w>"
+    ],
+    [
+      "R",
+      "E"
+    ],
+    [
+      "RE",
+      "L"
+    ],
+    [
+      "REL",
+      "ATI"
+    ],
+    [
+      "RELATI",
+      "O"
+    ],
+    [
+      "RELATIO",
+      "N"
+    ],
+    [
+      "RELATION",
+      "S</w>"
+    ],
+    [
+      "U",
+      "S"
+    ],
+    [
+      "US",
+      "E"
+    ],
+    [
+      "USE",
+      "R"
+    ],
+    [
+      "USER",
+      "</w>"
+    ],
+    [
+      "A",
+      "S"
+    ],
+    [
+      "AS",
+      "SI"
+    ],
+    [
+      "ASSI",
+      "ST"
+    ],
+    [
+      "ASSIST",
+      "A"
+    ],
+    [
+      "ASSISTA",
+      "NT</w>"
+    ],
+    [
+      "arg",
+      "uments</w>"
+    ],
+    [
+      "d",
+      "oo"
+    ],
+    [
+      "n",
+      "e"
+    ],
+    [
+      "o",
+      "b"
+    ],
+    [
+      "e",
+      "t"
+    ],
+    [
+      "doo",
+      "r</w>"
+    ],
+    [
+      "ob",
+      "j"
+    ],
+    [
+      "obj",
+      "ec"
+    ],
+    [
+      "f",
+      "a"
+    ],
+    [
+      "?",
+      "</w>"
+    ],
+    [
+      "r",
+      "a"
+    ],
+    [
+      "l",
+      "a"
+    ],
+    [
+      "ri",
+      "gh"
+    ],
+    [
+      "righ",
+      "t_of</w>"
+    ],
+    [
+      "ne",
+      "a"
+    ],
+    [
+      "nea",
+      "r</w>"
+    ],
+    [
+      "c",
+      "e</w>"
+    ],
+    [
+      "al",
+      "</w>"
+    ],
+    [
+      "m",
+      "</w>"
+    ],
+    [
+      "to",
+      "</w>"
+    ],
+    [
+      "1",
+      "4</w>"
+    ],
+    [
+      "o",
+      "c"
+    ],
+    [
+      "s",
+      "o"
+    ],
+    [
+      "3",
+      "</w>"
+    ],
+    [
+      "i",
+      "s"
+    ],
+    [
+      "in",
+      "</w>"
+    ],
+    [
+      "t",
+      "e"
+    ],
+    [
+      "ch",
+      "</w>"
+    ],
+    [
+      "oo",
+      "m</w>"
+    ],
+    [
+      "W",
+      "h"
+    ],
+    [
+      "r",
+      "el"
+    ],
+    [
+      "I",
+      "n"
+    ],
+    [
+      "u",
+      "er"
+    ],
+    [
+      "u",
+      "n"
+    ],
+    [
+      "t",
+      "e</w>"
+    ],
+    [
+      "u",
+      "r"
+    ],
+    [
+      "e",
+      "p"
+    ],
+    [
+      "f",
+      "i"
+    ],
+    [
+      "so",
+      "fa"
+    ],
+    [
+      "e",
+      "s</w>"
+    ],
+    [
+      "sofa",
+      "</w>"
+    ],
+    [
+      "o",
+      "r</w>"
+    ],
+    [
+      "r",
+      "e"
+    ],
+    [
+      "t",
+      "a"
+    ],
+    [
+      "p",
+      "a"
+    ],
+    [
+      "objec",
+      "t_"
+    ],
+    [
+      "to",
+      "r"
+    ],
+    [
+      "tor",
+      "y</w>"
+    ],
+    [
+      "g",
+      "e</w>"
+    ],
+    [
+      "v",
+      "e</w>"
+    ],
+    [
+      "et",
+      "ri"
+    ],
+    [
+      "an",
+      "d</w>"
+    ],
+    [
+      "i",
+      "b"
+    ],
+    [
+      "ab",
+      "o"
+    ],
+    [
+      "abo",
+      "ra"
+    ],
+    [
+      "abora",
+      "tory</w>"
+    ],
+    [
+      "q",
+      "uer"
+    ],
+    [
+      "p",
+      "la"
+    ],
+    [
+      "a",
+      "t</w>"
+    ],
+    [
+      "e",
+      "x"
+    ],
+    [
+      "g",
+      "e"
+    ],
+    [
+      "e",
+      "ar"
+    ],
+    [
+      "un",
+      "c"
+    ],
+    [
+      "t",
+      "y</w>"
+    ],
+    [
+      "A",
+      "r"
+    ],
+    [
+      "In",
+      "vestigation</w>"
+    ],
+    [
+      "L",
+      "aboratory</w>"
+    ],
+    [
+      "p",
+      "</w>"
+    ],
+    [
+      "to",
+      "ra"
+    ],
+    [
+      "tora",
+      "ge</w>"
+    ],
+    [
+      "v",
+      "es</w>"
+    ],
+    [
+      "'",
+      "</w>"
+    ],
+    [
+      "b",
+      "</w>"
+    ],
+    [
+      "ar",
+      "y</w>"
+    ],
+    [
+      "l",
+      "oc"
+    ],
+    [
+      "Wh",
+      "at</w>"
+    ],
+    [
+      "r",
+      "ary</w>"
+    ],
+    [
+      "c",
+      "i"
+    ],
+    [
+      "f",
+      "fi"
+    ],
+    [
+      "ffi",
+      "ce</w>"
+    ],
+    [
+      "ep",
+      "tion</w>"
+    ],
+    [
+      "li",
+      "ty</w>"
+    ],
+    [
+      "te",
+      "d</w>"
+    ],
+    [
+      "o",
+      "m"
+    ],
+    [
+      "Ar",
+      "ch"
+    ],
+    [
+      "Arch",
+      "i"
+    ],
+    [
+      "t",
+      "an"
+    ],
+    [
+      "unc",
+      "er"
+    ],
+    [
+      "uncer",
+      "ta"
+    ],
+    [
+      "L",
+      "ib"
+    ],
+    [
+      "Lib",
+      "rary</w>"
+    ],
+    [
+      "Archi",
+      "ves</w>"
+    ],
+    [
+      "es",
+      "ear"
+    ],
+    [
+      "S",
+      "torage</w>"
+    ],
+    [
+      "R",
+      "oom</w>"
+    ],
+    [
+      "esear",
+      "ch</w>"
+    ],
+    [
+      "R",
+      "esearch</w>"
+    ],
+    [
+      "d",
+      "et"
+    ],
+    [
+      "det",
+      "ec"
+    ],
+    [
+      "quer",
+      "y</w>"
+    ],
+    [
+      "O",
+      "ffice</w>"
+    ],
+    [
+      "f",
+      "or</w>"
+    ],
+    [
+      "v",
+      "i"
+    ],
+    [
+      "R",
+      "ec"
+    ],
+    [
+      "a",
+      "</w>"
+    ],
+    [
+      "Rec",
+      "eption</w>"
+    ],
+    [
+      "ent",
+      "r"
+    ],
+    [
+      "ti",
+      "on"
+    ],
+    [
+      "entr",
+      "al</w>"
+    ],
+    [
+      "C",
+      "entral</w>"
+    ],
+    [
+      "H",
+      "u"
+    ],
+    [
+      "Hu",
+      "b</w>"
+    ],
+    [
+      "o",
+      "l"
+    ],
+    [
+      "r",
+      "oom</w>"
+    ],
+    [
+      "e",
+      "r</w>"
+    ],
+    [
+      "o",
+      "r"
+    ],
+    [
+      "ci",
+      "lity</w>"
+    ],
+    [
+      "a",
+      "c"
+    ],
+    [
+      "in",
+      "g"
+    ],
+    [
+      "fa",
+      "cility</w>"
+    ],
+    [
+      "ge",
+      "t_"
+    ],
+    [
+      "ex",
+      "pla"
+    ],
+    [
+      "s",
+      "en"
+    ],
+    [
+      "is",
+      "tan"
+    ],
+    [
+      "uncerta",
+      "int"
+    ],
+    [
+      "uncertaint",
+      "y</w>"
+    ],
+    [
+      "f",
+      "in"
+    ],
+    [
+      "s",
+      "i"
+    ],
+    [
+      "detec",
+      "ted</w>"
+    ],
+    [
+      "ing",
+      "</w>"
+    ],
+    [
+      "objec",
+      "t</w>"
+    ],
+    [
+      "etri",
+      "e"
+    ],
+    [
+      "R",
+      "etrie"
+    ],
+    [
+      "Retrie",
+      "ve</w>"
+    ],
+    [
+      "i",
+      "t</w>"
+    ],
+    [
+      "2",
+      "2</w>"
+    ],
+    [
+      "w",
+      "a"
+    ],
+    [
+      "1",
+      "8</w>"
+    ],
+    [
+      "re",
+      "a"
+    ],
+    [
+      "ne",
+      "ar"
+    ],
+    [
+      "near",
+      "es"
+    ],
+    [
+      "t",
+      "s</w>"
+    ],
+    [
+      "rel",
+      "ation</w>"
+    ],
+    [
+      "9",
+      "</w>"
+    ],
+    [
+      "g",
+      "a"
+    ],
+    [
+      "1",
+      "5</w>"
+    ],
+    [
+      "1",
+      "3</w>"
+    ],
+    [
+      "1",
+      "6</w>"
+    ],
+    [
+      "v",
+      "is"
+    ],
+    [
+      "th",
+      "</w>"
+    ],
+    [
+      "d",
+      "_"
+    ],
+    [
+      "a",
+      "f"
+    ],
+    [
+      "s",
+      "af"
+    ],
+    [
+      "expla",
+      "in"
+    ],
+    [
+      "explain",
+      "_"
+    ],
+    [
+      "object_",
+      "name</w>"
+    ],
+    [
+      "c",
+      "on"
+    ],
+    [
+      "p",
+      "o"
+    ],
+    [
+      "d",
+      "es"
+    ],
+    [
+      "r",
+      "o"
+    ],
+    [
+      "d",
+      "oc"
+    ],
+    [
+      "u",
+      "te</w>"
+    ],
+    [
+      "c",
+      "</w>"
+    ],
+    [
+      "c",
+      "l"
+    ],
+    [
+      "na",
+      "vi"
+    ],
+    [
+      "t",
+      "in"
+    ],
+    [
+      "tin",
+      "ation</w>"
+    ],
+    [
+      "y",
+      "ou</w>"
+    ],
+    [
+      "la",
+      "p"
+    ],
+    [
+      "lap",
+      "to"
+    ],
+    [
+      "lapto",
+      "p</w>"
+    ],
+    [
+      "om",
+      "p"
+    ],
+    [
+      "p",
+      "ec"
+    ],
+    [
+      "s",
+      "pec"
+    ],
+    [
+      "fin",
+      "d_"
+    ],
+    [
+      "rea",
+      "ch"
+    ],
+    [
+      "etri",
+      "c</w>"
+    ],
+    [
+      "d",
+      "e</w>"
+    ],
+    [
+      "doo",
+      "r"
+    ],
+    [
+      "objec",
+      "ts</w>"
+    ],
+    [
+      "t",
+      "arg"
+    ],
+    [
+      "s",
+      "pa"
+    ],
+    [
+      "spa",
+      "ti"
+    ],
+    [
+      "D",
+      "</w>"
+    ],
+    [
+      "3",
+      "D</w>"
+    ],
+    [
+      "c",
+      "ur"
+    ],
+    [
+      "cur",
+      "r"
+    ],
+    [
+      "rel",
+      "a"
+    ],
+    [
+      "er",
+      "e</w>"
+    ],
+    [
+      "u",
+      "al</w>"
+    ],
+    [
+      "te",
+      "_"
+    ],
+    [
+      "d",
+      "en"
+    ],
+    [
+      "r",
+      "es"
+    ],
+    [
+      "e",
+      "v"
+    ],
+    [
+      "d",
+      "istan"
+    ],
+    [
+      "distan",
+      "ce</w>"
+    ],
+    [
+      "sen",
+      "so"
+    ],
+    [
+      "senso",
+      "r</w>"
+    ],
+    [
+      "explain_",
+      "uncertainty</w>"
+    ],
+    [
+      "th",
+      "is</w>"
+    ],
+    [
+      "or",
+      "k"
+    ],
+    [
+      "ork",
+      "b"
+    ],
+    [
+      "orkb",
+      "en"
+    ],
+    [
+      "orkben",
+      "ch</w>"
+    ],
+    [
+      "cl",
+      "o"
+    ],
+    [
+      "clo",
+      "s"
+    ],
+    [
+      "int",
+      "er"
+    ],
+    [
+      "inter",
+      "ac"
+    ],
+    [
+      "wa",
+      "y</w>"
+    ],
+    [
+      "o",
+      "w"
+    ],
+    [
+      "int",
+      "s</w>"
+    ],
+    [
+      "e",
+      "d</w>"
+    ],
+    [
+      "loc",
+      "ation</w>"
+    ],
+    [
+      "ow",
+      "</w>"
+    ],
+    [
+      "des",
+      "tination</w>"
+    ],
+    [
+      "E",
+      "x"
+    ],
+    [
+      "s",
+      "s"
+    ],
+    [
+      "rel",
+      "ev"
+    ],
+    [
+      "relev",
+      "an"
+    ],
+    [
+      "relevan",
+      "t</w>"
+    ],
+    [
+      "doc",
+      "ument"
+    ],
+    [
+      "document",
+      "ation</w>"
+    ],
+    [
+      "navi",
+      "ga"
+    ],
+    [
+      "ti",
+      "ve</w>"
+    ],
+    [
+      "saf",
+      "e</w>"
+    ],
+    [
+      "m",
+      "i"
+    ],
+    [
+      "un",
+      "reach"
+    ],
+    [
+      "unreach",
+      "able</w>"
+    ],
+    [
+      "y",
+      "_"
+    ],
+    [
+      "al",
+      "_"
+    ],
+    [
+      "cal",
+      "</w>"
+    ],
+    [
+      "C",
+      "omp"
+    ],
+    [
+      "get_",
+      "curr"
+    ],
+    [
+      "get_curr",
+      "en"
+    ],
+    [
+      "get_curren",
+      "t_"
+    ],
+    [
+      "get_current_",
+      "location</w>"
+    ],
+    [
+      "ex",
+      "it</w>"
+    ],
+    [
+      "Comp",
+      "ute</w>"
+    ],
+    [
+      "e",
+      "g"
+    ],
+    [
+      "om",
+      "etric</w>"
+    ],
+    [
+      "a",
+      "te</w>"
+    ],
+    [
+      "ge",
+      "ometric</w>"
+    ],
+    [
+      "al",
+      "l</w>"
+    ],
+    [
+      "L",
+      "oc"
+    ],
+    [
+      "Loc",
+      "ate</w>"
+    ],
+    [
+      "targ",
+      "et</w>"
+    ],
+    [
+      "n",
+      "</w>"
+    ],
+    [
+      "ou",
+      "n"
+    ],
+    [
+      "t",
+      "ur"
+    ],
+    [
+      "tur",
+      "n</w>"
+    ],
+    [
+      "vis",
+      "ib"
+    ],
+    [
+      "ob",
+      "s"
+    ],
+    [
+      "neares",
+      "t</w>"
+    ],
+    [
+      "find_",
+      "neares"
+    ],
+    [
+      "find_neares",
+      "t_"
+    ],
+    [
+      "H",
+      "ow</w>"
+    ],
+    [
+      "tion",
+      "al</w>"
+    ],
+    [
+      "door",
+      "_"
+    ],
+    [
+      "door_",
+      "3</w>"
+    ],
+    [
+      "Q",
+      "uer"
+    ],
+    [
+      "Quer",
+      "y</w>"
+    ],
+    [
+      "rela",
+      "tion"
+    ],
+    [
+      "relation",
+      "sh"
+    ],
+    [
+      "relationsh",
+      "i"
+    ],
+    [
+      "relationshi",
+      "p</w>"
+    ],
+    [
+      "quer",
+      "y_"
+    ],
+    [
+      "query_",
+      "spati"
+    ],
+    [
+      "query_spati",
+      "al_"
+    ],
+    [
+      "query_spatial_",
+      "relation</w>"
+    ],
+    [
+      "pa",
+      "th</w>"
+    ],
+    [
+      "er",
+      "m"
+    ],
+    [
+      "erm",
+      "in"
+    ],
+    [
+      "o",
+      "</w>"
+    ],
+    [
+      "th",
+      "re"
+    ],
+    [
+      "thre",
+      "sh"
+    ],
+    [
+      "thresh",
+      "ol"
+    ],
+    [
+      "threshol",
+      "d</w>"
+    ],
+    [
+      "n",
+      "o"
+    ],
+    [
+      "no",
+      "t</w>"
+    ],
+    [
+      "ab",
+      "sen"
+    ],
+    [
+      "absen",
+      "ce</w>"
+    ],
+    [
+      "loc",
+      "k"
+    ],
+    [
+      "i",
+      "gh"
+    ],
+    [
+      "U",
+      "s"
+    ],
+    [
+      "Us",
+      "er</w>"
+    ],
+    [
+      "w",
+      "orkbench</w>"
+    ],
+    [
+      "A",
+      "ss"
+    ],
+    [
+      "Ass",
+      "istan"
+    ],
+    [
+      "Assistan",
+      "t</w>"
+    ],
+    [
+      "d",
+      "ep"
+    ],
+    [
+      "dep",
+      "th</w>"
+    ],
+    [
+      "c",
+      "o"
+    ],
+    [
+      "con",
+      "fi"
+    ],
+    [
+      "confi",
+      "den"
+    ],
+    [
+      "vis",
+      "ual</w>"
+    ],
+    [
+      "confiden",
+      "ce</w>"
+    ],
+    [
+      "s",
+      "ur"
+    ],
+    [
+      "c",
+      "u"
+    ],
+    [
+      "res",
+      "ol"
+    ],
+    [
+      "resol",
+      "u"
+    ],
+    [
+      "resolu",
+      "tion</w>"
+    ],
+    [
+      "loc",
+      "a"
+    ],
+    [
+      "cu",
+      "la"
+    ],
+    [
+      "m",
+      "er"
+    ],
+    [
+      "In",
+      "spec"
+    ],
+    [
+      "Inspec",
+      "t</w>"
+    ],
+    [
+      "get_",
+      "visib"
+    ],
+    [
+      "get_visib",
+      "le"
+    ],
+    [
+      "get_visible",
+      "_"
+    ],
+    [
+      "get_visible_",
+      "objects</w>"
+    ],
+    [
+      "el",
+      "y</w>"
+    ],
+    [
+      "clos",
+      "ely</w>"
+    ],
+    [
+      "in",
+      "spec"
+    ],
+    [
+      "y",
+      "po"
+    ],
+    [
+      "Wh",
+      "y</w>"
+    ],
+    [
+      "wa",
+      "ypo"
+    ],
+    [
+      "waypo",
+      "ints</w>"
+    ],
+    [
+      "ou",
+      "t</w>"
+    ],
+    [
+      "a",
+      "d"
+    ],
+    [
+      "c",
+      "ri"
+    ],
+    [
+      "th",
+      "ere</w>"
+    ],
+    [
+      "en",
+      "</w>"
+    ],
+    [
+      "a",
+      "ta"
+    ],
+    [
+      "w",
+      "e"
+    ],
+    [
+      "b",
+      "et"
+    ],
+    [
+      "bet",
+      "we"
+    ],
+    [
+      "betwe",
+      "en</w>"
+    ],
+    [
+      "F",
+      "in"
+    ],
+    [
+      "Fin",
+      "d</w>"
+    ],
+    [
+      "s",
+      "ear"
+    ],
+    [
+      "sear",
+      "ch"
+    ],
+    [
+      "search",
+      "_"
+    ],
+    [
+      "f",
+      "unc"
+    ],
+    [
+      "Wh",
+      "i"
+    ],
+    [
+      "Whi",
+      "ch</w>"
+    ],
+    [
+      "D",
+      "es"
+    ],
+    [
+      "p",
+      "ro"
+    ],
+    [
+      "u",
+      "c"
+    ],
+    [
+      "la",
+      "s"
+    ],
+    [
+      "naviga",
+      "te</w>"
+    ],
+    [
+      "R",
+      "ep"
+    ],
+    [
+      "Rep",
+      "or"
+    ],
+    [
+      "Repor",
+      "t</w>"
+    ],
+    [
+      "c",
+      "las"
+    ],
+    [
+      "c",
+      "a"
+    ],
+    [
+      "c",
+      "an</w>"
+    ],
+    [
+      "es",
+      "t</w>"
+    ],
+    [
+      "p",
+      "h"
+    ],
+    [
+      "ph",
+      "y"
+    ],
+    [
+      "phy",
+      "si"
+    ],
+    [
+      "physi",
+      "cal</w>"
+    ],
+    [
+      "i",
+      "r"
+    ],
+    [
+      "w",
+      "i"
+    ],
+    [
+      "si",
+      "on</w>"
+    ],
+    [
+      "s",
+      "t"
+    ],
+    [
+      "wi",
+      "th"
+    ],
+    [
+      "Ex",
+      "ec"
+    ],
+    [
+      "Exec",
+      "ute</w>"
+    ],
+    [
+      "en",
+      "vi"
+    ],
+    [
+      "envi",
+      "ron"
+    ],
+    [
+      "environ",
+      "ment"
+    ],
+    [
+      "environment",
+      "al</w>"
+    ],
+    [
+      "interac",
+      "tion</w>"
+    ],
+    [
+      "interac",
+      "t_"
+    ],
+    [
+      "interact_",
+      "with"
+    ],
+    [
+      "interact_with",
+      "_"
+    ],
+    [
+      "interact_with_",
+      "object</w>"
+    ],
+    [
+      "object_",
+      "i"
+    ],
+    [
+      "object_i",
+      "d</w>"
+    ],
+    [
+      "es",
+      "i"
+    ],
+    [
+      "c",
+      "ol"
+    ],
+    [
+      "I",
+      "s</w>"
+    ],
+    [
+      "0",
+      "4</w>"
+    ],
+    [
+      "v",
+      "o"
+    ],
+    [
+      "In",
+      "ci"
+    ],
+    [
+      "Inci",
+      "d"
+    ],
+    [
+      "Incid",
+      "ent</w>"
+    ],
+    [
+      "1",
+      "04</w>"
+    ],
+    [
+      "obs",
+      "ta"
+    ],
+    [
+      "obsta",
+      "c"
+    ],
+    [
+      "obstac",
+      "le</w>"
+    ],
+    [
+      "a",
+      "vo"
+    ],
+    [
+      "avo",
+      "i"
+    ],
+    [
+      "avoi",
+      "d"
+    ],
+    [
+      "avoid",
+      "ing</w>"
+    ],
+    [
+      "find_",
+      "path</w>"
+    ],
+    [
+      "C",
+      "an</w>"
+    ],
+    [
+      "fin",
+      "d</w>"
+    ],
+    [
+      "d",
+      "ar"
+    ],
+    [
+      "ac",
+      "tive</w>"
+    ],
+    [
+      "Ex",
+      "pla"
+    ],
+    [
+      "Expla",
+      "in</w>"
+    ],
+    [
+      "lock",
+      "ed</w>"
+    ],
+    [
+      "D",
+      "et"
+    ],
+    [
+      "Det",
+      "ermin"
+    ],
+    [
+      "Determin",
+      "e</w>"
+    ],
+    [
+      "pla",
+      "y"
+    ],
+    [
+      "play",
+      "er</w>"
+    ],
+    [
+      "po",
+      "si"
+    ],
+    [
+      "posi",
+      "tion</w>"
+    ],
+    [
+      "b",
+      "oun"
+    ],
+    [
+      "boun",
+      "dar"
+    ],
+    [
+      "boundar",
+      "i"
+    ],
+    [
+      "boundari",
+      "es</w>"
+    ],
+    [
+      "ab",
+      "out</w>"
+    ],
+    [
+      "c",
+      "ro"
+    ],
+    [
+      "k",
+      "</w>"
+    ],
+    [
+      "I",
+      "</w>"
+    ],
+    [
+      "den",
+      "ti"
+    ],
+    [
+      "denti",
+      "f"
+    ],
+    [
+      "dentif",
+      "y</w>"
+    ],
+    [
+      "m",
+      "an"
+    ],
+    [
+      "ti",
+      "fa"
+    ],
+    [
+      "tifa",
+      "c"
+    ],
+    [
+      "tifac",
+      "t</w>"
+    ],
+    [
+      "O",
+      "m"
+    ],
+    [
+      "Om",
+      "eg"
+    ],
+    [
+      "Omeg",
+      "a</w>"
+    ],
+    [
+      "S",
+      "ur"
+    ],
+    [
+      "m",
+      "et"
+    ],
+    [
+      "e",
+      "y</w>"
+    ],
+    [
+      "Ar",
+      "tifact</w>"
+    ],
+    [
+      "res",
+      "s</w>"
+    ],
+    [
+      "search_",
+      "doc"
+    ],
+    [
+      "search_doc",
+      "uments</w>"
+    ],
+    [
+      "oo",
+      "r</w>"
+    ],
+    [
+      "door",
+      "way</w>"
+    ],
+    [
+      "ar",
+      "ch"
+    ],
+    [
+      "arch",
+      "way</w>"
+    ],
+    [
+      "eg",
+      "ress</w>"
+    ],
+    [
+      "find_nearest_",
+      "exit</w>"
+    ],
+    [
+      "Sur",
+      "v"
+    ],
+    [
+      "Surv",
+      "ey</w>"
+    ],
+    [
+      "D",
+      "oor</w>"
+    ],
+    [
+      "d",
+      "ur"
+    ],
+    [
+      "d",
+      "is"
+    ],
+    [
+      "an",
+      "i"
+    ],
+    [
+      "ani",
+      "on</w>"
+    ],
+    [
+      "navi",
+      "gation</w>"
+    ],
+    [
+      "met",
+      "ad"
+    ],
+    [
+      "metad",
+      "ata"
+    ],
+    [
+      "metadata",
+      "</w>"
+    ],
+    [
+      "func",
+      "tional</w>"
+    ],
+    [
+      "des",
+      "cri"
+    ],
+    [
+      "descri",
+      "p"
+    ],
+    [
+      "descrip",
+      "tion</w>"
+    ],
+    [
+      "s",
+      "e"
+    ],
+    [
+      "se",
+      "e</w>"
+    ],
+    [
+      "o",
+      "v"
+    ],
+    [
+      "P",
+      "l"
+    ],
+    [
+      "Pl",
+      "an</w>"
+    ],
+    [
+      "col",
+      "li"
+    ],
+    [
+      "colli",
+      "sion</w>"
+    ],
+    [
+      "f",
+      "re"
+    ],
+    [
+      "fre",
+      "e</w>"
+    ],
+    [
+      "b",
+      "y</w>"
+    ],
+    [
+      "r",
+      "ou"
+    ],
+    [
+      "rou",
+      "te</w>"
+    ],
+    [
+      "dis",
+      "pa"
+    ],
+    [
+      "dispa",
+      "t"
+    ],
+    [
+      "dispat",
+      "ch</w>"
+    ],
+    [
+      "c",
+      "omp"
+    ],
+    [
+      "comp",
+      "anion</w>"
+    ],
+    [
+      "naviga",
+      "te_"
+    ],
+    [
+      "navigate_",
+      "to</w>"
+    ],
+    [
+      "m",
+      "etric</w>"
+    ],
+    [
+      "ov",
+      "er"
+    ],
+    [
+      "ri",
+      "de</w>"
+    ],
+    [
+      "co",
+      "de</w>"
+    ],
+    [
+      "e",
+      "_"
+    ],
+    [
+      "over",
+      "ride</w>"
+    ],
+    [
+      "d",
+      "e"
+    ],
+    [
+      "in",
+      "t</w>"
+    ],
+    [
+      "spati",
+      "al</w>"
+    ],
+    [
+      "pro",
+      "x"
+    ],
+    [
+      "prox",
+      "i"
+    ],
+    [
+      "proxi",
+      "mi"
+    ],
+    [
+      "proximi",
+      "ty</w>"
+    ],
+    [
+      "Wh",
+      "ere</w>"
+    ],
+    [
+      "E",
+      "uc"
+    ],
+    [
+      "Euc",
+      "li"
+    ],
+    [
+      "Eucli",
+      "de"
+    ],
+    [
+      "Euclide",
+      "an</w>"
+    ],
+    [
+      "cal",
+      "cula"
+    ],
+    [
+      "calcula",
+      "te_"
+    ],
+    [
+      "calculate_",
+      "distance</w>"
+    ],
+    [
+      "object_",
+      "a</w>"
+    ],
+    [
+      "object_",
+      "b</w>"
+    ],
+    [
+      "f",
+      "ro"
+    ],
+    [
+      "fro",
+      "m</w>"
+    ],
+    [
+      "d",
+      "o</w>"
+    ],
+    [
+      "te",
+      "s</w>"
+    ],
+    [
+      "clos",
+      "est</w>"
+    ],
+    [
+      "ne",
+      "igh"
+    ],
+    [
+      "neigh",
+      "b"
+    ],
+    [
+      "neighb",
+      "or</w>"
+    ],
+    [
+      "find_nearest_",
+      "target</w>"
+    ],
+    [
+      "targ",
+      "e"
+    ],
+    [
+      "targe",
+      "t_"
+    ],
+    [
+      "target_",
+      "clas"
+    ],
+    [
+      "target_clas",
+      "s</w>"
+    ],
+    [
+      "u",
+      "i"
+    ],
+    [
+      "l",
+      "aboratory</w>"
+    ],
+    [
+      "d",
+      "ir"
+    ],
+    [
+      "dir",
+      "ec"
+    ],
+    [
+      "c",
+      "oo"
+    ],
+    [
+      "coo",
+      "r"
+    ],
+    [
+      "coor",
+      "d"
+    ],
+    [
+      "coord",
+      "in"
+    ],
+    [
+      "coordin",
+      "a"
+    ],
+    [
+      "coordina",
+      "tes</w>"
+    ],
+    [
+      "direc",
+      "tional</w>"
+    ],
+    [
+      "rela",
+      "tive</w>"
+    ],
+    [
+      "ab",
+      "i"
+    ],
+    [
+      "p",
+      "ar"
+    ],
+    [
+      "par",
+      "ti"
+    ],
+    [
+      "parti",
+      "tion"
+    ],
+    [
+      "partition",
+      "s</w>"
+    ],
+    [
+      "T",
+      "arg"
+    ],
+    [
+      "Targ",
+      "et</w>"
+    ],
+    [
+      "expla",
+      "in</w>"
+    ],
+    [
+      "N",
+      "o</w>"
+    ],
+    [
+      "reach",
+      "abi"
+    ],
+    [
+      "reachabi",
+      "lity</w>"
+    ],
+    [
+      "con",
+      "st"
+    ],
+    [
+      "const",
+      "ra"
+    ],
+    [
+      "constra",
+      "ints</w>"
+    ],
+    [
+      "ca",
+      "mer"
+    ],
+    [
+      "camer",
+      "a</w>"
+    ],
+    [
+      "F",
+      "O"
+    ],
+    [
+      "FO",
+      "V"
+    ],
+    [
+      "FOV",
+      "</w>"
+    ],
+    [
+      "li",
+      "mi"
+    ],
+    [
+      "limi",
+      "ts</w>"
+    ],
+    [
+      "explain_",
+      "unreachable</w>"
+    ],
+    [
+      "Des",
+      "tination</w>"
+    ],
+    [
+      "saf",
+      "et"
+    ],
+    [
+      "w",
+      "e</w>"
+    ],
+    [
+      "v",
+      "ation</w>"
+    ],
+    [
+      "o",
+      "p"
+    ],
+    [
+      "s",
+      "on"
+    ],
+    [
+      "op",
+      "ti"
+    ],
+    [
+      "opti",
+      "cal</w>"
+    ],
+    [
+      "loca",
+      "ted</w>"
+    ],
+    [
+      "obs",
+      "er"
+    ],
+    [
+      "obser",
+      "vation</w>"
+    ],
+    [
+      "c",
+      "an"
+    ],
+    [
+      "cl",
+      "u"
+    ],
+    [
+      "H",
+      "I"
+    ],
+    [
+      "HI",
+      "ST"
+    ],
+    [
+      "HIST",
+      "O"
+    ],
+    [
+      "HISTO",
+      "R"
+    ],
+    [
+      "HISTOR",
+      "Y"
+    ],
+    [
+      "HISTORY",
+      "</w>"
+    ],
+    [
+      "W",
+      "orkbench</w>"
+    ],
+    [
+      "7",
+      "5</w>"
+    ],
+    [
+      "S",
+      "can"
+    ],
+    [
+      "Scan",
+      "n"
+    ],
+    [
+      "Scann",
+      "ing</w>"
+    ],
+    [
+      "sur",
+      "fa"
+    ],
+    [
+      "surfa",
+      "ce</w>"
+    ],
+    [
+      "S",
+      "y"
+    ],
+    [
+      "Sy",
+      "n"
+    ],
+    [
+      "Syn",
+      "th"
+    ],
+    [
+      "Synth",
+      "esi"
+    ],
+    [
+      "Synthesi",
+      "z"
+    ],
+    [
+      "Synthesiz",
+      "e</w>"
+    ],
+    [
+      "con",
+      "te"
+    ],
+    [
+      "conte",
+      "x"
+    ],
+    [
+      "contex",
+      "t"
+    ],
+    [
+      "context",
+      "ual</w>"
+    ],
+    [
+      "rea",
+      "son"
+    ],
+    [
+      "reason",
+      "ing</w>"
+    ],
+    [
+      "s",
+      "m"
+    ],
+    [
+      "sm",
+      "all</w>"
+    ],
+    [
+      "detec",
+      "tion</w>"
+    ],
+    [
+      "p",
+      "er"
+    ],
+    [
+      "ri",
+      "ght</w>"
+    ],
+    [
+      "f",
+      "e"
+    ],
+    [
+      "fe",
+      "ed</w>"
+    ],
+    [
+      "i",
+      "dentify</w>"
+    ],
+    [
+      "uncerta",
+      "in</w>"
+    ],
+    [
+      "per",
+      "c"
+    ],
+    [
+      "perc",
+      "eption</w>"
+    ],
+    [
+      "m",
+      "arg"
+    ],
+    [
+      "marg",
+      "in"
+    ],
+    [
+      "margin",
+      "s</w>"
+    ],
+    [
+      "an",
+      "al"
+    ],
+    [
+      "anal",
+      "y"
+    ],
+    [
+      "analy",
+      "s"
+    ],
+    [
+      "analys",
+      "is</w>"
+    ],
+    [
+      "f",
+      "or"
+    ],
+    [
+      "s",
+      "tan"
+    ],
+    [
+      "t",
+      "ermin"
+    ],
+    [
+      "b",
+      "er</w>"
+    ],
+    [
+      "w",
+      "er</w>"
+    ],
+    [
+      "sur",
+      "ge</w>"
+    ],
+    [
+      "stan",
+      "c"
+    ],
+    [
+      "stanc",
+      "es</w>"
+    ],
+    [
+      "P",
+      "er"
+    ],
+    [
+      "Per",
+      "for"
+    ],
+    [
+      "Perfor",
+      "m</w>"
+    ],
+    [
+      "h",
+      "igh"
+    ],
+    [
+      "high",
+      "</w>"
+    ],
+    [
+      "cro",
+      "p</w>"
+    ],
+    [
+      "inspec",
+      "tion</w>"
+    ],
+    [
+      "inspec",
+      "t_"
+    ],
+    [
+      "inspect_",
+      "object_"
+    ],
+    [
+      "inspect_object_",
+      "closely</w>"
+    ],
+    [
+      "po",
+      "wer</w>"
+    ],
+    [
+      "s",
+      "torage</w>"
+    ],
+    [
+      "man",
+      "y</w>"
+    ],
+    [
+      "C",
+      "oun"
+    ],
+    [
+      "Coun",
+      "t</w>"
+    ],
+    [
+      "n",
+      "u"
+    ],
+    [
+      "nu",
+      "m"
+    ],
+    [
+      "num",
+      "ber</w>"
+    ],
+    [
+      "in",
+      "stances</w>"
+    ],
+    [
+      "loca",
+      "te_"
+    ],
+    [
+      "locate_",
+      "object</w>"
+    ],
+    [
+      "ne",
+      "x"
+    ],
+    [
+      "nex",
+      "t</w>"
+    ],
+    [
+      "curr",
+      "ent</w>"
+    ],
+    [
+      "objec",
+      "ti"
+    ],
+    [
+      "objecti",
+      "ves</w>"
+    ],
+    [
+      "ui",
+      "de</w>"
+    ],
+    [
+      "h",
+      "an"
+    ],
+    [
+      "han",
+      "d"
+    ],
+    [
+      "mer",
+      "g"
+    ],
+    [
+      "merg",
+      "en"
+    ],
+    [
+      "mergen",
+      "c"
+    ],
+    [
+      "mergenc",
+      "y</w>"
+    ],
+    [
+      "q",
+      "u"
+    ],
+    [
+      "e",
+      "mergency</w>"
+    ],
+    [
+      "re",
+      "qu"
+    ],
+    [
+      "dur",
+      "ing</w>"
+    ],
+    [
+      "en",
+      "ga"
+    ],
+    [
+      "h",
+      "int</w>"
+    ],
+    [
+      "pa",
+      "ss"
+    ],
+    [
+      "pass",
+      "code</w>"
+    ],
+    [
+      "D",
+      "is"
+    ],
+    [
+      "Dis",
+      "enga"
+    ],
+    [
+      "Disenga",
+      "ge</w>"
+    ],
+    [
+      "k",
+      "e"
+    ],
+    [
+      "ke",
+      "y"
+    ],
+    [
+      "C",
+      "al"
+    ],
+    [
+      "Cal",
+      "cula"
+    ],
+    [
+      "Calcula",
+      "te</w>"
+    ],
+    [
+      "li",
+      "b"
+    ],
+    [
+      "lib",
+      "rary</w>"
+    ],
+    [
+      "key",
+      "c"
+    ],
+    [
+      "keyc",
+      "ar"
+    ],
+    [
+      "keycar",
+      "d</w>"
+    ],
+    [
+      "lock",
+      "</w>"
+    ],
+    [
+      "U",
+      "n"
+    ],
+    [
+      "fi",
+      "r"
+    ],
+    [
+      "fir",
+      "e</w>"
+    ],
+    [
+      "safet",
+      "y</w>"
+    ],
+    [
+      "a",
+      "m</w>"
+    ],
+    [
+      "Un",
+      "lock</w>"
+    ],
+    [
+      "o",
+      "ffice</w>"
+    ],
+    [
+      "b",
+      "ac"
+    ],
+    [
+      "bac",
+      "k"
+    ],
+    [
+      "h",
+      "a"
+    ],
+    [
+      "back",
+      "pa"
+    ],
+    [
+      "backpa",
+      "c"
+    ],
+    [
+      "backpac",
+      "k</w>"
+    ],
+    [
+      "a",
+      "k"
+    ],
+    [
+      "clu",
+      "e_"
+    ],
+    [
+      "termin",
+      "al</w>"
+    ],
+    [
+      "a",
+      "u"
+    ],
+    [
+      "l",
+      "t</w>"
+    ],
+    [
+      "T",
+      "ak"
+    ],
+    [
+      "Tak",
+      "e</w>"
+    ],
+    [
+      "v",
+      "au"
+    ],
+    [
+      "vau",
+      "lt</w>"
+    ],
+    [
+      "m",
+      "is"
+    ],
+    [
+      "g",
+      "uide</w>"
+    ],
+    [
+      "b",
+      "e</w>"
+    ],
+    [
+      "Des",
+      "cri"
+    ],
+    [
+      "Descri",
+      "be</w>"
+    ],
+    [
+      "la",
+      "y"
+    ],
+    [
+      "lay",
+      "out</w>"
+    ],
+    [
+      "visib",
+      "le</w>"
+    ],
+    [
+      "A",
+      "</w>"
+    ],
+    [
+      "h",
+      "ere</w>"
+    ],
+    [
+      "s",
+      "ec"
+    ],
+    [
+      "le",
+      "ad"
+    ],
+    [
+      "w",
+      "h"
+    ],
+    [
+      "lead",
+      "s</w>"
+    ],
+    [
+      "sec",
+      "tion</w>"
+    ],
+    [
+      "ha",
+      "p"
+    ],
+    [
+      "hap",
+      "p"
+    ],
+    [
+      "happ",
+      "en"
+    ],
+    [
+      "happen",
+      "ed</w>"
+    ],
+    [
+      "d",
+      "ata"
+    ],
+    [
+      "data",
+      "pa"
+    ],
+    [
+      "datapa",
+      "d_"
+    ],
+    [
+      "datapad_",
+      "ca"
+    ],
+    [
+      "datapad_ca",
+      "s"
+    ],
+    [
+      "datapad_cas",
+      "e</w>"
+    ],
+    [
+      "b",
+      "esi"
+    ],
+    [
+      "besi",
+      "de</w>"
+    ],
+    [
+      "v",
+      "en"
+    ],
+    [
+      "ven",
+      "tory</w>"
+    ],
+    [
+      "r",
+      "oc"
+    ],
+    [
+      "roc",
+      "e"
+    ],
+    [
+      "roce",
+      "dur"
+    ],
+    [
+      "si",
+      "fi"
+    ],
+    [
+      "sifi",
+      "c"
+    ],
+    [
+      "sific",
+      "ation</w>"
+    ],
+    [
+      "g",
+      "i"
+    ],
+    [
+      "hand",
+      "le</w>"
+    ],
+    [
+      "clas",
+      "sification</w>"
+    ],
+    [
+      "hand",
+      "l"
+    ],
+    [
+      "handl",
+      "ing</w>"
+    ],
+    [
+      "p",
+      "rocedur"
+    ],
+    [
+      "procedur",
+      "es</w>"
+    ],
+    [
+      "le",
+      "a"
+    ],
+    [
+      "fa",
+      "r</w>"
+    ],
+    [
+      "st",
+      "uc"
+    ],
+    [
+      "stuc",
+      "k</w>"
+    ],
+    [
+      "gi",
+      "ve</w>"
+    ],
+    [
+      "clu",
+      "e</w>"
+    ],
+    [
+      "H",
+      "int</w>"
+    ],
+    [
+      "requ",
+      "est</w>"
+    ],
+    [
+      "requ",
+      "es"
+    ],
+    [
+      "reques",
+      "t_"
+    ],
+    [
+      "request_",
+      "hint</w>"
+    ],
+    [
+      "lef",
+      "t</w>"
+    ],
+    [
+      "an",
+      "y"
+    ],
+    [
+      "any",
+      "th"
+    ],
+    [
+      "anyth",
+      "ing</w>"
+    ],
+    [
+      "ac",
+      "u"
+    ],
+    [
+      "to",
+      "co"
+    ],
+    [
+      "toco",
+      "l</w>"
+    ],
+    [
+      "func",
+      "tion</w>"
+    ],
+    [
+      "lea",
+      "ve</w>"
+    ],
+    [
+      "mi",
+      "cro"
+    ],
+    [
+      "micro",
+      "s"
+    ],
+    [
+      "micros",
+      "co"
+    ],
+    [
+      "microsco",
+      "p"
+    ],
+    [
+      "microscop",
+      "e</w>"
+    ],
+    [
+      "ev",
+      "acu"
+    ],
+    [
+      "sh",
+      "ou"
+    ],
+    [
+      "shou",
+      "l"
+    ],
+    [
+      "shoul",
+      "d</w>"
+    ],
+    [
+      "man",
+      "ual</w>"
+    ],
+    [
+      "S",
+      "ec"
+    ],
+    [
+      "F",
+      "ir"
+    ],
+    [
+      "Fir",
+      "e</w>"
+    ],
+    [
+      "pro",
+      "tocol</w>"
+    ],
+    [
+      "search_",
+      "safet"
+    ],
+    [
+      "search_safet",
+      "y_"
+    ],
+    [
+      "search_safety_",
+      "manual</w>"
+    ],
+    [
+      "evacu",
+      "ation</w>"
+    ],
+    [
+      "to",
+      "r</w>"
+    ],
+    [
+      "T",
+      "el"
+    ],
+    [
+      "Tel",
+      "l</w>"
+    ],
+    [
+      "Sec",
+      "tor</w>"
+    ],
+    [
+      "0",
+      "1</w>"
+    ],
+    [
+      "0",
+      "3</w>"
+    ],
+    [
+      "N",
+      "a"
+    ],
+    [
+      "Na",
+      "vi"
+    ],
+    [
+      "A",
+      "c"
+    ],
+    [
+      "clue_",
+      "saf"
+    ],
+    [
+      "clue_saf",
+      "e_"
+    ],
+    [
+      "clue_safe_",
+      "01</w>"
+    ],
+    [
+      "clue_",
+      "termin"
+    ],
+    [
+      "clue_termin",
+      "al_"
+    ],
+    [
+      "clue_terminal_",
+      "03</w>"
+    ],
+    [
+      "I",
+      "dentify</w>"
+    ],
+    [
+      "ou",
+      "r</w>"
+    ],
+    [
+      "Navi",
+      "ga"
+    ],
+    [
+      "Naviga",
+      "te</w>"
+    ],
+    [
+      "mis",
+      "si"
+    ],
+    [
+      "missi",
+      "on"
+    ]
+  ]
+}

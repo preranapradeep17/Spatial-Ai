@@ -1,0 +1,141 @@
+{
+  "frame_id": "frame_00004",
+  "image_filename": "rgb/frame_00004.png",
+  "depth_filename": "depth/frame_00004.npy",
+  "camera": {
+    "fx": 525.0,
+    "fy": 525.0,
+    "cx": 320.0,
+    "cy": 240.0,
+    "image_width": 640,
+    "image_height": 480,
+    "position": [
+      0.0,
+      1.5,
+      -2.662654097156085
+    ],
+    "rotation_quaternion": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  },
+  "objects": [
+    {
+      "object_id": "door_00",
+      "class_id": 4,
+      "class_name": "door",
+      "bbox_2d": {
+        "xmin": 450.6,
+        "ymin": 172.5,
+        "xmax": 549.7,
+        "ymax": 361.6
+      },
+      "position_world_3d": [
+        2.0,
+        1.2,
+        5.829
+      ],
+      "position_camera_3d": [
+        2.0,
+        -0.3,
+        5.829
+      ],
+      "distance_to_camera": 6.17,
+      "is_visible": true
+    },
+    {
+      "object_id": "table_01",
+      "class_id": 0,
+      "class_name": "table",
+      "bbox_2d": {
+        "xmin": 226.4,
+        "ymin": 297.4,
+        "xmax": 471.1,
+        "ymax": 412.1
+      },
+      "position_world_3d": [
+        0.188,
+        0.75,
+        3.433
+      ],
+      "position_camera_3d": [
+        0.188,
+        -0.75,
+        3.433
+      ],
+      "distance_to_camera": 3.519,
+      "is_visible": true
+    },
+    {
+      "object_id": "monitor_02",
+      "class_id": 3,
+      "class_name": "monitor",
+      "bbox_2d": {
+        "xmin": 354.0,
+        "ymin": 291.9,
+        "xmax": 441.8,
+        "ymax": 363.7
+      },
+      "position_world_3d": [
+        0.488,
+        0.95,
+        3.29
+      ],
+      "position_camera_3d": [
+        0.488,
+        -0.55,
+        3.29
+      ],
+      "distance_to_camera": 3.371,
+      "is_visible": true
+    },
+    {
+      "object_id": "laptop_03",
+      "class_id": 2,
+      "class_name": "laptop",
+      "bbox_2d": {
+        "xmin": 241.7,
+        "ymin": 345.2,
+        "xmax": 308.1,
+        "ymax": 392.6
+      },
+      "position_world_3d": [
+        -0.238,
+        0.82,
+        2.77
+      ],
+      "position_camera_3d": [
+        -0.238,
+        -0.68,
+        2.77
+      ],
+      "distance_to_camera": 2.862,
+      "is_visible": true
+    },
+    {
+      "object_id": "chair_04",
+      "class_id": 1,
+      "class_name": "chair",
+      "bbox_2d": {
+        "xmin": 0.0,
+        "ymin": 349.9,
+        "xmax": 114.5,
+        "ymax": 480.0
+      },
+      "position_world_3d": [
+        -1.329,
+        0.5,
+        2.627
+      ],
+      "position_camera_3d": [
+        -1.329,
+        -1.0,
+        2.627
+      ],
+      "distance_to_camera": 3.109,
+      "is_visible": true
+    }
+  ]
+}

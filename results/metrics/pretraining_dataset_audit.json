@@ -1,0 +1,175 @@
+{
+  "summary": {
+    "total_generated_dialogues": 2500,
+    "valid_dialogues": 2500,
+    "valid_percentage": 100.0,
+    "invalid_or_flawed_dialogues": 0,
+    "invalid_percentage": 0.0,
+    "exact_dialogue_duplicates": 2,
+    "exact_prompt_duplicates": 2,
+    "unique_user_queries": 340,
+    "query_diversity_percentage": 13.6,
+    "invalid_json_count": 0,
+    "unknown_tool_count": 0,
+    "argument_error_count": 0,
+    "unrealistic_or_leaked_count": 0,
+    "coordinate_discrepancy_count": 0,
+    "unsupported_object_count": 0
+  },
+  "tool_distribution": {
+    "calculate_distance": {
+      "count": 125,
+      "percentage": 5.0
+    },
+    "explain_uncertainty": {
+      "count": 337,
+      "percentage": 13.48
+    },
+    "explain_unreachable": {
+      "count": 113,
+      "percentage": 4.52
+    },
+    "find_nearest_exit": {
+      "count": 133,
+      "percentage": 5.32
+    },
+    "find_nearest_target": {
+      "count": 125,
+      "percentage": 5.0
+    },
+    "find_path": {
+      "count": 150,
+      "percentage": 6.0
+    },
+    "get_current_location": {
+      "count": 267,
+      "percentage": 10.68
+    },
+    "get_game_guide": {
+      "count": 32,
+      "percentage": 1.28
+    },
+    "get_inventory": {
+      "count": 39,
+      "percentage": 1.56
+    },
+    "get_mission_objectives": {
+      "count": 35,
+      "percentage": 1.4
+    },
+    "get_visible_objects": {
+      "count": 200,
+      "percentage": 8.0
+    },
+    "inspect_clue": {
+      "count": 55,
+      "percentage": 2.2
+    },
+    "inspect_object_closely": {
+      "count": 100,
+      "percentage": 4.0
+    },
+    "interact_with_object": {
+      "count": 150,
+      "percentage": 6.0
+    },
+    "locate_object": {
+      "count": 100,
+      "percentage": 4.0
+    },
+    "navigate_to": {
+      "count": 150,
+      "percentage": 6.0
+    },
+    "query_spatial_relation": {
+      "count": 250,
+      "percentage": 10.0
+    },
+    "request_hint": {
+      "count": 38,
+      "percentage": 1.52
+    },
+    "search_documents": {
+      "count": 72,
+      "percentage": 2.88
+    },
+    "search_safety_manual": {
+      "count": 29,
+      "percentage": 1.16
+    }
+  },
+  "category_distribution": {
+    "object_understanding": 400,
+    "spatial_reasoning": 500,
+    "scene_understanding": 400,
+    "contextual_negative": 450,
+    "navigation_interaction": 450,
+    "investigation_rag": 300
+  },
+  "top_repeated_queries": [
+    {
+      "query": "Which object is nearest to my current position?",
+      "count": 44,
+      "percentage": 1.76
+    },
+    {
+      "query": "What is closest to me?",
+      "count": 41,
+      "percentage": 1.64
+    },
+    {
+      "query": "Explain why that object is missing from the surface.",
+      "count": 41,
+      "percentage": 1.64
+    },
+    {
+      "query": "What is closest to here?",
+      "count": 40,
+      "percentage": 1.6
+    },
+    {
+      "query": "Why is the laptop not visible there?",
+      "count": 37,
+      "percentage": 1.48
+    },
+    {
+      "query": "Where is the exit from this room?",
+      "count": 36,
+      "percentage": 1.44
+    },
+    {
+      "query": "Describe our immediate surroundings and room purpose.",
+      "count": 36,
+      "percentage": 1.44
+    },
+    {
+      "query": "Why can't you see the laptop on it?",
+      "count": 34,
+      "percentage": 1.36
+    },
+    {
+      "query": "Find the nearest egress point.",
+      "count": 33,
+      "percentage": 1.32
+    },
+    {
+      "query": "Tell me about this room.",
+      "count": 33,
+      "percentage": 1.32
+    },
+    {
+      "query": "What is your margin of error?",
+      "count": 32,
+      "percentage": 1.28
+    },
+    {
+      "query": "Identify our current location in Sector 4.",
+      "count": 31,
+      "percentage": 1.24
+    }
+  ],
+  "prompt_structure_issues": [],
+  "unrealistic_examples_sample": [],
+  "coordinate_error_samples": [],
+  "argument_error_samples": []
+}

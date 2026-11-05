@@ -1,0 +1,95 @@
+{
+  "frame_id": "frame_00003",
+  "image_filename": "rgb/frame_00003.png",
+  "depth_filename": "depth/frame_00003.npy",
+  "camera": {
+    "fx": 525.0,
+    "fy": 525.0,
+    "cx": 320.0,
+    "cy": 240.0,
+    "image_width": 640,
+    "image_height": 480,
+    "position": [
+      0.0,
+      1.5,
+      -3.077352145256762
+    ],
+    "rotation_quaternion": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  },
+  "objects": [
+    {
+      "object_id": "table_00",
+      "class_id": 0,
+      "class_name": "table",
+      "bbox_2d": {
+        "xmin": 253.0,
+        "ymin": 296.5,
+        "xmax": 494.0,
+        "ymax": 409.4
+      },
+      "position_world_3d": [
+        0.355,
+        0.75,
+        3.487
+      ],
+      "position_camera_3d": [
+        0.355,
+        -0.75,
+        3.487
+      ],
+      "distance_to_camera": 3.584,
+      "is_visible": true
+    },
+    {
+      "object_id": "chair_01",
+      "class_id": 1,
+      "class_name": "chair",
+      "bbox_2d": {
+        "xmin": 41.7,
+        "ymin": 339.8,
+        "xmax": 150.5,
+        "ymax": 480.0
+      },
+      "position_world_3d": [
+        -1.234,
+        0.5,
+        2.893
+      ],
+      "position_camera_3d": [
+        -1.234,
+        -1.0,
+        2.893
+      ],
+      "distance_to_camera": 3.3,
+      "is_visible": true
+    },
+    {
+      "object_id": "laptop_02",
+      "class_id": 2,
+      "class_name": "laptop",
+      "bbox_2d": {
+        "xmin": 305.8,
+        "ymin": 345.5,
+        "xmax": 372.3,
+        "ymax": 393.0
+      },
+      "position_world_3d": [
+        0.1,
+        0.82,
+        2.763
+      ],
+      "position_camera_3d": [
+        0.1,
+        -0.68,
+        2.763
+      ],
+      "distance_to_camera": 2.847,
+      "is_visible": true
+    }
+  ]
+}

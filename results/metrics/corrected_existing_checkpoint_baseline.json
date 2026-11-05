@@ -1,0 +1,105 @@
+{
+  "checkpoint_path": "models/language_model/transformer_best.pt",
+  "eval_sample_count": 50,
+  "prompt_format_tested": "canonical",
+  "cross_entropy_loss": 6.8225,
+  "perplexity": 918.28,
+  "valid_json_count": 35,
+  "valid_json_percentage": 70.0,
+  "correct_tool_count": 0,
+  "correct_tool_percentage": 0.0,
+  "valid_arguments_count": 27,
+  "valid_arguments_percentage": 54.0,
+  "samples": [
+    {
+      "query": "Calculate the metric distance from bookshelf to door.",
+      "expected_tool": "calculate_distance",
+      "generated_raw": "<thought>Plan collision-free turn-ly the laboratory.</thought><tool_call>{\"name\":\"navigate_to\",\"arguments\":{}}</tool_call>",
+      "parsed_tool": "navigate_to",
+      "parsed_args": {},
+      "is_valid_json": true,
+      "tool_correct": false
+    },
+    {
+      "query": "Calculate the metric distance from door to bookshelf.",
+      "expected_tool": "calculate_distance",
+      "generated_raw": "<thought>Plan collision-free turn-by-turn route and dispatch companion navigation todoor.</thought><tool_call>{\"name\":\"navigate_to\",\"arguments\":{}}</tool_call>",
+      "parsed_tool": "navigate_to",
+      "parsed_args": {},
+      "is_valid_json": true,
+      "tool_correct": false
+    },
+    {
+      "query": "Calculate the metric distance from cabinet to chair.",
+      "expected_tool": "calculate_distance",
+      "generated_raw": "<thought>Determine player position and dispatch companion navigation tothe laboratory.</thought><tool_call>{\"name\":\"request_hint\",\"arguments\":{}}</tool_call>",
+      "parsed_tool": "request_hint",
+      "parsed_args": {},
+      "is_valid_json": true,
+      "tool_correct": false
+    },
+    {
+      "query": "Calculate the metric distance from table to chair.",
+      "expected_tool": "calculate_distance",
+      "generated_raw": "<thought>Plan collision-free turn-free turn-by-turn route and dispatch companion navigation tolaboratory.</thought><tool_call>{\"name\":\"navigate_to\",\"arguments\":{}}</tool_call>",
+      "parsed_tool": "navigate_to",
+      "parsed_args": {},
+      "is_valid_json": true,
+      "tool_correct": false
+    },
+    {
+      "query": "Calculate the metric distance from bookshelf to cabinet.",
+      "expected_tool": "calculate_distance",
+      "generated_raw": "<thought>Plan collision-free turn-by-turn route and dispatch companion navigation tostorage vault.</thought><tool_call>{\"name\":\"navigate_to\",\"arguments\":{}}</tool_call>",
+      "parsed_tool": "navigate_to",
+      "parsed_args": {},
+      "is_valid_json": true,
+      "tool_correct": false
+    },
+    {
+      "query": "Calculate the metric distance from bookshelf to cabinet.",
+      "expected_tool": "calculate_distance",
+      "generated_raw": "<thought>Plan collision-free turn-by-turn route and dispatch companion navigation tostorage vault.</thought><tool_call>{\"name\":\"navigate_to\",\"arguments\":{}}</tool_call>",
+      "parsed_tool": "navigate_to",
+      "parsed_args": {},
+      "is_valid_json": true,
+      "tool_correct": false
+    },
+    {
+      "query": "Calculate the metric distance from table to door.",
+      "expected_tool": "calculate_distance",
+      "generated_raw": "<thought>Plan collision-free turn-ly the laboratory.</thought><tool_call>{\"name\":\"navigate_to\",\"arguments\":{}}</tool_call>",
+      "parsed_tool": "navigate_to",
+      "parsed_args": {},
+      "is_valid_json": true,
+      "tool_correct": false
+    },
+    {
+      "query": "Calculate the metric distance from chair to table.",
+      "expected_tool": "calculate_distance",
+      "generated_raw": "<thought>Determine player position and dispatch companion navigation tothe laboratory.</thought><tool_call>{\"name\":\"request_hint\",\"arguments\":{}}</tool_call>",
+      "parsed_tool": "request_hint",
+      "parsed_args": {},
+      "is_valid_json": true,
+      "tool_correct": false
+    },
+    {
+      "query": "Calculate the metric distance from door to cabinet.",
+      "expected_tool": "calculate_distance",
+      "generated_raw": "<thought>Plan collision-free turn-free turn-by-turn route and dispatch companion navigation todoor.</thought><tool_call>{\"name\":\"navigate_to\",\"arguments\":{\"destination\"",
+      "parsed_tool": null,
+      "parsed_args": {},
+      "is_valid_json": false,
+      "tool_correct": false
+    },
+    {
+      "query": "Calculate the metric distance from table to bookshelf.",
+      "expected_tool": "calculate_distance",
+      "generated_raw": "<thought>Plan collision-free turn-by-turn route and dispatch companion navigation tolaboratory.</thought><tool_call>{\"name\":\"navigate_to\",\"arguments\":{}}</tool_call>",
+      "parsed_tool": "navigate_to",
+      "parsed_args": {},
+      "is_valid_json": true,
+      "tool_correct": false
+    }
+  ]
+}

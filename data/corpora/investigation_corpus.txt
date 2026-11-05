@@ -1,0 +1,200 @@
+=== SPATIAL QUEST INVESTIGATION FACILITY CORPUS ===
+
+[FACILITY ARCHITECTURE AND LAYOUT]
+The Sector 4 Advanced Research Facility is divided into five interconnected spatial zones:
+Location 1: Reception / Central Hub. Contains the primary reception table, visitor sofa, security check scanner, security desk, and the main double entry door.
+Location 2: Research Office. Contains research desks, rolling office chairs, filing cabinets, computer terminals, and office bookshelves.
+Location 3: Library / Archives. Contains historical case files on towering wooden bookshelves, electronic lockboxes, Datapad terminals, and Archive Door 3.
+Location 4: Investigation Laboratory. Contains heavy workbenches, laboratory tables, sample cabinets, chemical apparatus, and safety wash stations.
+Location 5: Storage Room & Vault. Contains heavy reinforced vault doors, secure wall safes, storage containers, supply crates, and security lockers.
+
+[SPATIAL GEOMETRY AND COORDINATE RULES]
+The companion drone utilizes an egocentric 3D coordinate frame where +X points right, +Y points up, and +Z points forward in depth.
+When the drone perceives an object at coordinate [x, y, z]:
+- If x < -0.4 meters, the object is located to the left of the drone center.
+- If x > 0.4 meters, the object is located to the right of the drone center.
+- If -0.4 <= x <= 0.4 meters, the object is directly ahead.
+- The Euclidean distance between object A at [x1, y1, z1] and object B at [x2, y2, z2] is sqrt((x1-x2)^2 + (y1-y2)^2 + (z1-z2)^2).
+- Spatial relationships include: left_of, right_of, near (distance < 2.5 meters), above (y1 > y2 + 0.5 meters), and on.
+
+[SAFETY DIRECTIVES AND INCIDENT RECORDS]
+Incident Report 104-A states that a power surge tripped the magnetic locks on Archive Door 3, putting Sector 4 into lockdown.
+Safety Protocol 22 specifies that hazardous chemical vapor requires donning Level B respirators and turning on ventilation scrubbers at the console.
+The manual emergency override passcode for Door 3 is 7391. The physical emergency key is hidden in the steel cabinet beside the bookshelf.
+Artifact Omega radiates non-ionizing electromagnetic interference within 0.5 meters. Titanium tongs must be used during handling.
+
+[INVESTIGATION AGENT REASONING EXAMPLES]
+
+Companion=scout
+User: What objects do you see around us?
+Assistant: <thought>I should inspect the environment to identify all detected objects and their 3D coordinates.</thought><tool_call>{"name": "get_visible_objects", "arguments": {}}</tool_call>
+Observation: Detected table at [0.12, -0.45, 2.15], chair at [-0.85, -0.40, 1.95], cabinet at [1.60, 0.10, 3.40].
+Assistant: I have detected three objects in the room: a table 2.15 meters ahead, a chair 1.95 meters to our left, and a cabinet 3.40 meters to our right.
+
+Companion=scout
+User: Look around and tell me what you see.
+Assistant: <thought>Survey the current visual environment for visible objects using the camera feed.</thought><tool_call>{"name": "get_visible_objects", "arguments": {}}</tool_call>
+Observation: Detected table at [0.0, 0.75, -15.0], chair at [-1.2, 0.5, -14.8].
+Assistant: I am inspecting the room. I can see a reception table directly ahead and a chair 1.2 meters to the left.
+
+Companion=scout
+User: What can you see?
+Assistant: <thought>Perform an object detection scan across the field of view.</thought><tool_call>{"name": "get_visible_objects", "arguments": {}}</tool_call>
+Observation: Detected workbench at [0.0, 0.75, 0.0], chair at [-1.0, 0.5, 0.2], door at [0.0, 2.0, 8.0].
+Assistant: In this room, I can see a workbench, a laboratory chair, and a door leading to the next section.
+
+Companion=scout
+User: What objects are in this room?
+Assistant: <thought>Retrieve all detected objects in the active room.</thought><tool_call>{"name": "get_visible_objects", "arguments": {}}</tool_call>
+Observation: Detected table, two chairs, and a cabinet.
+Assistant: I have detected a table, two chairs, and a cabinet in this room.
+
+Companion=scout
+User: Can you find the key?
+Assistant: <thought>Attempt to locate the key in the scene graph.</thought><tool_call>{"name": "locate_object", "arguments": {"object_name": "key"}}</tool_call>
+Observation: Object key not detected in current scene graph.
+Assistant: I cannot locate a key in the immediate camera view. It may be concealed inside a cabinet or safe.
+
+Companion=scout
+User: Where is the cabinet located?
+Assistant: <thought>I need to locate the cabinet in 3D world coordinates.</thought><tool_call>{"name": "locate_object", "arguments": {"object_name": "cabinet"}}</tool_call>
+Observation: Cabinet found at [1.60, 0.10, 3.40] with confidence 0.88.
+Assistant: The cabinet is located 3.40 meters away at coordinates [1.60, 0.10, 3.40], positioned to your right.
+
+Companion=scout
+User: Can you see a table?
+Assistant: <thought>Check for the presence of a table in the detection list.</thought><tool_call>{"name": "locate_object", "arguments": {"object_name": "table"}}</tool_call>
+Observation: Table located at [0.0, 0.75, -15.0] with confidence 0.94.
+Assistant: Yes, a table is visible 2.1 meters ahead with 94% detection confidence.
+
+Companion=scout
+User: Where is the nearest table?
+Assistant: <thought>Find the closest table to the current investigator position.</thought><tool_call>{"name": "find_nearest_target", "arguments": {"target_class": "table"}}</tool_call>
+Observation: Closest table found at [0.0, 0.75, -15.0], distance 2.1 meters.
+Assistant: The nearest table is 2.1 meters ahead at coordinates [0.0, 0.75, -15.0].
+
+Companion=navigator
+User: What is to the left of the table?
+Assistant: <thought>I will query the spatial relationship to identify objects left of the table.</thought><tool_call>{"name": "query_spatial_relation", "arguments": {"object_name": "table", "relation": "left_of"}}</tool_call>
+Observation: Found chair to the left of the table at distance 1.02 meters.
+Assistant: The chair is positioned directly to the left of the table at a distance of 1.02 meters.
+
+Companion=navigator
+User: What is next to the desk?
+Assistant: <thought>Query objects near the desk or table.</thought><tool_call>{"name": "query_spatial_relation", "arguments": {"object_name": "table", "relation": "near"}}</tool_call>
+Observation: Chair and datapad terminal found near the table.
+Assistant: Next to the desk, I detect an office chair and a datapad terminal within 1.2 meters.
+
+Companion=navigator
+User: How far is the chair from the table?
+Assistant: <thought>I need to compute the 3D Euclidean distance between the chair and the table.</thought><tool_call>{"name": "calculate_distance", "arguments": {"object_a": "chair", "object_b": "table"}}</tool_call>
+Observation: Distance between chair and table is 1.02 meters.
+Assistant: The physical distance between the chair and the table is 1.02 meters.
+
+Companion=navigator
+User: How far away is that chair?
+Assistant: <thought>Calculate distance to the nearest chair.</thought><tool_call>{"name": "find_nearest_target", "arguments": {"target_class": "chair"}}</tool_call>
+Observation: Closest chair at distance 1.85 meters.
+Assistant: That chair is approximately 1.85 meters from your current position.
+
+Companion=navigator
+User: Which object is closest to me?
+Assistant: <thought>Find the closest target in the room.</thought><tool_call>{"name": "find_nearest_target", "arguments": {"target_class": "table"}}</tool_call>
+Observation: Nearest object is table at 1.40 meters.
+Assistant: The closest object to you is the table, 1.40 meters directly ahead.
+
+Companion=navigator
+User: Can you locate the nearest door?
+Assistant: <thought>Search for the nearest door in camera FOV and scene graph.</thought><tool_call>{"name": "find_nearest_exit", "arguments": {}}</tool_call>
+Observation: Door found at [0.0, 2.0, 8.0], distance 4.5 meters.
+Assistant: The nearest door is 4.5 meters ahead at coordinates [0.0, 2.0, 8.0].
+
+Companion=navigator
+User: Can you find a safe path to the door?
+Assistant: <thought>I must calculate obstacle-free navigation waypoints to the door.</thought><tool_call>{"name": "find_path", "arguments": {"destination": "door"}}</tool_call>
+Observation: Waypoints generated: step 1 [0.0, 0.0, 0.5], step 2 [0.12, 0.02, 2.40], step 3 [0.25, 0.05, 4.80].
+Assistant: Safe transit path calculated with 3 waypoints. Clear the immediate stance, proceed along the central corridor, and arrive at the door.
+
+Companion=navigator
+User: Take me to the library.
+Assistant: <thought>Dispatch navigation command to the Library and Archives.</thought><tool_call>{"name": "navigate_to", "arguments": {"destination": "library"}}</tool_call>
+Observation: Command dispatched. Destination coordinates [5.0, 0.0, -5.0].
+Assistant: Navigating now. Follow me down the corridor toward the Library / Archives.
+
+Companion=navigator
+User: Let's investigate the office.
+Assistant: <thought>Dispatch navigation to the Research Office.</thought><tool_call>{"name": "navigate_to", "arguments": {"destination": "office"}}</tool_call>
+Observation: Command dispatched to Research Office.
+Assistant: Understood. Setting navigation waypoints for the Research Office. Follow the corridor north.
+
+Companion=navigator
+User: Let's look in the storage room instead.
+Assistant: <thought>Update route to Location 5 Storage Room & Vault.</thought><tool_call>{"name": "navigate_to", "arguments": {"destination": "storage_room"}}</tool_call>
+Observation: Command dispatched to Storage Room & Vault.
+Assistant: Redirecting to the Storage Room & Vault. Setting waypoints through the security door.
+
+Companion=navigator
+User: Okay, take me to the cabinet.
+Assistant: <thought>Dispatch companion navigation towards the cabinet.</thought><tool_call>{"name": "navigate_to", "arguments": {"destination": "cabinet"}}</tool_call>
+Observation: Navigation dispatched to cabinet at coordinates [1.60, 0.10, 3.40].
+Assistant: The cabinet is identified in the scene. I am dispatching navigation waypoints towards it now.
+
+Companion=archivist
+User: Read this note and explain it.
+Assistant: <thought>Inspect the active clue or note in the area.</thought><tool_call>{"name": "inspect_clue", "arguments": {"clue_id": "clue_pda_02"}}</tool_call>
+Observation: Datapad clue: Containment grid destabilized. Code hidden behind bookshelf.
+Assistant: The datapad note states that the containment grid has destabilized, and that a key access code is hidden behind the bookshelf in the Library.
+
+Companion=archivist
+User: Inspect the wall safe in this room.
+Assistant: <thought>Examine the interactive clue object clue_safe_01.</thought><tool_call>{"name": "inspect_clue", "arguments": {"clue_id": "clue_safe_01"}}</tool_call>
+Observation: Wall safe is locked. Requires a 4-digit code. Hint: check maintenance logs.
+Assistant: The wall safe is currently locked with an electronic keypad. The hint indicates the code is recorded in facility maintenance logs.
+
+Companion=archivist
+User: What is the emergency override code for Door 3?
+Assistant: <thought>I need to retrieve the maintenance documents regarding Door 3 override.</thought><tool_call>{"name": "search_documents", "arguments": {"query": "Door 3 manual override code"}}</tool_call>
+Observation: Retrieved Maintenance Log: Door 3 default emergency code is 7391. Physical key in cabinet.
+Assistant: According to the maintenance log, the default emergency override code for Door 3 is 7391. A physical backup key is stored in the steel cabinet.
+
+Companion=archivist
+User: What should I do next?
+Assistant: <thought>Request mission objectives and tactical hints.</thought><tool_call>{"name": "get_mission_objectives", "arguments": {}}</tool_call>
+Observation: Active objectives returned.
+Assistant: Review your active objectives. You need to survey the current room and inspect the primary evidence item.
+
+Companion=archivist
+User: Give me a hint without telling me the answer.
+Assistant: <thought>Provide a tactical gameplay hint from mission session.</thought><tool_call>{"name": "request_hint", "arguments": {}}</tool_call>
+Observation: Tactical hint provided.
+Assistant: Here is a hint: Examine the incident logs using RAG to find the 4-digit override code, then inspect the lock terminal.
+
+Companion=archivist
+User: Show me what I've collected.
+Assistant: <thought>Check the player inventory for collected clues and keys.</thought><tool_call>{"name": "get_inventory", "arguments": {}}</tool_call>
+Observation: Inventory items returned.
+Assistant: Let me check your inventory. You have collected: Master Security Keycard and Research File Note.
+
+Companion=archivist
+User: What are you uncertain about?
+Assistant: <thought>Analyze detection confidence and visual uncertainty margins.</thought><tool_call>{"name": "explain_uncertainty", "arguments": {"query": "uncertainty"}}</tool_call>
+Observation: Visual uncertainty report generated.
+Assistant: I am analyzing visual uncertainty. Detections under 85% confidence and novel camera angles have higher error margins. Our CNN was trained from scratch, so occluded objects carry uncertainty.
+
+Companion=archivist
+User: Can you see anything unusual near the cabinet?
+Assistant: <thought>Inspect the cabinet and its immediate surroundings closely.</thought><tool_call>{"name": "inspect_object_closely", "arguments": {"object_name": "cabinet"}}</tool_call>
+Observation: Cabinet inspected. Nearby object detected: safe container 0.8m away.
+Assistant: I have inspected the cabinet surroundings. There is a metallic lock container positioned 0.8 meters to the side with moderate confidence.
+
+Companion=archivist
+User: Can you inspect that object more closely?
+Assistant: <thought>Perform closer inspection of the target object.</thought><tool_call>{"name": "inspect_object_closely", "arguments": {"object_name": "cabinet"}}</tool_call>
+Observation: Object geometry and depth sampled.
+Assistant: Performing closer visual inspection. Depth is 3.4 meters with estimated dimensions 0.8m x 1.2m x 0.5m.
+
+Companion=archivist
+User: Unlock the door using the override.
+Assistant: <thought>Triggering interaction with door_3 to release emergency locks.</thought><tool_call>{"name": "interact_with_object", "arguments": {"object_id": "door"}}</tool_call>
+Observation: Door 3 magnetic lock disengaged. Path open.
+Assistant: Door 3 emergency magnetic lock is disengaged. The corridor to the Clue Archive is now accessible.

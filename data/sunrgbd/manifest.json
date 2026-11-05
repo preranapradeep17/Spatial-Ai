@@ -1,0 +1,116 @@
+{
+  "dataset_name": "SUN RGB-D Curated Benchmark Subset",
+  "citation": "Song, Lichtenberg, Xiao, CVPR 2015",
+  "classes": [
+    "table",
+    "chair",
+    "door",
+    "bookshelf",
+    "sofa",
+    "cabinet"
+  ],
+  "class_mapping": {
+    "table": 0,
+    "desk": 0,
+    "coffee_table": 0,
+    "dining_table": 0,
+    "endtable": 0,
+    "chair": 1,
+    "office_chair": 1,
+    "armchair": 1,
+    "door": 2,
+    "bookshelf": 3,
+    "bookcase": 3,
+    "shelf": 3,
+    "shelves": 3,
+    "sofa": 4,
+    "couch": 4,
+    "cabinet": 5,
+    "night_stand": 5,
+    "nightstand": 5,
+    "cupboard": 5,
+    "dresser": 5
+  },
+  "samples": [
+    {
+      "frame_id": "sunrgbd_00000",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0003",
+      "num_objects": 4,
+      "image": "rgb/sunrgbd_00000.jpg",
+      "depth": "depth/sunrgbd_00000.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00001",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0004",
+      "num_objects": 2,
+      "image": "rgb/sunrgbd_00001.jpg",
+      "depth": "depth/sunrgbd_00001.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00002",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0005",
+      "num_objects": 8,
+      "image": "rgb/sunrgbd_00002.jpg",
+      "depth": "depth/sunrgbd_00002.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00003",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0006",
+      "num_objects": 9,
+      "image": "rgb/sunrgbd_00003.jpg",
+      "depth": "depth/sunrgbd_00003.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00004",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0007",
+      "num_objects": 7,
+      "image": "rgb/sunrgbd_00004.jpg",
+      "depth": "depth/sunrgbd_00004.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00005",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0001",
+      "num_objects": 3,
+      "image": "rgb/sunrgbd_00005.jpg",
+      "depth": "depth/sunrgbd_00005.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00006",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0002",
+      "num_objects": 1,
+      "image": "rgb/sunrgbd_00006.jpg",
+      "depth": "depth/sunrgbd_00006.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00007",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0009",
+      "num_objects": 4,
+      "image": "rgb/sunrgbd_00007.jpg",
+      "depth": "depth/sunrgbd_00007.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00008",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0014",
+      "num_objects": 2,
+      "image": "rgb/sunrgbd_00008.jpg",
+      "depth": "depth/sunrgbd_00008.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00009",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0015",
+      "num_objects": 2,
+      "image": "rgb/sunrgbd_00009.jpg",
+      "depth": "depth/sunrgbd_00009.npy"
+    }
+  ]
+}

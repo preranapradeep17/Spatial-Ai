@@ -1,0 +1,123 @@
+{
+  "checkpoint_path": "models/language_model/transformer_best.pt",
+  "eval_sample_count": 50,
+  "prompt_format_tested": "canonical",
+  "cross_entropy_loss": 6.8573,
+  "perplexity": 950.8,
+  "valid_json_count": 33,
+  "valid_json_percentage": 66.0,
+  "correct_tool_count": 0,
+  "correct_tool_percentage": 0.0,
+  "valid_arguments_count": 32,
+  "valid_arguments_percentage": 64.0,
+  "samples": [
+    {
+      "query": "Pinpoint the 3D position of the cabinet.",
+      "expected_tool": "locate_object",
+      "generated_text": "<thought>Determine player position and active room boundaries inthe facility.</thought><tool_call>{\"name\":\"get_current_location\",\"arguments\":{}}</tool_call>",
+      "parsed_tool": "get_current_location",
+      "parsed_args": {},
+      "is_valid_json": true,
+      "tool_correct": false
+    },
+    {
+      "query": "Pinpoint the 3D position of the bookshelf.",
+      "expected_tool": "locate_object",
+      "generated_text": "<thought>Determine player position and active room boundaries inthe facility.</thought><tool_call>{\"name\":\"get_current_location\",\"arguments\":{}}</tool_call>",
+      "parsed_tool": "get_current_location",
+      "parsed_args": {},
+      "is_valid_json": true,
+      "tool_correct": false
+    },
+    {
+      "query": "Pinpoint the 3D position of the bookshelf.",
+      "expected_tool": "locate_object",
+      "generated_text": "<thought>Determine player position and active room boundaries inthe facility.</thought><tool_call>{\"name\":\"get_current_location\",\"arguments\":{}}</tool_call>",
+      "parsed_tool": "get_current_location",
+      "parsed_args": {},
+      "is_valid_json": true,
+      "tool_correct": false
+    },
+    {
+      "query": "Pinpoint the 3D position of the chair.",
+      "expected_tool": "locate_object",
+      "generated_text": "<thought>Determine player position and dispatch companion navigation tothe laboratory.</thought><tool_call>{\"name\":\"navigate_to\",\"arguments\":{}}</tool_call>",
+      "parsed_tool": "navigate_to",
+      "parsed_args": {},
+      "is_valid_json": true,
+      "tool_correct": false
+    },
+    {
+      "query": "Pinpoint the 3D position of the bookshelf.",
+      "expected_tool": "locate_object",
+      "generated_text": "<thought>Determine player position and active room boundaries inthe st all detected inthe facility.</thought><tool_call>{\"name\":\"find_nearest_exit\",\"arguments\":{}}</tool_call>",
+      "parsed_tool": "find_nearest_exit",
+      "parsed_args": {},
+      "is_valid_json": true,
+      "tool_correct": false
+    },
+    {
+      "query": "Pinpoint the 3D position of the cabinet.",
+      "expected_tool": "locate_object",
+      "generated_text": "<thought>Determine player position and active room boundaries inthe facility.</thought><tool_call>{\"name\":\"get_current_location\",\"arguments\":{}}</tool_call>",
+      "parsed_tool": "get_current_location",
+      "parsed_args": {},
+      "is_valid_json": true,
+      "tool_correct": false
+    },
+    {
+      "query": "Pinpoint the 3D position of the cabinet.",
+      "expected_tool": "locate_object",
+      "generated_text": "<thought>Determine player position and active room boundaries inthe facility.</thought><tool_call>{\"name\":\"get_current_location\",\"arguments\":{}}</tool_call>",
+      "parsed_tool": "get_current_location",
+      "parsed_args": {},
+      "is_valid_json": true,
+      "tool_correct": false
+    },
+    {
+      "query": "Pinpoint the 3D position of the bookshelf.",
+      "expected_tool": "locate_object",
+      "generated_text": "<thought>Determine player position and dispatch companion navigation tothe laboratory.</thought><tool_call>{\"name\":\"request_hint\",\"arguments\":{}}</tool_call>",
+      "parsed_tool": "request_hint",
+      "parsed_args": {},
+      "is_valid_json": true,
+      "tool_correct": false
+    },
+    {
+      "query": "Pinpoint the 3D position of the chair.",
+      "expected_tool": "locate_object",
+      "generated_text": "<thought>Determine player position and active room boundaries inthe facility.</thought><tool_call>{\"name\":\"get_current_location\",\"arguments\":{}}</tool_call>",
+      "parsed_tool": "get_current_location",
+      "parsed_args": {},
+      "is_valid_json": true,
+      "tool_correct": false
+    },
+    {
+      "query": "Pinpoint the 3D position of the table.",
+      "expected_tool": "locate_object",
+      "generated_text": "<thought>Determine player position and active room boundaries inthe store_extlow me atlow me atlow ator HUMENT DOCUM",
+      "parsed_tool": null,
+      "parsed_args": {},
+      "is_valid_json": false,
+      "tool_correct": false
+    },
+    {
+      "query": "Pinpoint the 3D position of the cabinet.",
+      "expected_tool": "locate_object",
+      "generated_text": "<thought>Determine player position and active room boundaries inthe st all\"name\":\"find_nearest_exit\",\"arguments\":{}}</tool_call>",
+      "parsed_tool": null,
+      "parsed_args": {},
+      "is_valid_json": false,
+      "tool_correct": false
+    },
+    {
+      "query": "Pinpoint the 3D position of the chair.",
+      "expected_tool": "locate_object",
+      "generated_text": "<thought>Determine player position and dispatch companion navigation tonavigate egress.</thought><tool_call>{\"name\":\"request_hint\",\"arguments\":{}}</tool_call>",
+      "parsed_tool": "request_hint",
+      "parsed_args": {},
+      "is_valid_json": true,
+      "tool_correct": false
+    }
+  ]
+}

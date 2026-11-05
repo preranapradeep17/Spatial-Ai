@@ -1,0 +1,25 @@
+{
+  "split_distribution": {
+    "train_samples": 2000,
+    "train_percentage": 80.0,
+    "val_samples": 249,
+    "val_percentage": 9.96,
+    "test_samples": 251,
+    "test_percentage": 10.04
+  },
+  "held_out_test_diversity": {
+    "unique_test_inquiries": 51,
+    "unique_test_paraphrase_templates": 20
+  },
+  "query_overlap_metrics": {
+    "val_exact_leaked": 0,
+    "val_exact_leakage_pct": 0.0,
+    "test_exact_leaked": 0,
+    "test_exact_leakage_pct": 0.0,
+    "val_paraphrase_leaked": 0,
+    "val_paraphrase_leakage_pct": 0.0,
+    "test_paraphrase_leaked": 0,
+    "test_paraphrase_leakage_pct": 0.0
+  },
+  "assessment": "ZERO LEAKAGE: 100% semantic isolation across train, validation, and held-out test splits."
+}
