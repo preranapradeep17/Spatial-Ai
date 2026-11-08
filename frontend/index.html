@@ -20,126 +20,160 @@
   </script>
   <style>
     :root {
-      --bg-dark: #07090e;
-      --bg-panel: rgba(13, 19, 33, 0.94);
-      --bg-card: rgba(21, 31, 53, 0.88);
-      --border-cyan: rgba(0, 240, 255, 0.35);
-      --border-subtle: rgba(255, 255, 255, 0.1);
+      --bg-dark: #060811;
+      --bg-panel: rgba(10, 16, 31, 0.86);
+      --bg-card: rgba(18, 28, 51, 0.72);
+      --bg-glass: rgba(13, 21, 38, 0.65);
+      --border-cyan: rgba(0, 240, 255, 0.28);
+      --border-cyan-glow: rgba(0, 240, 255, 0.55);
+      --border-subtle: rgba(255, 255, 255, 0.08);
       --cyan: #00f0ff;
-      --cyan-glow: rgba(0, 240, 255, 0.5);
-      --amber: #ffb800;
-      --green: #00ff9d;
-      --orange: #ff7700;
-      --red: #ff3366;
-      --text-main: #e2e8f0;
+      --cyan-soft: #38bdf8;
+      --cyan-glow: rgba(0, 240, 255, 0.45);
+      --amber: #f59e0b;
+      --amber-glow: rgba(245, 158, 11, 0.4);
+      --green: #10b981;
+      --green-glow: rgba(16, 185, 129, 0.4);
+      --orange: #f97316;
+      --purple: #a855f7;
+      --red: #ef4444;
+      --text-main: #f8fafc;
       --text-muted: #94a3b8;
+      --text-dim: #64748b;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
 
-    body {
+    /* Custom Sleek Scrollbars */
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.25);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(0, 240, 255, 0.25);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 240, 255, 0.5);
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
       background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 10% 10%, rgba(0, 240, 255, 0.04) 0%, transparent 40%),
+        radial-gradient(circle at 90% 90%, rgba(168, 85, 247, 0.04) 0%, transparent 40%);
       color: var(--text-main);
-      font-family: 'Inter', sans-serif;
-      height: 100vh;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
-      overflow: hidden;
     }
 
-    /* Top Nav */
+    /* ==========================================================================
+       TOP NAVIGATION BAR
+       ========================================================================== */
     header {
-      background: rgba(7, 10, 17, 0.98);
-      backdrop-filter: blur(14px);
+      background: rgba(8, 12, 22, 0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border-cyan);
-      padding: 8px 18px;
+      padding: 8px 16px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-shrink: 0;
       z-index: 100;
+      gap: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
+      flex-shrink: 0;
+      user-select: none;
     }
 
     .brand-icon {
       width: 32px;
       height: 32px;
-      background: linear-gradient(135deg, var(--cyan), #0077ff);
+      background: linear-gradient(135deg, var(--cyan), #2563eb);
       border-radius: 8px;
       display: grid;
       place-items: center;
       box-shadow: 0 0 16px var(--cyan-glow);
+      position: relative;
+      flex-shrink: 0;
+    }
+    .brand-icon::after {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: 10px;
+      border: 1px solid rgba(0, 240, 255, 0.5);
+      animation: pulse-ring 2.5s infinite;
+      pointer-events: none;
+    }
+    @keyframes pulse-ring {
+      0%, 100% { opacity: 0.3; transform: scale(1); }
+      50% { opacity: 0.8; transform: scale(1.08); }
     }
 
     .brand h1 {
       font-family: 'Orbitron', sans-serif;
-      font-size: 1.15rem;
-      letter-spacing: 1.5px;
+      font-size: 1.12rem;
+      letter-spacing: 1.6px;
       color: #fff;
+      font-weight: 800;
+      line-height: 1.1;
+    }
+    .brand span {
+      color: var(--cyan);
+      text-shadow: 0 0 10px var(--cyan-glow);
+    }
+    .brand p {
+      font-size: 0.60rem;
+      color: var(--text-muted);
+      letter-spacing: 0.9px;
+      font-family: 'JetBrains Mono', monospace;
+      margin-top: 2px;
     }
 
-    .brand span { color: var(--cyan); }
-
-    .header-actions {
+    /* Center Telemetry Strip (Desktop) */
+    .header-center-status {
       display: flex;
       align-items: center;
       gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .btn-action {
-      background: var(--bg-card);
-      color: var(--text-main);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem;
-      border: 1px solid var(--border-subtle);
-      padding: 5px 10px;
-      border-radius: 6px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      transition: all 0.2s;
-    }
-    .btn-action:hover {
-      border-color: var(--cyan);
-      color: var(--cyan);
-      box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
-    }
-    .btn-action.highlight {
-      background: linear-gradient(135deg, rgba(0, 240, 255, 0.2), rgba(0, 119, 255, 0.3));
-      border-color: var(--cyan);
-      color: var(--cyan);
-      font-weight: bold;
-    }
-    .btn-action.inspector-btn {
-      background: linear-gradient(135deg, #ff7700, #ffb800);
-      color: #000;
-      font-family: 'Orbitron', sans-serif;
-      font-weight: 800;
-      border: none;
-      box-shadow: 0 0 14px rgba(255, 184, 0, 0.4);
     }
 
     .tag {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.70rem;
-      padding: 4px 8px;
+      font-size: 0.68rem;
+      padding: 4px 10px;
       border-radius: 20px;
       background: var(--bg-card);
       border: 1px solid var(--border-subtle);
-      display: flex;
+      display: inline-flex;
       align-items: center;
       gap: 6px;
+      white-space: nowrap;
+      transition: all 0.2s;
     }
     .tag.live {
-      border-color: rgba(0, 255, 157, 0.4);
+      border-color: rgba(16, 185, 129, 0.4);
       color: var(--green);
+      background: rgba(16, 185, 129, 0.08);
     }
     .tag-dot {
       width: 6px;
@@ -149,45 +183,72 @@
       box-shadow: 0 0 8px currentColor;
     }
 
-    /* Main Grid */
-    .dashboard-grid {
-      display: grid;
-      grid-template-columns: 460px 1fr;
-      gap: 12px;
-      padding: 10px 16px;
-      flex: 1;
-      height: calc(100vh - 84px);
-      min-height: 0;
+    /* Header Actions Cluster */
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: nowrap;
     }
 
-    /* Mobile View Tabs Bar (Visible on mobile/tablet <= 900px) */
-    .mobile-tabs-bar {
-      display: none;
-      background: rgba(7, 10, 17, 0.95);
-      border-bottom: 1px solid var(--border-cyan);
-      padding: 5px 10px;
-      gap: 6px;
-      z-index: 90;
-      flex-shrink: 0;
-    }
-    .mobile-tab-btn {
-      flex: 1;
-      font-family: 'Orbitron', sans-serif;
-      font-size: 0.68rem;
-      font-weight: 700;
-      padding: 6px 4px;
-      border-radius: 6px;
+    .header-btn-cluster {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(13, 21, 38, 0.6);
+      padding: 3px 5px;
+      border-radius: 8px;
       border: 1px solid var(--border-subtle);
-      background: var(--bg-card);
-      color: var(--text-muted);
-      cursor: pointer;
-      transition: all 0.2s;
     }
-    .mobile-tab-btn.active {
+
+    .btn-action {
+      background: var(--bg-card);
+      color: var(--text-main);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 500;
+      border: 1px solid var(--border-subtle);
+      padding: 6px 11px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      white-space: nowrap;
+      user-select: none;
+    }
+    .btn-action:hover {
       border-color: var(--cyan);
       color: var(--cyan);
-      background: rgba(0, 240, 255, 0.15);
-      box-shadow: 0 0 10px rgba(0, 240, 255, 0.25);
+      box-shadow: 0 0 12px rgba(0, 240, 255, 0.25);
+      transform: translateY(-1px);
+    }
+    .btn-action:active {
+      transform: scale(0.96);
+    }
+    .btn-action.highlight {
+      background: linear-gradient(135deg, rgba(0, 240, 255, 0.18), rgba(37, 99, 235, 0.28));
+      border-color: var(--cyan);
+      color: var(--cyan);
+      font-weight: 700;
+      box-shadow: 0 0 14px rgba(0, 240, 255, 0.2);
+    }
+    .btn-action.highlight:hover {
+      background: linear-gradient(135deg, rgba(0, 240, 255, 0.28), rgba(37, 99, 235, 0.42));
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+    }
+    .btn-action.inspector-btn {
+      background: linear-gradient(135deg, #f97316, #f59e0b);
+      color: #000;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 800;
+      border: none;
+      box-shadow: 0 0 14px rgba(245, 158, 11, 0.35);
+    }
+    .btn-action.inspector-btn:hover {
+      box-shadow: 0 0 22px rgba(245, 158, 11, 0.55);
+      transform: translateY(-1px);
     }
 
     /* Responsive text helper classes */
@@ -201,10 +262,59 @@
       display: none;
     }
 
+    /* ==========================================================================
+       MAIN DASHBOARD GRID (DESKTOP)
+       ========================================================================== */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 460px 1fr;
+      gap: 12px;
+      padding: 10px 16px;
+      flex: 1;
+      height: calc(100vh - 68px);
+      min-height: 0;
+      box-sizing: border-box;
+    }
+
+    /* Mobile View Tabs Bar (Hidden on desktop) */
+    .mobile-tabs-bar {
+      display: none;
+      background: rgba(8, 12, 22, 0.95);
+      border-bottom: 1px solid var(--border-cyan);
+      padding: 6px 10px;
+      gap: 6px;
+      z-index: 90;
+      flex-shrink: 0;
+    }
+    .mobile-tab-btn {
+      flex: 1;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 8px 4px;
+      border-radius: 8px;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-card);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+    .mobile-tab-btn.active {
+      border-color: var(--cyan);
+      color: var(--cyan);
+      background: rgba(0, 240, 255, 0.16);
+      box-shadow: 0 0 14px rgba(0, 240, 255, 0.25);
+    }
+
     /* Panels */
     .panel {
       background: var(--bg-panel);
-      backdrop-filter: blur(16px);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border: 1px solid var(--border-cyan);
       border-radius: 12px;
       display: flex;
@@ -215,92 +325,224 @@
       min-height: 0;
     }
 
+    /* ==========================================================================
+       LEFT COLUMN: COMPANION DRONE & MISSION TERMINAL
+       ========================================================================== */
     .chat-panel {
       padding: 12px;
       display: flex;
       flex-direction: column;
+      gap: 8px;
     }
 
     .panel-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 8px;
-      padding-bottom: 6px;
+      padding-bottom: 8px;
       border-bottom: 1px solid var(--border-subtle);
       flex-shrink: 0;
     }
 
     .panel-title {
       font-family: 'Orbitron', sans-serif;
-      font-size: 0.82rem;
-      letter-spacing: 1px;
+      font-size: 0.84rem;
+      letter-spacing: 1.2px;
       color: var(--cyan);
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
+      font-weight: 700;
     }
 
+    /* Tactical Mission Dossier Card */
     .mission-board {
-      background: rgba(0, 0, 0, 0.35);
-      border: 1px solid var(--border-subtle);
-      border-radius: 8px;
-      padding: 8px 10px;
-      margin-bottom: 8px;
+      background: rgba(13, 21, 38, 0.85);
+      border: 1px solid rgba(0, 240, 255, 0.25);
+      border-radius: 10px;
+      padding: 10px 12px;
       flex-shrink: 0;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+      transition: all 0.25s ease;
+    }
+
+    .mission-board-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+    }
+    .mission-board-header:hover .mission-title-text {
+      color: var(--cyan);
+    }
+
+    .mission-progress-chip {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.62rem;
+      padding: 2px 7px;
+      border-radius: 12px;
+      background: rgba(0, 240, 255, 0.12);
+      border: 1px solid var(--border-cyan);
+      color: var(--cyan);
+      font-weight: bold;
+    }
+
+    .btn-guide-tiny {
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid var(--amber);
+      color: var(--amber);
+      font-size: 0.64rem;
+      padding: 3px 8px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      font-family: 'Orbitron', sans-serif;
+      transition: all 0.2s;
+    }
+    .btn-guide-tiny:hover {
+      background: rgba(245, 158, 11, 0.25);
+      box-shadow: 0 0 10px var(--amber-glow);
+    }
+
+    .mission-chevron {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-left: 4px;
+      transition: transform 0.25s ease;
+    }
+
+    .mission-details-body {
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    .mission-details-body.collapsed {
+      display: none;
     }
 
     .mission-brief {
-      font-size: 0.75rem;
+      font-size: 0.74rem;
       color: var(--text-muted);
-      line-height: 1.4;
-      margin: 4px 0;
+      line-height: 1.45;
     }
 
     .objective-row {
       font-size: 0.72rem;
       color: var(--text-main);
       display: flex;
+      justify-content: space-between;
+      align-items: center;
       gap: 6px;
-      margin: 2px 0;
+      padding: 5px 8px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: all 0.2s;
+    }
+    .objective-row:hover {
+      border-color: rgba(0, 240, 255, 0.3);
+      background: rgba(0, 240, 255, 0.04);
     }
 
     .mission-pills {
       display: flex;
       flex-wrap: wrap;
-      gap: 4px;
-      margin-top: 6px;
+      gap: 5px;
+      margin-top: 4px;
     }
 
     .mission-pill {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.68rem;
-      padding: 3px 8px;
+      padding: 4px 9px;
       border-radius: 12px;
       border: 1px solid var(--border-subtle);
-      background: transparent;
+      background: rgba(255, 255, 255, 0.03);
       color: var(--text-muted);
       cursor: pointer;
       transition: all 0.2s;
+      white-space: nowrap;
     }
-    .mission-pill:hover { border-color: var(--cyan); color: #fff; }
-    .mission-pill.active { border-color: var(--cyan); color: var(--cyan); background: rgba(0, 240, 255, 0.1); font-weight: bold; }
-    .mission-pill.done { border-color: var(--green); color: var(--green); }
+    .mission-pill:hover {
+      border-color: var(--cyan);
+      color: #fff;
+      background: rgba(0, 240, 255, 0.08);
+    }
+    .mission-pill.active {
+      border-color: var(--cyan);
+      color: var(--cyan);
+      background: rgba(0, 240, 255, 0.15);
+      font-weight: bold;
+      box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
+    }
+    .mission-pill.done {
+      border-color: var(--green);
+      color: var(--green);
+      background: rgba(16, 185, 129, 0.08);
+    }
 
-    .agent-row { display: flex; gap: 4px; margin-top: 6px; }
+    /* 3-Drone Radio Frequency Selector */
+    .agent-row {
+      display: flex;
+      gap: 6px;
+      margin-top: 4px;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 3px;
+      border-radius: 8px;
+      border: 1px solid var(--border-subtle);
+    }
     .agent-btn {
       flex: 1;
-      font-size: 0.68rem;
-      padding: 5px 4px;
+      font-size: 0.70rem;
+      font-family: 'Orbitron', sans-serif;
+      padding: 6px 4px;
       border-radius: 6px;
-      border: 1px solid var(--border-subtle);
-      background: rgba(255,255,255,0.04);
+      border: 1px solid transparent;
+      background: transparent;
       color: var(--text-muted);
       cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      text-align: center;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
     }
-    .agent-btn.active { border-color: var(--amber); color: var(--amber); font-weight: bold; background: rgba(255, 184, 0, 0.1); }
+    .agent-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .agent-btn.active#agent-scout {
+      border-color: var(--amber);
+      color: var(--amber);
+      background: rgba(245, 158, 11, 0.15);
+      font-weight: bold;
+      box-shadow: 0 0 10px var(--amber-glow);
+    }
+    .agent-btn.active#agent-navigator {
+      border-color: var(--cyan);
+      color: var(--cyan);
+      background: rgba(0, 240, 255, 0.15);
+      font-weight: bold;
+      box-shadow: 0 0 10px var(--cyan-glow);
+    }
+    .agent-btn.active#agent-archivist {
+      border-color: var(--purple);
+      color: var(--purple);
+      background: rgba(168, 85, 247, 0.15);
+      font-weight: bold;
+      box-shadow: 0 0 10px rgba(168, 85, 247, 0.35);
+    }
 
-    /* Chat Messages */
+    /* ==========================================================================
+       CHAT CONTAINER & TACTICAL DRONE TRANSMISSIONS
+       ========================================================================== */
     .chat-container {
       flex: 1;
       display: flex;
@@ -312,65 +554,176 @@
     .chat-messages {
       flex: 1;
       overflow-y: auto;
-      padding: 8px;
+      padding: 10px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      background: rgba(0, 0, 0, 0.25);
-      border-radius: 8px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      gap: 10px;
+      background: rgba(6, 10, 18, 0.55);
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
     }
 
     .msg {
-      max-width: 90%;
-      padding: 8px 12px;
-      border-radius: 8px;
-      font-size: 0.80rem;
-      line-height: 1.45;
+      max-width: 92%;
+      border-radius: 10px;
+      font-size: 0.82rem;
+      line-height: 1.5;
       word-wrap: break-word;
+      animation: msg-appear 0.22s ease-out;
+    }
+    @keyframes msg-appear {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
+    /* User Message Bubble */
     .msg.user {
       align-self: flex-end;
-      background: linear-gradient(135deg, rgba(0, 119, 255, 0.35), rgba(0, 240, 255, 0.25));
+      background: linear-gradient(135deg, rgba(2, 132, 199, 0.38), rgba(0, 240, 255, 0.25));
       border: 1px solid var(--border-cyan);
       color: #fff;
+      padding: 8px 14px;
+      border-bottom-right-radius: 2px;
+      box-shadow: 0 4px 16px rgba(0, 240, 255, 0.15);
     }
 
+    /* Assistant Transmission Card */
     .msg.assistant {
       align-self: flex-start;
-      background: rgba(21, 31, 53, 0.9);
-      border: 1px solid var(--border-subtle);
+      width: 95%;
+      background: rgba(15, 23, 42, 0.88);
+      border: 1px solid rgba(0, 240, 255, 0.22);
+      border-left: 3px solid var(--cyan);
       color: var(--text-main);
+      padding: 10px 12px;
+      border-bottom-left-radius: 2px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
     }
 
-    .msg-thought {
+    .msg-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .msg-drone-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--cyan);
+      letter-spacing: 0.8px;
+    }
+
+    .msg-model-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.58rem;
+      padding: 2px 7px;
+      border-radius: 10px;
+      letter-spacing: 0.4px;
+      font-weight: 600;
+    }
+    .msg-model-badge.badge-gemini {
+      background: rgba(0, 240, 255, 0.14);
+      border: 1px solid var(--cyan);
+      color: var(--cyan);
+    }
+    .msg-model-badge.badge-local {
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid var(--green);
+      color: var(--green);
+    }
+
+    /* Collapsible Neural Reasoning Accordion */
+    .thought-accordion {
+      margin-bottom: 6px;
+      border-radius: 6px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px dashed rgba(245, 158, 11, 0.3);
       font-size: 0.70rem;
+    }
+    .thought-accordion summary {
+      padding: 4px 8px;
+      cursor: pointer;
       color: var(--amber);
+      font-family: 'JetBrains Mono', monospace;
+      user-select: none;
+      outline: none;
+      font-weight: 600;
+    }
+    .thought-accordion summary:hover {
+      color: #fff;
+    }
+    .thought-body {
+      padding: 6px 10px 8px 10px;
+      color: #cbd5e1;
       font-style: italic;
-      margin-bottom: 4px;
-      border-bottom: 1px dashed rgba(255, 184, 0, 0.2);
-      padding-bottom: 2px;
+      line-height: 1.45;
+      border-top: 1px solid rgba(245, 158, 11, 0.15);
+      background: rgba(0, 0, 0, 0.2);
     }
 
     .msg-tool {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.68rem;
       color: var(--cyan);
-      background: rgba(0, 240, 255, 0.1);
-      padding: 3px 6px;
-      border-radius: 4px;
-      margin-bottom: 4px;
+      background: rgba(0, 240, 255, 0.08);
+      border: 1px solid rgba(0, 240, 255, 0.2);
+      padding: 4px 8px;
+      border-radius: 5px;
+      margin-bottom: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      width: 100%;
+      box-sizing: border-box;
+      word-break: break-all;
+    }
+    .tool-arg-key { color: var(--text-muted); }
+    .tool-arg-val { color: var(--amber); }
+
+    .msg-body-text {
+      line-height: 1.55;
+      color: #e2e8f0;
     }
 
-    /* Quick mission prompts */
+    .msg-quick-action {
+      margin-top: 8px;
+      display: flex;
+      gap: 6px;
+    }
+    .btn-msg-action {
+      background: linear-gradient(135deg, rgba(0, 240, 255, 0.18), rgba(16, 185, 129, 0.22));
+      border: 1px solid var(--green);
+      color: #fff;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.64rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-msg-action:hover {
+      background: linear-gradient(135deg, rgba(0, 240, 255, 0.32), rgba(16, 185, 129, 0.38));
+      box-shadow: 0 0 12px var(--green-glow);
+    }
+
+    /* Quick Suggestion Prompts Ribbon */
     .quick-prompts {
       display: flex;
-      gap: 4px;
+      gap: 5px;
       overflow-x: auto;
       padding: 4px 0;
       flex-shrink: 0;
+      scrollbar-width: none;
     }
+    .quick-prompts::-webkit-scrollbar { display: none; }
 
     .quick-btn {
       white-space: nowrap;
@@ -378,23 +731,35 @@
       border: 1px solid var(--border-subtle);
       color: var(--text-muted);
       font-size: 0.68rem;
-      padding: 3px 8px;
-      border-radius: 12px;
+      padding: 4px 9px;
+      border-radius: 14px;
       cursor: pointer;
       transition: all 0.2s;
+      flex-shrink: 0;
     }
-    .quick-btn:hover { border-color: var(--cyan); color: var(--cyan); }
+    .quick-btn:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+      background: rgba(0, 240, 255, 0.08);
+      box-shadow: 0 0 8px rgba(0, 240, 255, 0.2);
+    }
 
-    /* Multimodal Voice & Chat Bar */
+    /* Multimodal Voice & Chat Input Capsule */
     .chat-input-bar {
       display: flex;
       align-items: center;
       gap: 6px;
-      background: rgba(7, 10, 17, 0.9);
+      background: rgba(8, 12, 22, 0.95);
       border: 1px solid var(--border-cyan);
-      border-radius: 8px;
+      border-radius: 10px;
       padding: 5px;
       flex-shrink: 0;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+      transition: border-color 0.25s, box-shadow 0.25s;
+    }
+    .chat-input-bar:focus-within {
+      border-color: var(--cyan);
+      box-shadow: 0 0 16px rgba(0, 240, 255, 0.35);
     }
 
     .chat-input {
@@ -403,34 +768,42 @@
       border: none;
       color: #fff;
       font-family: 'Inter', sans-serif;
-      font-size: 0.82rem;
-      padding: 6px 8px;
+      font-size: 0.84rem;
+      padding: 6px 10px;
       outline: none;
+    }
+    .chat-input::placeholder {
+      color: var(--text-dim);
     }
 
     .mic-btn {
       background: rgba(255, 255, 255, 0.06);
       border: 1px solid var(--border-subtle);
       color: var(--text-main);
-      width: 34px;
-      height: 34px;
-      border-radius: 6px;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
       display: grid;
       place-items: center;
       cursor: pointer;
-      font-size: 1.05rem;
+      font-size: 1.1rem;
       transition: all 0.2s;
+      flex-shrink: 0;
     }
-    .mic-btn:hover { border-color: var(--cyan); color: var(--cyan); }
+    .mic-btn:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+      box-shadow: 0 0 10px rgba(0, 240, 255, 0.25);
+    }
     .mic-btn.recording {
-      background: rgba(255, 51, 102, 0.3);
+      background: rgba(239, 68, 68, 0.3);
       border-color: var(--red);
       color: var(--red);
       animation: pulse-mic 1s infinite alternate;
     }
     @keyframes pulse-mic {
       0% { transform: scale(1); box-shadow: 0 0 4px var(--red); }
-      100% { transform: scale(1.08); box-shadow: 0 0 14px var(--red); }
+      100% { transform: scale(1.08); box-shadow: 0 0 16px var(--red); }
     }
 
     .tts-toggle-btn {
@@ -438,41 +811,49 @@
       border: 1px solid var(--border-subtle);
       color: var(--text-muted);
       font-size: 0.68rem;
-      padding: 6px 8px;
-      border-radius: 6px;
+      padding: 7px 10px;
+      border-radius: 7px;
       cursor: pointer;
       white-space: nowrap;
+      transition: all 0.2s;
     }
     .tts-toggle-btn.active {
       color: var(--green);
       border-color: var(--green);
-      background: rgba(0, 255, 157, 0.08);
+      background: rgba(16, 185, 129, 0.12);
+      box-shadow: 0 0 10px var(--green-glow);
     }
 
     .stop-speech-btn {
-      background: rgba(255, 51, 102, 0.25);
+      background: rgba(239, 68, 68, 0.25);
       border: 1px solid var(--red);
       color: var(--red);
       font-size: 0.68rem;
-      padding: 6px 8px;
-      border-radius: 6px;
+      padding: 7px 10px;
+      border-radius: 7px;
       cursor: pointer;
     }
 
     .send-btn {
-      background: linear-gradient(135deg, var(--cyan), #0077ff);
+      background: linear-gradient(135deg, var(--cyan), #2563eb);
       color: #000;
       border: none;
       font-family: 'Orbitron', sans-serif;
-      font-size: 0.72rem;
+      font-size: 0.74rem;
       font-weight: 800;
-      padding: 8px 14px;
-      border-radius: 6px;
+      padding: 8px 16px;
+      border-radius: 8px;
       cursor: pointer;
       transition: all 0.2s;
+      white-space: nowrap;
+      box-shadow: 0 0 12px rgba(0, 240, 255, 0.35);
     }
     .send-btn:hover {
-      box-shadow: 0 0 16px var(--cyan-glow);
+      box-shadow: 0 0 20px var(--cyan-glow);
+      transform: translateY(-1px);
+    }
+    .send-btn:active {
+      transform: scale(0.96);
     }
 
     .voice-status-bar {
@@ -481,30 +862,34 @@
       gap: 8px;
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.70rem;
-      padding: 4px 8px;
-      background: rgba(0, 0, 0, 0.4);
-      border-radius: 4px;
-      margin-top: 4px;
+      padding: 5px 10px;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 6px;
+      border-left: 2px solid var(--red);
     }
     .voice-pulse-dot {
       width: 8px;
       height: 8px;
       border-radius: 50%;
       background: var(--red);
-      animation: pulse-dot 0.8s infinite;
+      animation: pulse-dot 0.8s infinite alternate;
     }
     @keyframes pulse-dot {
       0% { opacity: 0.4; transform: scale(0.8); }
       100% { opacity: 1; transform: scale(1.2); }
     }
 
-    /* 3D Viewport Panel */
+    /* ==========================================================================
+       RIGHT COLUMN: 3D VIEWPORT PANEL & HUD
+       ========================================================================== */
     .viewport-panel {
       position: relative;
       width: 100%;
       height: 100%;
       min-height: 0;
       display: flex;
+      border-radius: 12px;
+      overflow: hidden;
     }
 
     .canvas-container {
@@ -521,7 +906,7 @@
       display: block;
     }
 
-    /* HUD Overlays */
+    /* Minimalist Tactical HUD Overlays */
     .hud-overlay {
       position: absolute;
       top: 12px; left: 12px;
@@ -533,17 +918,20 @@
     }
 
     .hud-chip {
-      background: rgba(7, 10, 17, 0.88);
-      backdrop-filter: blur(10px);
+      background: rgba(8, 12, 22, 0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border: 1px solid var(--border-cyan);
-      padding: 5px 10px;
-      border-radius: 6px;
+      padding: 6px 12px;
+      border-radius: 8px;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.70rem;
+      font-size: 0.72rem;
       color: var(--text-main);
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 7px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+      white-space: nowrap;
     }
 
     .hud-camera-modes {
@@ -551,12 +939,14 @@
       top: 12px; right: 12px;
       display: flex;
       gap: 4px;
-      background: rgba(7, 10, 17, 0.88);
-      backdrop-filter: blur(10px);
+      background: rgba(8, 12, 22, 0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border: 1px solid var(--border-subtle);
       padding: 4px;
       border-radius: 8px;
       z-index: 10;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
     }
 
     .cam-btn {
@@ -564,9 +954,10 @@
       border: 1px solid transparent;
       color: var(--text-muted);
       font-family: 'Orbitron', sans-serif;
-      font-size: 0.65rem;
-      padding: 5px 8px;
-      border-radius: 4px;
+      font-size: 0.66rem;
+      font-weight: 600;
+      padding: 6px 10px;
+      border-radius: 5px;
       cursor: pointer;
       transition: all 0.2s;
     }
@@ -575,16 +966,17 @@
       border-color: var(--cyan);
       color: var(--cyan);
       font-weight: 700;
+      box-shadow: 0 0 10px rgba(0, 240, 255, 0.25);
     }
 
     .hud-controls-help {
       position: absolute;
       bottom: 12px; left: 12px;
-      background: rgba(7, 10, 17, 0.88);
-      backdrop-filter: blur(10px);
+      background: rgba(8, 12, 22, 0.88);
+      backdrop-filter: blur(12px);
       border: 1px solid var(--border-subtle);
-      padding: 6px 10px;
-      border-radius: 6px;
+      padding: 6px 12px;
+      border-radius: 8px;
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.68rem;
       color: var(--text-muted);
@@ -594,7 +986,7 @@
     .hud-controls-help kbd {
       background: rgba(255, 255, 255, 0.12);
       color: var(--cyan);
-      padding: 2px 4px;
+      padding: 2px 5px;
       border-radius: 4px;
       border: 1px solid rgba(0, 240, 255, 0.3);
       font-weight: bold;
@@ -603,9 +995,9 @@
     /* Virtual Controls Layout */
     .virtual-controls-wrapper {
       position: absolute;
-      bottom: 12px;
-      left: 12px;
-      right: 12px;
+      bottom: 14px;
+      left: 14px;
+      right: 14px;
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
@@ -616,117 +1008,143 @@
       pointer-events: auto;
     }
 
-    /* Virtual D-Pad (Left side) */
+    /* Translucent Ergonomic Circular D-Pad */
     .virtual-dpad {
       display: grid;
-      grid-template-columns: repeat(3, 40px);
-      grid-template-rows: repeat(2, 40px);
+      grid-template-columns: repeat(3, 42px);
+      grid-template-rows: repeat(2, 42px);
       gap: 4px;
-      background: rgba(7, 10, 17, 0.82);
+      background: rgba(8, 12, 22, 0.85);
+      backdrop-filter: blur(14px);
       padding: 6px;
-      border-radius: 10px;
+      border-radius: 12px;
       border: 1px solid var(--border-cyan);
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.65);
       touch-action: none;
       user-select: none;
       -webkit-user-select: none;
     }
     .dpad-btn {
-      background: rgba(21, 31, 53, 0.9);
+      background: rgba(18, 28, 51, 0.88);
       border: 1px solid var(--border-cyan);
       color: var(--cyan);
       font-weight: bold;
-      border-radius: 6px;
+      border-radius: 8px;
       cursor: pointer;
       display: grid;
       place-items: center;
-      user-select: none;
-      -webkit-user-select: none;
       touch-action: none;
-      font-size: 0.95rem;
-      transition: all 0.1s;
+      font-size: 1.05rem;
+      transition: all 0.12s;
     }
-    .dpad-btn:active { background: var(--cyan); color: #000; transform: scale(0.95); }
+    .dpad-btn:active {
+      background: var(--cyan);
+      color: #000;
+      transform: scale(0.92);
+      box-shadow: 0 0 14px var(--cyan-glow);
+    }
 
-    /* Virtual Actions (Right side of screen) */
+    /* Virtual Actions Cluster */
     .virtual-actions {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 7px;
+      align-items: flex-end;
       touch-action: none;
       user-select: none;
       -webkit-user-select: none;
+    }
+    .virtual-actions-subrow {
+      display: flex;
+      gap: 6px;
     }
     .mobile-action-btn {
-      width: 54px;
-      height: 42px;
       border-radius: 8px;
       font-family: 'Orbitron', sans-serif;
-      font-size: 0.62rem;
       font-weight: 800;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 2px;
-      border: 1px solid var(--border-cyan);
-      background: rgba(7, 10, 17, 0.85);
-      color: var(--cyan);
       cursor: pointer;
+      touch-action: none;
+      transition: all 0.12s;
       user-select: none;
       -webkit-user-select: none;
-      touch-action: none;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-      transition: all 0.1s;
-    }
-    .mobile-action-btn:active {
-      background: var(--cyan);
-      color: #000;
-      transform: scale(0.95);
     }
     .mobile-action-btn.btn-action-interact {
-      border-color: var(--amber);
-      color: var(--amber);
+      width: 104px;
+      height: 42px;
+      font-size: 0.68rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border: 1px solid var(--amber);
+      color: #fff;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.28), rgba(249, 115, 22, 0.35));
+      box-shadow: 0 4px 16px var(--amber-glow);
     }
     .mobile-action-btn.btn-action-interact:active {
       background: var(--amber);
       color: #000;
+      transform: scale(0.92);
+    }
+    .mobile-action-btn.btn-action-sub {
+      width: 48px;
+      height: 38px;
+      font-size: 0.60rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border-cyan);
+      color: var(--cyan);
+      background: rgba(8, 12, 22, 0.88);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    }
+    .mobile-action-btn.btn-action-sub:active {
+      background: var(--cyan);
+      color: #000;
+      transform: scale(0.92);
     }
 
+    /* Cyberpunk Holographic Interaction Prompt */
     .interact-prompt {
       position: absolute;
       top: 50%; left: 50%;
       transform: translate(-50%, -50%);
-      background: rgba(0, 240, 255, 0.3);
-      backdrop-filter: blur(12px);
+      background: rgba(0, 240, 255, 0.22);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       border: 2px solid var(--cyan);
       color: #fff;
       font-family: 'Orbitron', sans-serif;
-      font-size: 0.82rem;
-      padding: 8px 16px;
+      font-size: 0.86rem;
+      font-weight: 800;
+      padding: 10px 20px;
       border-radius: 8px;
       display: none;
-      box-shadow: 0 0 24px var(--cyan-glow);
+      box-shadow: 0 0 32px var(--cyan-glow);
       pointer-events: auto;
       cursor: pointer;
       z-index: 25;
-      animation: pulse 1.2s infinite;
+      animation: pulse-interact 1.4s infinite;
       user-select: none;
+      letter-spacing: 1px;
     }
-    @keyframes pulse {
-      0%, 100% { opacity: 0.9; transform: translate(-50%, -50%) scale(1); }
-      50% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
+    @keyframes pulse-interact {
+      0%, 100% { opacity: 0.92; transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 24px var(--cyan-glow); }
+      50% { opacity: 1; transform: translate(-50%, -50%) scale(1.06); box-shadow: 0 0 40px var(--cyan-glow); }
     }
 
-    /* Live System Inspector Drawer */
+    /* ==========================================================================
+       INSPECTOR DRAWER & MODAL DIALOGS
+       ========================================================================== */
     .inspector-drawer {
       position: fixed;
-      top: 0; right: -620px;
-      width: 600px;
+      top: 0; right: -640px;
+      width: 620px;
       max-width: 95vw;
       height: 100vh;
-      background: rgba(9, 13, 22, 0.98);
-      backdrop-filter: blur(20px);
+      background: rgba(9, 13, 24, 0.98);
+      backdrop-filter: blur(24px);
       border-left: 2px solid var(--border-cyan);
       box-shadow: -15px 0 50px rgba(0, 0, 0, 0.9);
       z-index: 1000;
@@ -737,26 +1155,26 @@
     .inspector-drawer.open { right: 0; }
 
     .inspector-header {
-      padding: 12px 16px;
+      padding: 12px 18px;
       border-bottom: 1px solid var(--border-subtle);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: rgba(13, 19, 33, 0.95);
+      background: rgba(13, 21, 38, 0.95);
     }
     .inspector-tabs {
       display: flex;
       border-bottom: 1px solid var(--border-subtle);
-      background: rgba(7, 10, 17, 0.95);
+      background: rgba(8, 12, 22, 0.95);
     }
     .insp-tab-btn {
       flex: 1;
-      padding: 10px 4px;
+      padding: 11px 4px;
       background: none;
       border: none;
       color: var(--text-muted);
       font-family: 'Orbitron', sans-serif;
-      font-size: 0.70rem;
+      font-size: 0.72rem;
       cursor: pointer;
       border-bottom: 2px solid transparent;
       transition: all 0.2s;
@@ -774,26 +1192,27 @@
     .inspector-body {
       flex: 1;
       overflow-y: auto;
-      padding: 14px;
+      padding: 16px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 14px;
       font-size: 0.78rem;
     }
     .insp-card {
       background: var(--bg-card);
       border: 1px solid var(--border-subtle);
       border-radius: 8px;
-      padding: 10px 12px;
+      padding: 12px 14px;
     }
     .insp-card-title {
       font-family: 'Orbitron', sans-serif;
-      font-size: 0.74rem;
+      font-size: 0.76rem;
       color: var(--cyan);
-      margin-bottom: 6px;
+      margin-bottom: 8px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      font-weight: 700;
     }
     .insp-table {
       width: 100%;
@@ -802,7 +1221,7 @@
       font-size: 0.70rem;
     }
     .insp-table th, .insp-table td {
-      padding: 4px 6px;
+      padding: 5px 6px;
       text-align: left;
       border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     }
@@ -816,7 +1235,7 @@
       background: #1e293b;
       color: var(--amber);
       margin: 2px;
-      border: 1px solid rgba(255, 184, 0, 0.2);
+      border: 1px solid rgba(245, 158, 11, 0.2);
     }
     .code-snippet {
       font-family: 'JetBrains Mono', monospace;
@@ -832,7 +1251,7 @@
 
     /* Workflow & Architecture Pipeline visualizer */
     .wf-step-box {
-      background: rgba(13, 19, 33, 0.9);
+      background: rgba(13, 21, 38, 0.9);
       border: 1px solid var(--border-subtle);
       border-radius: 6px;
       padding: 8px 10px;
@@ -856,9 +1275,9 @@
       font-size: 0.60rem;
       padding: 2px 5px;
       border-radius: 4px;
-      background: rgba(0, 255, 157, 0.15);
+      background: rgba(16, 185, 129, 0.15);
       color: var(--green);
-      border: 1px solid rgba(0, 255, 157, 0.4);
+      border: 1px solid rgba(16, 185, 129, 0.4);
       font-weight: bold;
     }
     .wf-badge-math {
@@ -870,22 +1289,13 @@
       border: 1px solid rgba(0, 240, 255, 0.4);
       font-weight: bold;
     }
-    .wf-badge-engine {
-      font-size: 0.60rem;
-      padding: 2px 5px;
-      border-radius: 4px;
-      background: rgba(179, 136, 255, 0.15);
-      color: #b388ff;
-      border: 1px solid rgba(179, 136, 255, 0.4);
-      font-weight: bold;
-    }
     .wf-badge-guard {
       font-size: 0.60rem;
       padding: 2px 5px;
       border-radius: 4px;
-      background: rgba(255, 184, 0, 0.15);
+      background: rgba(245, 158, 11, 0.15);
       color: var(--amber);
-      border: 1px solid rgba(255, 184, 0, 0.4);
+      border: 1px solid rgba(245, 158, 11, 0.4);
       font-weight: bold;
     }
     .wf-arrow-down {
@@ -896,21 +1306,22 @@
       opacity: 0.75;
     }
 
-    /* Modal dialogs */
+    /* Modal Dialogs */
     .modal-backdrop {
       display: none;
       position: fixed;
       top: 0; left: 0;
       width: 100vw; height: 100vh;
-      background: rgba(0,0,0,0.85);
-      backdrop-filter: blur(14px);
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       z-index: 2000;
       justify-content: center;
       align-items: center;
       padding: 20px;
     }
     .modal-box {
-      background: #0d1321;
+      background: #0d1527;
       border: 2px solid var(--cyan);
       border-radius: 12px;
       width: 100%;
@@ -918,16 +1329,15 @@
       max-height: 90vh;
       overflow-y: auto;
       padding: 22px;
-      box-shadow: 0 0 40px rgba(0, 240, 255, 0.3);
+      box-shadow: 0 0 50px rgba(0, 240, 255, 0.35);
       color: #e2e8f0;
       font-family: 'Inter', sans-serif;
     }
 
     /* ==========================================================================
-       RESPONSIVE MOBILE & TABLET LAYOUT (Priority Media Queries at bottom)
+       RESPONSIVE MOBILE & TABLET LAYOUT (<= 900px)
        ========================================================================== */
     @media (max-width: 900px) {
-      /* Helper text switching between desktop full labels and mobile compact labels */
       .hdr-btn-full,
       .cam-btn-full,
       .agent-btn-full,
@@ -955,8 +1365,6 @@
         overflow: hidden;
         overflow-x: hidden;
         box-sizing: border-box;
-        margin: 0;
-        padding: 0;
       }
 
       body {
@@ -968,10 +1376,10 @@
 
       /* Compact Top Header */
       header {
-        padding: 5px 8px;
+        padding: 6px 10px;
         flex-direction: column;
         align-items: stretch;
-        gap: 4px;
+        gap: 5px;
         width: 100%;
         max-width: 100%;
         box-sizing: border-box;
@@ -987,15 +1395,17 @@
       .brand-icon {
         width: 26px;
         height: 26px;
-        flex-shrink: 0;
       }
       .brand h1 {
-        font-size: 0.88rem;
-        letter-spacing: 0.8px;
+        font-size: 0.90rem;
+        letter-spacing: 1px;
       }
       .brand p {
-        font-size: 0.55rem;
-        letter-spacing: 0.3px;
+        font-size: 0.54rem;
+        letter-spacing: 0.4px;
+      }
+      .header-center-status {
+        display: none !important;
       }
       .header-actions {
         display: flex;
@@ -1012,33 +1422,33 @@
         -webkit-overflow-scrolling: touch;
       }
       .header-actions::-webkit-scrollbar { display: none; }
-      .header-actions .btn-action {
-        padding: 4px 7px;
-        font-size: 0.64rem;
-        flex-shrink: 0;
-        white-space: nowrap;
+      .header-btn-cluster {
+        background: transparent;
+        border: none;
+        padding: 0;
+        gap: 4px;
       }
-      .header-actions .tag {
-        padding: 3px 6px;
-        font-size: 0.58rem;
+      .btn-action {
+        padding: 5px 8px;
+        font-size: 0.65rem;
         flex-shrink: 0;
       }
 
-      /* Mobile Mode Selector Bar (Split / 3D World / Drone Chat) */
+      /* Mobile Segmented Mode Bar (Split / 3D World / Drone Chat) */
       .mobile-tabs-bar {
         display: flex !important;
         width: 100%;
         max-width: 100%;
         box-sizing: border-box;
-        padding: 4px 6px;
-        gap: 4px;
+        padding: 5px 8px;
+        gap: 5px;
         flex-shrink: 0;
       }
       .mobile-tab-btn {
         flex: 1 1 0%;
         min-width: 0;
-        font-size: 0.62rem;
-        padding: 6px 2px;
+        font-size: 0.64rem;
+        padding: 7px 3px;
         text-align: center;
         white-space: nowrap;
       }
@@ -1066,7 +1476,6 @@
         max-height: 50%;
         order: 1;
         width: 100%;
-        box-sizing: border-box;
         display: flex !important;
         position: relative;
       }
@@ -1074,9 +1483,8 @@
         flex: 1 1 0%;
         min-height: 0;
         order: 2;
-        padding: 4px 6px;
+        padding: 6px 8px;
         width: 100%;
-        box-sizing: border-box;
         display: flex !important;
         flex-direction: column;
         overflow: hidden;
@@ -1090,7 +1498,6 @@
         display: flex !important;
         order: 1;
         width: 100%;
-        box-sizing: border-box;
       }
       .dashboard-grid.mode-3d .chat-panel {
         display: none !important;
@@ -1103,9 +1510,8 @@
         min-height: 0;
         display: flex !important;
         order: 1;
-        padding: 6px;
+        padding: 8px;
         width: 100%;
-        box-sizing: border-box;
         flex-direction: column;
         overflow: hidden;
       }
@@ -1115,279 +1521,142 @@
 
       /* 3D Viewport Overlays */
       .hud-overlay {
-        position: absolute;
-        top: 6px;
-        left: 6px;
-        right: auto;
-        max-width: calc(100% - 110px);
+        top: 6px; left: 6px;
+        max-width: calc(100% - 105px);
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
         gap: 3px;
-        pointer-events: none;
-        z-index: 10;
       }
       .hud-chip {
-        font-size: 0.54rem;
-        padding: 2px 5px;
-        line-height: 1.25;
-        border-radius: 4px;
-        background: rgba(7, 10, 17, 0.88);
-        backdrop-filter: blur(8px);
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-        white-space: nowrap;
+        font-size: 0.56rem;
+        padding: 3px 6px;
+        border-radius: 5px;
       }
       .hud-chip.hud-chip-detail {
-        display: none !important; /* Hide secondary telemetry on mobile portrait */
+        display: none !important;
       }
 
       .hud-camera-modes {
-        position: absolute;
-        top: 6px;
-        right: 6px;
-        display: flex;
+        top: 6px; right: 6px;
         gap: 2px;
         padding: 2px;
-        background: rgba(7, 10, 17, 0.88);
-        backdrop-filter: blur(8px);
-        border: 1px solid var(--border-subtle);
-        border-radius: 6px;
-        z-index: 10;
       }
       .cam-btn {
-        font-size: 0.52rem;
-        padding: 3px 5px;
-        border-radius: 4px;
+        font-size: 0.54rem;
+        padding: 3px 6px;
       }
       .hud-controls-help {
-        display: none !important; /* Hide keyboard shortcut help on touch screens */
+        display: none !important;
       }
 
       /* Virtual Controls */
       .virtual-controls-wrapper {
-        position: absolute;
-        bottom: 6px;
-        left: 6px;
-        right: 6px;
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-end;
-        pointer-events: none;
-        z-index: 20;
+        bottom: 8px; left: 8px; right: 8px;
       }
       .virtual-dpad {
-        pointer-events: auto;
-        display: grid;
-        grid-template-columns: repeat(3, 34px);
-        grid-template-rows: repeat(2, 34px);
+        grid-template-columns: repeat(3, 35px);
+        grid-template-rows: repeat(2, 35px);
         gap: 2px;
-        padding: 3px;
-        border-radius: 8px;
-        background: rgba(7, 10, 17, 0.85);
-        border: 1px solid var(--border-cyan);
-        touch-action: none;
-        user-select: none;
-        -webkit-user-select: none;
+        padding: 4px;
       }
       .dpad-btn {
-        font-size: 0.80rem;
-        border-radius: 5px;
-        touch-action: none;
+        font-size: 0.85rem;
       }
-
       .virtual-actions {
-        pointer-events: auto;
-        display: flex;
-        flex-direction: column;
-        gap: 3px;
-        align-items: flex-end;
-        touch-action: none;
-        user-select: none;
-        -webkit-user-select: none;
-      }
-      .virtual-actions-subrow {
-        display: flex;
-        gap: 3px;
-      }
-      .mobile-action-btn {
-        border-radius: 6px;
-        font-family: 'Orbitron', sans-serif;
-        font-weight: 800;
-        cursor: pointer;
-        touch-action: none;
-        transition: all 0.1s;
+        gap: 4px;
       }
       .mobile-action-btn.btn-action-interact {
-        width: 86px;
-        height: 30px;
-        font-size: 0.58rem;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        gap: 4px;
-        border: 1px solid var(--amber);
-        color: var(--amber);
-        background: rgba(7, 10, 17, 0.88);
+        width: 90px;
+        height: 32px;
+        font-size: 0.60rem;
       }
       .mobile-action-btn.btn-action-sub {
-        width: 41px;
-        height: 28px;
-        font-size: 0.52rem;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        border: 1px solid var(--border-cyan);
-        color: var(--cyan);
-        background: rgba(7, 10, 17, 0.88);
+        width: 42px;
+        height: 30px;
+        font-size: 0.54rem;
       }
 
       /* Chat Panel & Mission Board */
       .panel-header {
-        margin-bottom: 2px;
-        padding-bottom: 2px;
-        flex-shrink: 0;
+        padding-bottom: 4px;
       }
       .panel-title {
-        font-size: 0.72rem;
+        font-size: 0.74rem;
       }
       .mission-board {
-        padding: 4px 6px;
-        margin-bottom: 2px;
-        max-height: 105px;
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-        flex-shrink: 0;
+        padding: 6px 8px;
       }
       .mission-brief {
-        font-size: 0.65rem;
-        line-height: 1.25;
-        margin: 2px 0;
+        font-size: 0.68rem;
+        line-height: 1.3;
       }
       .objective-row {
-        font-size: 0.65rem;
-        padding: 2px 4px;
-        margin-bottom: 2px;
+        font-size: 0.68rem;
+        padding: 3px 5px;
       }
       .mission-pills {
         display: flex;
         flex-wrap: nowrap;
         overflow-x: auto;
         gap: 4px;
-        margin-top: 2px;
         padding-bottom: 2px;
         scrollbar-width: none;
-        -webkit-overflow-scrolling: touch;
       }
       .mission-pills::-webkit-scrollbar { display: none; }
       .mission-pill {
-        font-size: 0.58rem;
-        padding: 2px 6px;
+        font-size: 0.60rem;
+        padding: 3px 7px;
         flex-shrink: 0;
-        white-space: nowrap;
-      }
-      .agent-row {
-        margin-top: 2px;
-        gap: 3px;
       }
       .agent-btn {
-        font-size: 0.58rem;
-        padding: 4px 2px;
-        white-space: nowrap;
-        text-align: center;
+        font-size: 0.60rem;
+        padding: 5px 3px;
       }
 
-      .chat-container {
-        flex: 1 1 0%;
-        min-height: 0;
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-      }
       .chat-messages {
-        flex: 1 1 0%;
-        min-height: 40px;
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-        padding: 4px;
-        gap: 4px;
-        font-size: 0.72rem;
+        padding: 6px;
+        gap: 6px;
+        font-size: 0.76rem;
       }
       .msg {
         max-width: 96%;
-        padding: 5px 8px;
-        font-size: 0.72rem;
-      }
-      .quick-prompts {
-        display: flex;
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        gap: 3px;
-        padding: 2px 0;
-        scrollbar-width: none;
-        -webkit-overflow-scrolling: touch;
-        flex-shrink: 0;
-      }
-      .quick-prompts::-webkit-scrollbar { display: none; }
-      .quick-btn {
-        font-size: 0.58rem;
-        padding: 2px 6px;
-        flex-shrink: 0;
-        white-space: nowrap;
+        padding: 7px 9px;
       }
 
-      /* Chat Input Bar (Fully contained, Send button never cut off) */
+      /* Chat Input Bar */
       .chat-input-bar {
         width: 100% !important;
-        max-width: 100% !important;
         box-sizing: border-box !important;
-        display: flex !important;
-        align-items: center !important;
         gap: 4px !important;
-        padding: 3px 4px !important;
-        background: rgba(7, 10, 17, 0.95) !important;
-        flex-shrink: 0 !important;
+        padding: 4px !important;
       }
       .mic-btn {
         flex: 0 0 32px !important;
         width: 32px !important;
         height: 32px !important;
-        font-size: 0.95rem !important;
+        font-size: 1rem !important;
       }
       .chat-input {
-        flex: 1 1 0% !important;
-        min-width: 0 !important;
-        width: 0 !important;
-        font-size: 16px !important; /* Prevents auto-zoom on iOS Safari */
-        padding: 5px 6px !important;
-        border-radius: 6px !important;
+        font-size: 16px !important; /* Prevents auto-zoom on iOS */
+        padding: 5px 8px !important;
       }
       .tts-toggle-btn {
-        flex: 0 0 auto !important;
-        padding: 5px 6px !important;
-        font-size: 0.60rem !important;
-        white-space: nowrap !important;
+        padding: 5px 7px !important;
+        font-size: 0.62rem !important;
       }
       .send-btn {
-        flex: 0 0 auto !important;
-        padding: 5px 9px !important;
-        font-size: 0.65rem !important;
-        white-space: nowrap !important;
+        padding: 6px 11px !important;
+        font-size: 0.68rem !important;
       }
 
-      /* Inspector Drawer Mobile */
+      /* Drawer Mobile */
       .inspector-drawer {
         width: 100%;
         max-width: 100vw;
         right: -105vw;
         padding-top: env(safe-area-inset-top);
         padding-bottom: env(safe-area-inset-bottom);
-      }
-      .inspector-drawer.open {
-        right: 0;
       }
 
       /* Modals Mobile */
@@ -1397,15 +1666,11 @@
         padding-bottom: max(10px, env(safe-area-inset-bottom));
       }
       .modal-box {
-        padding: 14px;
+        padding: 16px;
         max-height: 92vh;
         max-height: 92dvh;
-        width: 100%;
-        max-width: 100%;
-        box-sizing: border-box;
       }
 
-      /* Hide connection footer on mobile to maximize viewport */
       .unity-guide-strip {
         display: none !important;
       }
@@ -1420,21 +1685,16 @@
         flex: 0 0 52%;
         height: 100%;
         max-height: 100%;
-        min-height: 0;
-        order: 1;
       }
       .dashboard-grid.mode-split .chat-panel {
         flex: 0 0 48%;
         height: 100%;
-        order: 2;
-      }
-      .mission-board {
-        max-height: 95px;
       }
       .hud-chip.hud-chip-detail {
         display: inline-flex !important;
       }
     }
+    
   </style>
 </head>
 <body>
@@ -1451,40 +1711,49 @@
       </div>
       <div>
         <h1>SPATIAL<span>QUEST</span></h1>
-        <p style="font-size: 0.65rem; color: var(--text-muted); letter-spacing: 0.8px;">3D AI MYSTERY INVESTIGATION FACILITY</p>
+        <p>SECTOR 4 · TACTICAL INVESTIGATION FACILITY</p>
       </div>
     </div>
 
+    <!-- Center Telemetry Strip (Desktop) -->
+    <div class="header-center-status">
+      <div class="tag live" id="backendTag"><div class="tag-dot"></div>BACKEND…</div>
+      <div class="tag" id="scoreTag"><div class="tag-dot" style="background: var(--green);"></div>SCORE: 0</div>
+    </div>
+
+    <!-- Actions Strip -->
     <div class="header-actions">
+      <!-- Primary Action: Select Mystery -->
       <button class="btn-action highlight" onclick="openMysterySelectModal()">
         🗺️ <span class="hdr-btn-full">SELECT MYSTERY</span><span class="hdr-btn-short">MYSTERIES</span>
       </button>
-      <button class="btn-action" onclick="resetGameWithPrompt()" title="Generate new mystery variation with random seed">
-        🎲 <span class="hdr-btn-full">NEW MYSTERY</span><span class="hdr-btn-short">NEW</span>
-      </button>
-      <button class="btn-action" onclick="restartCurrentMission()" title="Restart objectives of current mission">
-        🔁 <span class="hdr-btn-full">RESTART MISSION</span><span class="hdr-btn-short">RESTART</span>
-      </button>
-      <button class="btn-action" onclick="returnPlayerToHub()" title="Teleport back to Location 1: Reception Hub">
-        🏠 <span class="hdr-btn-full">RETURN TO HUB</span><span class="hdr-btn-short">HUB</span>
-      </button>
-      <button class="btn-action" onclick="document.getElementById('howToPlayModal').style.display='flex'">
-        🎮 <span class="hdr-btn-full">HOW TO PLAY</span><span class="hdr-btn-short">GUIDE</span>
-      </button>
-      <button class="btn-action highlight" onclick="openWorkflowTab()" style="border-color: rgba(0, 240, 255, 0.6); color: var(--cyan); background: rgba(0, 240, 255, 0.12);" title="Inspect End-to-End Workflow & Active Trained Models">
-        ⚡ <span class="hdr-btn-full">WORKFLOW & ENGINE</span><span class="hdr-btn-short">ENGINE</span>
-      </button>
-      <button class="btn-action inspector-btn" onclick="toggleSystemInspector()" id="btnToggleInspector">
-        🔍 <span class="hdr-btn-full">SYSTEM INSPECTOR</span><span class="hdr-btn-short">INSPECTOR</span>
-      </button>
 
       <!-- Dual LLM Mode Switcher: Academic From-Scratch vs. Google Gemini API -->
-      <button class="btn-action" id="btnToggleLlmMode" onclick="toggleLlmMode()" title="Toggle between From-Scratch Transformer (Offline) and Google Gemini API (Enhanced)" style="border-color: rgba(0, 255, 157, 0.45); color: var(--green); background: rgba(0, 255, 157, 0.08);">
+      <button class="btn-action" id="btnToggleLlmMode" onclick="toggleLlmMode()" title="Toggle between From-Scratch Transformer (Offline) and Google Gemini API (Enhanced)" style="border-color: rgba(16, 185, 129, 0.45); color: var(--green); background: rgba(16, 185, 129, 0.08);">
         <span id="llmModeIcon">🤖</span> <span id="llmModeText"><span class="hdr-btn-full">FROM-SCRATCH</span><span class="hdr-btn-short">LOCAL</span></span>
       </button>
 
-      <div class="tag live" id="backendTag"><div class="tag-dot"></div>BACKEND…</div>
-      <div class="tag" id="scoreTag"><div class="tag-dot" style="background: var(--green);"></div>SCORE: 0</div>
+      <!-- Clustered Utilities -->
+      <div class="header-btn-cluster">
+        <button class="btn-action" onclick="document.getElementById('howToPlayModal').style.display='flex'" title="Open Game & Controls Guide">
+          🎮 <span class="hdr-btn-full">HOW TO PLAY</span><span class="hdr-btn-short">GUIDE</span>
+        </button>
+        <button class="btn-action" onclick="resetGameWithPrompt()" title="Generate new mystery variation with random seed">
+          🎲 <span class="hdr-btn-full">NEW</span><span class="hdr-btn-short">NEW</span>
+        </button>
+        <button class="btn-action" onclick="restartCurrentMission()" title="Restart objectives of current mission">
+          🔁 <span class="hdr-btn-full">RESTART</span><span class="hdr-btn-short">RESTART</span>
+        </button>
+        <button class="btn-action" onclick="returnPlayerToHub()" title="Teleport back to Location 1: Reception Hub">
+          🏠 <span class="hdr-btn-full">HUB</span><span class="hdr-btn-short">HUB</span>
+        </button>
+        <button class="btn-action highlight" onclick="openWorkflowTab()" style="border-color: rgba(0, 240, 255, 0.5); color: var(--cyan); background: rgba(0, 240, 255, 0.1);" title="Inspect End-to-End Workflow & Active Trained Models">
+          ⚡ <span class="hdr-btn-full">WORKFLOW</span><span class="hdr-btn-short">ENGINE</span>
+        </button>
+        <button class="btn-action inspector-btn" onclick="toggleSystemInspector()" id="btnToggleInspector" title="Open Live System Inspector">
+          🔍 <span class="hdr-btn-full">INSPECTOR</span><span class="hdr-btn-short">INSP</span>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -2144,36 +2413,48 @@
         <span style="font-size: 0.72rem; color: var(--text-muted); font-family: 'JetBrains Mono', monospace;" id="companionLabel">SCOUT DRONE</span>
       </div>
 
-      <div class="mission-board">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-          <div class="panel-title" style="font-size:0.72rem; margin-bottom:0;">MISSION <span id="missionCodeText">A</span> — <span id="missionTitleText">Missing Research Key</span></div>
-          <button onclick="openMissionGuideModal()" style="background: rgba(255,170,0,0.15); border: 1px solid var(--amber); color: var(--amber); font-size: 0.65rem; padding: 2px 8px; border-radius: 4px; cursor: pointer; font-weight: bold; font-family: 'Orbitron', sans-serif;" title="Open Code, Key & Walkthrough Guide">❓ GUIDE & CODES</button>
-        </div>
-        <div class="mission-brief" id="missionBriefText">Survey Reception and locate the security table to find where staff logged the missing key.</div>
-        <div id="missionCompletionBanner" style="display: none; background: rgba(0, 255, 136, 0.18); border: 1px solid var(--green); border-radius: 6px; padding: 6px 10px; margin: 6px 0; justify-content: space-between; align-items: center;">
-          <div>
-            <div style="font-family: 'Orbitron', sans-serif; font-weight: bold; font-size: 0.76rem; color: var(--green);">🎉 MISSION ACCOMPLISHED!</div>
-            <div style="font-size: 0.68rem; color: #fff;">All objectives fulfilled. Ready for next sector.</div>
+      <div class="mission-board" id="missionBoardCard">
+        <div class="mission-board-header" onclick="toggleMissionDetails()" title="Click to collapse / expand mission details">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 0.95rem;">📋</span>
+            <div class="panel-title" style="font-size:0.78rem; margin-bottom:0;">
+              MISSION <span id="missionCodeText">A</span> — <span id="missionTitleText">Missing Research Key</span>
+            </div>
+            <span class="mission-progress-chip" id="missionProgressChip">0/2</span>
           </div>
-          <button onclick="advanceToNextMission()" style="background: linear-gradient(135deg, var(--green), #00bb66); color: #000; font-family: 'Orbitron', sans-serif; font-size: 0.68rem; font-weight: 800; border: none; padding: 4px 10px; border-radius: 5px; cursor: pointer;">
-            ▶ NEXT MYSTERY
-          </button>
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <button onclick="event.stopPropagation(); openMissionGuideModal()" class="btn-guide-tiny" title="Open Code, Key & Walkthrough Guide">❓ GUIDE & CODES</button>
+            <span id="missionChevron" class="mission-chevron">▾</span>
+          </div>
         </div>
-        <div id="objectiveList"></div>
-        <div class="mission-pills" id="missionPills"></div>
-        <div class="agent-row">
-          <button class="agent-btn active" id="agent-scout" onclick="selectCompanion('scout')">
-            <span class="agent-btn-full">Scout (Vision)</span>
-            <span class="agent-btn-short">👁️ Scout</span>
-          </button>
-          <button class="agent-btn" id="agent-navigator" onclick="selectCompanion('navigator')">
-            <span class="agent-btn-full">Navigator (Spatial)</span>
-            <span class="agent-btn-short">🧭 Navigator</span>
-          </button>
-          <button class="agent-btn" id="agent-archivist" onclick="selectCompanion('archivist')">
-            <span class="agent-btn-full">Archivist (RAG)</span>
-            <span class="agent-btn-short">📚 Archivist</span>
-          </button>
+
+        <div id="missionDetailsBody" class="mission-details-body">
+          <div class="mission-brief" id="missionBriefText">Survey Reception and locate the security table to find where staff logged the missing key.</div>
+          <div id="missionCompletionBanner" style="display: none; background: rgba(16, 185, 129, 0.18); border: 1px solid var(--green); border-radius: 6px; padding: 6px 10px; margin: 4px 0; justify-content: space-between; align-items: center;">
+            <div>
+              <div style="font-family: 'Orbitron', sans-serif; font-weight: bold; font-size: 0.76rem; color: var(--green);">🎉 MISSION ACCOMPLISHED!</div>
+              <div style="font-size: 0.68rem; color: #fff;">All objectives fulfilled. Ready for next sector.</div>
+            </div>
+            <button onclick="advanceToNextMission()" style="background: linear-gradient(135deg, var(--green), #059669); color: #000; font-family: 'Orbitron', sans-serif; font-size: 0.68rem; font-weight: 800; border: none; padding: 4px 10px; border-radius: 5px; cursor: pointer;">
+              ▶ NEXT MYSTERY
+            </button>
+          </div>
+          <div id="objectiveList"></div>
+          <div class="mission-pills" id="missionPills"></div>
+          <div class="agent-row">
+            <button class="agent-btn active" id="agent-scout" onclick="selectCompanion('scout')">
+              <span class="agent-btn-full">👁️ Scout (Vision)</span>
+              <span class="agent-btn-short">👁️ Scout</span>
+            </button>
+            <button class="agent-btn" id="agent-navigator" onclick="selectCompanion('navigator')">
+              <span class="agent-btn-full">🧭 Navigator (Spatial)</span>
+              <span class="agent-btn-short">🧭 Navigator</span>
+            </button>
+            <button class="agent-btn" id="agent-archivist" onclick="selectCompanion('archivist')">
+              <span class="agent-btn-full">📚 Archivist (RAG)</span>
+              <span class="agent-btn-short">📚 Archivist</span>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -3224,25 +3505,76 @@
       }
     }
 
+    
+    function toggleMissionDetails() {
+      const body = document.getElementById('missionDetailsBody');
+      const chev = document.getElementById('missionChevron');
+      if (!body) return;
+      const isHidden = body.classList.contains('collapsed');
+      if (isHidden) {
+        body.classList.remove('collapsed');
+        if (chev) chev.textContent = '▾';
+      } else {
+        body.classList.add('collapsed');
+        if (chev) chev.textContent = '▸';
+      }
+    }
+    
     function renderAgentResponse(data) {
       const messagesContainer = document.getElementById('chatMessages');
       const msgDiv = document.createElement('div');
       msgDiv.className = 'msg assistant';
 
       let html = '';
-      if (data.llm_mode === 'gemini_api') {
-        html += `<div style="display:inline-flex; align-items:center; gap:4px; font-size:0.58rem; font-family:'JetBrains Mono',monospace; background:rgba(0,240,255,0.14); border:1px solid var(--cyan); color:var(--cyan); padding:2px 7px; border-radius:12px; margin-bottom:6px;">⚡ GOOGLE GEMINI API</div>`;
-      } else {
-        html += `<div style="display:inline-flex; align-items:center; gap:4px; font-size:0.58rem; font-family:'JetBrains Mono',monospace; background:rgba(0,255,157,0.12); border:1px solid var(--green); color:var(--green); padding:2px 7px; border-radius:12px; margin-bottom:6px;">🤖 FROM-SCRATCH TRANSFORMER (OFFLINE)</div>`;
+      const isGemini = data.llm_mode === 'gemini_api';
+      const badgeText = isGemini ? '⚡ GOOGLE GEMINI 2.0 FLASH' : '🤖 IN-HOUSE TRANSFORMER (4L)';
+      const badgeCls = isGemini ? 'badge-gemini' : 'badge-local';
+      const droneName = (document.getElementById('companionLabel')?.textContent || 'SCOUT DRONE');
+
+      // Tactical Transmission Header
+      html += `
+        <div class="msg-header-row">
+          <div class="msg-drone-tag">
+            <span>🛸</span>
+            <span>${droneName}</span>
+          </div>
+          <span class="msg-model-badge ${badgeCls}">${badgeText}</span>
+        </div>
+      `;
+
+      // Collapsible reasoning accordion if thought exists
+      const thoughtMatch = (data.thought || data.model_output || '').match(/<thought>([\s\S]*?)<\/thought>/);
+      const thoughtText = thoughtMatch ? thoughtMatch[1].trim() : (data.thought || '');
+      if (thoughtText) {
+        html += `
+          <details class="thought-accordion">
+            <summary>🧠 Neural Reasoning Stream</summary>
+            <div class="thought-body">${thoughtText}</div>
+          </details>
+        `;
       }
 
+      // Structured tool call chips
       if (data.tool_calls && data.tool_calls.length > 0) {
         data.tool_calls.forEach(tc => {
-          html += `<div class="msg-tool">⚡ TOOL: ${tc.tool}(${JSON.stringify(tc.arguments)})</div>`;
+          const argsStr = Object.entries(tc.arguments || {})
+            .map(([k, v]) => `<span class="tool-arg-key">${k}</span>: <span class="tool-arg-val">${typeof v === 'string' ? `"${v}"` : JSON.stringify(v)}</span>`)
+            .join(', ');
+          html += `<div class="msg-tool"><span style="color:var(--amber);">⚙️ TOOL:</span> <strong style="color:var(--cyan);">${tc.tool}</strong>(${argsStr})</div>`;
         });
       }
 
-      html += `<div>${data.final_response}</div>`;
+      // Final response text
+      html += `<div class="msg-body-text">${data.final_response}</div>`;
+
+      // Contextual 1-click action chips for passcodes or clues
+      const respLow = (data.final_response || '').toLowerCase();
+      if (respLow.includes('7391') && !respLow.includes('entered') && !respLow.includes('unlocked')) {
+        html += `<div class="msg-quick-action"><button onclick="sendQuickPrompt('Enter code 7391')" class="btn-msg-action">🔢 Unlock Door 3 with code 7391</button></div>`;
+      } else if (respLow.includes('cabinet') && respLow.includes('key') && !respLow.includes('collected')) {
+        html += `<div class="msg-quick-action"><button onclick="sendQuickPrompt('Open the cabinet')" class="btn-msg-action">🗄️ Open Cabinet & Collect Key</button></div>`;
+      }
+
       msgDiv.innerHTML = html;
       messagesContainer.appendChild(msgDiv);
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
@@ -3818,6 +4150,23 @@
         document.getElementById('timerHudText').textContent = `${Math.ceil(state.active_mission.timer_remaining || 0)}s`;
       } else {
         timerChip.style.display = 'none';
+      }
+
+      // Update mission progress chip
+      const completedCount = state.active_mission.objectives.filter(o => o.is_completed).length;
+      const totalCount = state.active_mission.objectives.length;
+      const progChip = document.getElementById('missionProgressChip');
+      if (progChip) {
+        progChip.textContent = `${completedCount}/${totalCount}`;
+        if (completedCount === totalCount && totalCount > 0) {
+          progChip.style.borderColor = 'var(--green)';
+          progChip.style.color = 'var(--green)';
+          progChip.style.background = 'rgba(16, 185, 129, 0.15)';
+        } else {
+          progChip.style.borderColor = 'var(--border-cyan)';
+          progChip.style.color = 'var(--cyan)';
+          progChip.style.background = 'rgba(0, 240, 255, 0.12)';
+        }
       }
 
       if (teleport && playerAvatar && typeof state.active_mission.spawn_z === 'number') {
