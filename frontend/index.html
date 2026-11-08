@@ -1478,6 +1478,11 @@
         🔍 <span class="hdr-btn-full">SYSTEM INSPECTOR</span><span class="hdr-btn-short">INSPECTOR</span>
       </button>
 
+      <!-- Dual LLM Mode Switcher: Academic From-Scratch vs. Google Gemini API -->
+      <button class="btn-action" id="btnToggleLlmMode" onclick="toggleLlmMode()" title="Toggle between From-Scratch Transformer (Offline) and Google Gemini API (Enhanced)" style="border-color: rgba(0, 255, 157, 0.45); color: var(--green); background: rgba(0, 255, 157, 0.08);">
+        <span id="llmModeIcon">🤖</span> <span id="llmModeText"><span class="hdr-btn-full">FROM-SCRATCH</span><span class="hdr-btn-short">LOCAL</span></span>
+      </button>
+
       <div class="tag live" id="backendTag"><div class="tag-dot"></div>BACKEND…</div>
       <div class="tag" id="scoreTag"><div class="tag-dot" style="background: var(--green);"></div>SCORE: 0</div>
     </div>
@@ -1965,6 +1970,39 @@
       <button onclick="document.getElementById('howToPlayModal').style.display='none'" style="width: 100%; background: linear-gradient(135deg, #00f0ff, #0077ff); color: #000; font-family: 'Orbitron', sans-serif; font-size: 0.85rem; font-weight: 800; border: none; padding: 10px; border-radius: 8px; cursor: pointer;">
         START INVESTIGATING
       </button>
+    </div>
+  </div>
+
+  <!-- GOOGLE GEMINI API CONFIGURATION MODAL -->
+  <div id="geminiKeyModal" class="modal-backdrop">
+    <div class="modal-box" style="max-width: 540px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px;">
+        <h2 style="font-family: 'Orbitron', sans-serif; font-size: 1.05rem; color: var(--cyan); display: flex; align-items: center; gap: 8px;">
+          ⚡ GOOGLE GEMINI API SETUP
+        </h2>
+        <button onclick="document.getElementById('geminiKeyModal').style.display='none'" style="background: none; border: none; color: #94a3b8; font-size: 1.4rem; cursor: pointer;">&times;</button>
+      </div>
+
+      <p style="font-size: 0.78rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 14px;">
+        Activate <strong>Google Gemini (gemini-2.0-flash)</strong> for advanced zero-shot conversational reasoning, deep situational awareness, and creative dialogue, while executing through the exact same local 3D facility tools!
+      </p>
+
+      <div style="background: rgba(0, 240, 255, 0.08); border-left: 3px solid var(--cyan); padding: 10px; border-radius: 6px; margin-bottom: 14px; font-size: 0.74rem;">
+        <strong>🔑 How to get a free API Key:</strong><br>
+        1. Open <a href="https://aistudio.google.com/" target="_blank" style="color: var(--cyan); text-decoration: underline;">Google AI Studio (aistudio.google.com)</a>.<br>
+        2. Click <strong>Get API Key</strong> &rarr; <strong>Create API Key</strong>.<br>
+        3. Paste the key below (it starts with <code>AIzaSy...</code>).
+      </div>
+
+      <div style="margin-bottom: 14px;">
+        <label style="display: block; font-size: 0.74rem; font-weight: bold; color: #e2e8f0; margin-bottom: 6px;">Gemini API Key:</label>
+        <input type="password" id="geminiKeyInput" placeholder="Paste AIzaSy... key here" style="width: 100%; box-sizing: border-box; background: rgba(7,10,17,0.9); border: 1px solid var(--border-cyan); border-radius: 6px; color: #fff; padding: 8px 12px; font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; outline: none;">
+      </div>
+
+      <div style="display: flex; gap: 8px; justify-content: flex-end;">
+        <button onclick="document.getElementById('geminiKeyModal').style.display='none'" class="btn-action" style="padding: 8px 14px;">Cancel</button>
+        <button onclick="saveGeminiKeyAndActivate()" class="btn-action highlight" style="padding: 8px 16px; font-weight: bold;">⚡ SAVE & ACTIVATE</button>
+      </div>
     </div>
   </div>
 
@@ -3192,6 +3230,12 @@
       msgDiv.className = 'msg assistant';
 
       let html = '';
+      if (data.llm_mode === 'gemini_api') {
+        html += `<div style="display:inline-flex; align-items:center; gap:4px; font-size:0.58rem; font-family:'JetBrains Mono',monospace; background:rgba(0,240,255,0.14); border:1px solid var(--cyan); color:var(--cyan); padding:2px 7px; border-radius:12px; margin-bottom:6px;">⚡ GOOGLE GEMINI API</div>`;
+      } else {
+        html += `<div style="display:inline-flex; align-items:center; gap:4px; font-size:0.58rem; font-family:'JetBrains Mono',monospace; background:rgba(0,255,157,0.12); border:1px solid var(--green); color:var(--green); padding:2px 7px; border-radius:12px; margin-bottom:6px;">🤖 FROM-SCRATCH TRANSFORMER (OFFLINE)</div>`;
+      }
+
       if (data.tool_calls && data.tool_calls.length > 0) {
         data.tool_calls.forEach(tc => {
           html += `<div class="msg-tool">⚡ TOOL: ${tc.tool}(${JSON.stringify(tc.arguments)})</div>`;
@@ -3557,6 +3601,113 @@
         applyGameState(await resp.json(), false);
       } catch (e) {
         console.warn('Failed to switch companion agent:', e);
+      }
+    }
+
+    // ================= DUAL LLM MODE (FROM-SCRATCH vs GEMINI API) =================
+    let currentLlmMode = 'from_scratch';
+
+    async function checkLlmStatus() {
+      try {
+        const resp = await fetch(`${API_BASE}/llm/status`);
+        if (!resp.ok) return;
+        const data = await resp.json();
+        currentLlmMode = data.active_mode;
+        updateLlmModeUI(data);
+      } catch (e) {
+        console.warn('Failed to fetch LLM status:', e);
+      }
+    }
+
+    function updateLlmModeUI(status) {
+      const btn = document.getElementById('btnToggleLlmMode');
+      const icon = document.getElementById('llmModeIcon');
+      const text = document.getElementById('llmModeText');
+      if (!btn || !text) return;
+
+      if (status.active_mode === 'gemini_api') {
+        btn.style.borderColor = 'rgba(0, 240, 255, 0.65)';
+        btn.style.color = 'var(--cyan)';
+        btn.style.background = 'rgba(0, 240, 255, 0.14)';
+        if (icon) icon.textContent = '⚡';
+        text.innerHTML = '<span class="hdr-btn-full">GEMINI API</span><span class="hdr-btn-short">API</span>';
+      } else {
+        btn.style.borderColor = 'rgba(0, 255, 157, 0.45)';
+        btn.style.color = 'var(--green)';
+        btn.style.background = 'rgba(0, 255, 157, 0.08)';
+        if (icon) icon.textContent = '🤖';
+        text.innerHTML = '<span class="hdr-btn-full">FROM-SCRATCH</span><span class="hdr-btn-short">LOCAL</span>';
+      }
+    }
+
+    async function toggleLlmMode() {
+      if (currentLlmMode === 'from_scratch') {
+        try {
+          const resp = await fetch(`${API_BASE}/llm/mode`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ mode: 'gemini_api' })
+          });
+          const data = await resp.json();
+          if (data.success) {
+            currentLlmMode = 'gemini_api';
+            await checkLlmStatus();
+            appendMessage('⚡ **[LLM Mode Switched]** Activated Google Gemini API (' + data.model + '). Companion now uses cloud conversational reasoning with local 3D tool execution.', 'assistant');
+          } else {
+            openGeminiKeyModal();
+          }
+        } catch (e) {
+          openGeminiKeyModal();
+        }
+      } else {
+        try {
+          const resp = await fetch(`${API_BASE}/llm/mode`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ mode: 'from_scratch' })
+          });
+          const data = await resp.json();
+          currentLlmMode = 'from_scratch';
+          await checkLlmStatus();
+          appendMessage('🤖 **[LLM Mode Switched]** Activated Academic From-Scratch Mode (In-house 4-layer Transformer, 100% offline, CS3235 syllabus compliant).', 'assistant');
+        } catch (e) {
+          console.warn('Failed to switch LLM mode:', e);
+        }
+      }
+    }
+
+    function openGeminiKeyModal() {
+      const modal = document.getElementById('geminiKeyModal');
+      if (modal) {
+        modal.style.display = 'flex';
+        const input = document.getElementById('geminiKeyInput');
+        if (input) input.focus();
+      }
+    }
+
+    async function saveGeminiKeyAndActivate() {
+      const key = document.getElementById('geminiKeyInput').value.trim();
+      if (!key) {
+        alert('Please enter a valid Google Gemini API key.');
+        return;
+      }
+      try {
+        const resp = await fetch(`${API_BASE}/llm/mode`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ mode: 'gemini_api', api_key: key })
+        });
+        const data = await resp.json();
+        if (data.success) {
+          currentLlmMode = 'gemini_api';
+          document.getElementById('geminiKeyModal').style.display = 'none';
+          await checkLlmStatus();
+          appendMessage('⚡ **[Google Gemini API Activated]** Successfully connected using model: ' + data.model + '. All 13 local tools remain fully functional!', 'assistant');
+        } else {
+          alert('Error activating Gemini API: ' + data.message);
+        }
+      } catch (e) {
+        alert('Failed to connect to backend: ' + e.message);
       }
     }
 

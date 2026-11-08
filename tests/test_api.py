@@ -191,3 +191,17 @@ def test_inventory_and_hint_query_tools():
     hint_data = hint_resp.json()
     assert any(tc["tool"] == "request_hint" for tc in hint_data["tool_calls"])
     assert "hint" in hint_data["final_response"].lower()
+
+def test_llm_mode_endpoints():
+    """Verify GET /llm/status and POST /llm/mode toggling."""
+    st_resp = client.get("/llm/status")
+    assert st_resp.status_code == 200
+    st_data = st_resp.json()
+    assert "active_mode" in st_data
+    assert "provider_name" in st_data
+
+    # Toggle to from_scratch (guaranteed valid without key)
+    mode_resp = client.post("/llm/mode", json={"mode": "from_scratch"})
+    assert mode_resp.status_code == 200
+    assert mode_resp.json()["mode"] == "from_scratch"
+

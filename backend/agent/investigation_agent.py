@@ -24,6 +24,7 @@ from backend.agent.prompt_builder import (
 )
 from backend.agent.reference_resolver import ConversationReferenceState, ReferenceResolver
 from backend.agent.typo_normalizer import global_typo_normalizer, normalize_query_typos
+from backend.language_model.llm_provider import global_llm_provider, LLMProviderManager
 
 
 class InvestigationAgent:
@@ -738,8 +739,42 @@ class InvestigationAgent:
             selected_tool = None
             selected_args = {}
 
-            # 1. Try custom Transformer model inference first
-            if self.model and self.tokenizer:
+            # 0. Try Google Gemini API if enhanced mode is active
+            if global_llm_provider.mode == LLMProviderManager.MODE_GEMINI_API and global_llm_provider.gemini_client.is_configured():
+                api_tool, api_args, direct_reply = global_llm_provider.gemini_client.generate_tool_call(
+                    query=resolved_query,
+                    system_prompt=current_prompt,
+                    context_info={
+                        "active_room": active_room,
+                        "player_position": player_position,
+                        "agent_id": agent_id,
+                    }
+                )
+                if api_tool and api_tool in global_tool_registry.get_tool_names():
+                    selected_tool = api_tool
+                    selected_args = api_args
+                    model_raw_output = f"<tool_call>{json.dumps({'name': api_tool, 'arguments': api_args})}</tool_call>"
+                    validation_status = "PASSED_GEMINI_API_TOOL_CALL"
+                    used_fallback = False
+                elif direct_reply:
+                    return {
+                        "query": user_query,
+                        "resolved_query": resolved_query,
+                        "steps_taken": 1,
+                        "tool_calls": [],
+                        "tool_results": [],
+                        "final_response": direct_reply,
+                        "unity_action": None,
+                        "token_ids": [],
+                        "rag_passages": [],
+                        "model_raw_output": direct_reply,
+                        "used_fallback": False,
+                        "validation_status": "DIRECT_GEMINI_REPLY",
+                        "llm_mode": "gemini_api",
+                    }
+
+            # 1. Try custom Transformer model inference first (Academic From-Scratch Mode or fallback)
+            if not selected_tool and self.model and self.tokenizer:
                 try:
                     input_ids = self.tokenizer.encode(current_prompt, add_special_tokens=False)
                     input_tensor = torch.tensor([input_ids], dtype=torch.long, device=self.device)
@@ -1092,6 +1127,7 @@ class InvestigationAgent:
             "model_raw_output": model_raw_output,
             "used_fallback": used_fallback,
             "validation_status": validation_status,
+            "llm_mode": global_llm_provider.mode,
         }
 
     def _synthesize_final_answer(
@@ -1104,6 +1140,24 @@ class InvestigationAgent:
         player_position: Optional[List[float]] = None
     ) -> str:
         """Synthesizes human-readable assistant response from tool observations."""
+        if global_llm_provider.mode == LLMProviderManager.MODE_GEMINI_API and global_llm_provider.gemini_client.is_configured() and calls:
+            persona_name = {
+                "scout": "Scout Drone (Optical Perception)",
+                "navigator": "Navigator Drone (3D Spatial Reasoning)",
+                "archivist": "Archivist Drone (Facility Archives & RAG)",
+            }.get(agent_id, "Companion Drone")
+            last_call = calls[-1]
+            last_res = results[-1] if results else {}
+            api_synth = global_llm_provider.gemini_client.synthesize_response(
+                query=query,
+                tool_name=last_call.get("tool") or last_call.get("name", ""),
+                tool_args=last_call.get("arguments", {}),
+                observation=last_res.get("result", ""),
+                companion_persona=persona_name,
+            )
+            if api_synth:
+                return api_synth
+
         if not calls:
             q_clean = query.lower().strip()
             if any(w in q_clean for w in ["why", "unreachable", "blocked"]):

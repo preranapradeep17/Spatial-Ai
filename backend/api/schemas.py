@@ -92,6 +92,7 @@ class AgentQueryResponse(BaseModel):
     latency_ms: Optional[float] = None
     validation_status: Optional[str] = None
     model_output: Optional[str] = None
+    llm_mode: Optional[str] = "from_scratch"
 
 class PlayerSyncRequest(BaseModel):
     player_position: List[float] = Field(..., description="Current [X, Z] or [X, Y, Z] world position")

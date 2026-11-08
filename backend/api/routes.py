@@ -32,6 +32,7 @@ from backend.spatial.geometry import (
 from backend.spatial.scene_graph import global_scene_graph
 from backend.tools.registry import global_tool_registry
 from backend.agent.investigation_agent import global_investigation_agent
+from backend.language_model.llm_provider import global_llm_provider
 from backend.game.facility import seed_facility_scene
 from backend.game.missions import global_game_session
 from backend.api.telemetry import global_telemetry
@@ -291,7 +292,20 @@ def process_agent_query(request: AgentQueryRequest):
         latency_ms=round(latency_ms, 2),
         validation_status=result.get("validation_status", "PASSED_WHITELIST"),
         model_output=result.get("model_raw_output", ""),
+        llm_mode=result.get("llm_mode", global_llm_provider.mode),
     )
+
+@router.get("/llm/status")
+def get_llm_status():
+    """Returns the current LLM provider status (from-scratch vs. Gemini API)."""
+    return global_llm_provider.get_status()
+
+@router.post("/llm/mode")
+def set_llm_mode(payload: dict):
+    """Switches the active LLM mode and optionally updates the API key."""
+    mode = payload.get("mode", "from_scratch")
+    api_key = payload.get("api_key")
+    return global_llm_provider.set_mode(mode, api_key)
 
 @router.get("/telemetry/latest")
 def get_latest_telemetry():

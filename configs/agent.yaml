@@ -1,5 +1,21 @@
 # Agent and RAG Configuration for Spatial Quest
 
+llm_provider:
+  default_mode: "from_scratch"  # "from_scratch" (CS3235 syllabus compliant) or "gemini_api"
+  available_modes:
+    - id: "from_scratch"
+      name: "SpatialAI From-Scratch Transformer"
+      description: "Custom in-house 4-layer Transformer trained from random weights, 100% offline."
+      academic_compliant: true
+    - id: "gemini_api"
+      name: "Google Gemini API (Enhanced)"
+      description: "Google Gemini 2.0 Flash / 1.5 Flash cloud API with native function calling."
+      model: "gemini-2.0-flash"
+      fallback_model: "gemini-1.5-flash"
+      api_key_env: "GEMINI_API_KEY"
+      temperature: 0.1
+      timeout_seconds: 8.0
+
 agent:
   name: "spatial_quest_investigation_agent"
   max_iterations_per_turn: 4
