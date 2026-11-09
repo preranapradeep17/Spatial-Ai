@@ -1695,6 +1695,248 @@
       }
     }
     
+  
+    /* ==========================================================================
+       INVESTIGATOR HUMAN DOSSIER & BIOMETRICS CARD
+       ========================================================================== */
+    .investigator-profile-card {
+      background: linear-gradient(135deg, rgba(13, 21, 38, 0.95), rgba(21, 33, 61, 0.85));
+      border: 1px solid rgba(0, 240, 255, 0.35);
+      border-radius: 10px;
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 4px;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
+      flex-shrink: 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .investigator-profile-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 3px; height: 100%;
+      background: linear-gradient(to bottom, var(--cyan), var(--amber));
+    }
+
+    .inv-profile-avatar {
+      position: relative;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      border: 2px solid var(--border-cyan);
+      display: grid;
+      place-items: center;
+      font-size: 1.25rem;
+      flex-shrink: 0;
+      box-shadow: 0 0 12px rgba(0, 240, 255, 0.25);
+    }
+    .inv-status-dot {
+      position: absolute;
+      bottom: -1px;
+      right: -1px;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--green);
+      border: 2px solid #070a12;
+      box-shadow: 0 0 6px var(--green);
+    }
+
+    .inv-profile-details {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .inv-name-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: nowrap;
+    }
+    .inv-name {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 800;
+      font-size: 0.78rem;
+      letter-spacing: 1px;
+      color: #fff;
+    }
+    .inv-rank-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.58rem;
+      padding: 2px 6px;
+      border-radius: 10px;
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid var(--amber);
+      color: var(--amber);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .inv-vitals-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+    }
+    .inv-vital-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--text-muted);
+    }
+    .inv-ecg-canvas {
+      width: 55px;
+      height: 14px;
+      background: rgba(0, 0, 0, 0.35);
+      border-radius: 3px;
+      border: 1px solid rgba(0, 240, 255, 0.2);
+    }
+    .inv-vital-val {
+      font-weight: bold;
+      color: var(--green);
+    }
+
+    .inv-sfx-toggle {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.62rem;
+      padding: 5px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    .inv-sfx-toggle:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+    .inv-sfx-toggle.muted {
+      color: var(--text-dim);
+      opacity: 0.6;
+    }
+
+    /* Human User Message Styling */
+    .user-msg-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+      padding-bottom: 3px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    .user-avatar-tag {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.64rem;
+      font-weight: bold;
+      color: var(--cyan);
+      letter-spacing: 0.5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .user-time-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.58rem;
+      color: rgba(255, 255, 255, 0.6);
+    }
+    .user-msg-body {
+      font-size: 0.82rem;
+      line-height: 1.45;
+      color: #fff;
+    }
+
+    /* Tactical Mini Radar in 3D Viewport */
+    .tactical-radar-box {
+      position: absolute;
+      bottom: 14px;
+      right: 125px;
+      width: 76px;
+      height: 76px;
+      background: rgba(8, 12, 22, 0.88);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-cyan);
+      border-radius: 50%;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.65);
+      pointer-events: auto;
+      z-index: 15;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.2s;
+    }
+    .tactical-radar-box:hover {
+      transform: scale(1.08);
+      border-color: var(--cyan);
+      box-shadow: 0 0 20px var(--cyan-glow);
+    }
+    #radarCanvas {
+      width: 68px;
+      height: 68px;
+      display: block;
+    }
+    .radar-label {
+      position: absolute;
+      bottom: 3px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.44rem;
+      letter-spacing: 0.5px;
+      color: var(--cyan);
+      font-weight: bold;
+      text-shadow: 0 0 4px #000;
+    }
+
+    @media (max-width: 900px) {
+      .investigator-profile-card {
+        padding: 5px 8px;
+        gap: 6px;
+      }
+      .inv-profile-avatar {
+        width: 30px;
+        height: 30px;
+        font-size: 1rem;
+      }
+      .inv-name {
+        font-size: 0.70rem;
+      }
+      .inv-rank-badge {
+        font-size: 0.52rem;
+        padding: 1px 4px;
+      }
+      .inv-ecg-canvas {
+        display: none !important;
+      }
+      .tactical-radar-box {
+        bottom: 8px;
+        right: 105px;
+        width: 58px;
+        height: 58px;
+      }
+      #radarCanvas {
+        width: 52px;
+        height: 52px;
+      }
+      .radar-label {
+        display: none;
+      }
+    }
+    
   </style>
 </head>
 <body>
@@ -2413,6 +2655,35 @@
         <span style="font-size: 0.72rem; color: var(--text-muted); font-family: 'JetBrains Mono', monospace;" id="companionLabel">SCOUT DRONE</span>
       </div>
 
+      
+      <!-- Investigator Human Profile & Biometrics Bar -->
+      <div class="investigator-profile-card">
+        <div class="inv-profile-avatar">
+          <div class="inv-avatar-circle">🕵️</div>
+          <div class="inv-status-dot" title="Biometrics Normal"></div>
+        </div>
+        <div class="inv-profile-details">
+          <div class="inv-name-row">
+            <span class="inv-name">AGENT VANCE</span>
+            <span class="inv-rank-badge">LEVEL 4 CLEARANCE</span>
+          </div>
+          <div class="inv-vitals-row">
+            <div class="inv-vital-item">
+              <span style="color:var(--red);">❤️</span>
+              <canvas id="ecgWaveCanvas" width="60" height="14" class="inv-ecg-canvas"></canvas>
+              <span id="vitalBpmText" class="inv-vital-val">74 BPM</span>
+            </div>
+            <div class="inv-vital-item">
+              <span style="color:var(--cyan);">🛡️</span>
+              <span class="inv-vital-val" style="color:var(--cyan);">100% SUIT</span>
+            </div>
+          </div>
+        </div>
+        <button class="inv-sfx-toggle" id="btnSfxToggle" onclick="toggleAudioSFX()" title="Toggle Procedural Audio Effects">
+          <span id="sfxIcon">🔊</span> <span id="sfxText">SFX</span>
+        </button>
+      </div>
+
       <div class="mission-board" id="missionBoardCard">
         <div class="mission-board-header" onclick="toggleMissionDetails()" title="Click to collapse / expand mission details">
           <div style="display: flex; align-items: center; gap: 8px;">
@@ -2538,6 +2809,13 @@
         </div>
 
         <!-- Virtual Controls Wrapper for Mobile & Desktop Touch -->
+        
+        <!-- Tactical Radar Scanner Mini-Widget -->
+        <div class="tactical-radar-box" id="tacticalRadarBox" onclick="toggleRadarZoom()" title="Sector Radar (Investigator, Drone & Landmarks)">
+          <canvas id="radarCanvas" width="90" height="90"></canvas>
+          <div class="radar-label">RADAR</div>
+        </div>
+
         <div class="virtual-controls-wrapper">
           <!-- Left: Movement D-Pad -->
           <div class="virtual-dpad">
@@ -2606,6 +2884,12 @@
     let gameState = null;
     let activeCompanionId = 'scout';
 
+    // Human Locomotion & Animation State
+    let walkCycle = 0;
+    let idleCycle = 0;
+    let footstepClock = 0;
+    
+
     // Room definitions matching backend/game/facility.py
     const ROOM_DEFS = [
       { id: "reception", name: "1. Reception / Central Hub", zmin: -24, zmax: -10, xmin: -12, xmax: 12, desc: "Visitor entry and security checkpoint." },
@@ -2662,101 +2946,271 @@
       light3.position.set(0, 4.5, 16);
       scene.add(light3);
 
-      // ================= 5. BUILD IDENTIFIABLE INVESTIGATOR AVATAR =================
+            // ================= 5. BUILD 3D HUMAN INVESTIGATOR (AGENT VANCE) =================
       playerAvatar = new THREE.Group();
-      
-      // Cyber Suit Torso (Explorer Amber / Navy)
-      const torsoGeo = new THREE.BoxGeometry(0.55, 0.7, 0.35);
-      const torsoMat = new THREE.MeshStandardMaterial({ color: 0xff7700, roughness: 0.3 });
-      const torso = new THREE.Mesh(torsoGeo, torsoMat);
-      torso.position.y = 0.95;
-      torso.castShadow = true;
-      playerAvatar.add(torso);
+      playerAvatar.name = "playerAvatar";
 
-      // Trench-style Chest Armor
-      const chestGeo = new THREE.BoxGeometry(0.48, 0.45, 0.12);
-      const chestMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.6 });
-      const chest = new THREE.Mesh(chestGeo, chestMat);
-      chest.position.set(0, 1.0, 0.16);
-      playerAvatar.add(chest);
+      const bodyGroup = new THREE.Group();
+      bodyGroup.name = "bodyGroup";
+      playerAvatar.add(bodyGroup);
 
-      // Life-support Backpack
-      const packGeo = new THREE.BoxGeometry(0.42, 0.55, 0.22);
-      const packMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, metalness: 0.8 });
-      const pack = new THREE.Mesh(packGeo, packMat);
-      pack.position.set(0, 1.0, -0.22);
-      playerAvatar.add(pack);
+      // Anatomical & Stylized Materials
+      const skinMat = new THREE.MeshStandardMaterial({ color: 0xdca176, roughness: 0.55, metalness: 0.05 });
+      const hairMat = new THREE.MeshStandardMaterial({ color: 0x1f1713, roughness: 0.85, metalness: 0.05 });
+      const coatMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.65, metalness: 0.15 });
+      const coatLapelMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.6 });
+      const shirtMat = new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.4 });
+      const tieMat = new THREE.MeshStandardMaterial({ color: 0x0284c7, roughness: 0.3, metalness: 0.2 });
+      const trouserMat = new THREE.MeshStandardMaterial({ color: 0x182234, roughness: 0.7 });
+      const bootMat = new THREE.MeshStandardMaterial({ color: 0x090d16, roughness: 0.3, metalness: 0.3 });
+      const badgeMat = new THREE.MeshStandardMaterial({ color: 0xf59e0b, metalness: 0.9, roughness: 0.15 });
+      const glassesMat = new THREE.MeshStandardMaterial({ color: 0x0a0f1d, metalness: 0.9, roughness: 0.1 });
+      const glowCyan = new THREE.MeshBasicMaterial({ color: 0x00f0ff });
 
-      // Investigator Head / Helmet
-      const helmGeo = new THREE.SphereGeometry(0.24, 20, 20);
-      const helmMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.1 });
-      const helm = new THREE.Mesh(helmGeo, helmMat);
-      helm.position.y = 1.52;
-      helm.castShadow = true;
-      playerAvatar.add(helm);
+      // Torso Group (bobs & breathes)
+      const torsoGroup = new THREE.Group();
+      torsoGroup.name = "torsoGroup";
+      torsoGroup.position.y = 0.94;
+      bodyGroup.add(torsoGroup);
 
-      // Glowing Cyan Visor
-      const visorGeo = new THREE.BoxGeometry(0.28, 0.12, 0.16);
-      const visorMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff });
-      const visor = new THREE.Mesh(visorGeo, visorMat);
-      visor.position.set(0, 1.52, 0.16);
-      playerAvatar.add(visor);
+      // Trench coat main torso
+      const torsoMesh = new THREE.Mesh(new THREE.BoxGeometry(0.48, 0.58, 0.28), coatMat);
+      torsoMesh.castShadow = true;
+      torsoGroup.add(torsoMesh);
 
-      // Scanner Hip Tool
-      const scanToolGeo = new THREE.BoxGeometry(0.12, 0.25, 0.12);
-      const scanToolMat = new THREE.MeshBasicMaterial({ color: 0x00ff9d });
-      const scanTool = new THREE.Mesh(scanToolGeo, scanToolMat);
-      scanTool.position.set(0.32, 0.75, 0.05);
-      playerAvatar.add(scanTool);
+      // Inner white shirt insert
+      const shirtMesh = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.40, 0.06), shirtMat);
+      shirtMesh.position.set(0, 0.08, 0.13);
+      torsoGroup.add(shirtMesh);
 
-      // Legs
-      const legGeo = new THREE.BoxGeometry(0.2, 0.6, 0.2);
-      const legMat = new THREE.MeshStandardMaterial({ color: 0x1e293b });
-      const legL = new THREE.Mesh(legGeo, legMat);
-      legL.name = 'legL';
-      legL.position.set(-0.16, 0.3, 0);
-      playerAvatar.add(legL);
+      // Sapphire Blue Silk Tie
+      const tieMesh = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.32, 0.03), tieMat);
+      tieMesh.position.set(0, 0.04, 0.15);
+      torsoGroup.add(tieMesh);
 
-      const legR = new THREE.Mesh(legGeo, legMat);
-      legR.name = 'legR';
-      legR.position.set(0.16, 0.3, 0);
-      playerAvatar.add(legR);
+      // Coat Lapels
+      const lapelGeo = new THREE.BoxGeometry(0.12, 0.36, 0.04);
+      const lapelL = new THREE.Mesh(lapelGeo, coatLapelMat);
+      lapelL.position.set(-0.13, 0.07, 0.145);
+      lapelL.rotation.z = -0.15;
+      torsoGroup.add(lapelL);
 
-      // Forward Direction Pointer Ring on Floor
-      const dirRingGeo = new THREE.RingGeometry(0.5, 0.65, 24);
-      const dirRingMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff, side: THREE.DoubleSide });
-      const dirRing = new THREE.Mesh(dirRingGeo, dirRingMat);
+      const lapelR = new THREE.Mesh(lapelGeo, coatLapelMat);
+      lapelR.position.set(0.13, 0.07, 0.145);
+      lapelR.rotation.z = 0.15;
+      torsoGroup.add(lapelR);
+
+      // Golden Investigator Shield Badge
+      const badgeMesh = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.07, 0.02), badgeMat);
+      badgeMesh.position.set(-0.14, 0.15, 0.155);
+      torsoGroup.add(badgeMesh);
+
+      // Badge Glowing Cyan Clearance LED
+      const ledMesh = new THREE.Mesh(new THREE.BoxGeometry(0.015, 0.015, 0.015), glowCyan);
+      ledMesh.position.set(-0.14, 0.17, 0.165);
+      torsoGroup.add(ledMesh);
+
+      // Leather Belt & Holster
+      const beltMesh = new THREE.Mesh(new THREE.BoxGeometry(0.50, 0.08, 0.30), new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.4 }));
+      beltMesh.position.set(0, -0.27, 0);
+      torsoGroup.add(beltMesh);
+
+      const buckleMesh = new THREE.Mesh(new THREE.BoxGeometry(0.10, 0.09, 0.04), new THREE.MeshStandardMaterial({ color: 0xe2e8f0, metalness: 0.9 }));
+      buckleMesh.position.set(0, -0.27, 0.14);
+      torsoGroup.add(buckleMesh);
+
+      // Lower Coat Tails (drapes past hips, sways when moving)
+      const coatTails = new THREE.Mesh(new THREE.BoxGeometry(0.50, 0.38, 0.30), coatMat);
+      coatTails.name = "coatTails";
+      coatTails.position.set(0, -0.46, 0.02);
+      torsoGroup.add(coatTails);
+
+      // Head, Face & Hair
+      const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.09, 0.14, 12), skinMat);
+      neck.position.set(0, 0.33, 0.02);
+      torsoGroup.add(neck);
+
+      const headGroup = new THREE.Group();
+      headGroup.name = "headGroup";
+      headGroup.position.set(0, 0.50, 0.04);
+      torsoGroup.add(headGroup);
+
+      const headMesh = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.25, 0.22), skinMat);
+      headMesh.castShadow = true;
+      headGroup.add(headMesh);
+
+      // Dark Cropped Hair
+      const hairMesh = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.12, 0.24), hairMat);
+      hairMesh.position.set(0, 0.10, -0.01);
+      headGroup.add(hairMesh);
+
+      const hairFront = new THREE.Mesh(new THREE.BoxGeometry(0.23, 0.06, 0.08), hairMat);
+      hairFront.position.set(0, 0.10, 0.09);
+      headGroup.add(hairFront);
+
+      // Detective Aviator Shades
+      const glasses = new THREE.Mesh(new THREE.BoxGeometry(0.20, 0.065, 0.04), glassesMat);
+      glasses.position.set(0, 0.02, 0.12);
+      headGroup.add(glasses);
+
+      // Cybernetic Reticle Glow on Left Lens
+      const eyePip = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.04, 0.02), glowCyan);
+      eyePip.position.set(-0.05, 0.02, 0.135);
+      headGroup.add(eyePip);
+
+      // Ears & Comms
+      const earGeo = new THREE.BoxGeometry(0.03, 0.07, 0.04);
+      const earL = new THREE.Mesh(earGeo, skinMat);
+      earL.position.set(-0.12, 0.01, 0.01);
+      headGroup.add(earL);
+
+      const earR = new THREE.Mesh(earGeo, skinMat);
+      earR.position.set(0.12, 0.01, 0.01);
+      headGroup.add(earR);
+
+      const comm = new THREE.Mesh(new THREE.BoxGeometry(0.02, 0.03, 0.03), glowCyan);
+      comm.position.set(-0.13, 0.01, 0.02);
+      headGroup.add(comm);
+
+      // --- ARMS & HANDS (ARTICULATED) ---
+      const armL = new THREE.Group();
+      armL.name = "armL";
+      armL.position.set(-0.30, 0.22, 0);
+      torsoGroup.add(armL);
+
+      const sleeveL = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.34, 0.12), coatMat);
+      sleeveL.position.y = -0.17;
+      sleeveL.castShadow = true;
+      armL.add(sleeveL);
+
+      const forearmL = new THREE.Mesh(new THREE.BoxGeometry(0.10, 0.28, 0.10), coatLapelMat);
+      forearmL.position.y = -0.42;
+      armL.add(forearmL);
+
+      const handL = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.10, 0.08), skinMat);
+      handL.position.y = -0.58;
+      armL.add(handL);
+
+      const armR = new THREE.Group();
+      armR.name = "armR";
+      armR.position.set(0.30, 0.22, 0);
+      torsoGroup.add(armR);
+
+      const sleeveR = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.34, 0.12), coatMat);
+      sleeveR.position.y = -0.17;
+      sleeveR.castShadow = true;
+      armR.add(sleeveR);
+
+      const forearmR = new THREE.Mesh(new THREE.BoxGeometry(0.10, 0.28, 0.10), coatLapelMat);
+      forearmR.position.y = -0.42;
+      armR.add(forearmR);
+
+      const handR = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.10, 0.08), skinMat);
+      handR.position.y = -0.58;
+      armR.add(handR);
+
+      // Handheld Tactical Crime-Scene Scanner & Dynamic Spotlight
+      const scannerGroup = new THREE.Group();
+      scannerGroup.position.set(0, -0.62, 0.08);
+      armR.add(scannerGroup);
+
+      const scanBody = new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.14, 0.14), new THREE.MeshStandardMaterial({ color: 0x0f172a, metalness: 0.8 }));
+      scannerGroup.add(scanBody);
+
+      const scanScreen = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.08, 0.01), glowCyan);
+      scanScreen.position.set(0, 0.02, -0.07);
+      scannerGroup.add(scanScreen);
+
+      const spotLight = new THREE.SpotLight(0xffffff, 2.8, 22, Math.PI / 4.8, 0.35);
+      spotLight.position.set(0, 0, 0.1);
+      const spotTarget = new THREE.Object3D();
+      spotTarget.position.set(0, 0, 10);
+      scannerGroup.add(spotLight);
+      scannerGroup.add(spotTarget);
+      spotLight.target = spotTarget;
+
+      // --- LEGS & BOOTS (ARTICULATED) ---
+      const legL = new THREE.Group();
+      legL.name = "legL";
+      legL.position.set(-0.14, 0.58, 0);
+      bodyGroup.add(legL);
+
+      const thighL = new THREE.Mesh(new THREE.BoxGeometry(0.17, 0.36, 0.18), trouserMat);
+      thighL.position.y = -0.18;
+      thighL.castShadow = true;
+      legL.add(thighL);
+
+      const shinLGroup = new THREE.Group();
+      shinLGroup.name = "shinL";
+      shinLGroup.position.set(0, -0.36, 0);
+      legL.add(shinLGroup);
+
+      const shinL = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.34, 0.16), trouserMat);
+      shinL.position.y = -0.17;
+      shinL.castShadow = true;
+      shinLGroup.add(shinL);
+
+      const bootL = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.12, 0.24), bootMat);
+      bootL.position.set(0, -0.32, 0.03);
+      shinLGroup.add(bootL);
+
+      const legR = new THREE.Group();
+      legR.name = "legR";
+      legR.position.set(0.14, 0.58, 0);
+      bodyGroup.add(legR);
+
+      const thighR = new THREE.Mesh(new THREE.BoxGeometry(0.17, 0.36, 0.18), trouserMat);
+      thighR.position.y = -0.18;
+      thighR.castShadow = true;
+      legR.add(thighR);
+
+      const shinRGroup = new THREE.Group();
+      shinRGroup.name = "shinR";
+      shinRGroup.position.set(0, -0.36, 0);
+      legR.add(shinRGroup);
+
+      const shinR = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.34, 0.16), trouserMat);
+      shinR.position.y = -0.17;
+      shinR.castShadow = true;
+      shinRGroup.add(shinR);
+
+      const bootR = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.12, 0.24), bootMat);
+      bootR.position.set(0, -0.32, 0.03);
+      shinRGroup.add(bootR);
+
+      // Floor Direction Pointer Ring
+      const dirRing = new THREE.Mesh(new THREE.RingGeometry(0.5, 0.65, 24), new THREE.MeshBasicMaterial({ color: 0x00f0ff, side: THREE.DoubleSide, transparent: true, opacity: 0.65 }));
       dirRing.rotation.x = -Math.PI / 2;
       dirRing.position.y = 0.03;
       playerAvatar.add(dirRing);
 
-      const pointerGeo = new THREE.ConeGeometry(0.18, 0.4, 8);
-      const pointerMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff });
-      const pointer = new THREE.Mesh(pointerGeo, pointerMat);
+      const pointer = new THREE.Mesh(new THREE.ConeGeometry(0.16, 0.35, 8), new THREE.MeshBasicMaterial({ color: 0x00f0ff }));
       pointer.rotation.x = Math.PI / 2;
       pointer.position.set(0, 0.04, 0.85);
       playerAvatar.add(pointer);
 
-      // Forward Flashlight
-      const spotLight = new THREE.SpotLight(0xffffff, 2.5, 20, Math.PI / 5, 0.3);
-      spotLight.position.set(0, 1.3, 0.3);
-      spotLight.target.position.set(0, 0.5, 8);
-      playerAvatar.add(spotLight);
-      playerAvatar.add(spotLight.target);
-
       // Overhead Name Billboard
       const canvasName = document.createElement('canvas');
-      canvasName.width = 256; canvasName.height = 64;
+      canvasName.width = 300; canvasName.height = 70;
       const ctx = canvasName.getContext('2d');
+      ctx.fillStyle = 'rgba(8, 12, 22, 0.75)';
+      ctx.roundRect ? ctx.roundRect(10, 5, 280, 60, 10) : ctx.fillRect(10, 5, 280, 60);
+      ctx.fill();
+      ctx.strokeStyle = '#00f0ff';
+      ctx.lineWidth = 3;
+      ctx.stroke();
       ctx.fillStyle = '#00f0ff';
-      ctx.font = 'bold 22px Orbitron, sans-serif';
+      ctx.font = 'bold 20px Orbitron, sans-serif';
       ctx.textAlign = 'center';
-      ctx.fillText('INVESTIGATOR', 128, 42);
+      ctx.fillText('🕵️ AGENT VANCE', 150, 32);
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = 'bold 12px "JetBrains Mono", monospace';
+      ctx.fillText('LEAD FIELD INVESTIGATOR', 150, 52);
+
       const labelTex = new THREE.CanvasTexture(canvasName);
-      const labelMat = new THREE.SpriteMaterial({ map: labelTex });
-      const labelSprite = new THREE.Sprite(labelMat);
-      labelSprite.position.set(0, 2.1, 0);
-      labelSprite.scale.set(1.6, 0.4, 1);
+      const labelSprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: labelTex }));
+      labelSprite.position.set(0, 2.25, 0);
+      labelSprite.scale.set(1.8, 0.42, 1);
       playerAvatar.add(labelSprite);
 
       playerAvatar.position.set(0, 0, -15);
@@ -3097,6 +3551,232 @@
       }, { passive: true });
     }
 
+    
+    // ================= PROCEDURAL AUDIO SYNTHESIZER (WEB AUDIO API) =================
+    let audioCtx = null;
+    let sfxEnabled = true;
+
+    function getAudioContext() {
+      if (!audioCtx) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioContextClass) audioCtx = new AudioContextClass();
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    function toggleAudioSFX() {
+      sfxEnabled = !sfxEnabled;
+      const icon = document.getElementById('sfxIcon');
+      const text = document.getElementById('sfxText');
+      const btn = document.getElementById('btnSfxToggle');
+      if (icon) icon.textContent = sfxEnabled ? '🔊' : '🔇';
+      if (btn) btn.classList.toggle('muted', !sfxEnabled);
+      if (sfxEnabled) playProceduralSFX('click');
+    }
+
+    function playProceduralSFX(type) {
+      if (!sfxEnabled) return;
+      try {
+        const ctx = getAudioContext();
+        if (!ctx) return;
+        const now = ctx.currentTime;
+
+        if (type === 'click') {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(800, now);
+          osc.frequency.exponentialRampToValueAtTime(1400, now + 0.04);
+          gain.gain.setValueAtTime(0.10, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.04);
+        } else if (type === 'radio') {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(1200, now);
+          osc.frequency.setValueAtTime(1600, now + 0.03);
+          gain.gain.setValueAtTime(0.08, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.08);
+        } else if (type === 'step') {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(90, now);
+          osc.frequency.exponentialRampToValueAtTime(45, now + 0.05);
+          gain.gain.setValueAtTime(0.04, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.05);
+        } else if (type === 'success') {
+          [523.25, 659.25, 783.99].forEach((freq, idx) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(freq, now + idx * 0.1);
+            gain.gain.setValueAtTime(0.12, now + idx * 0.1);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.1 + 0.28);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(now + idx * 0.1);
+            osc.stop(now + idx * 0.1 + 0.3);
+          });
+        } else if (type === 'scan') {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(1800, now);
+          osc.frequency.exponentialRampToValueAtTime(600, now + 0.22);
+          gain.gain.setValueAtTime(0.12, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.22);
+        } else if (type === 'unlock') {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(320, now);
+          osc.frequency.exponentialRampToValueAtTime(160, now + 0.25);
+          gain.gain.setValueAtTime(0.08, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.25);
+        }
+      } catch (e) {}
+    }
+
+    // ================= LIVE ECG HEARTBEAT ANIMATION =================
+    let ecgPoints = [];
+    function animateEcg() {
+      const cvs = document.getElementById('ecgWaveCanvas');
+      if (!cvs) return;
+      const ctx = cvs.getContext('2d');
+      const w = cvs.width, h = cvs.height;
+      ctx.clearRect(0, 0, w, h);
+
+      const t = performance.now() * 0.004;
+      ctx.strokeStyle = '#10b981';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      for (let x = 0; x < w; x++) {
+        const sampleT = t + x * 0.15;
+        const beatCycle = sampleT % 6.0;
+        let y = h / 2;
+        if (beatCycle > 1.0 && beatCycle < 1.4) {
+          y -= Math.sin((beatCycle - 1.0) / 0.4 * Math.PI) * 5;
+        } else if (beatCycle > 1.4 && beatCycle < 1.7) {
+          y += Math.sin((beatCycle - 1.4) / 0.3 * Math.PI) * 4;
+        }
+        if (x === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+    }
+
+    // ================= TACTICAL MINI-RADAR SCANNER =================
+    let radarZoom = 28;
+    function toggleRadarZoom() {
+      radarZoom = (radarZoom === 28) ? 45 : 28;
+      playProceduralSFX('click');
+    }
+
+    function drawTacticalRadar() {
+      const cvs = document.getElementById('radarCanvas');
+      if (!cvs || !playerAvatar) return;
+      const ctx = cvs.getContext('2d');
+      const w = cvs.width, h = cvs.height;
+      const cx = w / 2, cy = h / 2, r = w / 2 - 2;
+
+      ctx.clearRect(0, 0, w, h);
+
+      // Radar Background & Grid
+      ctx.fillStyle = 'rgba(8, 14, 26, 0.92)';
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Range rings
+      ctx.strokeStyle = 'rgba(0, 240, 255, 0.25)';
+      ctx.lineWidth = 1;
+      [0.35, 0.7, 1.0].forEach(frac => {
+        ctx.beginPath();
+        ctx.arc(cx, cy, r * frac, 0, Math.PI * 2);
+        ctx.stroke();
+      });
+
+      // Rotating Radar Sweep Line
+      const sweepAngle = (performance.now() * 0.002) % (Math.PI * 2);
+      ctx.strokeStyle = 'rgba(0, 240, 255, 0.55)';
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(cx + Math.cos(sweepAngle) * r, cy + Math.sin(sweepAngle) * r);
+      ctx.stroke();
+
+      const px = playerAvatar.position.x;
+      const pz = playerAvatar.position.z;
+
+      // Draw Nearby Detected Facility Landmarks
+      if (facilityObjects && facilityObjects.length > 0) {
+        facilityObjects.forEach(obj => {
+          const ox = obj.position.x - px;
+          const oz = obj.position.z - pz;
+          const radX = cx + (ox / radarZoom) * r;
+          const radY = cy + (oz / radarZoom) * r;
+          const distSq = (radX - cx) * (radX - cx) + (radY - cy) * (radY - cy);
+          if (distSq < r * r) {
+            ctx.fillStyle = '#f59e0b';
+            ctx.beginPath();
+            ctx.arc(radX, radY, 2.2, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        });
+      }
+
+      // Draw Companion Drone Blip
+      if (companionDrone) {
+        const dx = companionDrone.position.x - px;
+        const dz = companionDrone.position.z - pz;
+        const radX = cx + (dx / radarZoom) * r;
+        const radY = cy + (dz / radarZoom) * r;
+        ctx.fillStyle = '#00f0ff';
+        ctx.beginPath();
+        ctx.arc(radX, radY, 2.8, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // Draw Investigator Dot (Center) & Heading Needle
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath();
+      ctx.arc(cx, cy, 3.2, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Heading indicator
+      const hx = cx + Math.sin(playerAvatar.rotation.y) * 8;
+      const hy = cy + Math.cos(playerAvatar.rotation.y) * 8;
+      ctx.strokeStyle = '#00f0ff';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(hx, hy);
+      ctx.stroke();
+    }
+    
     function turnAround180() {
       playerYaw += Math.PI;
     }
@@ -3138,7 +3818,7 @@
       document.getElementById('btnCamTop').classList.toggle('active', mode === 'top');
     }
 
-    function updatePlayerMovement(delta) {
+        function updatePlayerMovement(delta) {
       if (!playerAvatar) return;
 
       const moveSpeed = 4.2 * delta;
@@ -3146,21 +3826,85 @@
       if (moveForward) dz += 1;
       if (moveBackward) dz -= 1;
       if (moveLeft) dx -= 1;
-      if (moveRight) dx += 1;
+      if (moveRight) dz += 1;
 
-      if (dx !== 0 || dz !== 0) {
+      const isMoving = (dx !== 0 || dz !== 0);
+
+      const legL = playerAvatar.getObjectByName('legL');
+      const legR = playerAvatar.getObjectByName('legR');
+      const shinL = playerAvatar.getObjectByName('shinL');
+      const shinR = playerAvatar.getObjectByName('shinR');
+      const armL = playerAvatar.getObjectByName('armL');
+      const armR = playerAvatar.getObjectByName('armR');
+      const coatTails = playerAvatar.getObjectByName('coatTails');
+      const torsoGroup = playerAvatar.getObjectByName('torsoGroup');
+      const headGroup = playerAvatar.getObjectByName('headGroup');
+
+      if (isMoving) {
         const moveAngle = playerYaw + Math.atan2(dx, dz);
         playerAvatar.position.x += Math.sin(moveAngle) * moveSpeed;
         playerAvatar.position.z += Math.cos(moveAngle) * moveSpeed;
         playerAvatar.rotation.y = moveAngle;
 
-        // Subtle leg swing walking animation
-        const t = performance.now() * 0.01;
-        const legL = playerAvatar.getObjectByName('legL');
-        const legR = playerAvatar.getObjectByName('legR');
+        // Natural Human Walk Cycle
+        walkCycle += delta * 8.5;
+
         if (legL && legR) {
-          legL.rotation.x = Math.sin(t) * 0.45;
-          legR.rotation.x = -Math.sin(t) * 0.45;
+          legL.rotation.x = Math.sin(walkCycle) * 0.62;
+          legR.rotation.x = -Math.sin(walkCycle) * 0.62;
+        }
+        if (shinL && shinR) {
+          shinL.rotation.x = Math.max(0, -Math.sin(walkCycle) * 0.5);
+          shinR.rotation.x = Math.max(0, Math.sin(walkCycle) * 0.5);
+        }
+        if (armL && armR) {
+          armL.rotation.x = -Math.sin(walkCycle) * 0.50;
+          armR.rotation.x = Math.sin(walkCycle) * 0.32 - 0.22;
+        }
+        if (torsoGroup) {
+          torsoGroup.position.y = 0.94 + Math.abs(Math.sin(walkCycle * 2)) * 0.03;
+          torsoGroup.rotation.z = Math.sin(walkCycle) * 0.025;
+        }
+        if (headGroup) {
+          headGroup.rotation.y = Math.sin(walkCycle) * 0.02;
+        }
+        if (coatTails) {
+          coatTails.rotation.x = 0.14 + Math.abs(Math.sin(walkCycle)) * 0.22;
+        }
+
+        // Procedural footstep audio rhythm
+        footstepClock += delta * 8.5;
+        if (footstepClock >= Math.PI) {
+          footstepClock = 0;
+          playProceduralSFX('step');
+        }
+      } else {
+        // Natural Human Resting Stance & Breathing Cycle
+        idleCycle += delta * 2.0;
+
+        const lerpSpeed = delta * 8.0;
+        if (legL && legR) {
+          legL.rotation.x = THREE.MathUtils.lerp(legL.rotation.x, 0, lerpSpeed);
+          legR.rotation.x = THREE.MathUtils.lerp(legR.rotation.x, 0, lerpSpeed);
+        }
+        if (shinL && shinR) {
+          shinL.rotation.x = THREE.MathUtils.lerp(shinL.rotation.x, 0, lerpSpeed);
+          shinR.rotation.x = THREE.MathUtils.lerp(shinR.rotation.x, 0, lerpSpeed);
+        }
+        if (armL && armR) {
+          armL.rotation.x = THREE.MathUtils.lerp(armL.rotation.x, 0.08, lerpSpeed);
+          armR.rotation.x = THREE.MathUtils.lerp(armR.rotation.x, -0.28, lerpSpeed);
+        }
+        if (coatTails) {
+          coatTails.rotation.x = THREE.MathUtils.lerp(coatTails.rotation.x, 0.05, lerpSpeed);
+        }
+        if (torsoGroup) {
+          torsoGroup.position.y = 0.94 + Math.sin(idleCycle) * 0.008;
+          torsoGroup.scale.set(
+            1.0 + Math.sin(idleCycle) * 0.008,
+            1.0 + Math.sin(idleCycle) * 0.012,
+            1.0 + Math.sin(idleCycle) * 0.008
+          );
         }
       }
 
@@ -3274,6 +4018,7 @@
     }
 
     function interactNearestObject() {
+      playProceduralSFX('click');
       if (!playerAvatar) return;
       for (const obj of facilityObjects) {
         const dist = playerAvatar.position.distanceTo(obj.pos);
@@ -3291,12 +4036,15 @@
     }
 
     function handleQuickScan() {
+      playProceduralSFX('scan');
       sendQuickPrompt("Look around and tell me what you see.");
     }
 
     let lastTime = performance.now();
     function animate() {
       requestAnimationFrame(animate);
+      animateEcg();
+      drawTacticalRadar();
       const now = performance.now();
       const delta = (now - lastTime) / 1000;
       lastTime = now;
@@ -3594,15 +4342,32 @@
         if (door3Object) {
           door3Object.material.color.setHex(0x00ff9d);
           door3Object.material.opacity = 0.2;
+          playProceduralSFX('unlock');
         }
       }
+    }
+
+        function escapeHtml(str) {
+      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
     }
 
     function appendMessage(text, sender) {
       const messagesContainer = document.getElementById('chatMessages');
       const msgDiv = document.createElement('div');
       msgDiv.className = `msg ${sender}`;
-      msgDiv.textContent = text;
+      if (sender === 'user') {
+        const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        msgDiv.innerHTML = `
+          <div class="user-msg-header">
+            <span class="user-avatar-tag">🕵️ AGENT VANCE</span>
+            <span class="user-time-tag">${timeStr}</span>
+          </div>
+          <div class="user-msg-body">${escapeHtml(text)}</div>
+        `;
+        playProceduralSFX('click');
+      } else {
+        msgDiv.textContent = text;
+      }
       messagesContainer.appendChild(msgDiv);
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
     }
@@ -3910,6 +4675,7 @@
     }
 
     async function selectCompanion(agentId) {
+      playProceduralSFX('radio');
       activeCompanionId = agentId;
       ['scout', 'navigator', 'archivist'].forEach((id) => {
         const btn = document.getElementById('agent-' + id);
@@ -4099,6 +4865,7 @@
       const banner = document.getElementById('missionCompletionBanner');
       if (banner) {
         banner.style.display = state.active_mission.completed ? 'flex' : 'none';
+        if (state.active_mission.completed) playProceduralSFX('success');
       }
 
       // Objective prompt mapping for 1-click execution
