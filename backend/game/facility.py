@@ -146,6 +146,18 @@ def get_room_for_position(x: float, z: float) -> Dict[str, Any]:
         return ROOM_DEFINITIONS[4]  # Storage Room
 
 
+def _room_walkable_standpoint(room_name: str) -> Optional[List[float]]:
+    """Returns an unobstructed floor stand-point inside each room for 3D avatar arrival."""
+    standpoints = {
+        "Reception / Central Hub": [0.0, 0.75, -17.0],
+        "Research Office": [4.2, 0.75, -5.0],
+        "Library / Archives": [-4.5, 0.75, -6.6],
+        "Investigation Laboratory": [1.9, 0.75, 2.2],
+        "Storage Room": [0.0, 0.75, 12.5],
+    }
+    return standpoints.get(room_name)
+
+
 def compute_turn_by_turn_route(
     start_pos: List[float],
     target_pos: List[float],
@@ -172,6 +184,14 @@ def compute_turn_by_turn_route(
     ty = float(target_pos[1]) if len(target_pos) > 2 else 0.75
     tz = float(target_pos[2] if len(target_pos) > 2 else target_pos[1])
 
+    # Avoid placing final avatar waypoint directly inside center furniture colliders when routing to a room
+    if origin_room_override is not None or target_name in (
+        "Reception / Central Hub", "Research Office", "Library / Archives", "Investigation Laboratory", "Storage Room"
+    ):
+        stand = _room_walkable_standpoint(target_name)
+        if stand is not None:
+            tx, ty, tz = stand[0], stand[1], stand[2]
+
     dx = tx - px
     dz = tz - pz
     total_dist = round(math.sqrt(dx**2 + dz**2), 2)
@@ -189,10 +209,13 @@ def compute_turn_by_turn_route(
     turns: List[str] = []
     waypoints: List[Dict[str, Any]] = []
 
+    def _add_wp(coord: List[float], note: str):
+        waypoints.append({"step": len(waypoints) + 1, "coord": coord, "note": note})
+
     # If already at destination
     if total_dist < 1.2:
         turns.append(f"🎯 You have reached the {target_name}. It is directly within reach at [{tx:.1f}, {ty:.1f}, {tz:.1f}].")
-        waypoints.append({"step": 1, "coord": [tx, ty, tz], "note": f"Arrival at {target_name}"})
+        _add_wp([tx, ty, tz], f"Arrival at {target_name}")
         return {
             "origin_room": orig_room,
             "destination_room": dest_room,
@@ -203,14 +226,17 @@ def compute_turn_by_turn_route(
 
     # Case 1: In the same room
     if orig_room == dest_room:
-        wp_step = 1
-        waypoints.append({"step": wp_step, "coord": [round(px, 2), 0.0, round(pz, 2)], "note": "Current stance"})
+        _add_wp([round(px, 2), 0.0, round(pz, 2)], "Current stance")
+
+        # Bypass central Reception table if walking across Z = -15 along center X
+        if "Reception" in orig_room and abs(px) < 1.8 and abs(tx) < 1.8 and (pz - (-15.0)) * (tz - (-15.0)) < 0:
+            _add_wp([1.9, 0.0, round(pz, 2)], "Sidestep Reception table")
+            _add_wp([1.9, 0.0, round(tz, 2)], "Bypass Reception table")
 
         if abs(dz) >= 0.8:
             dir_str = "⬆️ Head straight forward (North)" if dz > 0 else "⬇️ Turn around and walk South"
             turns.append(f"{dir_str} for {abs(dz):.1f} meters.")
-            wp_step += 1
-            waypoints.append({"step": wp_step, "coord": [round(px, 2), 0.0, round(tz, 2)], "note": "Corridor transit"})
+            _add_wp([round(tx if abs(px) < 1.8 and "Reception" in orig_room else px, 2), 0.0, round(tz, 2)], "Corridor transit")
 
         if abs(dx) >= 0.8:
             turn_str = "➡️ Turn 90° right (East)" if dx > 0 else "⬅️ Turn 90° left (West)"
@@ -220,8 +246,7 @@ def compute_turn_by_turn_route(
         else:
             turns.append(f"🎯 Destination reached: The {target_name} is straight ahead at coordinates [{tx:.1f}, {ty:.1f}, {tz:.1f}].")
 
-        wp_step += 1
-        waypoints.append({"step": wp_step, "coord": [round(tx, 2), round(ty, 2), round(tz, 2)], "note": f"Arrival at {target_name}"})
+        _add_wp([round(tx, 2), round(ty, 2), round(tz, 2)], f"Arrival at {target_name}")
         return {
             "origin_room": orig_room,
             "destination_room": dest_room,
@@ -231,96 +256,131 @@ def compute_turn_by_turn_route(
         }
 
     # Case 2: Across different rooms
-    wp_step = 1
-    waypoints.append({"step": wp_step, "coord": [round(px, 2), 0.0, round(pz, 2)], "note": "Departure stance"})
+    _add_wp([round(px, 2), 0.0, round(pz, 2)], "Departure stance")
 
     # Moving Northward from Reception (pz < -10)
     if pz < -10.0:
         dist_to_archway = abs(-10.0 - pz)
         turns.append(f"⬆️ Head straight North from {orig_room} toward the main corridor archway (proceed {dist_to_archway:.1f}m).")
-        wp_step += 1
-        waypoints.append({"step": wp_step, "coord": [0.0, 0.0, -10.0], "note": "Reception exit archway"})
+        if abs(px) < 1.8 and pz < -13.5:
+            lane_x = -1.9 if "Library" in dest_room else 1.9
+            _add_wp([lane_x, 0.0, round(min(-16.2, pz), 2)], "Reception table bypass lane")
+            _add_wp([lane_x, 0.0, -11.8], "Clear Reception furniture")
+        _add_wp([0.0, 0.0, -10.0], "Reception exit archway")
 
         if "Office" in dest_room:
             turns.append("↗️ Turn right (East) through the archway into the Research Office.")
             turns.append(f"➡️ Walk {abs(tx):.1f}m East past the admin workstations, then bear North for {abs(tz - (-10.0)):.1f}m.")
+            _add_wp([0.0, 0.0, -5.0], "Central corridor Office junction")
+            _add_wp([2.8, 0.0, -5.0], "Research Office doorway threshold")
         elif "Library" in dest_room:
             turns.append("↖️ Turn left (West) through the archway into the Library / Archives.")
             turns.append(f"⬅️ Walk {abs(tx):.1f}m West past the reference bookshelves, then bear North for {abs(tz - (-10.0)):.1f}m.")
+            _add_wp([0.0, 0.0, -5.0], "Central corridor Library junction")
+            _add_wp([-2.8, 0.0, -5.0], "Library doorway threshold")
         elif "Laboratory" in dest_room:
             turns.append("⬆️ Continue straight North along the central corridor between Library and Office (proceed 10.0m).")
             turns.append("🚪 Pass through the Investigation Laboratory threshold at Z = 0.0m.")
-            wp_step += 1
-            waypoints.append({"step": wp_step, "coord": [0.0, 0.0, 0.0], "note": "Lab entry threshold"})
+            lab_x = -1.95 if tx < -2.0 else 1.95
+            _add_wp([lab_x, 0.0, -1.6], "Lab workbench approach")
+            _add_wp([lab_x, 0.0, 0.0], "Lab entry threshold (bypass workbench)")
             if abs(tx) > 1.0:
                 t_dir = "➡️ Turn right" if tx > 0 else "⬅️ Turn left"
                 turns.append(f"{t_dir} and proceed {abs(tx):.1f}m toward the bench.")
         elif "Storage" in dest_room:
             turns.append("⬆️ Continue straight North through the central corridor and through the Investigation Laboratory (proceed 20.0m).")
             turns.append("🚪 Approach Security Door 3 at [0.0, 2.0, 8.0] and pass through the vault doorway.")
-            wp_step += 1
-            waypoints.append({"step": wp_step, "coord": [0.0, 0.0, 8.0], "note": "Door 3 vault threshold"})
+            _add_wp([1.95, 0.0, -1.6], "Lab portal approach")
+            _add_wp([1.95, 0.0, 1.8], "Bypass Lab workbench")
+            _add_wp([0.0, 0.0, 6.2], "Door 3 approach")
+            _add_wp([0.0, 0.0, 8.0], "Door 3 vault threshold")
 
-    # Moving Northward from Office/Library (-10 <= pz <= 0)
+    # Moving from Office/Library (-10 <= pz <= 0)
     elif -10.0 <= pz <= 0.0:
-        if abs(px) > 1.0 and abs(dx) > 2.0:
+        if px >= 2.2:
+            _add_wp([2.8, 0.0, -5.0], "Exit Research Office doorway")
+        elif px <= -2.2:
+            _add_wp([-2.8, 0.0, -5.0], "Exit Library doorway")
+        if abs(px) > 1.0:
             turns.append(f"⬅️ Head toward the central hallway corridor (proceed {abs(px):.1f}m).")
-            wp_step += 1
-            waypoints.append({"step": wp_step, "coord": [0.0, 0.0, round(pz, 2)], "note": "Central corridor intersection"})
+            _add_wp([0.0, 0.0, -5.0], "Central corridor intersection")
 
         if "Laboratory" in dest_room:
             turns.append(f"⬆️ Head North through the Investigation Laboratory archway at Z = 0.0m (walk {abs(0.0 - pz):.1f}m).")
-            wp_step += 1
-            waypoints.append({"step": wp_step, "coord": [0.0, 0.0, 0.0], "note": "Lab entry threshold"})
+            lab_x = -1.95 if tx < -2.0 else 1.95
+            _add_wp([lab_x, 0.0, -1.6], "Lab workbench approach")
+            _add_wp([lab_x, 0.0, 0.0], "Lab entry threshold (bypass workbench)")
             if abs(tx) > 1.0:
                 t_dir = "➡️ Turn right" if tx > 0 else "⬅️ Turn left"
                 turns.append(f"{t_dir} and proceed {abs(tx):.1f}m toward the bench.")
         elif "Storage" in dest_room:
             turns.append("⬆️ Proceed North through the Lab toward Door 3 at [0.0, 2.0, 8.0].")
             turns.append("🚪 Pass through the vault threshold into the Storage Room.")
-            wp_step += 1
-            waypoints.append({"step": wp_step, "coord": [0.0, 0.0, 8.0], "note": "Door 3 vault threshold"})
+            _add_wp([1.95, 0.0, -1.6], "Lab portal approach")
+            _add_wp([1.95, 0.0, 1.8], "Bypass Lab workbench")
+            _add_wp([0.0, 0.0, 6.2], "Door 3 approach")
+            _add_wp([0.0, 0.0, 8.0], "Door 3 vault threshold")
         elif "Reception" in dest_room:
             turns.append(f"⬇️ Turn South toward the Reception archway (proceed {abs(pz - (-10.0)):.1f}m).")
-            wp_step += 1
-            waypoints.append({"step": wp_step, "coord": [0.0, 0.0, -10.0], "note": "Reception archway"})
+            _add_wp([0.0, 0.0, -10.0], "Reception archway")
+            if tz < -14.0 and abs(tx) < 1.8:
+                _add_wp([1.9, 0.0, -11.8], "Bypass Reception desk")
+                _add_wp([1.9, 0.0, -16.2], "Reception South bypass")
         elif "Office" in dest_room and px < 0:
             turns.append("➡️ Cross East through the central corridor into the Research Office.")
+            _add_wp([2.8, 0.0, -5.0], "Research Office doorway threshold")
         elif "Library" in dest_room and px >= 0:
             turns.append("⬅️ Cross West through the central corridor into the Library / Archives.")
+            _add_wp([-2.8, 0.0, -5.0], "Library doorway threshold")
 
-    # Moving from Laboratory (0 <= pz <= 10)
+    # Moving from Laboratory (0 < pz <= 10)
     elif 0.0 < pz <= 10.0:
         if "Storage" in dest_room:
             turns.append(f"⬆️ Head North toward Security Door 3 at [0.0, 2.0, 8.0] (proceed {abs(8.0 - pz):.1f}m).")
             turns.append("🚪 Pass through the Door 3 vault archway into the Storage Room.")
-            wp_step += 1
-            waypoints.append({"step": wp_step, "coord": [0.0, 0.0, 8.0], "note": "Door 3 threshold"})
+            _add_wp([0.0, 0.0, 6.2], "Door 3 approach")
+            _add_wp([0.0, 0.0, 8.0], "Door 3 threshold")
         else:
             turns.append(f"⬇️ Turn South through the Investigation Laboratory exit at Z = 0.0m (proceed {abs(pz - 0.0):.1f}m).")
-            wp_step += 1
-            waypoints.append({"step": wp_step, "coord": [0.0, 0.0, 0.0], "note": "Lab exit threshold"})
+            lab_x = -1.95 if px < 0 else 1.95
+            _add_wp([lab_x, 0.0, 1.8], "Lab workbench bypass")
+            _add_wp([lab_x, 0.0, 0.0], "Lab exit threshold")
+            _add_wp([0.0, 0.0, -5.0], "Central corridor junction")
             if "Reception" in dest_room:
                 turns.append("⬇️ Continue South along the central corridor past Library and Office into Reception.")
-                wp_step += 1
-                waypoints.append({"step": wp_step, "coord": [0.0, 0.0, -10.0], "note": "Reception archway"})
+                _add_wp([0.0, 0.0, -10.0], "Reception archway")
+                if tz < -14.0 and abs(tx) < 1.8:
+                    _add_wp([1.9, 0.0, -11.8], "Bypass Reception desk")
+                    _add_wp([1.9, 0.0, -16.2], "Reception South bypass")
             elif "Office" in dest_room:
                 turns.append("↗️ Turn East into the Research Office corridor.")
+                _add_wp([2.8, 0.0, -5.0], "Research Office doorway threshold")
             elif "Library" in dest_room:
                 turns.append("↖️ Turn West into the Library / Archives corridor.")
+                _add_wp([-2.8, 0.0, -5.0], "Library doorway threshold")
 
     # Moving from Storage Room (pz > 10)
     else:
         turns.append("⬇️ Turn South toward Security Door 3 at [0.0, 2.0, 8.0].")
         turns.append("🚪 Pass through Door 3 back into the Investigation Laboratory.")
-        wp_step += 1
-        waypoints.append({"step": wp_step, "coord": [0.0, 0.0, 8.0], "note": "Door 3 entry"})
+        _add_wp([0.0, 0.0, 8.0], "Door 3 entry")
         if "Reception" in dest_room or "Office" in dest_room or "Library" in dest_room:
             turns.append("⬇️ Continue South across the Lab threshold into the central corridor.")
+            _add_wp([1.95, 0.0, 1.8], "Bypass Lab workbench")
+            _add_wp([1.95, 0.0, 0.0], "Lab exit threshold")
+            _add_wp([0.0, 0.0, -5.0], "Central corridor junction")
+            if "Office" in dest_room:
+                _add_wp([2.8, 0.0, -5.0], "Research Office doorway threshold")
+            elif "Library" in dest_room:
+                _add_wp([-2.8, 0.0, -5.0], "Library doorway threshold")
+            elif "Reception" in dest_room:
+                _add_wp([0.0, 0.0, -10.0], "Reception archway")
+                if tz < -14.0 and abs(tx) < 1.8:
+                    _add_wp([1.9, 0.0, -11.8], "Bypass Reception desk")
+                    _add_wp([1.9, 0.0, -16.2], "Reception South bypass")
 
     turns.append(f"🎯 Destination reached: The {target_name} is located at coordinates [{tx:.1f}, {ty:.1f}, {tz:.1f}].")
-    wp_step += 1
-    waypoints.append({"step": wp_step, "coord": [round(tx, 2), round(ty, 2), round(tz, 2)], "note": f"Arrival at {target_name}"})
+    _add_wp([round(tx, 2), round(ty, 2), round(tz, 2)], f"Arrival at {target_name}")
 
     return {
         "origin_room": orig_room,
@@ -352,7 +412,7 @@ def facility_detections() -> List[DetectedObject]:
 
         # Location 4: Investigation Laboratory
         ("table_lab", "table", [0.0, 0.75, 0.0], 2.5),
-        ("chair_lab", "chair", [-1.4, 0.45, -0.6], 1.6),
+        ("chair_lab", "chair", [-1.4, 0.45, 0.6], 1.6),
         ("cabinet_lab", "cabinet", [8.5, 1.2, 2.0], 8.8),
         ("bookshelf_lab", "bookshelf", [-8.5, 1.6, 2.0], 8.8),
         ("door_3", "door", [0.0, 2.0, 8.0], 8.0),

@@ -1,0 +1,924 @@
+{
+  "checkpoint_epoch": 34,
+  "val_calibrated_thresholds": {
+    "table": 0.58,
+    "chair": 0.42,
+    "door": 0.5,
+    "bookshelf": 0.62,
+    "sofa": 0.58,
+    "cabinet": 0.42
+  },
+  "dataset_audits": {
+    "sunrgbd": {
+      "domain": "SUN RGB-D",
+      "split_counts": {
+        "train": 168,
+        "val": 42,
+        "test": 70
+      },
+      "class_counts": {
+        "train": {
+          "table": 257,
+          "chair": 413,
+          "door": 89,
+          "bookshelf": 91,
+          "sofa": 91,
+          "cabinet": 90
+        },
+        "val": {
+          "table": 55,
+          "chair": 103,
+          "door": 28,
+          "bookshelf": 37,
+          "sofa": 23,
+          "cabinet": 32
+        },
+        "test": {
+          "table": 82,
+          "chair": 148,
+          "door": 38,
+          "bookshelf": 50,
+          "sofa": 42,
+          "cabinet": 42
+        }
+      },
+      "leakage": {
+        "group_train_val": 0,
+        "group_train_test": 0,
+        "group_val_test": 0,
+        "md5_train_val": 0,
+        "md5_train_test": 0,
+        "md5_val_test": 0,
+        "xz_train_val": 0,
+        "xz_train_test": 0,
+        "xz_val_test": 0
+      }
+    },
+    "threejs_sector4": {
+      "domain": "Three.js Sector 4",
+      "split_counts": {
+        "train": 175,
+        "val": 37,
+        "test": 42
+      },
+      "class_counts": {
+        "train": {
+          "table": 133,
+          "chair": 96,
+          "door": 14,
+          "bookshelf": 52,
+          "sofa": 16,
+          "cabinet": 32
+        },
+        "val": {
+          "table": 27,
+          "chair": 20,
+          "door": 6,
+          "bookshelf": 11,
+          "sofa": 5,
+          "cabinet": 6
+        },
+        "test": {
+          "table": 33,
+          "chair": 23,
+          "door": 1,
+          "bookshelf": 13,
+          "sofa": 6,
+          "cabinet": 11
+        }
+      },
+      "leakage": {
+        "group_train_val": 0,
+        "group_train_test": 0,
+        "group_val_test": 0,
+        "md5_train_val": 0,
+        "md5_train_test": 0,
+        "md5_val_test": 0,
+        "xz_train_val": 0,
+        "xz_train_test": 0,
+        "xz_val_test": 0
+      }
+    }
+  },
+  "threejs_test_uniform_025": {
+    "mAP_50": 0.3431,
+    "overall_precision": 0.0889,
+    "overall_recall": 0.6782,
+    "overall_f1": 0.1572,
+    "total_tp": 59,
+    "total_fp": 605,
+    "total_fn": 28,
+    "per_class_ap": {
+      "table": 0.4093,
+      "chair": 0.4009,
+      "door": 0.0,
+      "bookshelf": 0.5216,
+      "sofa": 0.1104,
+      "cabinet": 0.6165
+    },
+    "per_class_metrics": {
+      "table": {
+        "ap_50": 0.4093,
+        "precision": 0.0767,
+        "recall": 0.6667,
+        "f1": 0.1376,
+        "tp": 22,
+        "fp": 265,
+        "fn": 11,
+        "gt_count": 33,
+        "pred_count": 287
+      },
+      "chair": {
+        "ap_50": 0.4009,
+        "precision": 0.0724,
+        "recall": 0.6957,
+        "f1": 0.1312,
+        "tp": 16,
+        "fp": 205,
+        "fn": 7,
+        "gt_count": 23,
+        "pred_count": 221
+      },
+      "door": {
+        "ap_50": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 5,
+        "fn": 1,
+        "gt_count": 1,
+        "pred_count": 5
+      },
+      "bookshelf": {
+        "ap_50": 0.5216,
+        "precision": 0.18,
+        "recall": 0.6923,
+        "f1": 0.2857,
+        "tp": 9,
+        "fp": 41,
+        "fn": 4,
+        "gt_count": 13,
+        "pred_count": 50
+      },
+      "sofa": {
+        "ap_50": 0.1104,
+        "precision": 0.06,
+        "recall": 0.5,
+        "f1": 0.1071,
+        "tp": 3,
+        "fp": 47,
+        "fn": 3,
+        "gt_count": 6,
+        "pred_count": 50
+      },
+      "cabinet": {
+        "ap_50": 0.6165,
+        "precision": 0.1765,
+        "recall": 0.8182,
+        "f1": 0.2904,
+        "tp": 9,
+        "fp": 42,
+        "fn": 2,
+        "gt_count": 11,
+        "pred_count": 51
+      }
+    },
+    "gt_counts": {
+      "table": 33,
+      "chair": 23,
+      "door": 1,
+      "bookshelf": 13,
+      "sofa": 6,
+      "cabinet": 11
+    },
+    "confusion_matrix": {
+      "labels": [
+        "table",
+        "chair",
+        "door",
+        "bookshelf",
+        "sofa",
+        "cabinet",
+        "background"
+      ],
+      "matrix": [
+        [
+          22,
+          0,
+          0,
+          0,
+          1,
+          0,
+          10
+        ],
+        [
+          1,
+          16,
+          0,
+          0,
+          0,
+          0,
+          6
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          9,
+          0,
+          0,
+          4
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          3,
+          0,
+          3
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          9,
+          2
+        ],
+        [
+          264,
+          205,
+          5,
+          41,
+          46,
+          42,
+          0
+        ]
+      ]
+    },
+    "mean_latency_ms": 8.97
+  },
+  "threejs_test_calibrated": {
+    "mAP_50": 0.2868,
+    "overall_precision": 0.2038,
+    "overall_recall": 0.4943,
+    "overall_f1": 0.2886,
+    "total_tp": 43,
+    "total_fp": 168,
+    "total_fn": 44,
+    "per_class_ap": {
+      "table": 0.3594,
+      "chair": 0.402,
+      "door": 0.0,
+      "bookshelf": 0.3636,
+      "sofa": 0.0,
+      "cabinet": 0.5955
+    },
+    "per_class_metrics": {
+      "table": {
+        "ap_50": 0.3594,
+        "precision": 0.3889,
+        "recall": 0.4242,
+        "f1": 0.4058,
+        "tp": 14,
+        "fp": 22,
+        "fn": 19,
+        "gt_count": 33,
+        "pred_count": 36
+      },
+      "chair": {
+        "ap_50": 0.402,
+        "precision": 0.1103,
+        "recall": 0.6957,
+        "f1": 0.1904,
+        "tp": 16,
+        "fp": 129,
+        "fn": 7,
+        "gt_count": 23,
+        "pred_count": 145
+      },
+      "door": {
+        "ap_50": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "gt_count": 1,
+        "pred_count": 0
+      },
+      "bookshelf": {
+        "ap_50": 0.3636,
+        "precision": 0.7143,
+        "recall": 0.3846,
+        "f1": 0.5,
+        "tp": 5,
+        "fp": 2,
+        "fn": 8,
+        "gt_count": 13,
+        "pred_count": 7
+      },
+      "sofa": {
+        "ap_50": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 6,
+        "gt_count": 6,
+        "pred_count": 0
+      },
+      "cabinet": {
+        "ap_50": 0.5955,
+        "precision": 0.3478,
+        "recall": 0.7273,
+        "f1": 0.4706,
+        "tp": 8,
+        "fp": 15,
+        "fn": 3,
+        "gt_count": 11,
+        "pred_count": 23
+      }
+    },
+    "gt_counts": {
+      "table": 33,
+      "chair": 23,
+      "door": 1,
+      "bookshelf": 13,
+      "sofa": 6,
+      "cabinet": 11
+    },
+    "confusion_matrix": {
+      "labels": [
+        "table",
+        "chair",
+        "door",
+        "bookshelf",
+        "sofa",
+        "cabinet",
+        "background"
+      ],
+      "matrix": [
+        [
+          14,
+          0,
+          0,
+          0,
+          0,
+          0,
+          19
+        ],
+        [
+          0,
+          16,
+          0,
+          0,
+          0,
+          0,
+          7
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          5,
+          0,
+          0,
+          8
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          6
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          8,
+          3
+        ],
+        [
+          22,
+          129,
+          0,
+          2,
+          0,
+          15,
+          0
+        ]
+      ]
+    },
+    "mean_latency_ms": 7.54
+  },
+  "sunrgbd_test_uniform_025": {
+    "mAP_50": 0.0355,
+    "overall_precision": 0.05,
+    "overall_recall": 0.1393,
+    "overall_f1": 0.0736,
+    "total_tp": 56,
+    "total_fp": 1064,
+    "total_fn": 346,
+    "per_class_ap": {
+      "table": 0.0571,
+      "chair": 0.0101,
+      "door": 0.0909,
+      "bookshelf": 0.0551,
+      "sofa": 0.0,
+      "cabinet": 0.0
+    },
+    "per_class_metrics": {
+      "table": {
+        "ap_50": 0.0571,
+        "precision": 0.0506,
+        "recall": 0.2683,
+        "f1": 0.0851,
+        "tp": 22,
+        "fp": 413,
+        "fn": 60,
+        "gt_count": 82,
+        "pred_count": 435
+      },
+      "chair": {
+        "ap_50": 0.0101,
+        "precision": 0.0499,
+        "recall": 0.1689,
+        "f1": 0.077,
+        "tp": 25,
+        "fp": 476,
+        "fn": 123,
+        "gt_count": 148,
+        "pred_count": 501
+      },
+      "door": {
+        "ap_50": 0.0909,
+        "precision": 0.0469,
+        "recall": 0.0789,
+        "f1": 0.0588,
+        "tp": 3,
+        "fp": 61,
+        "fn": 35,
+        "gt_count": 38,
+        "pred_count": 64
+      },
+      "bookshelf": {
+        "ap_50": 0.0551,
+        "precision": 0.0566,
+        "recall": 0.12,
+        "f1": 0.0769,
+        "tp": 6,
+        "fp": 100,
+        "fn": 44,
+        "gt_count": 50,
+        "pred_count": 106
+      },
+      "sofa": {
+        "ap_50": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 11,
+        "fn": 42,
+        "gt_count": 42,
+        "pred_count": 11
+      },
+      "cabinet": {
+        "ap_50": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 3,
+        "fn": 42,
+        "gt_count": 42,
+        "pred_count": 3
+      }
+    },
+    "gt_counts": {
+      "table": 82,
+      "chair": 148,
+      "door": 38,
+      "bookshelf": 50,
+      "sofa": 42,
+      "cabinet": 42
+    },
+    "confusion_matrix": {
+      "labels": [
+        "table",
+        "chair",
+        "door",
+        "bookshelf",
+        "sofa",
+        "cabinet",
+        "background"
+      ],
+      "matrix": [
+        [
+          22,
+          3,
+          0,
+          1,
+          0,
+          0,
+          56
+        ],
+        [
+          14,
+          23,
+          0,
+          1,
+          0,
+          0,
+          110
+        ],
+        [
+          0,
+          0,
+          3,
+          0,
+          0,
+          0,
+          35
+        ],
+        [
+          1,
+          5,
+          0,
+          6,
+          0,
+          0,
+          38
+        ],
+        [
+          7,
+          1,
+          0,
+          0,
+          0,
+          0,
+          34
+        ],
+        [
+          4,
+          1,
+          1,
+          2,
+          0,
+          0,
+          34
+        ],
+        [
+          387,
+          468,
+          60,
+          96,
+          11,
+          3,
+          0
+        ]
+      ]
+    },
+    "mean_latency_ms": 12.15
+  },
+  "sunrgbd_test_calibrated": {
+    "mAP_50": 0.0251,
+    "overall_precision": 0.0476,
+    "overall_recall": 0.0945,
+    "overall_f1": 0.0633,
+    "total_tp": 38,
+    "total_fp": 760,
+    "total_fn": 364,
+    "per_class_ap": {
+      "table": 0.0455,
+      "chair": 0.0145,
+      "door": 0.0909,
+      "bookshelf": 0.0,
+      "sofa": 0.0,
+      "cabinet": 0.0
+    },
+    "per_class_metrics": {
+      "table": {
+        "ap_50": 0.0455,
+        "precision": 0.0938,
+        "recall": 0.0366,
+        "f1": 0.0527,
+        "tp": 3,
+        "fp": 29,
+        "fn": 79,
+        "gt_count": 82,
+        "pred_count": 32
+      },
+      "chair": {
+        "ap_50": 0.0145,
+        "precision": 0.0448,
+        "recall": 0.223,
+        "f1": 0.0746,
+        "tp": 33,
+        "fp": 703,
+        "fn": 115,
+        "gt_count": 148,
+        "pred_count": 736
+      },
+      "door": {
+        "ap_50": 0.0909,
+        "precision": 0.08,
+        "recall": 0.0526,
+        "f1": 0.0635,
+        "tp": 2,
+        "fp": 23,
+        "fn": 36,
+        "gt_count": 38,
+        "pred_count": 25
+      },
+      "bookshelf": {
+        "ap_50": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 50,
+        "gt_count": 50,
+        "pred_count": 0
+      },
+      "sofa": {
+        "ap_50": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 42,
+        "gt_count": 42,
+        "pred_count": 0
+      },
+      "cabinet": {
+        "ap_50": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 5,
+        "fn": 42,
+        "gt_count": 42,
+        "pred_count": 5
+      }
+    },
+    "gt_counts": {
+      "table": 82,
+      "chair": 148,
+      "door": 38,
+      "bookshelf": 50,
+      "sofa": 42,
+      "cabinet": 42
+    },
+    "confusion_matrix": {
+      "labels": [
+        "table",
+        "chair",
+        "door",
+        "bookshelf",
+        "sofa",
+        "cabinet",
+        "background"
+      ],
+      "matrix": [
+        [
+          3,
+          5,
+          0,
+          0,
+          0,
+          0,
+          74
+        ],
+        [
+          2,
+          31,
+          0,
+          0,
+          0,
+          0,
+          115
+        ],
+        [
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          36
+        ],
+        [
+          0,
+          5,
+          0,
+          0,
+          0,
+          0,
+          45
+        ],
+        [
+          1,
+          4,
+          0,
+          0,
+          0,
+          0,
+          37
+        ],
+        [
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          41
+        ],
+        [
+          26,
+          690,
+          23,
+          0,
+          0,
+          5,
+          0
+        ]
+      ]
+    },
+    "mean_latency_ms": 7.43
+  },
+  "localization_3d": {
+    "threejs": {
+      "oracle_2d_measured_webgl_depth": {
+        "n": 87,
+        "mean_m": 0.871,
+        "median_m": 0.41,
+        "rmse_m": 1.38
+      },
+      "oracle_2d_estimated_bbox_height": {
+        "n": 87,
+        "mean_m": 1.927,
+        "median_m": 1.584,
+        "rmse_m": 2.395
+      },
+      "cnn_pred_measured_webgl_depth": {
+        "n": 47,
+        "mean_m": 0.615,
+        "median_m": 0.37,
+        "rmse_m": 0.998
+      },
+      "cnn_pred_estimated_bbox_height": {
+        "n": 47,
+        "mean_m": 2.011,
+        "median_m": 1.627,
+        "rmse_m": 2.459
+      },
+      "depth_mae_measured_m": 0.786,
+      "depth_mae_estimated_m": 1.768,
+      "per_class_measured_mean_m": {
+        "table": 1.064,
+        "chair": 0.678,
+        "door": 0.357,
+        "bookshelf": 0.428,
+        "sofa": 1.519,
+        "cabinet": 0.915
+      },
+      "per_class_estimated_mean_m": {
+        "table": 2.933,
+        "chair": 1.303,
+        "door": 2.011,
+        "bookshelf": 1.13,
+        "sofa": 3.106,
+        "cabinet": 0.506
+      }
+    },
+    "sunrgbd": {
+      "num_evaluated": 1214,
+      "mean_error_meters": 0.439,
+      "median_error_meters": 0.33,
+      "std_error_meters": 0.396,
+      "per_class_mean_error_meters": {
+        "sofa": 0.524,
+        "table": 0.557,
+        "chair": 0.394,
+        "cabinet": 0.449,
+        "bookshelf": 0.274,
+        "door": 0.333
+      }
+    }
+  },
+  "end_to_end_pipeline_test": {
+    "passed": true,
+    "test_frame_id": "threejs_00212",
+    "perception_status": 200,
+    "inference_time_ms": 43.06,
+    "detection_count": 7,
+    "measured_webgl_depth_count": 7,
+    "live_only_tool_count": 7,
+    "total_scene_nodes": 26,
+    "live_objects_sample": [
+      {
+        "id": "cnn_table_01",
+        "class_name": "table",
+        "room": "Reception / Central Hub",
+        "confidence": 0.666,
+        "position": [
+          -0.31,
+          0.46,
+          -15.05
+        ],
+        "depth_m": 4.08,
+        "depth_source": "measured_webgl_depth",
+        "data_source": "custom_detector",
+        "is_live_cnn": true,
+        "in_camera_fov": true
+      },
+      {
+        "id": "cnn_table_02",
+        "class_name": "table",
+        "room": "Reception / Central Hub",
+        "confidence": 0.623,
+        "position": [
+          0.21,
+          0.78,
+          -15.31
+        ],
+        "depth_m": 3.94,
+        "depth_source": "measured_webgl_depth",
+        "data_source": "custom_detector",
+        "is_live_cnn": true,
+        "in_camera_fov": true
+      },
+      {
+        "id": "cnn_table_03",
+        "class_name": "table",
+        "room": "Reception / Central Hub",
+        "confidence": 0.616,
+        "position": [
+          0.79,
+          0.35,
+          -14.99
+        ],
+        "depth_m": 4.43,
+        "depth_source": "measured_webgl_depth",
+        "data_source": "custom_detector",
+        "is_live_cnn": true,
+        "in_camera_fov": true
+      },
+      {
+        "id": "cnn_chair_04",
+        "class_name": "chair",
+        "room": "Reception / Central Hub",
+        "confidence": 0.515,
+        "position": [
+          -0.7,
+          0.79,
+          -15.28
+        ],
+        "depth_m": 3.74,
+        "depth_source": "measured_webgl_depth",
+        "data_source": "custom_detector",
+        "is_live_cnn": true,
+        "in_camera_fov": true
+      }
+    ],
+    "navigation_action_success": true,
+    "telemetry_depth_sources": [
+      "measured_webgl_depth"
+    ],
+    "scene_graph_edges_count": 183
+  }
+}

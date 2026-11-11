@@ -88,17 +88,20 @@ class ToolRegistry:
             room_name: Optional[str] = None,
             player_position: Optional[List[float]] = None,
             camera_heading: Optional[float] = None,
-            filter_fov: Optional[bool] = False
+            filter_fov: Optional[bool] = False,
+            live_only: Optional[bool] = False,
         ):
             from backend.spatial.geometry import is_object_in_camera_fov
 
-            objs = global_scene_graph.get_all_objects()
-            is_live_cnn = getattr(global_scene_graph, "source", "") == "custom_detector"
-            source_tag = "spatial_detector_cnn" if is_live_cnn else "scene_graph_registry"
+            objs = (
+                global_scene_graph.get_live_perception_objects()
+                if live_only
+                else global_scene_graph.get_all_objects()
+            )
 
             if room_name:
-                from backend.game.facility import ROOM_DEFINITIONS
-                matched_room = next((r for r in ROOM_DEFINITIONS if r["name"].lower() == room_name.lower() or r["id"].lower() == room_name.lower()), None)
+                from backend.game.facility import get_room_definition
+                matched_room = get_room_definition(room_name)
                 if matched_room:
                     b = matched_room["bounds"]
                     room_objs = [
@@ -107,7 +110,7 @@ class ToolRegistry:
                     ]
                     if room_objs:
                         objs = room_objs
-                    elif "empty" in room_name.lower():
+                    elif "empty" in room_name.lower() or live_only:
                         objs = []
                 else:
                     objs = []
@@ -121,6 +124,7 @@ class ToolRegistry:
                     if o.estimated_3d_position and is_object_in_camera_fov(o.estimated_3d_position, cam_pos, camera_yaw_deg=cam_yaw)
                 ]
 
+            from backend.game.facility import get_room_for_position
             results = []
             for o in objs:
                 in_fov = True
@@ -128,19 +132,27 @@ class ToolRegistry:
                     cam_pos = [player_position[0], 1.5, player_position[1]] if len(player_position) == 2 else player_position
                     cam_yaw = camera_heading if camera_heading is not None else 0.0
                     in_fov = is_object_in_camera_fov(o.estimated_3d_position, cam_pos, camera_yaw_deg=cam_yaw)
+                pos = o.estimated_3d_position or [0.0, 0.0, 0.0]
+                obj_room = get_room_for_position(pos[0], pos[2])["name"]
+                obj_is_live = global_scene_graph.is_live_object(o)
+                source_tag = "custom_detector" if obj_is_live else (getattr(o, "source", None) or "facility_layout")
+                depth_src = getattr(o, "depth_source", None) or ("estimated_bbox_height" if obj_is_live else "seeded_layout")
 
                 results.append({
                     "id": o.object_id,
                     "class_name": o.class_name,
+                    "room": obj_room,
                     "confidence": round(o.confidence, 3),
-                    "position": [round(p, 2) for p in (o.estimated_3d_position or [0.0, 0.0, 0.0])],
+                    "position": [round(p, 2) for p in pos],
                     "depth_m": round(o.depth_estimate, 2) if o.depth_estimate else None,
-                    "data_source": source_tag,
-                    "is_live_cnn": is_live_cnn,
+                    "depth_source": depth_src,
+                    "source": source_tag,
+                    "data_source": "spatial_detector_cnn" if obj_is_live else "scene_graph_registry",
+                    "is_live_cnn": obj_is_live,
                     "in_camera_fov": in_fov
                 })
             return results
-        self.register("get_visible_objects", "List all currently visible objects with 3D positions.", _get_visible_objects)
+        self.register("get_visible_objects", "List currently visible objects, room contents, or live SpatialDetector CNN scan detections (live_only=True).", _get_visible_objects)
 
         # 2. locate_object(object_name)
         def _locate_object(object_name: str):
@@ -190,22 +202,58 @@ class ToolRegistry:
                     "message": f"Object '{object_name}' is not registered in the 3D scene graph or visible in current camera FOV."
                 }
 
+            from backend.game.facility import get_room_for_position
             best = max(objs, key=lambda x: x.confidence)
+            best_pos = best.estimated_3d_position or [0.0, 0.0, 0.0]
+            all_matches = []
+            for o in objs:
+                op = o.estimated_3d_position or [0.0, 0.0, 0.0]
+                all_matches.append({
+                    "object_id": o.object_id,
+                    "class_name": o.class_name,
+                    "room": get_room_for_position(op[0], op[2])["name"],
+                    "position": [round(p, 2) for p in op],
+                    "confidence": round(o.confidence, 3),
+                    "depth_m": round(o.depth_estimate, 2) if o.depth_estimate else None,
+                    "depth_source": getattr(o, "depth_source", None) or ("estimated_bbox_height" if global_scene_graph.is_live_object(o) else "seeded_layout"),
+                    "source": "custom_detector" if global_scene_graph.is_live_object(o) else (getattr(o, "source", None) or "facility_layout"),
+                })
             return {
                 "found": True,
                 "object_id": best.object_id,
                 "class_name": best.class_name,
+                "room": get_room_for_position(best_pos[0], best_pos[2])["name"],
                 "confidence": round(best.confidence, 3),
-                "position": [round(p, 2) for p in (best.estimated_3d_position or [0.0, 0.0, 0.0])],
-                "depth_m": round(best.depth_estimate, 2) if best.depth_estimate else None
+                "position": [round(p, 2) for p in best_pos],
+                "depth_m": round(best.depth_estimate, 2) if best.depth_estimate else None,
+                "depth_source": getattr(best, "depth_source", None) or ("estimated_bbox_height" if global_scene_graph.is_live_object(best) else "seeded_layout"),
+                "source": "custom_detector" if global_scene_graph.is_live_object(best) else (getattr(best, "source", None) or "facility_layout"),
+                "all_matches": all_matches,
             }
-        self.register("locate_object", "Locate an object by name and return 3D coordinates.", _locate_object)
+        self.register("locate_object", "Locate an object by name across the facility and return 3D coordinates and rooms.", _locate_object)
 
-        # 3. query_spatial_relation(object_name, relation)
-        def _query_spatial_relation(object_name: str, relation: str):
-            matches = global_scene_graph.query_spatial_relation(object_name, relation)
-            return {"query_object": object_name, "relation": relation, "matches": matches}
-        self.register("query_spatial_relation", "Find objects having a spatial relation (left_of, right_of, near, above).", _query_spatial_relation)
+        # 3. query_spatial_relation(object_name, relation, target_object_name)
+        def _query_spatial_relation(
+            object_name: str,
+            relation: str = "all",
+            target_object_name: Optional[str] = None,
+        ):
+            matches = global_scene_graph.query_spatial_relation(
+                object_name,
+                relation,
+                target_obj_name=target_object_name,
+            )
+            return {
+                "query_object": object_name,
+                "target_object": target_object_name,
+                "relation": relation,
+                "matches": matches,
+            }
+        self.register(
+            "query_spatial_relation",
+            "Find spatial relationships (left_of, right_of, near, behind, in_front_of, above, on, or all) involving one or between two objects.",
+            _query_spatial_relation,
+        )
 
         # 4. calculate_distance(object_a, object_b)
         def _calculate_distance(object_a: str, object_b: str):
@@ -305,6 +353,7 @@ class ToolRegistry:
                 for o, d in ranked[:5]
             ]
 
+            best_is_live = global_scene_graph.is_live_object(best_obj)
             return {
                 "found": True,
                 "object_id": best_obj.object_id,
@@ -319,7 +368,10 @@ class ToolRegistry:
                 "player_room": player_room["name"],
                 "in_current_room": is_in_same_room,
                 "ranked_candidates": ranked_summary,
-                "data_source": "scene_graph_registry" if getattr(global_scene_graph, "source", "") != "custom_detector" else "spatial_detector_cnn"
+                "is_live_cnn": best_is_live,
+                "depth_source": getattr(best_obj, "depth_source", None) or ("estimated_bbox_height" if best_is_live else "seeded_layout"),
+                "source": "custom_detector" if best_is_live else (getattr(best_obj, "source", None) or "facility_layout"),
+                "data_source": "spatial_detector_cnn" if best_is_live else "scene_graph_registry",
             }
         self.register("find_nearest_target", "Find the closest object of the target class to the observer.", _find_nearest_target)
 
@@ -874,7 +926,7 @@ class ToolRegistry:
 
         # 18. get_current_location(player_position, active_room)
         def _get_current_location(player_position: Optional[List[float]] = None, active_room: Optional[str] = None):
-            from backend.game.facility import get_room_for_position, get_room_definition, parse_position_coords
+            from backend.game.facility import ROOM_DEFINITIONS, get_room_for_position, get_room_definition, parse_position_coords
             from backend.game.missions import global_game_session
             if player_position is None:
                 player_position = global_game_session.player_position
@@ -887,7 +939,11 @@ class ToolRegistry:
                 "current_room": rm["name"],
                 "coordinates": [round(px, 2), round(py, 2), round(pz, 2)],
                 "description": rm["description"],
-                "adjacent_zones": "Reception (Z < -10), Research Office (Z -10..0, East), Library (Z -10..0, West), Laboratory (Z 0..10), Storage Vault (Z > 10)."
+                "adjacent_zones": "Reception (Z < -10), Research Office (Z -10..0, East), Library (Z -10..0, West), Laboratory (Z 0..10), Storage Vault (Z > 10).",
+                "available_rooms": [
+                    {"id": r["id"], "name": r["name"], "description": r["description"], "bounds": r["bounds"]}
+                    for r in ROOM_DEFINITIONS
+                ],
             }
         self.register("get_current_location", "Report current player room, coordinates, and facility orientation.", _get_current_location)
 

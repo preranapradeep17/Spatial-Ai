@@ -1,18 +1,17 @@
 # Spatial Quest: An AI Investigation Game Powered by Computer Vision and a Custom-Trained Language Model
 
-[![Python 3.12](https://img.shields.io/badge/Python-3.12-blue.svg)](https://www.python.org/)
+[![Python 3.12+](https://img.shields.io/badge/Python-3.12%2B-blue.svg)](https://www.python.org/)
 [![PyTorch 2.11](https://img.shields.io/badge/PyTorch-2.11-orange.svg)](https://pytorch.org/)
 [![Hardware Acceleration](https://img.shields.io/badge/Hardware-Apple%20Silicon%20MPS%20%2F%20CUDA-green.svg)]()
-[![Tests](https://img.shields.io/badge/Tests-51%20Passed%20(100%25)-brightgreen.svg)]()
-[![Academic Integrity](https://img.shields.io/badge/Core%20Models-Trained%20From%20Scratch-red.svg)]()
-[![SDLC](https://img.shields.io/badge/SDLC-Stages%201--8%20Complete-success.svg)]()
+[![Tests](https://img.shields.io/badge/Tests-124%20Passed%20(100%25)-brightgreen.svg)]()
+[![Gemini SDK](https://img.shields.io/badge/AI%20Partner-Google%20Gemini%20API%20%2B%20Local%20Fallback-blueviolet.svg)]()
 
-**Spatial Quest** is an academic 3D investigation and mystery-hunt game powered by:
-1. **Fundamentals of Computer Vision (CS4231)**: A custom CNN single-stage object detector (`SpatialDetector`, 2,162,731 trainable parameters) built and trained from scratch on authentic real-world indoor imagery from the **SUN RGB-D** benchmark, paired with calibrated depth back-projection achieving **0.423 m** mean 3D physical localization error across 40 real objects (calibrated against oracle 2D bounding boxes and physical depth maps).
-2. **Working with Large Language Models & Agentic AI (CS3235)**: A custom BPE subword tokenizer (`SpatialTokenizer`, 384 tokens) and decoder-only Transformer (`DecoderTransformer`, 856,832 trainable parameters) implemented strictly from raw PyTorch tensor operations with causal self-attention, pre-LayerNorm, autoregressive domain pretraining (loss 1.2610, perplexity 3.53), and an autonomous multi-step agent loop controlling 13 standardized investigation tools with local TF-IDF RAG, transparent model-vs-fallback telemetry, and local multimodal voice interaction.
-3. **Computer Graphics & 3D Interaction**: A standalone 3D WebGL (Three.js) facility at `http://localhost:8000` and an integrated Unity 6 C# project featuring **5 distinct locations** (Reception / Central Hub, Research Office, Library / Archives, Investigation Laboratory, Storage Room & Vault), open archway doorways for walking across rooms, a recognizable **3rd-person investigator avatar** with 1st-person/top-down modes, **multimodal voice input & offline audio replies**, a mission selection modal (Mysteries A, B, C, D, E), and a collapsible **Live System Inspector** with dedicated Computer Vision, Computer Graphics, and LLM / Agents tabs.
-
-> **Strict Academic Standard**: Zero pre-trained weights (NO Ultralytics YOLO, NO ResNet, NO HuggingFace weights) and ZERO hosted commercial LLM APIs (NO OpenAI, NO Claude, NO Gemini API) are used in the core inference path. All architectures, tensor operations, forward passes, loss functions, training loops, tokenizer merges, RAG vectorizers, and evaluation metrics are written from scratch and 100% inspectable.
+**Spatial Quest** is a 3D Embodied Vision-Language Investigation Environment integrating:
+1. **Fundamentals of Computer Vision (CS4231)**: A custom CNN single-stage object detector (`SpatialDetector`, 2,162,731 trainable parameters) trained from scratch on indoor **SUN RGB-D** imagery, paired with calibrated depth back-projection, Scene Graph synthesis (with explicit `facility_layout` vs. live `custom_detector` provenance), and live viewport CNN scan support.
+2. **Working with Large Language Models & Agentic AI (CS3235)**:
+   - **Primary Conversational AI Partner**: Server-side integration via the official `google-genai` SDK (`Gemini 2.5 Flash` / configurable via `GEMINI_MODEL`), grounded in the live 3D Scene Graph, TF-IDF RAG document retrieval, session-scoped memory, SSE streaming, and 18+ Pydantic-validated investigation tools.
+   - **Built-in Academic & Offline Fallback**: Custom BPE subword tokenizer (`SpatialTokenizer`) and decoder-only Transformer (`DecoderTransformer`, 856,832 trainable parameters) preserved cleanly for offline verification and zero-key environments.
+3. **Computer Graphics & 3D Simulation**: Modular Three.js r128 web interface at `http://localhost:8000` (and desktop/tablet/mobile responsive layout) featuring a rigged humanoid 3D investigator (`Idle` / `Walk` / `Run` skeletal animations, 1st/3rd/top-down cameras, AABB collisions), a realistic PBR 5-zone facility (Reception Hub, Research Office, Library / Archives, Investigation Laboratory, Storage Vault), interactive blueprint Facility Map, object inspection panel, and System Telemetry Inspector. See [`docs/assets_sources.md`](docs/assets_sources.md) for 3D asset licensing and attribution.
 
 ---
 
@@ -23,7 +22,14 @@
 python3 -m pip install -r requirements.txt
 ```
 
-### Step 2: Run Full Automated Test Suite (51 Tests, 100% Passing)
+### Step 2: Configure Environment Variables (Server-Side Gemini API)
+Copy `.env.example` to `.env` and add your Gemini API key (never exposed to browser JS):
+```bash
+cp .env.example .env
+# Edit .env and set GEMINI_API_KEY=your_key_here
+```
+
+### Step 3: Run Full Automated Test Suite (124 Tests)
 ```bash
 python3 -m pytest tests/ -v
 ```

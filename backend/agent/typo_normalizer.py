@@ -37,6 +37,7 @@ SHORT_WORD_CORRECTIONS = {
 
 # Controlled Facility Vocabulary
 CONTROLLED_ROOMS: Set[str] = {
+    "room", "rooms",
     "reception", "hub", "central", "office", "research",
     "library", "archives", "lab", "laboratory", "storage", "vault"
 }
@@ -52,7 +53,7 @@ CONTROLLED_COMMANDS_AND_WORDS: Set[str] = {
     "objects", "object", "visible", "detect", "detecting", "survey", "surveying", "identify",
     "nearest", "closest", "exit", "doorway", "navigate", "navigating", "guide", "guiding",
     "directions", "distance", "between", "inventory", "collected",
-    "objectives", "missions", "mission", "missing", "uncertainty", "unreachable", "blocked",
+    "objectives", "objective", "missions", "mission", "missing", "uncertainty", "unreachable", "blocked",
     "inspect", "inspecting", "examine", "examining", "manual", "safety", "incident", "reports",
     "report", "reported", "reporting", "passcode", "passcodes", "override", "code", "codes", "keypad",
     "enter", "entering", "input", "submit", "type", "pick", "pickup", "retrieve", "retrieving",

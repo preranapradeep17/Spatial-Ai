@@ -1,22 +1,170 @@
 {
-  "mAP_50": 0.0,
-  "overall_precision": 0.0,
-  "overall_recall": 0.0,
+  "mAP_50": 0.0251,
+  "overall_precision": 0.0476,
+  "overall_recall": 0.0945,
+  "overall_f1": 0.0633,
+  "total_tp": 38,
+  "total_fp": 760,
+  "total_fn": 364,
   "per_class_ap": {
-    "table": 0.0,
-    "chair": 0.0,
-    "door": 0.0,
+    "table": 0.0455,
+    "chair": 0.0145,
+    "door": 0.0909,
     "bookshelf": 0.0,
     "sofa": 0.0,
     "cabinet": 0.0
   },
-  "gt_counts": {
-    "table": 3,
-    "chair": 3,
-    "door": 2,
-    "bookshelf": 1,
-    "sofa": 1,
-    "cabinet": 2
+  "per_class_metrics": {
+    "table": {
+      "ap_50": 0.0455,
+      "precision": 0.0938,
+      "recall": 0.0366,
+      "f1": 0.0527,
+      "tp": 3,
+      "fp": 29,
+      "fn": 79,
+      "gt_count": 82,
+      "pred_count": 32
+    },
+    "chair": {
+      "ap_50": 0.0145,
+      "precision": 0.0448,
+      "recall": 0.223,
+      "f1": 0.0746,
+      "tp": 33,
+      "fp": 703,
+      "fn": 115,
+      "gt_count": 148,
+      "pred_count": 736
+    },
+    "door": {
+      "ap_50": 0.0909,
+      "precision": 0.08,
+      "recall": 0.0526,
+      "f1": 0.0635,
+      "tp": 2,
+      "fp": 23,
+      "fn": 36,
+      "gt_count": 38,
+      "pred_count": 25
+    },
+    "bookshelf": {
+      "ap_50": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 50,
+      "gt_count": 50,
+      "pred_count": 0
+    },
+    "sofa": {
+      "ap_50": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 42,
+      "gt_count": 42,
+      "pred_count": 0
+    },
+    "cabinet": {
+      "ap_50": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 5,
+      "fn": 42,
+      "gt_count": 42,
+      "pred_count": 5
+    }
   },
-  "mean_latency_ms": 68.78
+  "gt_counts": {
+    "table": 82,
+    "chair": 148,
+    "door": 38,
+    "bookshelf": 50,
+    "sofa": 42,
+    "cabinet": 42
+  },
+  "confusion_matrix": {
+    "labels": [
+      "table",
+      "chair",
+      "door",
+      "bookshelf",
+      "sofa",
+      "cabinet",
+      "background"
+    ],
+    "matrix": [
+      [
+        3,
+        5,
+        0,
+        0,
+        0,
+        0,
+        74
+      ],
+      [
+        2,
+        31,
+        0,
+        0,
+        0,
+        0,
+        115
+      ],
+      [
+        0,
+        0,
+        2,
+        0,
+        0,
+        0,
+        36
+      ],
+      [
+        0,
+        5,
+        0,
+        0,
+        0,
+        0,
+        45
+      ],
+      [
+        1,
+        4,
+        0,
+        0,
+        0,
+        0,
+        37
+      ],
+      [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        41
+      ],
+      [
+        26,
+        690,
+        23,
+        0,
+        0,
+        5,
+        0
+      ]
+    ]
+  },
+  "mean_latency_ms": 7.43
 }

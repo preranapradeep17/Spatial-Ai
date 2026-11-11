@@ -12,9 +12,19 @@ import os
 from typing import List, Dict, Any, Tuple, Optional
 import numpy as np
 
+_STOPWORDS = frozenset({
+    "a", "an", "and", "are", "as", "at", "be", "between", "by", "can", "do", "does",
+    "for", "from", "how", "i", "in", "is", "it", "its", "me", "my", "of", "on", "or",
+    "please", "tell", "that", "the", "there", "these", "this", "to", "was", "what",
+    "when", "where", "which", "who", "will", "with", "you", "your",
+})
+
+
 def tokenize(text: str) -> List[str]:
-    """Simple alphanumeric lowercase word tokenizer."""
-    return re.findall(r"\b[a-zA-Z0-9_]+\b", text.lower())
+    """Alphanumeric lowercase word tokenizer filtering common English stopwords."""
+    raw = re.findall(r"\b[a-zA-Z0-9_]+\b", text.lower())
+    filtered = [t for t in raw if t not in _STOPWORDS]
+    return filtered if filtered else raw
 
 class TFIDFRetriever:
     """TF-IDF Document Vectorizer and Cosine Similarity Retriever."""
@@ -126,7 +136,7 @@ class TFIDFRetriever:
 
         self.is_indexed = True
 
-    def retrieve(self, query: str, top_k: int = 3) -> List[Dict[str, Any]]:
+    def retrieve(self, query: str, top_k: int = 3, min_score: float = 0.0) -> List[Dict[str, Any]]:
         """Retrieves the top_k most relevant chunks using Cosine Similarity."""
         if not self.is_indexed or not self.vocab or not self.documents:
             return []
@@ -164,7 +174,7 @@ class TFIDFRetriever:
         results: List[Dict[str, Any]] = []
         for idx in top_indices:
             score = float(similarities[idx])
-            if score > 0.0:
+            if score > 0.0 and score >= min_score:
                 results.append({
                     "chunk_id": self.documents[idx]["chunk_id"],
                     "doc_id": self.documents[idx]["doc_id"],

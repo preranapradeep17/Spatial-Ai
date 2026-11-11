@@ -1,7 +1,10 @@
 import os
 import io
+import json
 import base64
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Body
+from typing import Optional, Dict, Any
+from fastapi.responses import StreamingResponse
 import time
 from PIL import Image
 import numpy as np
@@ -27,6 +30,7 @@ from backend.perception.model import SpatialDetector
 from backend.spatial.geometry import (
     backproject_pixel_to_camera_point,
     camera_to_world_transform,
+    quaternion_to_rotation_matrix,
     sample_robust_depth_from_box,
 )
 from backend.spatial.scene_graph import global_scene_graph
@@ -35,7 +39,7 @@ from backend.agent.investigation_agent import global_investigation_agent
 from backend.language_model.llm_provider import global_llm_provider
 from backend.game.facility import seed_facility_scene
 from backend.game.missions import global_game_session
-from backend.api.telemetry import global_telemetry
+from backend.api.telemetry import global_telemetry, load_cv_benchmarks
 
 router = APIRouter()
 START_TIME = time.time()
@@ -45,22 +49,36 @@ VISION_MODEL_LOADED = os.path.exists("models/vision/spatial_detector_best.pt")
 LANGUAGE_MODEL_LOADED = os.path.exists("models/language_model/transformer_best.pt")
 
 _detector_singleton = None
+_detector_mtime = None
+_TYPICAL_CLASS_HEIGHT_M = {
+    "table": 0.76,
+    "chair": 0.90,
+    "door": 2.20,
+    "bookshelf": 2.10,
+    "sofa": 0.85,
+    "cabinet": 1.80,
+}
 
 def _get_loaded_detector():
-    """Lazily loads and caches the custom SpatialDetector trained checkpoint."""
-    global _detector_singleton
-    if _detector_singleton is None and os.path.exists("models/vision/spatial_detector_best.pt"):
-        try:
-            device = get_optimal_device()
-            model = SpatialDetector()
-            ckpt = torch.load("models/vision/spatial_detector_best.pt", map_location=device)
-            model.load_state_dict(ckpt["model_state_dict"])
-            model.to(device)
-            model.eval()
-            _detector_singleton = (model, device)
-        except Exception as e:
-            print(f"[Warning] Failed to load SpatialDetector: {e}")
-            _detector_singleton = None
+    """Lazily loads and hot-reloads the custom SpatialDetector trained checkpoint and calibrated thresholds."""
+    global _detector_singleton, _detector_mtime
+    ckpt_path = "models/vision/spatial_detector_best.pt"
+    if os.path.exists(ckpt_path):
+        mtime = os.path.getmtime(ckpt_path)
+        if _detector_singleton is None or _detector_mtime != mtime:
+            try:
+                device = get_optimal_device()
+                model = SpatialDetector()
+                ckpt = torch.load(ckpt_path, map_location=device, weights_only=True)
+                model.load_state_dict(ckpt["model_state_dict"])
+                model.to(device)
+                model.eval()
+                class_thresholds = ckpt.get("class_thresholds")
+                _detector_singleton = (model, device, class_thresholds)
+                _detector_mtime = mtime
+            except Exception as e:
+                print(f"[Warning] Failed to load SpatialDetector: {e}")
+                _detector_singleton = None
     return _detector_singleton
 
 @router.get("/health", response_model=HealthResponse)
@@ -148,25 +166,41 @@ def process_perception(request: PerceptionRequest):
             source="custom_detector"
         )
 
-    model, device = loaded
+    model, device, class_thresholds = loaded
     try:
         raw_bytes = base64.b64decode(request.image_base64)
-        pil_img = Image.open(io.BytesIO(raw_bytes)).convert("RGB").resize((640, 480))
+        # Use Image.BILINEAR to match SUNRGBDDataset preprocessing identically
+        pil_img = Image.open(io.BytesIO(raw_bytes)).convert("RGB").resize((640, 480), Image.BILINEAR)
         img_np = np.array(pil_img, dtype=np.float32) / 255.0
         x_tensor = torch.from_numpy(img_np).permute(2, 0, 1).unsqueeze(0).to(device)
 
         with torch.no_grad():
             grid_pred = model(x_tensor)
-            decoded_batches = model.decode_predictions(grid_pred, conf_threshold=0.08, nms_iou_threshold=0.45)
+            decoded_batches = model.decode_predictions(
+                grid_pred,
+                conf_threshold=0.32,
+                nms_iou_threshold=0.45,
+                class_thresholds=class_thresholds,
+                cross_class_iou_threshold=0.55,
+            )
             preds = decoded_batches[0] if decoded_batches else []
 
-        # Parse optional depth array
+        # Parse optional depth array cleanly (WebGL RG16 millimeter PNG vs standard depth PNG)
         depth_arr = None
+        measured_depth_tag = "measured_rgbd_sensor"
         if request.depth_base64:
             try:
                 depth_raw = base64.b64decode(request.depth_base64)
-                depth_pil = Image.open(io.BytesIO(depth_raw)).resize((640, 480))
-                depth_arr = np.array(depth_pil, dtype=np.float32)
+                if (request.depth_encoding or "").lower() == "webgl_rg16_mm":
+                    d_pil = Image.open(io.BytesIO(depth_raw)).convert("RGBA").resize((640, 480), Image.NEAREST)
+                    d_rgba = np.array(d_pil, dtype=np.uint16)
+                    mm = (d_rgba[..., 0] << 8) | d_rgba[..., 1]
+                    depth_arr = mm.astype(np.float32) / 1000.0
+                    depth_arr[(mm <= 100) | (mm >= 60000)] = 0.0
+                    measured_depth_tag = "measured_webgl_depth"
+                else:
+                    d_pil = Image.open(io.BytesIO(depth_raw)).resize((640, 480), Image.NEAREST)
+                    depth_arr = np.array(d_pil, dtype=np.float32)
             except Exception:
                 depth_arr = None
 
@@ -176,23 +210,43 @@ def process_perception(request: PerceptionRequest):
         cy = request.camera_intrinsics.cy if request.camera_intrinsics else 240.0
         cam_pos = request.camera_pose.position if request.camera_pose else [0.0, 1.5, 0.0]
         cam_rot = request.camera_pose.rotation if request.camera_pose else [0.0, 0.0, 0.0, 1.0]
+        coord_sys = (request.coordinate_system or "unity").lower().strip()
 
         detected_objects = []
         for idx, pred in enumerate(preds):
             u_c = (pred["xmin"] + pred["xmax"]) / 2.0
             v_c = (pred["ymin"] + pred["ymax"]) / 2.0
+            box_h = max(16.0, float(pred["ymax"] - pred["ymin"]))
 
-            depth_val = 2.5
+            depth_val = None
+            depth_src = "estimated_bbox_height"
             if depth_arr is not None:
-                sampled = sample_robust_depth_from_box(depth_arr, pred["xmin"], pred["ymin"], pred["xmax"], pred["ymax"])
-                if sampled is not None:
-                    depth_val = sampled
+                depth_val = sample_robust_depth_from_box(
+                    depth_arr,
+                    pred["xmin"],
+                    pred["ymin"],
+                    pred["xmax"],
+                    pred["ymax"],
+                    sampling_ratio=0.55,
+                    reject_background=True,
+                )
+                if depth_val is not None:
+                    depth_src = measured_depth_tag
+            if depth_val is None:
+                # Pinhole apparent-height depth fallback only when measured depth unavailable for bbox
+                nominal_h = _TYPICAL_CLASS_HEIGHT_M.get(pred["class_name"], 1.0)
+                depth_val = float(np.clip((nominal_h * abs(fy)) / box_h, 0.8, 9.5))
 
             cam_point = backproject_pixel_to_camera_point(u_c, v_c, depth_val, fx, fy, cx, cy)
-            world_pos = camera_to_world_transform(cam_point, cam_pos, cam_rot)
+            if coord_sys == "threejs":
+                R = quaternion_to_rotation_matrix(cam_rot)
+                p_local = np.array([cam_point[0], -cam_point[1], -cam_point[2]], dtype=np.float32)
+                world_pos = (R @ p_local + np.array(cam_pos, dtype=np.float32)).tolist()
+            else:
+                world_pos = camera_to_world_transform(cam_point, cam_pos, cam_rot)
 
             obj = DetectedObject(
-                object_id=f"{pred['class_name']}_{idx+1:02d}",
+                object_id=f"cnn_{pred['class_name']}_{idx+1:02d}",
                 class_id=pred["class_id"],
                 class_name=pred["class_name"],
                 confidence=round(pred["confidence"], 3),
@@ -203,16 +257,24 @@ def process_perception(request: PerceptionRequest):
                     ymax=round(pred["ymax"], 1)
                 ),
                 estimated_3d_position=[round(p, 2) for p in world_pos],
-                depth_estimate=round(depth_val, 2)
+                depth_estimate=round(depth_val, 2),
+                depth_source=depth_src,
+                source="custom_detector",
             )
             detected_objects.append(obj)
 
-        if detected_objects:
-            global_scene_graph.update_objects(detected_objects, source="custom_detector")
+        global_scene_graph.merge_live_detections(detected_objects, source="custom_detector")
+        elapsed_ms = round((time.time() - t0) * 1000.0, 2)
+        global_telemetry.record_cv_scan(
+            detections=detected_objects,
+            inference_time_ms=elapsed_ms,
+            intrinsics={"fx": fx, "fy": fy, "cx": cx, "cy": cy},
+            camera_position=cam_pos,
+        )
 
         return PerceptionResponse(
             detections=detected_objects,
-            inference_time_ms=round((time.time() - t0) * 1000.0, 2),
+            inference_time_ms=elapsed_ms,
             source="custom_detector"
         )
     except Exception as exc:
@@ -225,10 +287,8 @@ def get_scene_graph():
         seed_facility_scene()
     return global_scene_graph.to_response()
 
-@router.post("/agent/query", response_model=AgentQueryResponse)
-def process_agent_query(request: AgentQueryRequest):
-    """Processes a natural language query through the investigation agent and tool registry."""
-    t_start = time.time()
+def _prepare_agent_turn(request: AgentQueryRequest) -> str:
+    """Seeds scene graph if needed, switches mission if specified, and syncs pose."""
     if not global_scene_graph.get_all_objects():
         seed_facility_scene()
 
@@ -239,26 +299,26 @@ def process_agent_query(request: AgentQueryRequest):
         except ValueError:
             pass
 
-    # Synchronize authoritative game session state before agent execution
     if request.player_position is not None or request.active_room is not None:
         global_game_session.update_player_state(
             position=request.player_position,
-            room=request.active_room
+            room=request.active_room,
         )
+    return agent_id
 
-    result = global_investigation_agent.run(
-        request.query,
-        agent_id=agent_id,
-        mission_context=global_game_session.to_dict(),
-        active_room=request.active_room,
-        player_position=request.player_position,
-        camera_heading=request.camera_heading
-    )
+
+def _finalize_agent_turn(
+    request: AgentQueryRequest,
+    agent_id: str,
+    result: dict,
+    t_start: float,
+) -> AgentQueryResponse:
+    """Updates mission objectives, records telemetry, and builds response."""
     global_game_session.record_tools(result.get("tool_calls", []), result.get("tool_results", []))
-
     latency_ms = (time.time() - t_start) * 1000.0
+    llm_mode = result.get("llm_mode", global_llm_provider.mode)
+    model_name = result.get("model_name")
 
-    # Record correlated telemetry for the Live System Inspector
     corr_id = global_telemetry.record_turn(
         query=request.query,
         tool_calls=result.get("tool_calls", []),
@@ -273,6 +333,8 @@ def process_agent_query(request: AgentQueryRequest):
         used_fallback=result.get("used_fallback", False),
         model_raw_output=result.get("model_raw_output", ""),
         validation_status=result.get("validation_status", "PASSED_WHITELIST"),
+        llm_mode=llm_mode,
+        model_name=model_name,
     )
 
     tool_calls = [
@@ -292,20 +354,87 @@ def process_agent_query(request: AgentQueryRequest):
         latency_ms=round(latency_ms, 2),
         validation_status=result.get("validation_status", "PASSED_WHITELIST"),
         model_output=result.get("model_raw_output", ""),
-        llm_mode=result.get("llm_mode", global_llm_provider.mode),
+        used_fallback=bool(result.get("used_fallback", False)),
+        llm_mode=llm_mode,
+        model_name=model_name,
+        session_id=request.session_id or "default",
+        error=result.get("error"),
     )
+
+
+@router.post("/agent/query", response_model=AgentQueryResponse)
+def process_agent_query(request: AgentQueryRequest):
+    """Processes a natural language query through the investigation agent and tool registry."""
+    t_start = time.time()
+    agent_id = _prepare_agent_turn(request)
+    result = global_investigation_agent.run(
+        request.query,
+        agent_id=agent_id,
+        mission_context=global_game_session.to_dict(),
+        active_room=request.active_room,
+        player_position=request.player_position,
+        camera_heading=request.camera_heading,
+        session_id=request.session_id or "default",
+        selected_object_id=request.selected_object_id,
+    )
+    return _finalize_agent_turn(request, agent_id, result, t_start)
+
+
+@router.post("/agent/query/stream")
+def stream_agent_query(request: AgentQueryRequest):
+    """Streams agent reasoning status, tool calls, response tokens, and final game state over SSE."""
+    t_start = time.time()
+    agent_id = _prepare_agent_turn(request)
+
+    def _event_generator():
+        final_result = None
+        for evt in global_investigation_agent.stream_run(
+            request.query,
+            agent_id=agent_id,
+            mission_context=global_game_session.to_dict(),
+            active_room=request.active_room,
+            player_position=request.player_position,
+            camera_heading=request.camera_heading,
+            session_id=request.session_id or "default",
+            selected_object_id=request.selected_object_id,
+        ):
+            ev_name = evt.get("event", "message")
+            ev_data = evt.get("data", {})
+            if ev_name == "done":
+                final_result = ev_data
+                response_model = _finalize_agent_turn(request, agent_id, final_result, t_start)
+                payload = response_model.model_dump() if hasattr(response_model, "model_dump") else response_model.dict()
+                yield f"event: done\ndata: {json.dumps(payload)}\n\n"
+            else:
+                yield f"event: {ev_name}\ndata: {json.dumps(ev_data)}\n\n"
+
+    return StreamingResponse(
+        _event_generator(),
+        media_type="text/event-stream",
+        headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
+    )
+
+
+@router.post("/agent/clear")
+def clear_agent_history(payload: Optional[Dict[str, Any]] = Body(default=None)):
+    """Clears session-scoped AI investigation assistant conversation memory."""
+    sid = (payload or {}).get("session_id", "default")
+    global_llm_provider.memory.clear_session(sid)
+    global_investigation_agent.conversation_history.clear()
+    return {"success": True, "session_id": sid, "message": "Conversation history cleared."}
+
 
 @router.get("/llm/status")
 def get_llm_status():
-    """Returns the current LLM provider status (from-scratch vs. Gemini API)."""
+    """Returns the current LLM provider status (Gemini API vs. offline fallback)."""
     return global_llm_provider.get_status()
+
 
 @router.post("/llm/mode")
 def set_llm_mode(payload: dict):
-    """Switches the active LLM mode and optionally updates the API key."""
+    """Switches the active LLM mode using server-side environment configuration only."""
     mode = payload.get("mode", "from_scratch")
-    api_key = payload.get("api_key")
-    return global_llm_provider.set_mode(mode, api_key)
+    return global_llm_provider.set_mode(mode)
 
 @router.get("/telemetry/latest")
 def get_latest_telemetry():
@@ -342,13 +471,16 @@ def select_mystery_mission(request: GameStartRequest):
 
 @router.post("/game/reset")
 def reset_game_session(request: GameResetRequest):
-    """Resets the game session with a reproducible seed."""
+    """Resets the game session with a reproducible seed and resets lock/scene state."""
     seed = request.seed if request.seed is not None else 42
     global_game_session.set_seed(seed)
     global_game_session.score = 0
     global_game_session.unlocked_through_index = 10
     global_game_session.inventory.clear()
     global_game_session.collected_clues.clear()
+    global_tool_registry._environment_state["door_3"] = "locked"
+    global_tool_registry._clues_state["clue_safe_01"]["status"] = "locked"
+    seed_facility_scene()
     global_game_session.start_mission("mission_a")
     return global_game_session.to_dict()
 
@@ -473,10 +605,5 @@ def get_cv_benchmark_sample(index: int = 0):
             "head_prediction_grid": [1, 15, 20, 11]
         },
         "camera_intrinsics": {"fx": 525.0, "fy": 525.0, "cx": 320.0, "cy": 240.0},
-        "benchmark": {
-            "dataset": "Real-World SUN RGB-D Benchmark",
-            "mAP_50": 0.0000,
-            "mean_localization_error_m": 0.42,
-            "evaluation_note": "Honest benchmark: custom single-stage CNN trained from scratch on real split without pretrained weights."
-        }
+        "benchmark": load_cv_benchmarks()
     }

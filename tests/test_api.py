@@ -205,3 +205,75 @@ def test_llm_mode_endpoints():
     assert mode_resp.status_code == 200
     assert mode_resp.json()["mode"] == "from_scratch"
 
+
+def test_agent_clear_and_stream_endpoints():
+    """Verify POST /agent/clear and SSE POST /agent/query/stream work end-to-end."""
+    clear_resp = client.post("/agent/clear", json={"session_id": "test-suite-session"})
+    assert clear_resp.status_code == 200
+    assert clear_resp.json()["success"] is True
+
+    stream_resp = client.post(
+        "/agent/query/stream",
+        json={
+            "query": "What is inside this room?",
+            "session_id": "test-suite-session",
+            "active_room": "Reception / Central Hub",
+            "player_position": [0.0, -15.0],
+        },
+    )
+    assert stream_resp.status_code == 200
+    assert "text/event-stream" in stream_resp.headers["content-type"]
+    body = stream_resp.text
+    assert "event: status" in body
+    assert "event: done" in body
+    client.post("/game/reset", json={"seed": 42})
+
+
+def test_assets_and_scene_graph_provenance():
+    """Verify static GLB/GLTFLoader assets serve cleanly and scene graph includes provenance."""
+    from backend.game.facility import seed_facility_scene
+    seed_facility_scene()
+
+    scene_resp = client.get("/scene")
+    assert scene_resp.status_code == 200
+    scene_data = scene_resp.json()
+    assert len(scene_data["nodes"]) >= 15
+    assert all("source" in node for node in scene_data["nodes"])
+    relations = {e["relation"] for e in scene_data["edges"]}
+    assert "near" in relations
+
+    glb_resp = client.get("/assets/investigator.glb")
+    assert glb_resp.status_code == 200
+    assert glb_resp.headers["content-type"].startswith("model/gltf-binary")
+    loader_resp = client.get("/assets/GLTFLoader.js")
+    assert loader_resp.status_code == 200
+
+
+def test_expected_ui_consistency_and_no_cache_headers():
+    """Verify FastAPI always serves the modern dark-blue Investigation UI with no-store headers."""
+    for path in ("/", "/index.html"):
+        resp = client.get(path)
+        assert resp.status_code == 200
+        assert "no-store" in resp.headers.get("cache-control", "")
+        assert "Investigation Objectives" in resp.text
+        assert "AI Investigation Partner" in resp.text
+        assert "Companion Drone Dialogue Terminal" not in resp.text
+        assert "--cyan: #00f0ff" not in resp.text
+
+    required_assets = [
+        "/three.min.js",
+        "/assets/styles.css",
+        "/assets/GLTFLoader.js",
+        "/assets/depth_capture.js",
+        "/assets/investigator3d.js",
+        "/assets/investigator.glb",
+        "/assets/facility3d.js",
+        "/assets/map_ui.js",
+    ]
+    for asset_url in required_assets:
+        r = client.get(asset_url)
+        assert r.status_code == 200, f"Missing expected frontend asset: {asset_url}"
+        assert "no-store" in r.headers.get("cache-control", "")
+
+
+

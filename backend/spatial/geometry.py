@@ -36,11 +36,14 @@ def sample_robust_depth_from_box(
     ymin: float,
     xmax: float,
     ymax: float,
-    sampling_ratio: float = 0.4
+    sampling_ratio: float = 0.4,
+    reject_background: bool = False,
 ) -> Optional[float]:
     """Extracts a robust depth estimate by computing the median of the inner bounding box patch.
 
-    This avoids background depth bleeding near object contours.
+    When reject_background=True, isolates the foreground surface cluster within +1.1m of
+    the 20th-percentile pixel so hollow-legged furniture (tables, chairs) or doorway frames
+    do not inherit the distant background wall behind them.
     """
     h, w = depth_map.shape[:2]
     # Clamp bounding box coordinates
@@ -68,6 +71,12 @@ def sample_robust_depth_from_box(
     valid = patch[(patch > 0.1) & np.isfinite(patch)]
     if len(valid) == 0:
         return None
+
+    if reject_background and len(valid) >= 16:
+        fg_floor = float(np.percentile(valid, 20))
+        fg_pixels = valid[valid <= fg_floor + 1.1]
+        if len(fg_pixels) > 0:
+            return float(np.median(fg_pixels))
 
     # Return median depth in meters
     return float(np.median(valid))

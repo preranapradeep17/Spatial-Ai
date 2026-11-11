@@ -7,7 +7,7 @@ Traceable to CS3235 (Working with LLMs - Multi-step Agent Loop, Tool Calling & R
 import os
 import re
 import json
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, List, Optional, Generator, Tuple
 import torch
 
 from backend.language_model.tokenizer import SpatialTokenizer
@@ -24,7 +24,12 @@ from backend.agent.prompt_builder import (
 )
 from backend.agent.reference_resolver import ConversationReferenceState, ReferenceResolver
 from backend.agent.typo_normalizer import global_typo_normalizer, normalize_query_typos
-from backend.language_model.llm_provider import global_llm_provider, LLMProviderManager
+from backend.language_model.llm_provider import (
+    global_llm_provider,
+    LLMProviderManager,
+    build_spatial_context_snapshot,
+    normalize_response_formatting,
+)
 
 
 class InvestigationAgent:
@@ -517,24 +522,30 @@ class InvestigationAgent:
         if re.search(r"\bwhat is that(?:\s+over there)?\b", q):
             return "explain_uncertainty", {"query": query, "reason": "unspecified_target"}, "FALLBACK_AMBIGUOUS_POINTING"
 
-        # 6a. Turn-by-turn navigation
-        nav_fallback = re.search(r"\b(?:take me(?: to)?|guide(?: me(?: to)?)?|navigate(?: to)?|lead me(?: to)?|directions? to|how (?:do|can) i (?:get|reach|go) to)\s+(?:the\s+)?([a-zA-Z0-9_ /]+)", q)
-        if nav_fallback:
-            raw_dest = nav_fallback.group(1).strip()
-            if raw_dest in ("nearest exit", "closest exit", "exit"):
-                return "find_nearest_exit", {"player_position": player_position}, "FALLBACK_NEAREST_EXIT"
-            return "navigate_to", {"destination": raw_dest, "player_position": player_position, "current_room": active_room}, "FALLBACK_NAVIGATION"
+        # 6a. Turn-by-turn navigation (avoid matching past-tense memory questions like 'did we just navigate')
+        if not re.search(r"\b(?:did|have)\s+(?:we|i)\b.*\bnavigate\b", q):
+            nav_fallback = re.search(
+                r"\b(?:take\s+me(?:\s+to)?|guide(?:\s+me)?(?:\s+to)?|navigate(?:\s+me)?(?:\s+to)?|lead(?:\s+me)?(?:\s+to)?|directions?\s+to|how (?:do|can) i (?:get|reach|go) to)\s+(?:the\s+)?([a-zA-Z0-9_ /]+)",
+                q,
+            )
+            if nav_fallback:
+                raw_dest = nav_fallback.group(1).strip()
+                if raw_dest in ("nearest exit", "closest exit", "exit"):
+                    return "find_nearest_exit", {"player_position": player_position}, "FALLBACK_NEAREST_EXIT"
+                if raw_dest not in ("", "to", "me", "here"):
+                    return "navigate_to", {"destination": raw_dest, "player_position": player_position, "current_room": active_room}, "FALLBACK_NAVIGATION"
 
         if re.search(r"\b(nearest|closest)\s+exit\b", q) or re.search(r"\b(?:where is|how to reach|find)\s+(?:the\s+)?exit\b", q) or re.search(r"\b(which way (?:leads?|lead|goes|to get)\s+(?:to\s+)?(?:the\s+)?next section|which way is the exit)\b", q):
             return "find_nearest_exit", {"player_position": player_position}, "FALLBACK_NEAREST_EXIT"
 
-        # 6b. Location and room stance
-        if re.search(r"\b(where am i|where are we|what room (?:am i|is this|are we)(?: standing in)?|current room|current location|my coordinates|my location|tell me about (?:this |the )?room|about (?:this |the )?room|room information)\b", q):
+        # 6b. Location and room stance / available rooms
+        if re.search(r"\b(where am i|where are we|what room (?:am i|is this|are we)(?: standing in)?|current room|current location|my coordinates|my location|tell me about (?:this |the )?room|about (?:this |the )?room|room information|what rooms|which rooms|available rooms|rooms are available|rooms in this facility|list rooms)\b", q):
             return "get_current_location", {"player_position": player_position, "active_room": active_room}, "FALLBACK_LOCATION"
 
         # 6c. Scene understanding & room visual survey
-        if re.search(r"\b(describe (?:this |the )?room|describe (?:my )?surroundings|what is around me|look around|what objects can you see|what can you see|list visible objects|what is visible|what is in this room|see|visible|objects|survey)\b", q):
-            return "get_visible_objects", {"room_name": active_room}, "FALLBACK_VISIBLE_OBJECTS"
+        if re.search(r"\b(describe (?:this |the )?room|describe (?:my )?surroundings|what is around me|look around|what objects can you see|what can you see|list visible objects|what is visible|what is in this room|what objects are present|see|visible|objects|survey)\b", q):
+            target_room = self._extract_explicit_room(query) or active_room
+            return "get_visible_objects", {"room_name": target_room}, "FALLBACK_VISIBLE_OBJECTS"
 
         # 6d. Spatial reasoning: closest targets & nearest objects
         dist_from_me_fb = re.search(r"\bhow far (?:away )?is (?:the )?([a-zA-Z0-9_]+(?:\s+[a-zA-Z0-9_]+)?)(?:\s+from (?:here|me))?\b", q)
@@ -565,7 +576,13 @@ class InvestigationAgent:
             c_m2 = re.search(r"\b(?:closest|nearest)\s+([a-zA-Z0-9_]+)", q)
             return "find_nearest_target", {"target_class": c_m2.group(1).strip(), "player_position": player_position}, "FALLBACK_NEAREST_TARGET"
 
-        # 6e. Spatial relations (beside, next to, near, left of, right of)
+        # 6e. Spatial relations (relationship between X and Y, beside, next to, near, left of, right of)
+        pair_fb = re.search(r"\brelationship\s+between\s+(?:the\s+)?([a-zA-Z0-9_]+)\s+and\s+(?:the\s+)?([a-zA-Z0-9_]+)", q)
+        if pair_fb:
+            obj_a = "table" if "desk" in pair_fb.group(1) else pair_fb.group(1).strip()
+            obj_b = "table" if "desk" in pair_fb.group(2) else pair_fb.group(2).strip()
+            return "query_spatial_relation", {"object_name": obj_a, "relation": "all", "target_object_name": obj_b}, "FALLBACK_SPATIAL_RELATION_PAIR"
+
         rel_fallback = re.search(r"\b(?:what is |which object is |is anything )?(?:beside|next to|near|left of|right of|above)\s+(?:the\s+)?([a-zA-Z0-9_]+)", q)
         if rel_fallback:
             rel_m = re.search(r"\b(beside|next to|near|left of|right of|above)\s+(?:the\s+)?([a-zA-Z0-9_]+)", q)
@@ -607,6 +624,99 @@ class InvestigationAgent:
 
         return None
 
+    @staticmethod
+    def _extract_explicit_room(query_text: Optional[str]) -> Optional[str]:
+        """Extracts a facility room name when explicitly mentioned in natural language."""
+        if not query_text:
+            return None
+        q = query_text.lower()
+        from backend.game.facility import get_room_definition
+        for token in (
+            "investigation laboratory", "laboratory", "lab",
+            "research office", "office",
+            "library", "archives",
+            "reception", "central hub",
+            "storage room", "storage", "vault",
+        ):
+            if re.search(rf"\b{re.escape(token)}\b", q):
+                r = get_room_definition(token)
+                if r:
+                    return r["name"]
+        return None
+
+    @staticmethod
+    def _enrich_tool_args(
+        tool_name: str,
+        args: Dict[str, Any],
+        player_position: Optional[List[float]],
+        camera_heading: Optional[float],
+        active_room: Optional[str],
+        query_text: Optional[str] = None,
+    ) -> Dict[str, Any]:
+        """Injects current investigator pose/room metadata when omitted by the model."""
+        enriched = dict(args or {})
+        if tool_name in ("navigate_to", "find_path"):
+            if player_position and not enriched.get("player_position"):
+                enriched["player_position"] = player_position
+            if active_room and not enriched.get("current_room"):
+                enriched["current_room"] = active_room
+        elif tool_name == "get_current_location":
+            if player_position and not enriched.get("player_position"):
+                enriched["player_position"] = player_position
+            if active_room and not enriched.get("active_room"):
+                enriched["active_room"] = active_room
+        elif tool_name == "get_visible_objects":
+            if player_position and not enriched.get("player_position"):
+                enriched["player_position"] = player_position
+            if camera_heading is not None and "camera_heading" not in enriched:
+                enriched["camera_heading"] = camera_heading
+            if not enriched.get("room_name"):
+                explicit_room = InvestigationAgent._extract_explicit_room(query_text)
+                if explicit_room:
+                    enriched["room_name"] = explicit_room
+                elif active_room:
+                    enriched["room_name"] = active_room
+        elif tool_name in ("find_nearest_exit", "find_nearest_target"):
+            if player_position and not enriched.get("player_position"):
+                enriched["player_position"] = player_position
+        return enriched
+
+    @staticmethod
+    def _collect_rag_passages(
+        tool_calls: List[Dict[str, Any]],
+        tool_results: List[Dict[str, Any]],
+        fallback_passages: Optional[List[Dict[str, Any]]] = None,
+    ) -> List[Dict[str, Any]]:
+        """Collects TF-IDF RAG citations from tool executions or pre-fetched context."""
+        rag_passages: List[Dict[str, Any]] = []
+        for call, res in zip(tool_calls, tool_results):
+            t_name = call.get("tool") or call.get("name")
+            if t_name in ("search_documents", "search_safety_manual"):
+                r_data = res.get("result", {}) if isinstance(res, dict) else {}
+                if isinstance(r_data, dict):
+                    if "passages" in r_data and isinstance(r_data["passages"], list):
+                        rag_passages.extend(r_data["passages"])
+                    elif "retrieved_passages" in r_data and isinstance(r_data["retrieved_passages"], list):
+                        for p in r_data["retrieved_passages"]:
+                            rag_passages.append({"title": "Facility Safety Protocol", "text": p, "score": 0.88})
+        if not rag_passages and fallback_passages:
+            rag_passages.extend(fallback_passages)
+        return rag_passages
+
+    def _encode_query_tokens(self, text: str) -> List[int]:
+        if self.tokenizer:
+            try:
+                return self.tokenizer.encode(text, add_special_tokens=False)
+            except Exception:
+                pass
+        return [abs(hash(w)) % 384 for w in text.split()]
+
+    def _record_turn_history(self, session_id: str, user_query: str, assistant_reply: str) -> None:
+        self.conversation_history.append({"user": user_query, "assistant": assistant_reply})
+        if len(self.conversation_history) > 10:
+            self.conversation_history.pop(0)
+        global_llm_provider.memory.append_turn(session_id or "default", user_query, assistant_reply)
+
     def run(
         self,
         user_query: str,
@@ -614,7 +724,9 @@ class InvestigationAgent:
         mission_context: Optional[Dict[str, Any]] = None,
         active_room: Optional[str] = None,
         player_position: Optional[List[float]] = None,
-        camera_heading: Optional[float] = None
+        camera_heading: Optional[float] = None,
+        session_id: str = "default",
+        selected_object_id: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Runs the multi-step agent loop for an investigation query."""
         history: List[str] = []
@@ -624,6 +736,7 @@ class InvestigationAgent:
         model_raw_output: str = ""
         used_fallback: bool = False
         validation_status: str = "PENDING"
+        gemini_error: Optional[str] = None
 
         # Ensure scene graph is seeded with facility layout if empty
         if not global_scene_graph.get_all_objects():
@@ -669,6 +782,69 @@ class InvestigationAgent:
         if agent_id not in ("scout", "navigator", "archivist"):
             agent_id = "scout"
 
+        global_llm_provider.sync_env_if_needed()
+
+        # 0. Try Google Gemini API multi-step tool-calling conversation when configured
+        if global_llm_provider.mode == LLMProviderManager.MODE_GEMINI_API and global_llm_provider.gemini_client.is_configured():
+            context_snapshot, rag_context_passages = build_spatial_context_snapshot(
+                query=resolved_query,
+                agent_id=agent_id,
+                active_room=active_room,
+                player_position=player_position,
+                camera_heading=camera_heading,
+                selected_object_id=selected_object_id,
+            )
+            session_history = global_llm_provider.memory.get_history(session_id)
+
+            def _gemini_tool_executor(t_name: str, t_args: Dict[str, Any]) -> Dict[str, Any]:
+                nonlocal unity_action
+                enriched_args = self._enrich_tool_args(
+                    t_name, t_args, player_position, camera_heading, active_room, query_text=resolved_query
+                )
+                exec_res = global_tool_registry.execute(t_name, enriched_args)
+                self.reference_state.update_from_tool_execution(t_name, enriched_args, exec_res)
+                if t_name == "navigate_to" and exec_res.get("success"):
+                    unity_action = exec_res.get("result")
+                return exec_res
+
+            gemini_res = global_llm_provider.gemini_client.run_conversation_turn(
+                query=resolved_query,
+                context_snapshot=context_snapshot,
+                history=session_history,
+                tool_executor=_gemini_tool_executor,
+                tool_descriptions=global_tool_registry.get_tool_descriptions(),
+                max_steps=self.max_steps,
+            )
+            if gemini_res.get("success"):
+                g_calls = gemini_res.get("tool_calls", [])
+                g_results = gemini_res.get("tool_results", [])
+                final_answer = normalize_response_formatting(
+                    (gemini_res.get("final_response") or "").strip() or "Investigation step complete."
+                )
+                self._record_turn_history(session_id, user_query, final_answer)
+                used_model = gemini_res.get("model_used", global_llm_provider.gemini_client.model)
+                global_llm_provider.record_turn_outcome(model_name=used_model, used_fallback=False, error=None)
+                return {
+                    "query": user_query,
+                    "resolved_query": resolved_query,
+                    "steps_taken": max(1, len(g_calls)),
+                    "tool_calls": g_calls,
+                    "tool_results": g_results,
+                    "final_response": final_answer,
+                    "unity_action": unity_action,
+                    "token_ids": self._encode_query_tokens(resolved_query),
+                    "rag_passages": self._collect_rag_passages(g_calls, g_results, rag_context_passages),
+                    "model_raw_output": gemini_res.get("model_raw_output", final_answer),
+                    "used_fallback": False,
+                    "validation_status": "PASSED_GEMINI_API_TOOL_CALL" if g_calls else "DIRECT_GEMINI_REPLY",
+                    "llm_mode": LLMProviderManager.MODE_GEMINI_API,
+                    "model_name": gemini_res.get("model_used", global_llm_provider.gemini_client.model),
+                    "session_id": session_id,
+                    "error": None,
+                }
+            gemini_error = gemini_res.get("error_message")
+            global_llm_provider.last_error = gemini_error
+
         current_prompt = self.build_structured_prompt(
             query=resolved_query,
             agent_id=agent_id,
@@ -681,16 +857,17 @@ class InvestigationAgent:
         # More specific patterns are listed first.
         intent_tool_map = [
             (r"\b(how to play|how do i play|how do we play|how to play this game|gameplay guide|game rules|how to control|what are the controls|game instructions|help me play|how does this game work|how does the game work|game guide)\b", "get_game_guide", lambda m: {"topic": "all"}),
-            (r"\b(who are you|what are you|introduce yourself|what is your purpose)\b", "get_game_guide", lambda m: {"topic": "introduction"}),
+            (r"\b(who are you|what are you|introduce yourself|what is your purpose|what is your role|your role)\b", "get_game_guide", lambda m: {"topic": "introduction"}),
             (r"\b(what can you do|what commands|available commands|list commands|help)\b", "get_game_guide", lambda m: {"topic": "commands"}),
             (r"\bwhy (?:can't|cant|couldn't|cannot|don't|dont) (?:you )?(?:detect|see|find|identify|spot|locate)\b", "explain_uncertainty", lambda m: {"query": user_query}),
             (r"\b(why can't you see|why can't you detect|sensor uncertainty|camera uncertainty|detection confidence|why uncertain|why is the object not detected)\b", "explain_uncertainty", lambda m: {"query": user_query}),
             (r"\b(?:explain\s+)?why\s+(?:is\s+|was\s+)?(?:that\s+|the\s+|it\s+)?(?:destination\s+)?(?:is\s+|was\s+)?(?:unreachable|blocked|locked|path blocked|cannot reach|can't get to|not working)\b", "explain_unreachable", lambda m: {"query": user_query}),
             (r"\b(?:where are we|where am i|what room (?:am i|is this|are we)(?: standing in)?|current room|current location|my coordinates|my location|tell me about (?:this |the )?room|about (?:this |the )?room)\b", "get_current_location", lambda m: {"player_position": player_position, "active_room": active_room}),
+            (r"\b(what rooms|which rooms|available rooms|rooms are available|rooms in this facility|list rooms|facility zones)\b", "get_current_location", lambda m: {"player_position": player_position, "active_room": active_room}),
             (r"\b(what is this place|facility lore|tell me about (?:the )?facility|what is sector 4)\b", "get_current_location", lambda m: {"player_position": player_position, "active_room": active_room}),
             (r"\bwhat is that(?:\s+over there)?\b", "explain_uncertainty", lambda m: {"query": user_query, "reason": "unspecified_target"}),
             (r"\b(uncertain|confidence|accuracy|error margin|how certain|what are you uncertain about)\b", "explain_uncertainty", lambda m: {"query": user_query}),
-            (r"\b(?:how many\s+|count\s+(?:the\s+)?)([a-zA-Z0-9_]+)", "get_visible_objects", lambda m: {"room_name": active_room}),
+            (r"\b(?:how many\s+|count\s+(?:the\s+)?)([a-zA-Z0-9_]+)", "get_visible_objects", lambda m: {"room_name": self._extract_explicit_room(resolved_query) or active_room}),
             (r"\b(unusual|suspicious|anomaly) (?:near|by|around) (?:the )?([a-zA-Z0-9_]+)", "inspect_object_closely", lambda m: {"object_name": m.group(2)}),
             (r"\binspect (?:the )?([a-zA-Z0-9_]+) (?:more |further )?closely", "inspect_object_closely", lambda m: {"object_name": m.group(1)}),
             (r"\blook (?:more )?closely at (?:the )?([a-zA-Z0-9_]+)", "inspect_object_closely", lambda m: {"object_name": m.group(1)}),
@@ -712,6 +889,7 @@ class InvestigationAgent:
             (r"\b(?:find|locate|where is)\s+(?:the\s+)?(?:nearest|closest)\s+([a-zA-Z0-9_]+)", "find_nearest_target", lambda m: {"target_class": m.group(1), "player_position": player_position} if m.group(1) != "exit" else {"player_position": player_position}),
             (r"\b(?:what|which)(?: object)? is (?:closest|nearest) to (?:the )?([a-zA-Z0-9_]+)", "find_nearest_target", lambda m: {"target_class": "any", "player_position": player_position} if m.group(1).lower().strip() in ("me", "myself", "i", "user", "player", "stance") else {"target_class": "any", "reference_object": m.group(1), "player_position": player_position}),
             (r"\b(?:what is |which object is |what's )?(?:the )?(?:nearest|closest)(?: object)?(?:\s+to\s+me|\s+around\s+me)?\b", "find_nearest_target", lambda m: {"target_class": "any", "player_position": player_position}),
+            (r"\brelationship\s+between\s+(?:the\s+)?([a-zA-Z0-9_]+)\s+and\s+(?:the\s+)?([a-zA-Z0-9_]+)", "query_spatial_relation", lambda m: {"object_name": "table" if "desk" in m.group(1) else m.group(1), "relation": "all", "target_object_name": "table" if "desk" in m.group(2) else m.group(2)}),
             (r"\b(left|right) of (?:the )?([a-zA-Z0-9_]+)", "query_spatial_relation", lambda m: {"object_name": "table" if "desk" in m.group(2) else m.group(2), "relation": f"{m.group(1)}_of"}),
             (r"\b(next to|near|beside) (?:the )?([a-zA-Z0-9_]+)", "query_spatial_relation", lambda m: {"object_name": "table" if "desk" in m.group(2) else m.group(2), "relation": "near"}),
             (r"\b(above|on top of) (?:the )?([a-zA-Z0-9_]+)", "query_spatial_relation", lambda m: {"object_name": "table" if "desk" in m.group(2) else m.group(2), "relation": "above"}),
@@ -725,53 +903,19 @@ class InvestigationAgent:
             (r"\b(inventory|items?|collected|bag|backpack|what i've collected|show me what i have|show (?:my )?inventory)\b", "get_inventory", {}),
             (r"\b(objectives?|goals?|missions?|quests?|tasks?)\b", "get_mission_objectives", {}),
             (r"\b(calculate\s+(?:a\s+)?(?:path|route|waypoints)|path|waypoints|route)\s+to\s+(?:the\s+)?([a-zA-Z0-9_ /]+)", "find_path", lambda m: {"destination": m.group(2).strip(), "player_position": player_position, "current_room": active_room}),
-            (r"\b(guide(?: me(?: to)?)?|navigate(?: to)?|go to|take me(?: to)?|lead me(?: to)?|walk me(?: to)?|how (?:do|can) i (?:get|walk|go|navigate) to|directions? to|let's investigate) (?:the )?([a-zA-Z0-9_ ]+)", "navigate_to", lambda m: {"destination": m.group(2).strip(), "player_position": player_position, "current_room": active_room}),
+            (r"\b(guide(?:\s+me)?\s+to|navigate(?:\s+me)?\s+to|guide(?:\s+me)?|navigate(?:\s+me)?|go\s+to|take\s+me\s+to|take\s+me|lead\s+me\s+to|lead\s+me|walk\s+me\s+to|walk\s+me|how (?:do|can) i (?:get|walk|go|navigate) to|directions? to|let's investigate)\s+(?!to\b)(?:the\s+)?([a-zA-Z0-9_ ]+)", "navigate_to", lambda m: {"destination": m.group(2).strip(), "player_position": player_position, "current_room": active_room}),
             (r"\b(find|locate|can you find) (?:the |a |an )?([a-zA-Z0-9_]+)", "locate_object", lambda m: {"object_name": m.group(2)}),
             (r"\bcan you see (?:a |an |the )?([a-zA-Z0-9_]+)", "locate_object", lambda m: {"object_name": m.group(1)}),
             (r"\bis there (?:a |an |the )?([a-zA-Z0-9_]+)", "locate_object", lambda m: {"object_name": m.group(1)}),
             (r"\bwhere is (?:the )?(?:central |research |reception |nearest |closest )?([a-zA-Z0-9_]+)", "locate_object", lambda m: {"object_name": "table" if "desk" in m.group(1) else m.group(1)}),
             (r"\b(code|override|passcode|protocol|incident|manual|log|document|search|what happened|artifact|omega|surge|containment|lockdown)\b", "search_documents", lambda m: {"query": user_query}),
-            (r"\b(describe (?:this |the )?room|describe (?:my )?surroundings|what is around me|look around|what objects can you see|what can you see|list visible objects|what is visible|what is in this room|see|visible|objects|look|around|detect|survey)\b", "get_visible_objects", lambda m: {"room_name": active_room}),
+            (r"\b(describe (?:this |the )?room|describe (?:my )?surroundings|what is around me|look around|what objects can you see|what can you see|list visible objects|what is visible|what is in this room|what objects are present|see|visible|objects|look|around|detect|survey)\b", "get_visible_objects", lambda m: {"room_name": self._extract_explicit_room(resolved_query) or active_room}),
         ]
 
-        # Multi-step ReAct loop
+        # Multi-step ReAct loop (Offline Transformer + Deterministic Guardrails)
         for step in range(self.max_steps):
             selected_tool = None
             selected_args = {}
-
-            # 0. Try Google Gemini API if enhanced mode is active
-            if global_llm_provider.mode == LLMProviderManager.MODE_GEMINI_API and global_llm_provider.gemini_client.is_configured():
-                api_tool, api_args, direct_reply = global_llm_provider.gemini_client.generate_tool_call(
-                    query=resolved_query,
-                    system_prompt=current_prompt,
-                    context_info={
-                        "active_room": active_room,
-                        "player_position": player_position,
-                        "agent_id": agent_id,
-                    }
-                )
-                if api_tool and api_tool in global_tool_registry.get_tool_names():
-                    selected_tool = api_tool
-                    selected_args = api_args
-                    model_raw_output = f"<tool_call>{json.dumps({'name': api_tool, 'arguments': api_args})}</tool_call>"
-                    validation_status = "PASSED_GEMINI_API_TOOL_CALL"
-                    used_fallback = False
-                elif direct_reply:
-                    return {
-                        "query": user_query,
-                        "resolved_query": resolved_query,
-                        "steps_taken": 1,
-                        "tool_calls": [],
-                        "tool_results": [],
-                        "final_response": direct_reply,
-                        "unity_action": None,
-                        "token_ids": [],
-                        "rag_passages": [],
-                        "model_raw_output": direct_reply,
-                        "used_fallback": False,
-                        "validation_status": "DIRECT_GEMINI_REPLY",
-                        "llm_mode": "gemini_api",
-                    }
 
             # 1. Try custom Transformer model inference first (Academic From-Scratch Mode or fallback)
             if not selected_tool and self.model and self.tokenizer:
@@ -841,7 +985,16 @@ class InvestigationAgent:
                     validation_status = "GUARDRAIL_EXPLAIN_UNREACHABLE"
                     used_fallback = False
 
-                # Rule 2c: Spatial Adjacency & Relationships (beside, next to, near, left of, right of)
+                # Rule 2c: Spatial Adjacency & Relationships (beside, next to, near, left of, right of, relationship between)
+                elif re.search(r"\brelationship\s+between\s+(?:the\s+)?([a-zA-Z0-9_]+)\s+and\s+(?:the\s+)?([a-zA-Z0-9_]+)", q_eval):
+                    pair_m = re.search(r"\brelationship\s+between\s+(?:the\s+)?([a-zA-Z0-9_]+)\s+and\s+(?:the\s+)?([a-zA-Z0-9_]+)", q_eval)
+                    obj_a = "table" if "desk" in pair_m.group(1) else pair_m.group(1)
+                    obj_b = "table" if "desk" in pair_m.group(2) else pair_m.group(2)
+                    selected_tool = "query_spatial_relation"
+                    selected_args = {"object_name": obj_a, "relation": "all", "target_object_name": obj_b}
+                    validation_status = "GUARDRAIL_SPATIAL_RELATION_PAIR"
+                    used_fallback = False
+
                 elif re.search(r"\b(?:what is |which object is |is anything )?(?:beside|next to|near|left of|right of)\s+(?:the\s+)?([a-zA-Z0-9_]+)", q_eval):
                     rel_m = re.search(r"\b(beside|next to|near|left of|right of)\s+(?:the\s+)?([a-zA-Z0-9_]+)", q_eval)
                     rel_word = rel_m.group(1).replace(" ", "_") if rel_m else "near"
@@ -852,17 +1005,17 @@ class InvestigationAgent:
                     validation_status = "GUARDRAIL_SPATIAL_RELATION"
                     used_fallback = False
 
-                # Rule 2d: Current Player Location & Room Stance
-                elif re.search(r"\b(where am i|where are we|what room (?:am i|is this|are we)(?: standing in)?|current room|current location|my location|where i am|identify our location)\b", q_eval):
+                # Rule 2d: Current Player Location & Available Facility Rooms
+                elif re.search(r"\b(where am i|where are we|what room (?:am i|is this|are we)(?: standing in)?|current room|current location|my location|where i am|identify our location|what rooms|which rooms|available rooms|rooms are available|rooms in this facility|list rooms)\b", q_eval):
                     selected_tool = "get_current_location"
                     selected_args = {"player_position": player_position, "active_room": active_room}
                     validation_status = "GUARDRAIL_LOCATION"
                     used_fallback = False
 
                 # Rule 2e1: Scene Survey & Room Description
-                elif re.search(r"\b(describe (?:this |the )?room|describe (?:my )?surroundings|what is around me|look around|what objects can you see|what can you see|list visible objects|what is visible|what is in this room)\b", q_eval):
+                elif re.search(r"\b(describe (?:this |the )?room|describe (?:my )?surroundings|what is around me|look around|what objects can you see|what can you see|list visible objects|what is visible|what is in this room|what objects are present)\b", q_eval):
                     selected_tool = "get_visible_objects"
-                    selected_args = {"room_name": active_room}
+                    selected_args = {"room_name": self._extract_explicit_room(resolved_query) or active_room}
                     validation_status = "GUARDRAIL_VISIBLE_OBJECTS"
                     used_fallback = False
 
@@ -922,14 +1075,14 @@ class InvestigationAgent:
                     used_fallback = False
 
                 # Rule 6: Navigation / Turn-by-Turn GPS Guidance
-                elif re.search(r"\b(take me(?: to)?|guide(?: me(?: to)?)?|navigate(?: to)?|lead me(?: to)?|directions? to)\b", q_eval):
-                    dest_m = re.search(r"\b(?:take me(?: to)?|guide(?: me(?: to)?)?|navigate(?: to)?|lead me(?: to)?|directions? to)\s+(?:the\s+)?([a-zA-Z0-9_ /]+)", q_eval)
+                elif not re.search(r"\b(?:did|have)\s+(?:we|i)\b.*\bnavigate\b", q_eval) and re.search(r"\b(take me(?: to)?|guide(?:\s+me)?(?:\s+to)?|navigate(?:\s+me)?(?:\s+to)?|lead(?:\s+me)?(?:\s+to)?|directions? to)\b", q_eval):
+                    dest_m = re.search(r"\b(?:take me(?:\s+to)?|guide(?:\s+me)?(?:\s+to)?|navigate(?:\s+me)?(?:\s+to)?|lead(?:\s+me)?(?:\s+to)?|directions? to)\s+(?:the\s+)?([a-zA-Z0-9_ /]+)", q_eval)
                     raw_dest = dest_m.group(1).strip() if dest_m else "table"
                     if raw_dest in ("nearest exit", "closest exit", "exit"):
                         selected_tool = "find_nearest_exit"
                         selected_args = {"player_position": player_position}
                         validation_status = "GUARDRAIL_NEAREST_EXIT"
-                    else:
+                    elif raw_dest not in ("", "to", "me", "here"):
                         selected_tool = "navigate_to"
                         selected_args = {
                             "destination": raw_dest,
@@ -982,51 +1135,15 @@ class InvestigationAgent:
 
             # 4. Strict Pydantic Schema Validation & Context Injection
             if selected_tool:
-                if selected_tool in ("navigate_to", "find_path"):
-                    if player_position and not selected_args.get("player_position"):
-                        selected_args["player_position"] = player_position
-                    if active_room and not selected_args.get("current_room"):
-                        selected_args["current_room"] = active_room
-                elif selected_tool == "get_current_location":
-                    if player_position and not selected_args.get("player_position"):
-                        selected_args["player_position"] = player_position
-                    if active_room and not selected_args.get("active_room"):
-                        selected_args["active_room"] = active_room
-                elif selected_tool == "get_visible_objects":
-                    if player_position and not selected_args.get("player_position"):
-                        selected_args["player_position"] = player_position
-                    if camera_heading is not None and "camera_heading" not in selected_args:
-                        selected_args["camera_heading"] = camera_heading
-                    if active_room and not selected_args.get("room_name"):
-                        selected_args["room_name"] = active_room
-                elif selected_tool in ("find_nearest_exit", "find_nearest_target"):
-                    if player_position and not selected_args.get("player_position"):
-                        selected_args["player_position"] = player_position
-
+                selected_args = self._enrich_tool_args(
+                    selected_tool, selected_args, player_position, camera_heading, active_room, query_text=resolved_query
+                )
                 from backend.tools.schemas import validate_tool_arguments
                 is_valid, validated_args, val_err = validate_tool_arguments(selected_tool, selected_args)
                 if is_valid:
-                    selected_args = validated_args
-                    if selected_tool in ("navigate_to", "find_path"):
-                        if player_position and not selected_args.get("player_position"):
-                            selected_args["player_position"] = player_position
-                        if active_room and not selected_args.get("current_room"):
-                            selected_args["current_room"] = active_room
-                    elif selected_tool == "get_current_location":
-                        if player_position and not selected_args.get("player_position"):
-                            selected_args["player_position"] = player_position
-                        if active_room and not selected_args.get("active_room"):
-                            selected_args["active_room"] = active_room
-                    elif selected_tool == "get_visible_objects":
-                        if player_position and not selected_args.get("player_position"):
-                            selected_args["player_position"] = player_position
-                        if camera_heading is not None and "camera_heading" not in selected_args:
-                            selected_args["camera_heading"] = camera_heading
-                        if active_room and not selected_args.get("room_name"):
-                            selected_args["room_name"] = active_room
-                    elif selected_tool in ("find_nearest_exit", "find_nearest_target"):
-                        if player_position and not selected_args.get("player_position"):
-                            selected_args["player_position"] = player_position
+                    selected_args = self._enrich_tool_args(
+                        selected_tool, validated_args, player_position, camera_heading, active_room, query_text=resolved_query
+                    )
                 else:
                     validation_status = f"SCHEMA_VALIDATION_ERROR: {val_err}"
 
@@ -1079,40 +1196,32 @@ class InvestigationAgent:
             break
 
         # Formulate final natural language answer
-        final_answer = self._synthesize_final_answer(
+        final_answer = normalize_response_formatting(self._synthesize_final_answer(
             resolved_query,
             tool_calls,
             tool_results,
             agent_id=agent_id,
             active_room=active_room,
             player_position=player_position
+        ))
+
+        # Update conversation & session history
+        self._record_turn_history(session_id, user_query, final_answer)
+
+        # Record token IDs & RAG passages for live telemetry inspection
+        recorded_token_ids = self._encode_query_tokens(resolved_query)
+        rag_passages = self._collect_rag_passages(tool_calls, tool_results)
+        fallback_status = (
+            f"GEMINI_FALLBACK ({validation_status}): {gemini_error}"
+            if gemini_error
+            else validation_status
         )
-
-        # Update conversation history
-        self.conversation_history.append({"user": user_query, "assistant": final_answer})
-        if len(self.conversation_history) > 10:
-            self.conversation_history.pop(0)
-
-        # Record token IDs for live telemetry inspection
-        recorded_token_ids = []
-        if self.tokenizer:
-            try:
-                recorded_token_ids = self.tokenizer.encode(resolved_query, add_special_tokens=False)
-            except Exception:
-                recorded_token_ids = [hash(w) % 384 for w in resolved_query.split()]
-
-        # Collect any RAG passages retrieved during this turn
-        rag_passages: List[Dict[str, Any]] = []
-        for call, res in zip(tool_calls, tool_results):
-            t_name = call.get("tool") or call.get("name")
-            if t_name in ("search_documents", "search_safety_manual"):
-                r_data = res.get("result", {})
-                if isinstance(r_data, dict):
-                    if "passages" in r_data and isinstance(r_data["passages"], list):
-                        rag_passages.extend(r_data["passages"])
-                    elif "retrieved_passages" in r_data and isinstance(r_data["retrieved_passages"], list):
-                        for p in r_data["retrieved_passages"]:
-                            rag_passages.append({"title": "Facility Safety Protocol", "text": p, "score": 0.88})
+        turn_used_fallback = bool(gemini_error) or global_llm_provider.mode == LLMProviderManager.MODE_FROM_SCRATCH
+        global_llm_provider.record_turn_outcome(
+            model_name="custom_4layer_transformer_fallback",
+            used_fallback=turn_used_fallback,
+            error=gemini_error,
+        )
 
         return {
             "query": user_query,
@@ -1125,10 +1234,63 @@ class InvestigationAgent:
             "token_ids": recorded_token_ids,
             "rag_passages": rag_passages,
             "model_raw_output": model_raw_output,
-            "used_fallback": used_fallback,
-            "validation_status": validation_status,
-            "llm_mode": global_llm_provider.mode,
+            "used_fallback": used_fallback or bool(gemini_error),
+            "validation_status": fallback_status,
+            "llm_mode": LLMProviderManager.MODE_FROM_SCRATCH if gemini_error else global_llm_provider.mode,
+            "model_name": "custom_4layer_transformer_fallback",
+            "session_id": session_id,
+            "error": gemini_error,
         }
+
+    def stream_run(
+        self,
+        user_query: str,
+        agent_id: str = "scout",
+        mission_context: Optional[Dict[str, Any]] = None,
+        active_room: Optional[str] = None,
+        player_position: Optional[List[float]] = None,
+        camera_heading: Optional[float] = None,
+        session_id: str = "default",
+        selected_object_id: Optional[str] = None,
+    ) -> Generator[Dict[str, Any], None, None]:
+        """Executes an investigation turn and yields incremental streaming events."""
+        yield {
+            "event": "status",
+            "data": {
+                "stage": "analyzing",
+                "agent_id": agent_id or "scout",
+                "mode": global_llm_provider.mode,
+            },
+        }
+        result = self.run(
+            user_query=user_query,
+            agent_id=agent_id,
+            mission_context=mission_context,
+            active_room=active_room,
+            player_position=player_position,
+            camera_heading=camera_heading,
+            session_id=session_id,
+            selected_object_id=selected_object_id,
+        )
+        for tc in result.get("tool_calls", []):
+            yield {
+                "event": "tool_call",
+                "data": {
+                    "tool": tc.get("tool") or tc.get("name"),
+                    "arguments": tc.get("arguments", {}),
+                },
+            }
+
+        text = result.get("final_response", "")
+        words = text.split(" ")
+        chunk_size = 6
+        for i in range(0, len(words), chunk_size):
+            piece = " ".join(words[i : i + chunk_size])
+            if i + chunk_size < len(words):
+                piece += " "
+            yield {"event": "delta", "data": {"text": piece}}
+
+        yield {"event": "done", "data": result}
 
     def _synthesize_final_answer(
         self,
@@ -1139,24 +1301,7 @@ class InvestigationAgent:
         active_room: Optional[str] = None,
         player_position: Optional[List[float]] = None
     ) -> str:
-        """Synthesizes human-readable assistant response from tool observations."""
-        if global_llm_provider.mode == LLMProviderManager.MODE_GEMINI_API and global_llm_provider.gemini_client.is_configured() and calls:
-            persona_name = {
-                "scout": "Scout Drone (Optical Perception)",
-                "navigator": "Navigator Drone (3D Spatial Reasoning)",
-                "archivist": "Archivist Drone (Facility Archives & RAG)",
-            }.get(agent_id, "Companion Drone")
-            last_call = calls[-1]
-            last_res = results[-1] if results else {}
-            api_synth = global_llm_provider.gemini_client.synthesize_response(
-                query=query,
-                tool_name=last_call.get("tool") or last_call.get("name", ""),
-                tool_args=last_call.get("arguments", {}),
-                observation=last_res.get("result", ""),
-                companion_persona=persona_name,
-            )
-            if api_synth:
-                return api_synth
+        """Synthesizes human-readable assistant response from tool observations (Offline fallback)."""
 
         if not calls:
             q_clean = query.lower().strip()
@@ -1245,7 +1390,8 @@ class InvestigationAgent:
             )
 
         elif t_name == "get_visible_objects":
-            rm_txt = f" inside {active_room}" if active_room else ""
+            target_rm = last_call.get("arguments", {}).get("room_name") or active_room
+            rm_txt = f" inside {target_rm}" if target_rm else ""
             q_low = query.lower()
             if "key" in q_low and ("visible" in q_low or "confirm" in q_low or "see" in q_low):
                 det_count = len(t_res) if isinstance(t_res, list) else 0
@@ -1295,7 +1441,14 @@ class InvestigationAgent:
             if t_res.get("found"):
                 pos = t_res.get("position")
                 conf = t_res.get("confidence")
-                return f"👁️ **[Scout Drone]** {t_res['class_name'].capitalize()} located at metric coordinates {pos} with {int(conf*100) if conf else 90}% visual detection confidence."
+                rm_note = f" in {t_res['room']}" if t_res.get("room") else ""
+                extras = t_res.get("all_matches") or []
+                other_str = ""
+                if len(extras) > 1:
+                    other_str = " Other instances: " + "; ".join(
+                        f"{m['object_id']} ({m['room']} at {m['position']})" for m in extras[1:]
+                    ) + "."
+                return f"👁️ **[Scout Drone]** {t_res['class_name'].capitalize()} located at metric coordinates {pos}{rm_note} with {int(conf*100) if conf else 90}% detection confidence.{other_str}"
 
             # Mission-aware missing object investigation (e.g. "Find the key")
             if t_res.get("is_mission_target"):
@@ -1336,14 +1489,16 @@ class InvestigationAgent:
             matches = t_res.get("matches") or []
             if matches:
                 subjects = []
-                for item in matches:
+                for item in matches[:8]:
                     if isinstance(item, dict):
                         dist_txt = f" ({item['distance_meters']}m away)" if item.get("distance_meters") is not None else ""
-                        subjects.append(f"{item.get('subject') or item.get('class_name') or str(item)}{dist_txt}")
+                        subj = item.get("subject_id") or item.get("subject") or item.get("class_name") or str(item)
+                        rel = item.get("relation", t_res.get("relation", "related_to"))
+                        obj = item.get("object_id") or item.get("object") or t_res.get("query_object")
+                        subjects.append(f"{subj} is {rel} {obj}{dist_txt}")
                     else:
                         subjects.append(str(item))
-                relation = t_res.get("relation", "related_to")
-                return f"{drone_tag} Objects {relation} {t_res.get('query_object')}: {', '.join(subjects)}."
+                return f"{drone_tag} Spatial relationships: " + "; ".join(subjects) + "."
             return f"{drone_tag} No objects found with relation '{t_res.get('relation')}' to {t_res.get('query_object')}."
 
         elif t_name == "calculate_distance":
@@ -1587,11 +1742,17 @@ class InvestigationAgent:
             coords = t_res.get("coordinates", player_position or [0.0, 0.0, -15.0])
             desc = t_res.get("description", "")
             zones = t_res.get("adjacent_zones", "")
+            avail = t_res.get("available_rooms", [])
+            rooms_block = ""
+            if avail:
+                rooms_block = "\n• **Facility Rooms**:\n" + "\n".join(
+                    f"  - {r['name']}: {r['description']}" for r in avail
+                )
             return (
                 f"🧭 **[Navigator Drone — 3D Spatial Telemetry]**\n"
                 f"• **Current Stance**: {rm} at coordinates {coords}\n"
                 f"• **Room Geometry**: {desc}\n"
-                f"• **Adjacent Corridors & Zones**: {zones}\n\n"
+                f"• **Adjacent Corridors & Zones**: {zones}{rooms_block}\n\n"
                 f"GPS spatial positioning active. You can ask for turn-by-turn guidance to any room or landmark (e.g. 'Take me to the Library' or 'Guide me to the table')."
             )
 

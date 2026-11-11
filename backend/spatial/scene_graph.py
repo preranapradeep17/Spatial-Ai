@@ -11,21 +11,56 @@ class SceneGraphManager:
         self.proximity_threshold = proximity_threshold
         self.on_vertical_threshold = on_vertical_threshold
         self.objects: Dict[str, DetectedObject] = {}
+        self.live_perception_ids: set = set()
         self.last_updated: float = time.time()
         self.source: str = "initialized"
 
     def clear(self):
         self.objects.clear()
+        self.live_perception_ids.clear()
         self.last_updated = time.time()
 
     def update_objects(self, detections: List[DetectedObject], source: str = "custom_detector"):
-        """Updates internal state with new detections."""
-        self.objects = {d.object_id: d for d in detections}
+        """Updates internal state with new detections, annotating node provenance."""
+        self.objects = {}
+        self.live_perception_ids.clear()
+        for d in detections:
+            d_copy = d.model_copy(update={"source": d.source or source})
+            self.objects[d_copy.object_id] = d_copy
+            if source == "custom_detector":
+                self.live_perception_ids.add(d_copy.object_id)
         self.last_updated = time.time()
         self.source = source
 
+    def merge_live_detections(self, detections: List[DetectedObject], source: str = "custom_detector"):
+        """Records live CNN detections alongside existing seeded facility layout objects
+        without wiping out static room landmarks, keeping provenance strictly distinct."""
+        # Remove previous live perception overlay nodes before adding latest live frame
+        for oid in list(self.live_perception_ids):
+            self.objects.pop(oid, None)
+        self.live_perception_ids.clear()
+
+        for idx, d in enumerate(detections):
+            live_id = d.object_id if d.object_id.startswith("cnn_") else f"cnn_{d.object_id}"
+            d_copy = d.model_copy(update={"object_id": live_id, "source": source})
+            self.objects[live_id] = d_copy
+            self.live_perception_ids.add(live_id)
+
+        self.last_updated = time.time()
+        if detections:
+            self.source = f"hybrid_layout+{source}"
+
     def get_all_objects(self) -> List[DetectedObject]:
         return list(self.objects.values())
+
+    def get_seeded_objects(self) -> List[DetectedObject]:
+        return [o for o in self.objects.values() if o.object_id not in self.live_perception_ids]
+
+    def get_live_perception_objects(self) -> List[DetectedObject]:
+        return [o for o in self.objects.values() if o.object_id in self.live_perception_ids]
+
+    def is_live_object(self, obj: DetectedObject) -> bool:
+        return (obj.object_id in self.live_perception_ids) or (getattr(obj, "source", None) == "custom_detector")
 
     def locate_object(self, class_name: str) -> List[DetectedObject]:
         """Finds all detected objects of a given class or synonym (case-insensitive)."""
@@ -138,17 +173,23 @@ class SceneGraphManager:
                 dz = pa[2] - pb[2]
                 dist = math.sqrt(dx**2 + dy**2 + dz**2)
 
-                # Check "on" relationship: A is directly on top of B
-                # e.g., laptop on table
+                # Check "on" / "above" relationship
                 horiz_dist = math.sqrt(dx**2 + dz**2)
                 if 0.1 <= dy <= self.on_vertical_threshold and horiz_dist < 0.8:
                     edges.append(SceneGraphEdge(source_id=a.object_id, target_id=b.object_id, relation="on", distance_meters=round(dist, 2)))
+                if dy > 0.3 and horiz_dist < 1.5:
+                    edges.append(SceneGraphEdge(source_id=a.object_id, target_id=b.object_id, relation="above", distance_meters=round(dist, 2)))
 
-                # Directional relations (lateral: left_of / right_of)
+                # Directional relations (lateral: left_of / right_of, longitudinal: in_front_of / behind)
                 if dx < -0.3 and abs(dz) < 1.5:
                     edges.append(SceneGraphEdge(source_id=a.object_id, target_id=b.object_id, relation="left_of", distance_meters=round(dist, 2)))
                 elif dx > 0.3 and abs(dz) < 1.5:
                     edges.append(SceneGraphEdge(source_id=a.object_id, target_id=b.object_id, relation="right_of", distance_meters=round(dist, 2)))
+
+                if dz > 0.3 and abs(dx) < 1.8 and abs(dz) <= 3.5:
+                    edges.append(SceneGraphEdge(source_id=a.object_id, target_id=b.object_id, relation="in_front_of", distance_meters=round(dist, 2)))
+                elif dz < -0.3 and abs(dx) < 1.8 and abs(dz) <= 3.5:
+                    edges.append(SceneGraphEdge(source_id=a.object_id, target_id=b.object_id, relation="behind", distance_meters=round(dist, 2)))
 
                 # Proximity relation
                 if dist <= self.proximity_threshold:
@@ -156,29 +197,66 @@ class SceneGraphManager:
 
         return edges
 
-    def query_spatial_relation(self, obj_name: str, relation: str) -> List[Dict[str, Any]]:
-        """Finds all objects having a specific relation to the query object."""
+    def query_spatial_relation(
+        self,
+        obj_name: str,
+        relation: str = "all",
+        target_obj_name: Optional[str] = None,
+    ) -> List[Dict[str, Any]]:
+        """Finds spatial relations involving obj_name (and optionally between target_obj_name)."""
         target_objs = self.locate_object(obj_name)
         if not target_objs:
             return []
 
-        rel_norm = relation.lower().strip()
+        second_objs = self.locate_object(target_obj_name) if target_obj_name else []
+        second_ids = {o.object_id for o in second_objs}
+        if target_obj_name and not second_ids:
+            return []
+
+        rel_norm = (relation or "all").lower().strip()
+        match_all_rels = rel_norm in ("all", "any", "between", "")
         all_edges = self.compute_relations()
         results = []
 
         for edge in all_edges:
-            # Check if edge matches either as subject or object
+            if not match_all_rels and edge.relation != rel_norm:
+                continue
             for t in target_objs:
-                if edge.relation == rel_norm:
+                if target_obj_name:
+                    # Pair query: match edges in either direction between obj_name and target_obj_name
+                    if edge.target_id == t.object_id and edge.source_id in second_ids:
+                        other_obj = self.objects.get(edge.source_id)
+                        if other_obj:
+                            results.append({
+                                "subject": other_obj.class_name,
+                                "subject_id": other_obj.object_id,
+                                "relation": edge.relation,
+                                "object": t.class_name,
+                                "object_id": t.object_id,
+                                "distance_meters": edge.distance_meters,
+                            })
+                    elif edge.source_id == t.object_id and edge.target_id in second_ids:
+                        other_obj = self.objects.get(edge.target_id)
+                        if other_obj:
+                            results.append({
+                                "subject": t.class_name,
+                                "subject_id": t.object_id,
+                                "relation": edge.relation,
+                                "object": other_obj.class_name,
+                                "object_id": other_obj.object_id,
+                                "distance_meters": edge.distance_meters,
+                            })
+                else:
                     if edge.target_id == t.object_id:
-                        # source is [relation] target
                         source_obj = self.objects.get(edge.source_id)
                         if source_obj:
                             results.append({
                                 "subject": source_obj.class_name,
+                                "subject_id": source_obj.object_id,
                                 "relation": edge.relation,
                                 "object": t.class_name,
-                                "distance_meters": edge.distance_meters
+                                "object_id": t.object_id,
+                                "distance_meters": edge.distance_meters,
                             })
 
         return results
@@ -190,7 +268,9 @@ class SceneGraphManager:
                 class_name=o.class_name,
                 position=o.estimated_3d_position or [0.0, 0.0, 0.0],
                 confidence=o.confidence,
-                depth=o.depth_estimate
+                depth=o.depth_estimate,
+                depth_source=getattr(o, "depth_source", None),
+                source=getattr(o, "source", None) or ("custom_detector" if o.object_id in self.live_perception_ids else self.source)
             )
             for o in self.objects.values()
         ]

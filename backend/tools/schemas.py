@@ -31,6 +31,7 @@ class GetVisibleObjectsArgs(BaseToolArgs):
     player_position: Optional[List[float]] = Field(None, description="Optional player/camera 2D/3D coordinates")
     camera_heading: Optional[float] = Field(None, description="Optional camera/player heading in degrees")
     filter_fov: Optional[bool] = Field(False, description="Filter objects strictly within camera field of view")
+    live_only: Optional[bool] = Field(False, description="When true, return ONLY live SpatialDetector CNN detections (custom_detector) and exclude pre-seeded facility layout objects")
 
 
 class LocateObjectArgs(BaseToolArgs):
@@ -38,8 +39,9 @@ class LocateObjectArgs(BaseToolArgs):
 
 
 class QuerySpatialRelationArgs(BaseToolArgs):
-    object_name: str = Field(..., description="Reference object name")
-    relation: str = Field(..., description="Spatial relation: left_of, right_of, near, above, in_front_of")
+    object_name: str = Field(..., description="Primary reference object name (e.g., table, chair)")
+    relation: str = Field("all", description="Spatial relation: left_of, right_of, near, above, behind, in_front_of, on, or all")
+    target_object_name: Optional[str] = Field(None, description="Optional second object name when asking the relationship between two objects")
 
 
 class CalculateDistanceArgs(BaseToolArgs):

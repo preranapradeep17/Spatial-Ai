@@ -19,7 +19,9 @@ class DetectedObject(BaseModel):
     bbox: BoundingBox2D
     estimated_3d_position: Optional[List[float]] = None  # [X, Y, Z] in world space
     depth_estimate: Optional[float] = None               # In meters
+    depth_source: Optional[str] = None                   # "measured_webgl_depth", "measured_rgbd_sensor", "estimated_bbox_height", "seeded_layout"
     timestamp: float = Field(default_factory=time.time)
+    source: Optional[str] = None                         # e.g. "facility_layout", "custom_detector", "test_mock_pipeline"
 
 class CameraIntrinsics(BaseModel):
     fx: float = 525.0
@@ -34,11 +36,13 @@ class CameraPose(BaseModel):
     rotation: List[float] = Field(default_factory=lambda: [0.0, 0.0, 0.0, 1.0])  # Quaternion [x, y, z, w]
 
 class PerceptionRequest(BaseModel):
-    """Request submitted by Unity containing RGB and Depth information."""
+    """Request submitted by Unity or Three.js containing RGB and optional Depth information."""
     image_base64: Optional[str] = None
     depth_base64: Optional[str] = None
+    depth_encoding: Optional[str] = None  # "webgl_rg16_mm" or standard grayscale/float png
     camera_intrinsics: Optional[CameraIntrinsics] = None
     camera_pose: Optional[CameraPose] = None
+    coordinate_system: str = "unity"  # "unity" (+Z forward) or "threejs" (-Z forward)
     mock_mode: bool = False  # For isolated testing when models are training
 
 class PerceptionResponse(BaseModel):
@@ -53,6 +57,8 @@ class SceneGraphNode(BaseModel):
     position: List[float]  # [X, Y, Z]
     confidence: float
     depth: Optional[float] = None
+    depth_source: Optional[str] = None
+    source: Optional[str] = None
 
 class SceneGraphEdge(BaseModel):
     source_id: str
@@ -79,6 +85,8 @@ class AgentQueryRequest(BaseModel):
     player_position: Optional[List[float]] = None
     active_room: Optional[str] = None
     camera_heading: Optional[float] = None
+    session_id: Optional[str] = "default"
+    selected_object_id: Optional[str] = None
 
 class AgentQueryResponse(BaseModel):
     query: str
@@ -92,7 +100,11 @@ class AgentQueryResponse(BaseModel):
     latency_ms: Optional[float] = None
     validation_status: Optional[str] = None
     model_output: Optional[str] = None
-    llm_mode: Optional[str] = "from_scratch"
+    used_fallback: bool = False
+    llm_mode: Optional[str] = "gemini_api"
+    model_name: Optional[str] = None
+    session_id: Optional[str] = "default"
+    error: Optional[str] = None
 
 class PlayerSyncRequest(BaseModel):
     player_position: List[float] = Field(..., description="Current [X, Z] or [X, Y, Z] world position")

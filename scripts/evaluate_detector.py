@@ -43,13 +43,22 @@ def run_evaluation(
         backbone_channels=cfg["model"]["backbone_channels"]
     ).to(device)
 
-    # Load weights
-    ckpt = torch.load(checkpoint_path, map_location=device)
+    # Load weights and validation-calibrated class thresholds if saved
+    ckpt = torch.load(checkpoint_path, map_location=device, weights_only=True)
     model.load_state_dict(ckpt["model_state_dict"])
+    class_thresholds = ckpt.get("class_thresholds")
     print(f"Successfully loaded checkpoint trained up to epoch {ckpt.get('epoch', 'unknown')}.")
 
     # Evaluate
-    results = evaluate_detector(model, test_loader, device, conf_threshold=conf_thresh, iou_threshold=iou_thresh)
+    results = evaluate_detector(
+        model,
+        test_loader,
+        device,
+        conf_threshold=conf_thresh,
+        iou_threshold=iou_thresh,
+        class_thresholds=class_thresholds,
+        cross_class_iou_threshold=0.55,
+    )
 
     print("=" * 60)
     print("🎯 Real-World SUN RGB-D Test Benchmark Results (Evaluation A):")

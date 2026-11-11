@@ -1,5 +1,5 @@
 {
-  "dataset_name": "SUN RGB-D Curated Benchmark Subset",
+  "dataset_name": "SUN RGB-D Curated Benchmark Subset (Expanded Train/Val/Test)",
   "citation": "Song, Lichtenberg, Xiao, CVPR 2015",
   "classes": [
     "table",
@@ -31,86 +31,4354 @@
     "cupboard": 5,
     "dresser": 5
   },
+  "split_counts": {
+    "train": 168,
+    "val": 42,
+    "test": 70
+  },
+  "split_class_counts": {
+    "train": {
+      "table": 257,
+      "chair": 413,
+      "door": 89,
+      "bookshelf": 91,
+      "sofa": 91,
+      "cabinet": 90
+    },
+    "val": {
+      "table": 55,
+      "chair": 103,
+      "door": 28,
+      "bookshelf": 37,
+      "sofa": 23,
+      "cabinet": 32
+    },
+    "test": {
+      "table": 82,
+      "chair": 148,
+      "door": 38,
+      "bookshelf": 50,
+      "sofa": 42,
+      "cabinet": 42
+    }
+  },
+  "leakage_audit": {
+    "train_val_group_overlap": 0,
+    "train_test_group_overlap": 0,
+    "val_test_group_overlap": 0,
+    "train_val_md5_overlap": 0,
+    "train_test_md5_overlap": 0,
+    "val_test_md5_overlap": 0
+  },
   "samples": [
     {
       "frame_id": "sunrgbd_00000",
       "split": "train",
-      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0003",
-      "num_objects": 4,
+      "original_sequence": "SUNRGBD/kv2/kinect2data/000625_2014-06-08_11-27-43_260595134347_rgbf000196-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/000625_2014-06-08_11-27-43_260595134347_rgbf000196-resize",
+      "image_md5": "bb105f79b4e3885fe05b6117c3712b66",
+      "num_objects": 12,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "chair",
+        "door",
+        "sofa",
+        "table"
+      ],
       "image": "rgb/sunrgbd_00000.jpg",
       "depth": "depth/sunrgbd_00000.npy"
     },
     {
       "frame_id": "sunrgbd_00001",
       "split": "train",
-      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0004",
-      "num_objects": 2,
+      "original_sequence": "SUNRGBD/kv2/kinect2data/002325_2014-06-28_20-02-13_260595134347_rgbf000096-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/002325_2014-06-28_20-02-13_260595134347_rgbf000096-resize",
+      "image_md5": "d7e6aefdffaa5c9b41dc380385a314a2",
+      "num_objects": 10,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "chair",
+        "sofa",
+        "table"
+      ],
       "image": "rgb/sunrgbd_00001.jpg",
       "depth": "depth/sunrgbd_00001.npy"
     },
     {
       "frame_id": "sunrgbd_00002",
       "split": "train",
-      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0005",
-      "num_objects": 8,
+      "original_sequence": "SUNRGBD/kv2/kinect2data/000683_2014-06-08_23-15-59_260595134347_rgbf000025-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/000683_2014-06-08_23-15-59_260595134347_rgbf000025-resize",
+      "image_md5": "e5117f7e3fb7552ecb204adf8416c01a",
+      "num_objects": 7,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "chair",
+        "door",
+        "table"
+      ],
       "image": "rgb/sunrgbd_00002.jpg",
       "depth": "depth/sunrgbd_00002.npy"
     },
     {
       "frame_id": "sunrgbd_00003",
       "split": "train",
-      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0006",
-      "num_objects": 9,
+      "original_sequence": "SUNRGBD/kv2/kinect2data/002997_2014-06-15_12-31-59_094959634447_rgbf000151-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/002997_2014-06-15_12-31-59_094959634447_rgbf000151-resize",
+      "image_md5": "71e8872520508911f3ebe8b77f07622a",
+      "num_objects": 7,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "chair",
+        "sofa",
+        "table"
+      ],
       "image": "rgb/sunrgbd_00003.jpg",
       "depth": "depth/sunrgbd_00003.npy"
     },
     {
       "frame_id": "sunrgbd_00004",
       "split": "train",
-      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0007",
-      "num_objects": 7,
+      "original_sequence": "SUNRGBD/kv2/kinect2data/000454_2014-06-08_16-37-28_260595134347_rgbf000048-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/000454_2014-06-08_16-37-28_260595134347_rgbf000048-resize",
+      "image_md5": "1cde39f1a9a6ed47e3bb043ce5f95a85",
+      "num_objects": 4,
+      "classes_present": [
+        "chair",
+        "door",
+        "sofa",
+        "table"
+      ],
       "image": "rgb/sunrgbd_00004.jpg",
       "depth": "depth/sunrgbd_00004.npy"
     },
     {
       "frame_id": "sunrgbd_00005",
-      "split": "test",
-      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0001",
-      "num_objects": 3,
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/000441_2014-06-08_11-42-52_260595134347_rgbf000152-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/000441_2014-06-08_11-42-52_260595134347_rgbf000152-resize",
+      "image_md5": "cb11672e02f294efa5a3369bd0090a18",
+      "num_objects": 5,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "chair",
+        "door"
+      ],
       "image": "rgb/sunrgbd_00005.jpg",
       "depth": "depth/sunrgbd_00005.npy"
     },
     {
       "frame_id": "sunrgbd_00006",
-      "split": "test",
-      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0002",
-      "num_objects": 1,
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/b3dodata/img_0293",
+      "scene_group": "SUNRGBD/kv1/b3dodata/img_0293",
+      "image_md5": "05f370e6d5188a04296e3f537e136ee1",
+      "num_objects": 5,
+      "classes_present": [
+        "bookshelf",
+        "door",
+        "sofa",
+        "table"
+      ],
       "image": "rgb/sunrgbd_00006.jpg",
       "depth": "depth/sunrgbd_00006.npy"
     },
     {
       "frame_id": "sunrgbd_00007",
-      "split": "test",
-      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0009",
-      "num_objects": 4,
+      "split": "train",
+      "original_sequence": "SUNRGBD/xtion/sun3ddata/harvard_c8/hv_c8_2/0001084-000036398376",
+      "scene_group": "SUNRGBD/xtion/sun3ddata/harvard_c8/hv_c8_2",
+      "image_md5": "b930f11f8ef7865b72acbc0278e9b8cd",
+      "num_objects": 9,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "door",
+        "table"
+      ],
       "image": "rgb/sunrgbd_00007.jpg",
       "depth": "depth/sunrgbd_00007.npy"
     },
     {
       "frame_id": "sunrgbd_00008",
-      "split": "test",
-      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0014",
-      "num_objects": 2,
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU1242",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU1242",
+      "image_md5": "c5ca2b4fccd1298e12e3e7e57ff98644",
+      "num_objects": 4,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "sofa",
+        "table"
+      ],
       "image": "rgb/sunrgbd_00008.jpg",
       "depth": "depth/sunrgbd_00008.npy"
     },
     {
       "frame_id": "sunrgbd_00009",
-      "split": "test",
-      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0015",
-      "num_objects": 2,
+      "split": "train",
+      "original_sequence": "SUNRGBD/xtion/sun3ddata/brown_cs_7/brown_cs7/0001650-000055507186",
+      "scene_group": "SUNRGBD/xtion/sun3ddata/brown_cs_7/brown_cs7",
+      "image_md5": "c6793e2e0f3ce4e95a0f63bb6729f203",
+      "num_objects": 12,
+      "classes_present": [
+        "chair",
+        "door",
+        "sofa",
+        "table"
+      ],
       "image": "rgb/sunrgbd_00009.jpg",
       "depth": "depth/sunrgbd_00009.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00010",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/000514_2014-06-09_16-13-52_260595134347_rgbf000203-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/000514_2014-06-09_16-13-52_260595134347_rgbf000203-resize",
+      "image_md5": "3a7e1e41b930f7fc7b68b35cbc6b1379",
+      "num_objects": 6,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00010.jpg",
+      "depth": "depth/sunrgbd_00010.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00011",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0005",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU0005",
+      "image_md5": "1ab466cbd24d2614d2d638c5971d4d0e",
+      "num_objects": 8,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00011.jpg",
+      "depth": "depth/sunrgbd_00011.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00012",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/b3dodata/img_0331",
+      "scene_group": "SUNRGBD/kv1/b3dodata/img_0331",
+      "image_md5": "9a07a16d0640aa945b2730b8a8a6bae1",
+      "num_objects": 7,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00012.jpg",
+      "depth": "depth/sunrgbd_00012.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00013",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/000439_2014-06-08_11-22-32_260595134347_rgbf000148-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/000439_2014-06-08_11-22-32_260595134347_rgbf000148-resize",
+      "image_md5": "026ec137c90fecf2f6bdc6be483b4c32",
+      "num_objects": 5,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00013.jpg",
+      "depth": "depth/sunrgbd_00013.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00014",
+      "split": "train",
+      "original_sequence": "SUNRGBD/xtion/sun3ddata/brown_bm_3/brown_bm_3/0006705-000224992908",
+      "scene_group": "SUNRGBD/xtion/sun3ddata/brown_bm_3/brown_bm_3",
+      "image_md5": "2874f442b7c978a1a8d967302c8f7d56",
+      "num_objects": 5,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00014.jpg",
+      "depth": "depth/sunrgbd_00014.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00015",
+      "split": "train",
+      "original_sequence": "SUNRGBD/xtion/sun3ddata/brown_cs_8/brown_cs8/0002492-000083784361",
+      "scene_group": "SUNRGBD/xtion/sun3ddata/brown_cs_8/brown_cs8",
+      "image_md5": "c75a8d40829ad713b37db4df54129263",
+      "num_objects": 12,
+      "classes_present": [
+        "chair",
+        "door",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00015.jpg",
+      "depth": "depth/sunrgbd_00015.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00016",
+      "split": "train",
+      "original_sequence": "SUNRGBD/xtion/sun3ddata/hotel_uc/scan2/0000885-000176498993",
+      "scene_group": "SUNRGBD/xtion/sun3ddata/hotel_uc/scan2",
+      "image_md5": "75d6a3d37177cd3f53cf972d226b9f20",
+      "num_objects": 5,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00016.jpg",
+      "depth": "depth/sunrgbd_00016.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00017",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU1037",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU1037",
+      "image_md5": "f4b39f3fb9831135e2b21d846f16239a",
+      "num_objects": 4,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00017.jpg",
+      "depth": "depth/sunrgbd_00017.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00018",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/001979_2014-06-24_16-16-47_260595134347_rgbf000036-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/001979_2014-06-24_16-16-47_260595134347_rgbf000036-resize",
+      "image_md5": "1ade1a06dd1ea019ad5ebacdf4dc2fd9",
+      "num_objects": 5,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00018.jpg",
+      "depth": "depth/sunrgbd_00018.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00019",
+      "split": "train",
+      "original_sequence": "SUNRGBD/xtion/sun3ddata/brown_cs_10/brown_cs10/0000218-000007556613",
+      "scene_group": "SUNRGBD/xtion/sun3ddata/brown_cs_10/brown_cs10",
+      "image_md5": "8fff1f99e7407310fb925a547611837b",
+      "num_objects": 7,
+      "classes_present": [
+        "chair",
+        "door",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00019.jpg",
+      "depth": "depth/sunrgbd_00019.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00020",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/002300_2014-06-28_19-01-49_260595134347_rgbf000046-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/002300_2014-06-28_19-01-49_260595134347_rgbf000046-resize",
+      "image_md5": "c542c26af851faecbec9e6bf8cc0f1d1",
+      "num_objects": 10,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00020.jpg",
+      "depth": "depth/sunrgbd_00020.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00021",
+      "split": "train",
+      "original_sequence": "SUNRGBD/xtion/sun3ddata/harvard_c10/hv_c10_1/0000497-000016715270",
+      "scene_group": "SUNRGBD/xtion/sun3ddata/harvard_c10/hv_c10_1",
+      "image_md5": "8859a4b9ecb7bce883730dee4cf64049",
+      "num_objects": 11,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00021.jpg",
+      "depth": "depth/sunrgbd_00021.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00022",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU1238",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU1238",
+      "image_md5": "106afe54164a5ea27cf274ce281281a6",
+      "num_objects": 6,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00022.jpg",
+      "depth": "depth/sunrgbd_00022.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00023",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/002532_2014-06-24_13-35-33_094959634447_rgbf000075-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/002532_2014-06-24_13-35-33_094959634447_rgbf000075-resize",
+      "image_md5": "0647e30d389d62ae2ba6fe2fb107def3",
+      "num_objects": 4,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00023.jpg",
+      "depth": "depth/sunrgbd_00023.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00024",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/003021_2014-06-15_13-10-57_094959634447_rgbf000075-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/003021_2014-06-15_13-10-57_094959634447_rgbf000075-resize",
+      "image_md5": "f28fe8056aaab4099e916db41712a37e",
+      "num_objects": 6,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00024.jpg",
+      "depth": "depth/sunrgbd_00024.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00025",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/001513_2014-06-20_16-23-55_260595134347_rgbf000118-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/001513_2014-06-20_16-23-55_260595134347_rgbf000118-resize",
+      "image_md5": "8fbe22e568db3e0f9def0cd929dec7d4",
+      "num_objects": 4,
+      "classes_present": [
+        "chair",
+        "door",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00025.jpg",
+      "depth": "depth/sunrgbd_00025.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00026",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/002669_2014-06-13_16-04-12_094959634447_rgbf000151-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/002669_2014-06-13_16-04-12_094959634447_rgbf000151-resize",
+      "image_md5": "e6e38e5cddad324543261a8799b54193",
+      "num_objects": 7,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00026.jpg",
+      "depth": "depth/sunrgbd_00026.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00027",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0625",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU0625",
+      "image_md5": "f98b60b3019e61eb779dfd749dc93679",
+      "num_objects": 6,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00027.jpg",
+      "depth": "depth/sunrgbd_00027.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00028",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0383",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU0383",
+      "image_md5": "45d01f639f1a63ee66fea7155b017741",
+      "num_objects": 7,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00028.jpg",
+      "depth": "depth/sunrgbd_00028.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00029",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/000760_2014-06-08_22-05-52_260595134347_rgbf000139-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/000760_2014-06-08_22-05-52_260595134347_rgbf000139-resize",
+      "image_md5": "9a01c36017763053e7785a97b4c95f80",
+      "num_objects": 4,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00029.jpg",
+      "depth": "depth/sunrgbd_00029.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00030",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/001311_2014-06-16_16-36-13_260595134347_rgbf000182-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/001311_2014-06-16_16-36-13_260595134347_rgbf000182-resize",
+      "image_md5": "13ffb30fa70c796006112e2f6caf175d",
+      "num_objects": 10,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00030.jpg",
+      "depth": "depth/sunrgbd_00030.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00031",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/001075_2014-06-08_22-18-00_260595134347_rgbf000088-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/001075_2014-06-08_22-18-00_260595134347_rgbf000088-resize",
+      "image_md5": "5b02800cd78bf086baa409670467fbb5",
+      "num_objects": 7,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00031.jpg",
+      "depth": "depth/sunrgbd_00031.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00032",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/001293_2014-06-16_16-27-24_260595134347_rgbf000103-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/001293_2014-06-16_16-27-24_260595134347_rgbf000103-resize",
+      "image_md5": "97ef375b95492875cda7e6f1745b7bce",
+      "num_objects": 12,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00032.jpg",
+      "depth": "depth/sunrgbd_00032.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00033",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU1240",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU1240",
+      "image_md5": "1fb2c43d14e7b8fb73a6c25e7c22b86d",
+      "num_objects": 7,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00033.jpg",
+      "depth": "depth/sunrgbd_00033.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00034",
+      "split": "train",
+      "original_sequence": "SUNRGBD/realsense/sh/2014_10_21-11_33_55-1311000041",
+      "scene_group": "SUNRGBD/realsense/sh/2014_10_21-11_33_55-1311000041",
+      "image_md5": "4edf31a784772f419a5831398d3f3237",
+      "num_objects": 8,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00034.jpg",
+      "depth": "depth/sunrgbd_00034.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00035",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/001401_2014-06-19_16-12-32_260595134347_rgbf000097-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/001401_2014-06-19_16-12-32_260595134347_rgbf000097-resize",
+      "image_md5": "7557096b8270b8cd6a4eb3150b0c2fed",
+      "num_objects": 11,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00035.jpg",
+      "depth": "depth/sunrgbd_00035.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00036",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/002999_2014-06-15_12-33-38_094959634447_rgbf000118-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/002999_2014-06-15_12-33-38_094959634447_rgbf000118-resize",
+      "image_md5": "7e72b545903f1f57ddab6dc664620b60",
+      "num_objects": 5,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00036.jpg",
+      "depth": "depth/sunrgbd_00036.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00037",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/002322_2014-06-28_20-01-40_260595134347_rgbf000072-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/002322_2014-06-28_20-01-40_260595134347_rgbf000072-resize",
+      "image_md5": "88459125bf1cede8df562a27024ca131",
+      "num_objects": 4,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00037.jpg",
+      "depth": "depth/sunrgbd_00037.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00038",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/002656_2014-06-13_15-29-14_094959634447_rgbf000151-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/002656_2014-06-13_15-29-14_094959634447_rgbf000151-resize",
+      "image_md5": "dc81831856573dc866018c5a70981aa3",
+      "num_objects": 19,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00038.jpg",
+      "depth": "depth/sunrgbd_00038.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00039",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/000537_2014-06-08_17-27-43_260595134347_rgbf000141-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/000537_2014-06-08_17-27-43_260595134347_rgbf000141-resize",
+      "image_md5": "11e6b6c2fbb93ded41e1f0fadb7d50d6",
+      "num_objects": 5,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "door"
+      ],
+      "image": "rgb/sunrgbd_00039.jpg",
+      "depth": "depth/sunrgbd_00039.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00040",
+      "split": "train",
+      "original_sequence": "SUNRGBD/xtion/sun3ddata/harvard_corridor_lounge/hv_lounge_corridor2_1/0002448-000082013770",
+      "scene_group": "SUNRGBD/xtion/sun3ddata/harvard_corridor_lounge/hv_lounge_corridor2_1",
+      "image_md5": "7d76907dd8dab34547d19d1c516d17a0",
+      "num_objects": 4,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "door"
+      ],
+      "image": "rgb/sunrgbd_00040.jpg",
+      "depth": "depth/sunrgbd_00040.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00041",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/000548_2014-06-08_18-49-46_260595134347_rgbf000111-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/000548_2014-06-08_18-49-46_260595134347_rgbf000111-resize",
+      "image_md5": "c033b6e418023b4140862a06175a4d21",
+      "num_objects": 4,
+      "classes_present": [
+        "door",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00041.jpg",
+      "depth": "depth/sunrgbd_00041.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00042",
+      "split": "train",
+      "original_sequence": "SUNRGBD/xtion/sun3ddata/hotel_grenoble/scan1_2012_july_11/0000772-000759000977",
+      "scene_group": "SUNRGBD/xtion/sun3ddata/hotel_grenoble/scan1_2012_july_11",
+      "image_md5": "c847606ad77171e457274779863800be",
+      "num_objects": 3,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "door"
+      ],
+      "image": "rgb/sunrgbd_00042.jpg",
+      "depth": "depth/sunrgbd_00042.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00043",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/b3dodata/img_0282",
+      "scene_group": "SUNRGBD/kv1/b3dodata/img_0282",
+      "image_md5": "38a182897633aad609a9b6fabfa560d4",
+      "num_objects": 4,
+      "classes_present": [
+        "cabinet",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00043.jpg",
+      "depth": "depth/sunrgbd_00043.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00044",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/000547_2014-06-08_18-49-09_260595134347_rgbf000021-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/000547_2014-06-08_18-49-09_260595134347_rgbf000021-resize",
+      "image_md5": "032c2a59801050b24857b0cffbeeb4ac",
+      "num_objects": 5,
+      "classes_present": [
+        "door",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00044.jpg",
+      "depth": "depth/sunrgbd_00044.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00045",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/001575_2014-06-20_17-23-58_260595134347_rgbf000052-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/001575_2014-06-20_17-23-58_260595134347_rgbf000052-resize",
+      "image_md5": "01f04d445c5aef641d704c445c5c8e84",
+      "num_objects": 3,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "door"
+      ],
+      "image": "rgb/sunrgbd_00045.jpg",
+      "depth": "depth/sunrgbd_00045.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00046",
+      "split": "train",
+      "original_sequence": "SUNRGBD/xtion/sun3ddata/hotel_sf/scan1/0001349-000156011002",
+      "scene_group": "SUNRGBD/xtion/sun3ddata/hotel_sf/scan1",
+      "image_md5": "834cfb91df5b21ce52a41bc772892d23",
+      "num_objects": 3,
+      "classes_present": [
+        "cabinet",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00046.jpg",
+      "depth": "depth/sunrgbd_00046.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00047",
+      "split": "train",
+      "original_sequence": "SUNRGBD/xtion/sun3ddata/hotel_mr/scan1/0002408-000128110001",
+      "scene_group": "SUNRGBD/xtion/sun3ddata/hotel_mr/scan1",
+      "image_md5": "2f2cbd292e89998433a7d1811fd0cfa1",
+      "num_objects": 3,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "chair"
+      ],
+      "image": "rgb/sunrgbd_00047.jpg",
+      "depth": "depth/sunrgbd_00047.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00048",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0052",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU0052",
+      "image_md5": "4d6fec41d2d74f62e3a3b61551894600",
+      "num_objects": 6,
+      "classes_present": [
+        "bookshelf",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00048.jpg",
+      "depth": "depth/sunrgbd_00048.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00049",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/001566_2014-06-20_17-19-08_260595134347_rgbf000044-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/001566_2014-06-20_17-19-08_260595134347_rgbf000044-resize",
+      "image_md5": "39eaa4779e84a4a7d5e423a4c598ddd1",
+      "num_objects": 6,
+      "classes_present": [
+        "cabinet",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00049.jpg",
+      "depth": "depth/sunrgbd_00049.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00050",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0245",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU0245",
+      "image_md5": "3a3b1da6d4bdadf1b49bf1ca491e2a4a",
+      "num_objects": 5,
+      "classes_present": [
+        "cabinet",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00050.jpg",
+      "depth": "depth/sunrgbd_00050.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00051",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/b3dodata/img_0273",
+      "scene_group": "SUNRGBD/kv1/b3dodata/img_0273",
+      "image_md5": "80e7fea59a81d171ed06efdba8f29cbc",
+      "num_objects": 5,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "sofa"
+      ],
+      "image": "rgb/sunrgbd_00051.jpg",
+      "depth": "depth/sunrgbd_00051.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00052",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0989",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU0989",
+      "image_md5": "d87e84072ddb504cae273d41a7cdb136",
+      "num_objects": 6,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "chair"
+      ],
+      "image": "rgb/sunrgbd_00052.jpg",
+      "depth": "depth/sunrgbd_00052.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00053",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/002989_2014-06-15_12-25-03_094959634447_rgbf000150-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/002989_2014-06-15_12-25-03_094959634447_rgbf000150-resize",
+      "image_md5": "55a60982f239b6e16bc74d806e62e386",
+      "num_objects": 4,
+      "classes_present": [
+        "bookshelf",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00053.jpg",
+      "depth": "depth/sunrgbd_00053.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00054",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/000606_2014-06-09_16-53-50_260595134347_rgbf000121-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/000606_2014-06-09_16-53-50_260595134347_rgbf000121-resize",
+      "image_md5": "e921d59f810d7c565aaa6899aa0c0055",
+      "num_objects": 3,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00054.jpg",
+      "depth": "depth/sunrgbd_00054.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00055",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/001435_2014-06-19_16-52-03_260595134347_rgbf000067-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/001435_2014-06-19_16-52-03_260595134347_rgbf000067-resize",
+      "image_md5": "d0ccd49f6e5654af7323ac5a8ebbf7e5",
+      "num_objects": 4,
+      "classes_present": [
+        "bookshelf",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00055.jpg",
+      "depth": "depth/sunrgbd_00055.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00056",
+      "split": "train",
+      "original_sequence": "SUNRGBD/xtion/sun3ddata/mit_32_d466/d466-1/0003072-000102927636",
+      "scene_group": "SUNRGBD/xtion/sun3ddata/mit_32_d466/d466-1",
+      "image_md5": "3b943577ebadd99129d8ec8dfccfeebd",
+      "num_objects": 3,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00056.jpg",
+      "depth": "depth/sunrgbd_00056.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00057",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU1253",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU1253",
+      "image_md5": "5046e64f6d7813c8c95b8bf414f3250a",
+      "num_objects": 3,
+      "classes_present": [
+        "bookshelf",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00057.jpg",
+      "depth": "depth/sunrgbd_00057.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00058",
+      "split": "train",
+      "original_sequence": "SUNRGBD/xtion/sun3ddata/harvard_corridor_lounge/hv_lounge_corridor3_whole_floor/0000660-000022187592",
+      "scene_group": "SUNRGBD/xtion/sun3ddata/harvard_corridor_lounge/hv_lounge_corridor3_whole_floor",
+      "image_md5": "da77beb6fb38e931896bb1ca0dcc058e",
+      "num_objects": 5,
+      "classes_present": [
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00058.jpg",
+      "depth": "depth/sunrgbd_00058.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00059",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/003071_2014-06-15_14-58-55_094959634447_rgbf000108-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/003071_2014-06-15_14-58-55_094959634447_rgbf000108-resize",
+      "image_md5": "b009c26897b9250d97ece3823cae06a9",
+      "num_objects": 4,
+      "classes_present": [
+        "bookshelf",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00059.jpg",
+      "depth": "depth/sunrgbd_00059.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00060",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU1140",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU1140",
+      "image_md5": "09fb16784c3746c8dea6bdbbfb2615af",
+      "num_objects": 4,
+      "classes_present": [
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00060.jpg",
+      "depth": "depth/sunrgbd_00060.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00061",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/b3dodata/img_0388",
+      "scene_group": "SUNRGBD/kv1/b3dodata/img_0388",
+      "image_md5": "e69bfb31002668cfb16d75c4a88b303f",
+      "num_objects": 3,
+      "classes_present": [
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00061.jpg",
+      "depth": "depth/sunrgbd_00061.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00062",
+      "split": "train",
+      "original_sequence": "SUNRGBD/xtion/sun3ddata/home_ac/home_ac_scan2_2012_aug_22/0017012-001404517944",
+      "scene_group": "SUNRGBD/xtion/sun3ddata/home_ac/home_ac_scan2_2012_aug_22",
+      "image_md5": "c29f80c4804b021a391e56cc53b8447e",
+      "num_objects": 5,
+      "classes_present": [
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00062.jpg",
+      "depth": "depth/sunrgbd_00062.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00063",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0417",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU0417",
+      "image_md5": "21e4e411f9940dd25519c9cd55b62100",
+      "num_objects": 4,
+      "classes_present": [
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00063.jpg",
+      "depth": "depth/sunrgbd_00063.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00064",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/000767_2014-06-08_22-12-49_260595134347_rgbf000095-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/000767_2014-06-08_22-12-49_260595134347_rgbf000095-resize",
+      "image_md5": "466e55d6ca098bd8e0e2d06763c00e3f",
+      "num_objects": 4,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00064.jpg",
+      "depth": "depth/sunrgbd_00064.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00065",
+      "split": "train",
+      "original_sequence": "SUNRGBD/realsense/shr/2014_12_18-13_59_13-1311000073",
+      "scene_group": "SUNRGBD/realsense/shr/2014_12_18-13_59_13-1311000073",
+      "image_md5": "f3052fa8ddd5578e5d834b4013b76c03",
+      "num_objects": 8,
+      "classes_present": [
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00065.jpg",
+      "depth": "depth/sunrgbd_00065.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00066",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU1380",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU1380",
+      "image_md5": "6d0423948ac176077c332cf12b3cd346",
+      "num_objects": 10,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00066.jpg",
+      "depth": "depth/sunrgbd_00066.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00067",
+      "split": "train",
+      "original_sequence": "SUNRGBD/xtion/sun3ddata/harvard_computer_lab/hv_c1_1/0000951-000031840200",
+      "scene_group": "SUNRGBD/xtion/sun3ddata/harvard_computer_lab/hv_c1_1",
+      "image_md5": "24b4f87da0e3ea52d020038ccd7dee1f",
+      "num_objects": 15,
+      "classes_present": [
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00067.jpg",
+      "depth": "depth/sunrgbd_00067.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00068",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/000605_2014-06-09_16-50-46_260595134347_rgbf000162-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/000605_2014-06-09_16-50-46_260595134347_rgbf000162-resize",
+      "image_md5": "bf9031a8df6e4ba999d0ed1b1303d2dc",
+      "num_objects": 6,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00068.jpg",
+      "depth": "depth/sunrgbd_00068.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00069",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/001009_2014-06-08_23-14-06_260595134347_rgbf000032-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/001009_2014-06-08_23-14-06_260595134347_rgbf000032-resize",
+      "image_md5": "602b271e20c03d3b12dd8ceb8bebcc97",
+      "num_objects": 6,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "door",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00069.jpg",
+      "depth": "depth/sunrgbd_00069.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00070",
+      "split": "train",
+      "original_sequence": "SUNRGBD/xtion/sun3ddata/home_ac/home_ac_scan1_2012_aug_22/0010230-000462690002",
+      "scene_group": "SUNRGBD/xtion/sun3ddata/home_ac/home_ac_scan1_2012_aug_22",
+      "image_md5": "0ac3c2c020be10cb3c3f8d474537637c",
+      "num_objects": 9,
+      "classes_present": [
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00070.jpg",
+      "depth": "depth/sunrgbd_00070.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00071",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0798",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU0798",
+      "image_md5": "656012efe15aee1961bd0ef48b79e468",
+      "num_objects": 10,
+      "classes_present": [
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00071.jpg",
+      "depth": "depth/sunrgbd_00071.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00072",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0346",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU0346",
+      "image_md5": "e2c40e89c85c3d91823e58e1be78e320",
+      "num_objects": 6,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00072.jpg",
+      "depth": "depth/sunrgbd_00072.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00073",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU1243",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU1243",
+      "image_md5": "2eb50919da183aee1ea028ad2716ed7c",
+      "num_objects": 6,
+      "classes_present": [
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00073.jpg",
+      "depth": "depth/sunrgbd_00073.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00074",
+      "split": "train",
+      "original_sequence": "SUNRGBD/realsense/shr/2014_12_18-12_20_19-1311000073",
+      "scene_group": "SUNRGBD/realsense/shr/2014_12_18-12_20_19-1311000073",
+      "image_md5": "b20d573a14b7643943a27bb7ad0c6641",
+      "num_objects": 5,
+      "classes_present": [
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00074.jpg",
+      "depth": "depth/sunrgbd_00074.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00075",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU1323",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU1323",
+      "image_md5": "cd54bb528c7d15716c95a556665ab609",
+      "num_objects": 4,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00075.jpg",
+      "depth": "depth/sunrgbd_00075.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00076",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/001112_2014-06-15_17-27-42_260595134347_rgbf000113-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/001112_2014-06-15_17-27-42_260595134347_rgbf000113-resize",
+      "image_md5": "dbcc0dfa4ef05d6d91ab0f5dedf0ab74",
+      "num_objects": 4,
+      "classes_present": [
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00076.jpg",
+      "depth": "depth/sunrgbd_00076.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00077",
+      "split": "train",
+      "original_sequence": "SUNRGBD/xtion/sun3ddata/mit_32_262/262_1/0000067-000002279088",
+      "scene_group": "SUNRGBD/xtion/sun3ddata/mit_32_262/262_1",
+      "image_md5": "2ac369ce408db055237df6d58ef346f3",
+      "num_objects": 3,
+      "classes_present": [
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00077.jpg",
+      "depth": "depth/sunrgbd_00077.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00078",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/001477_2014-06-19_17-33-27_260595134347_rgbf000089-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/001477_2014-06-19_17-33-27_260595134347_rgbf000089-resize",
+      "image_md5": "80c986d0610e8434bab4f9c27931bb1b",
+      "num_objects": 8,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00078.jpg",
+      "depth": "depth/sunrgbd_00078.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00079",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/002353_2014-06-28_20-08-17_260595134347_rgbf000060-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/002353_2014-06-28_20-08-17_260595134347_rgbf000060-resize",
+      "image_md5": "f06e625205f0b5d92e567d7d2d58062c",
+      "num_objects": 5,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00079.jpg",
+      "depth": "depth/sunrgbd_00079.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00080",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/001373_2014-06-19_15-55-34_260595134347_rgbf000088-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/001373_2014-06-19_15-55-34_260595134347_rgbf000088-resize",
+      "image_md5": "a2de35c702cb69449d46d4b417dd5e6e",
+      "num_objects": 31,
+      "classes_present": [
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00080.jpg",
+      "depth": "depth/sunrgbd_00080.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00081",
+      "split": "train",
+      "original_sequence": "SUNRGBD/realsense/shr/2014_12_18-12_19_26-1311000073",
+      "scene_group": "SUNRGBD/realsense/shr/2014_12_18-12_19_26-1311000073",
+      "image_md5": "d5539493574167322039555b00cc7f6d",
+      "num_objects": 5,
+      "classes_present": [
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00081.jpg",
+      "depth": "depth/sunrgbd_00081.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00082",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/000624_2014-06-08_11-26-08_260595134347_rgbf000265-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/000624_2014-06-08_11-26-08_260595134347_rgbf000265-resize",
+      "image_md5": "4a74e899ec70a14ccc11aa3c6f3a7d9c",
+      "num_objects": 6,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00082.jpg",
+      "depth": "depth/sunrgbd_00082.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00083",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU1333",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU1333",
+      "image_md5": "5c69d1e08dcfe0f41795560502fd2303",
+      "num_objects": 8,
+      "classes_present": [
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00083.jpg",
+      "depth": "depth/sunrgbd_00083.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00084",
+      "split": "train",
+      "original_sequence": "SUNRGBD/xtion/sun3ddata/mit_32_d428/bs4j179mmv/0002340-000078393924",
+      "scene_group": "SUNRGBD/xtion/sun3ddata/mit_32_d428/bs4j179mmv",
+      "image_md5": "732347a5208f7ba6806ee99e51cba592",
+      "num_objects": 4,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00084.jpg",
+      "depth": "depth/sunrgbd_00084.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00085",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/002286_2014-06-28_18-57-27_260595134347_rgbf000047-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/002286_2014-06-28_18-57-27_260595134347_rgbf000047-resize",
+      "image_md5": "ce079412edfd2dfe3699440f10fb17d5",
+      "num_objects": 9,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00085.jpg",
+      "depth": "depth/sunrgbd_00085.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00086",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/000447_2014-06-08_16-15-46_260595134347_rgbf000130-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/000447_2014-06-08_16-15-46_260595134347_rgbf000130-resize",
+      "image_md5": "977dff2a6a962c94e00a92c931180f1e",
+      "num_objects": 4,
+      "classes_present": [
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00086.jpg",
+      "depth": "depth/sunrgbd_00086.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00087",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/000694_2014-06-08_13-12-30_260595134347_rgbf000219-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/000694_2014-06-08_13-12-30_260595134347_rgbf000219-resize",
+      "image_md5": "0634a70f4e1407ec21512a24ae33a277",
+      "num_objects": 4,
+      "classes_present": [
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00087.jpg",
+      "depth": "depth/sunrgbd_00087.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00088",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0344",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU0344",
+      "image_md5": "7980328a93dee27beb9b1788c4ff2686",
+      "num_objects": 8,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00088.jpg",
+      "depth": "depth/sunrgbd_00088.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00089",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0292",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU0292",
+      "image_md5": "7b22ae8365660582fc3a8a1841ffe596",
+      "num_objects": 12,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00089.jpg",
+      "depth": "depth/sunrgbd_00089.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00090",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/002275_2014-06-28_18-54-30_260595134347_rgbf000040-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/002275_2014-06-28_18-54-30_260595134347_rgbf000040-resize",
+      "image_md5": "f13e913fcd999bb0b9e6ad51493b3108",
+      "num_objects": 8,
+      "classes_present": [
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00090.jpg",
+      "depth": "depth/sunrgbd_00090.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00091",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/000074_2014-05-14_21-23-48_260595134347_rgbf000100-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/000074_2014-05-14_21-23-48_260595134347_rgbf000100-resize",
+      "image_md5": "4e36d6bec8050ce994374f9a36b0430b",
+      "num_objects": 5,
+      "classes_present": [
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00091.jpg",
+      "depth": "depth/sunrgbd_00091.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00092",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/000941_2014-06-09_19-30-21_260595134347_rgbf000088-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/000941_2014-06-09_19-30-21_260595134347_rgbf000088-resize",
+      "image_md5": "c2fe04b35aa8a2eb05266e2a4852407e",
+      "num_objects": 8,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00092.jpg",
+      "depth": "depth/sunrgbd_00092.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00093",
+      "split": "train",
+      "original_sequence": "SUNRGBD/xtion/sun3ddata/hotel_pedraza/hotel_room_pedraza_2012_nov_25/0007111-000238413241",
+      "scene_group": "SUNRGBD/xtion/sun3ddata/hotel_pedraza/hotel_room_pedraza_2012_nov_25",
+      "image_md5": "138d9c0f2fbfe685ba25532ee99ac366",
+      "num_objects": 3,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00093.jpg",
+      "depth": "depth/sunrgbd_00093.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00094",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU1224",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU1224",
+      "image_md5": "8ce276faa666c5ed6f8a7e404946dae2",
+      "num_objects": 5,
+      "classes_present": [
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00094.jpg",
+      "depth": "depth/sunrgbd_00094.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00095",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/001038_2014-06-08_13-29-57_260595134347_rgbf000191-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/001038_2014-06-08_13-29-57_260595134347_rgbf000191-resize",
+      "image_md5": "09237d6793e506783b01be8bda635d6a",
+      "num_objects": 5,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00095.jpg",
+      "depth": "depth/sunrgbd_00095.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00096",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/001338_2014-06-16_17-00-05_260595134347_rgbf000045-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/001338_2014-06-16_17-00-05_260595134347_rgbf000045-resize",
+      "image_md5": "7bd4b9067d45c3f29c35d83e0281ca8a",
+      "num_objects": 2,
+      "classes_present": [
+        "door",
+        "sofa"
+      ],
+      "image": "rgb/sunrgbd_00096.jpg",
+      "depth": "depth/sunrgbd_00096.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00097",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/003032_2014-06-15_13-25-55_094959634447_rgbf000150-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/003032_2014-06-15_13-25-55_094959634447_rgbf000150-resize",
+      "image_md5": "4fa0f266de5677b7526792ebdb4ca24b",
+      "num_objects": 7,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00097.jpg",
+      "depth": "depth/sunrgbd_00097.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00098",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0552",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU0552",
+      "image_md5": "0cdc27c71f6dae87c8b4519657157f3a",
+      "num_objects": 4,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00098.jpg",
+      "depth": "depth/sunrgbd_00098.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00099",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU1300",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU1300",
+      "image_md5": "a7b9361d0e78fed2c305c023fb2cfb9e",
+      "num_objects": 2,
+      "classes_present": [
+        "bookshelf",
+        "sofa"
+      ],
+      "image": "rgb/sunrgbd_00099.jpg",
+      "depth": "depth/sunrgbd_00099.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00100",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/001257_2014-06-16_16-04-09_260595134347_rgbf000083-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/001257_2014-06-16_16-04-09_260595134347_rgbf000083-resize",
+      "image_md5": "d0eaaffa4563f1b653e94e99de5f6666",
+      "num_objects": 4,
+      "classes_present": [
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00100.jpg",
+      "depth": "depth/sunrgbd_00100.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00101",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU1359",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU1359",
+      "image_md5": "14618dc58318f021055b51d47a269d2c",
+      "num_objects": 7,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00101.jpg",
+      "depth": "depth/sunrgbd_00101.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00102",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/b3dodata/img_0200",
+      "scene_group": "SUNRGBD/kv1/b3dodata/img_0200",
+      "image_md5": "8c4d911375671c4ae569c0603d9f847c",
+      "num_objects": 3,
+      "classes_present": [
+        "bookshelf",
+        "door"
+      ],
+      "image": "rgb/sunrgbd_00102.jpg",
+      "depth": "depth/sunrgbd_00102.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00103",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/002273_2014-06-28_18-54-08_260595134347_rgbf000025-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/002273_2014-06-28_18-54-08_260595134347_rgbf000025-resize",
+      "image_md5": "03196ff992f81a9ca72371f1ecb0fb44",
+      "num_objects": 4,
+      "classes_present": [
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00103.jpg",
+      "depth": "depth/sunrgbd_00103.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00104",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/001649_2014-06-20_12-08-27_260595134347_rgbf000092-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/001649_2014-06-20_12-08-27_260595134347_rgbf000092-resize",
+      "image_md5": "944bd4003a6c13cf4c7dbfd1df9649cd",
+      "num_objects": 3,
+      "classes_present": [
+        "bookshelf",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00104.jpg",
+      "depth": "depth/sunrgbd_00104.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00105",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/002580_2014-06-24_14-09-29_094959634447_rgbf000060-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/002580_2014-06-24_14-09-29_094959634447_rgbf000060-resize",
+      "image_md5": "86bdfbecf74c28f45597aa0277303e87",
+      "num_objects": 13,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00105.jpg",
+      "depth": "depth/sunrgbd_00105.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00106",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/b3dodata/img_0313",
+      "scene_group": "SUNRGBD/kv1/b3dodata/img_0313",
+      "image_md5": "6f033e2257c2a0608e2191e013bbcfcd",
+      "num_objects": 6,
+      "classes_present": [
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00106.jpg",
+      "depth": "depth/sunrgbd_00106.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00107",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/000098_2014-05-14_21-55-47_260595134347_rgbf000151-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/000098_2014-05-14_21-55-47_260595134347_rgbf000151-resize",
+      "image_md5": "ce2cc02a58d4cf24b018754de128a55a",
+      "num_objects": 6,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00107.jpg",
+      "depth": "depth/sunrgbd_00107.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00108",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/001967_2014-06-24_15-59-03_260595134347_rgbf000047-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/001967_2014-06-24_15-59-03_260595134347_rgbf000047-resize",
+      "image_md5": "7816e14698c89eaed6aec0ae28b0d7c3",
+      "num_objects": 5,
+      "classes_present": [
+        "cabinet",
+        "sofa"
+      ],
+      "image": "rgb/sunrgbd_00108.jpg",
+      "depth": "depth/sunrgbd_00108.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00109",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/000922_2014-06-09_16-25-16_260595134347_rgbf000150-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/000922_2014-06-09_16-25-16_260595134347_rgbf000150-resize",
+      "image_md5": "d48f90bc961791387cd1e253c026bb1e",
+      "num_objects": 4,
+      "classes_present": [
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00109.jpg",
+      "depth": "depth/sunrgbd_00109.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00110",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0213",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU0213",
+      "image_md5": "be106af35f9a9fca8dacb73e1c3f6f26",
+      "num_objects": 5,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00110.jpg",
+      "depth": "depth/sunrgbd_00110.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00111",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/001304_2014-06-16_16-33-01_260595134347_rgbf000107-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/001304_2014-06-16_16-33-01_260595134347_rgbf000107-resize",
+      "image_md5": "7f02cb933a57078c93a8dbdf72ef62e9",
+      "num_objects": 2,
+      "classes_present": [
+        "cabinet",
+        "sofa"
+      ],
+      "image": "rgb/sunrgbd_00111.jpg",
+      "depth": "depth/sunrgbd_00111.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00112",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/000336_2014-06-08_11-32-47_260595134347_rgbf000334-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/000336_2014-06-08_11-32-47_260595134347_rgbf000334-resize",
+      "image_md5": "4a18888e0417e520ecf1ae28a4df0193",
+      "num_objects": 10,
+      "classes_present": [
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00112.jpg",
+      "depth": "depth/sunrgbd_00112.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00113",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/000545_2014-06-08_18-41-58_260595134347_rgbf000145-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/000545_2014-06-08_18-41-58_260595134347_rgbf000145-resize",
+      "image_md5": "66f8712057cb78f244c1c77fea2b8972",
+      "num_objects": 12,
+      "classes_present": [
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00113.jpg",
+      "depth": "depth/sunrgbd_00113.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00114",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/002225_2014-06-28_18-40-22_260595134347_rgbf000030-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/002225_2014-06-28_18-40-22_260595134347_rgbf000030-resize",
+      "image_md5": "a0ebdc6d5145e38c90883fe2135f3062",
+      "num_objects": 3,
+      "classes_present": [
+        "bookshelf",
+        "cabinet"
+      ],
+      "image": "rgb/sunrgbd_00114.jpg",
+      "depth": "depth/sunrgbd_00114.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00115",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0341",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU0341",
+      "image_md5": "eee85cbb1f2a88496d4c8ab3236c1df7",
+      "num_objects": 5,
+      "classes_present": [
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00115.jpg",
+      "depth": "depth/sunrgbd_00115.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00116",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0986",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU0986",
+      "image_md5": "788dd60261ef84360c3c86534525ebd5",
+      "num_objects": 3,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00116.jpg",
+      "depth": "depth/sunrgbd_00116.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00117",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/002183_2014-06-28_18-30-15_260595134347_rgbf000038-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/002183_2014-06-28_18-30-15_260595134347_rgbf000038-resize",
+      "image_md5": "f0525b5db81bd254629e3afadd9c21de",
+      "num_objects": 3,
+      "classes_present": [
+        "cabinet",
+        "sofa"
+      ],
+      "image": "rgb/sunrgbd_00117.jpg",
+      "depth": "depth/sunrgbd_00117.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00118",
+      "split": "train",
+      "original_sequence": "SUNRGBD/xtion/sun3ddata/hotel_m/scan1/0000484-000295381989",
+      "scene_group": "SUNRGBD/xtion/sun3ddata/hotel_m/scan1",
+      "image_md5": "8a3d447324bc21920cc44c4959885a40",
+      "num_objects": 3,
+      "classes_present": [
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00118.jpg",
+      "depth": "depth/sunrgbd_00118.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00119",
+      "split": "train",
+      "original_sequence": "SUNRGBD/realsense/sa/2014_10_23-15_54_46-1311000073",
+      "scene_group": "SUNRGBD/realsense/sa/2014_10_23-15_54_46-1311000073",
+      "image_md5": "f5bb5d9f2124a54591747d3870073274",
+      "num_objects": 5,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00119.jpg",
+      "depth": "depth/sunrgbd_00119.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00120",
+      "split": "train",
+      "original_sequence": "SUNRGBD/xtion/sun3ddata/home_amo/amo-apt-floor1-1/0002836-000096027000",
+      "scene_group": "SUNRGBD/xtion/sun3ddata/home_amo/amo-apt-floor1-1",
+      "image_md5": "e4b5ea2b99fb1ad6e04362bc8363db3c",
+      "num_objects": 2,
+      "classes_present": [
+        "cabinet",
+        "door"
+      ],
+      "image": "rgb/sunrgbd_00120.jpg",
+      "depth": "depth/sunrgbd_00120.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00121",
+      "split": "train",
+      "original_sequence": "SUNRGBD/realsense/sa/2014_10_22-15_24_58-1311000073",
+      "scene_group": "SUNRGBD/realsense/sa/2014_10_22-15_24_58-1311000073",
+      "image_md5": "11e4a646230c23ad6cfa798d257b9188",
+      "num_objects": 8,
+      "classes_present": [
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00121.jpg",
+      "depth": "depth/sunrgbd_00121.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00122",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0266",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU0266",
+      "image_md5": "8466521bbd4639e8dcf127610aa2aa22",
+      "num_objects": 6,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00122.jpg",
+      "depth": "depth/sunrgbd_00122.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00123",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/001370_2014-06-19_15-53-16_260595134347_rgbf000071-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/001370_2014-06-19_15-53-16_260595134347_rgbf000071-resize",
+      "image_md5": "2b0414a746fc03f44a5159ffdef45208",
+      "num_objects": 2,
+      "classes_present": [
+        "bookshelf",
+        "door"
+      ],
+      "image": "rgb/sunrgbd_00123.jpg",
+      "depth": "depth/sunrgbd_00123.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00124",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/001622_2014-06-20_11-40-16_260595134347_rgbf000120-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/001622_2014-06-20_11-40-16_260595134347_rgbf000120-resize",
+      "image_md5": "10dbac88b6b355dfd6e0a1817c7fbd1b",
+      "num_objects": 15,
+      "classes_present": [
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00124.jpg",
+      "depth": "depth/sunrgbd_00124.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00125",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/002130_2014-06-25_21-11-34_260595134347_rgbf000093-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/002130_2014-06-25_21-11-34_260595134347_rgbf000093-resize",
+      "image_md5": "92c76e6d526c1bdcd66eacfda944e163",
+      "num_objects": 3,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00125.jpg",
+      "depth": "depth/sunrgbd_00125.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00126",
+      "split": "train",
+      "original_sequence": "SUNRGBD/xtion/sun3ddata/home_han/apartment_han_oct_31_2012_scan1_erika/0001474-000061602408",
+      "scene_group": "SUNRGBD/xtion/sun3ddata/home_han/apartment_han_oct_31_2012_scan1_erika",
+      "image_md5": "cc86ce80cdb3b62f57fad0480beb6a47",
+      "num_objects": 2,
+      "classes_present": [
+        "bookshelf",
+        "door"
+      ],
+      "image": "rgb/sunrgbd_00126.jpg",
+      "depth": "depth/sunrgbd_00126.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00127",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/002272_2014-06-28_18-53-56_260595134347_rgbf000067-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/002272_2014-06-28_18-53-56_260595134347_rgbf000067-resize",
+      "image_md5": "22447c8f475303c1bccf9f77087d9cc3",
+      "num_objects": 10,
+      "classes_present": [
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00127.jpg",
+      "depth": "depth/sunrgbd_00127.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00128",
+      "split": "train",
+      "original_sequence": "SUNRGBD/xtion/sun3ddata/brown_bm_1/brown_bm_1/0004676-000157042891",
+      "scene_group": "SUNRGBD/xtion/sun3ddata/brown_bm_1/brown_bm_1",
+      "image_md5": "3a1e791c78d586c6653a68f157081a58",
+      "num_objects": 4,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00128.jpg",
+      "depth": "depth/sunrgbd_00128.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00129",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU1326",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU1326",
+      "image_md5": "b80f4ecc2da29036f540361cbd937924",
+      "num_objects": 2,
+      "classes_present": [
+        "bookshelf",
+        "sofa"
+      ],
+      "image": "rgb/sunrgbd_00129.jpg",
+      "depth": "depth/sunrgbd_00129.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00130",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0616",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU0616",
+      "image_md5": "d9fecbf32e564195043628fcb17d8474",
+      "num_objects": 3,
+      "classes_present": [
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00130.jpg",
+      "depth": "depth/sunrgbd_00130.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00131",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/002303_2014-06-28_19-55-24_260595134347_rgbf000073-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/002303_2014-06-28_19-55-24_260595134347_rgbf000073-resize",
+      "image_md5": "73b2902715b089e53b97c4c2e3bb03f6",
+      "num_objects": 4,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00131.jpg",
+      "depth": "depth/sunrgbd_00131.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00132",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0872",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU0872",
+      "image_md5": "65f75b0f8cd0b159d487de0819b35e63",
+      "num_objects": 3,
+      "classes_present": [
+        "cabinet",
+        "door"
+      ],
+      "image": "rgb/sunrgbd_00132.jpg",
+      "depth": "depth/sunrgbd_00132.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00133",
+      "split": "train",
+      "original_sequence": "SUNRGBD/realsense/sh/2014_10_21-13_38_40-1311000073",
+      "scene_group": "SUNRGBD/realsense/sh/2014_10_21-13_38_40-1311000073",
+      "image_md5": "7b83d34587f06fe2b91a43d5359cd23e",
+      "num_objects": 4,
+      "classes_present": [
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00133.jpg",
+      "depth": "depth/sunrgbd_00133.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00134",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/002542_2014-06-24_13-38-06_094959634447_rgbf000076-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/002542_2014-06-24_13-38-06_094959634447_rgbf000076-resize",
+      "image_md5": "a62fe66167cac1a0f970371cd115a296",
+      "num_objects": 7,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00134.jpg",
+      "depth": "depth/sunrgbd_00134.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00135",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/align_kv2/2014-12-18_14-16-34_260595134347",
+      "scene_group": "SUNRGBD/kv2/align_kv2/2014-12-18_14-16-34_260595134347",
+      "image_md5": "4432908f8d9518f699b68268e00e0425",
+      "num_objects": 3,
+      "classes_present": [
+        "cabinet",
+        "door"
+      ],
+      "image": "rgb/sunrgbd_00135.jpg",
+      "depth": "depth/sunrgbd_00135.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00136",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU1215",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU1215",
+      "image_md5": "6a6f84dce4af6f91a9b6bd5522b207a5",
+      "num_objects": 4,
+      "classes_present": [
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00136.jpg",
+      "depth": "depth/sunrgbd_00136.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00137",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/001606_2014-06-20_11-18-48_260595134347_rgbf000090-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/001606_2014-06-20_11-18-48_260595134347_rgbf000090-resize",
+      "image_md5": "f8a88b03f510c4cb2f3949b5ef8251e6",
+      "num_objects": 12,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00137.jpg",
+      "depth": "depth/sunrgbd_00137.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00138",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/b3dodata/img_0292",
+      "scene_group": "SUNRGBD/kv1/b3dodata/img_0292",
+      "image_md5": "dd098beb23a6fe63b8f8adff1e3ea5c3",
+      "num_objects": 2,
+      "classes_present": [
+        "door",
+        "sofa"
+      ],
+      "image": "rgb/sunrgbd_00138.jpg",
+      "depth": "depth/sunrgbd_00138.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00139",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/003006_2014-06-15_12-48-05_094959634447_rgbf000150-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/003006_2014-06-15_12-48-05_094959634447_rgbf000150-resize",
+      "image_md5": "66517adf8941885921da3e9ff113db9b",
+      "num_objects": 6,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00139.jpg",
+      "depth": "depth/sunrgbd_00139.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00140",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU1328",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU1328",
+      "image_md5": "e716bf903ad8ef3b2c235b9c8f874351",
+      "num_objects": 7,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00140.jpg",
+      "depth": "depth/sunrgbd_00140.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00141",
+      "split": "train",
+      "original_sequence": "SUNRGBD/xtion/sun3ddata/home_rz/home_rz_scan1_2012_oct_31/0025438-000852845346",
+      "scene_group": "SUNRGBD/xtion/sun3ddata/home_rz/home_rz_scan1_2012_oct_31",
+      "image_md5": "f8eff7b38259407a2ba0e8c3861862d4",
+      "num_objects": 3,
+      "classes_present": [
+        "cabinet",
+        "sofa"
+      ],
+      "image": "rgb/sunrgbd_00141.jpg",
+      "depth": "depth/sunrgbd_00141.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00142",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/000692_2014-06-08_13-09-42_260595134347_rgbf000199-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/000692_2014-06-08_13-09-42_260595134347_rgbf000199-resize",
+      "image_md5": "aa269674191f26919250912b6455a871",
+      "num_objects": 5,
+      "classes_present": [
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00142.jpg",
+      "depth": "depth/sunrgbd_00142.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00143",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0393",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU0393",
+      "image_md5": "4bc42820b0edd8aeaf01f7e54431ced2",
+      "num_objects": 5,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00143.jpg",
+      "depth": "depth/sunrgbd_00143.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00144",
+      "split": "train",
+      "original_sequence": "SUNRGBD/xtion/sun3ddata/harvard_conf_big/hv_conf_big_1/0004293-000143884188",
+      "scene_group": "SUNRGBD/xtion/sun3ddata/harvard_conf_big/hv_conf_big_1",
+      "image_md5": "52c3b07afb0ec33121402ee3c6fbd763",
+      "num_objects": 3,
+      "classes_present": [
+        "cabinet",
+        "door"
+      ],
+      "image": "rgb/sunrgbd_00144.jpg",
+      "depth": "depth/sunrgbd_00144.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00145",
+      "split": "train",
+      "original_sequence": "SUNRGBD/xtion/sun3ddata/home_ag/apartment_ag_nov_7_2012_scan1_erika/0002788-000116975441",
+      "scene_group": "SUNRGBD/xtion/sun3ddata/home_ag/apartment_ag_nov_7_2012_scan1_erika",
+      "image_md5": "f7bfea289cd5fc70284076c02732c076",
+      "num_objects": 4,
+      "classes_present": [
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00145.jpg",
+      "depth": "depth/sunrgbd_00145.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00146",
+      "split": "train",
+      "original_sequence": "SUNRGBD/xtion/sun3ddata/harvard_c8/hv_c8_1/0000205-000006965718",
+      "scene_group": "SUNRGBD/xtion/sun3ddata/harvard_c8/hv_c8_1",
+      "image_md5": "2edb67e6d4bbbbb8dff419e3499967fe",
+      "num_objects": 11,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00146.jpg",
+      "depth": "depth/sunrgbd_00146.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00147",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0237",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU0237",
+      "image_md5": "9de362da773fa0b9efc01793b5c3bc08",
+      "num_objects": 2,
+      "classes_present": [
+        "bookshelf",
+        "sofa"
+      ],
+      "image": "rgb/sunrgbd_00147.jpg",
+      "depth": "depth/sunrgbd_00147.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00148",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/002677_2014-06-13_16-10-40_094959634447_rgbf000120-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/002677_2014-06-13_16-10-40_094959634447_rgbf000120-resize",
+      "image_md5": "f73812b0e5a99720328e731a8118af8e",
+      "num_objects": 25,
+      "classes_present": [
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00148.jpg",
+      "depth": "depth/sunrgbd_00148.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00149",
+      "split": "train",
+      "original_sequence": "SUNRGBD/xtion/sun3ddata/harvard_conf_big/hv_conf_big_3/0001204-000040489395",
+      "scene_group": "SUNRGBD/xtion/sun3ddata/harvard_conf_big/hv_conf_big_3",
+      "image_md5": "01580a0cf51b984d44c663cd7c40781b",
+      "num_objects": 19,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00149.jpg",
+      "depth": "depth/sunrgbd_00149.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00150",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/001101_2014-06-15_17-47-04_260595134347_rgbf000155-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/001101_2014-06-15_17-47-04_260595134347_rgbf000155-resize",
+      "image_md5": "d4ce003d3d5eab4d26a5a5f096cf0e9f",
+      "num_objects": 2,
+      "classes_present": [
+        "cabinet",
+        "door"
+      ],
+      "image": "rgb/sunrgbd_00150.jpg",
+      "depth": "depth/sunrgbd_00150.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00151",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/000552_2014-06-08_22-21-21_260595134347_rgbf000047-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/000552_2014-06-08_22-21-21_260595134347_rgbf000047-resize",
+      "image_md5": "26773b2e91e85eda585b849fb78ee0a8",
+      "num_objects": 6,
+      "classes_present": [
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00151.jpg",
+      "depth": "depth/sunrgbd_00151.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00152",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/002682_2014-06-13_16-17-56_094959634447_rgbf000151-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/002682_2014-06-13_16-17-56_094959634447_rgbf000151-resize",
+      "image_md5": "843378426e11a30d78d4634317c75956",
+      "num_objects": 9,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00152.jpg",
+      "depth": "depth/sunrgbd_00152.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00153",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU1025",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU1025",
+      "image_md5": "a65ef18b81628c377b51b86bf40db9f8",
+      "num_objects": 2,
+      "classes_present": [
+        "cabinet",
+        "door"
+      ],
+      "image": "rgb/sunrgbd_00153.jpg",
+      "depth": "depth/sunrgbd_00153.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00154",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/003070_2014-06-15_14-58-27_094959634447_rgbf000150-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/003070_2014-06-15_14-58-27_094959634447_rgbf000150-resize",
+      "image_md5": "b43dad51fb4848f3a77ff46c66f6a2ed",
+      "num_objects": 6,
+      "classes_present": [
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00154.jpg",
+      "depth": "depth/sunrgbd_00154.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00155",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/b3dodata/img_0178",
+      "scene_group": "SUNRGBD/kv1/b3dodata/img_0178",
+      "image_md5": "402d74f22ee0ed45f6ad77b73ff5347a",
+      "num_objects": 6,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00155.jpg",
+      "depth": "depth/sunrgbd_00155.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00156",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU1115",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU1115",
+      "image_md5": "a27ea78c967efef713864606b6f05b7a",
+      "num_objects": 2,
+      "classes_present": [
+        "bookshelf",
+        "sofa"
+      ],
+      "image": "rgb/sunrgbd_00156.jpg",
+      "depth": "depth/sunrgbd_00156.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00157",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/001574_2014-06-20_17-23-45_260595134347_rgbf000070-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/001574_2014-06-20_17-23-45_260595134347_rgbf000070-resize",
+      "image_md5": "779c35237698e531627f2ffd51e1f9a6",
+      "num_objects": 4,
+      "classes_present": [
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00157.jpg",
+      "depth": "depth/sunrgbd_00157.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00158",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU1416",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU1416",
+      "image_md5": "3c7cd355c8201e1c0f4eb3d262f9eaf0",
+      "num_objects": 10,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00158.jpg",
+      "depth": "depth/sunrgbd_00158.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00159",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/000226_2014-06-02_15-43-22_260595134347_rgbf000060-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/000226_2014-06-02_15-43-22_260595134347_rgbf000060-resize",
+      "image_md5": "873c80c2e8d58ad87268f354cc3da2a0",
+      "num_objects": 3,
+      "classes_present": [
+        "cabinet",
+        "sofa"
+      ],
+      "image": "rgb/sunrgbd_00159.jpg",
+      "depth": "depth/sunrgbd_00159.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00160",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/000682_2014-06-08_23-14-58_260595134347_rgbf000041-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/000682_2014-06-08_23-14-58_260595134347_rgbf000041-resize",
+      "image_md5": "6bfc4483ba81e905994581ee5db2fe58",
+      "num_objects": 4,
+      "classes_present": [
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00160.jpg",
+      "depth": "depth/sunrgbd_00160.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00161",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/003052_2014-06-15_13-53-19_094959634447_rgbf000151-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/003052_2014-06-15_13-53-19_094959634447_rgbf000151-resize",
+      "image_md5": "4d2a289d375b83068d3fe41a2d319aff",
+      "num_objects": 5,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00161.jpg",
+      "depth": "depth/sunrgbd_00161.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00162",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/002000_2014-06-24_16-23-11_260595134347_rgbf000016-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/002000_2014-06-24_16-23-11_260595134347_rgbf000016-resize",
+      "image_md5": "e9694876720c76988c0c30c472c8bf8a",
+      "num_objects": 5,
+      "classes_present": [
+        "cabinet",
+        "sofa"
+      ],
+      "image": "rgb/sunrgbd_00162.jpg",
+      "depth": "depth/sunrgbd_00162.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00163",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/000397_2014-06-08_18-30-08_260595134347_rgbf000067-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/000397_2014-06-08_18-30-08_260595134347_rgbf000067-resize",
+      "image_md5": "b32b18445bdf8df7292464623c559097",
+      "num_objects": 18,
+      "classes_present": [
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00163.jpg",
+      "depth": "depth/sunrgbd_00163.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00164",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/003035_2014-06-15_13-26-53_094959634447_rgbf000151-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/003035_2014-06-15_13-26-53_094959634447_rgbf000151-resize",
+      "image_md5": "4d6c6bca2a6bddb6722d2c633d1b8bfc",
+      "num_objects": 8,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00164.jpg",
+      "depth": "depth/sunrgbd_00164.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00165",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/002015_2014-06-24_16-28-36_260595134347_rgbf000044-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/002015_2014-06-24_16-28-36_260595134347_rgbf000044-resize",
+      "image_md5": "e659cf9bfe6047cfdd7c2b01eba64637",
+      "num_objects": 3,
+      "classes_present": [
+        "cabinet",
+        "sofa"
+      ],
+      "image": "rgb/sunrgbd_00165.jpg",
+      "depth": "depth/sunrgbd_00165.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00166",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv1/b3dodata/img_0277",
+      "scene_group": "SUNRGBD/kv1/b3dodata/img_0277",
+      "image_md5": "fddd71cfe4d7e832aa61eab4c310059f",
+      "num_objects": 3,
+      "classes_present": [
+        "cabinet",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00166.jpg",
+      "depth": "depth/sunrgbd_00166.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00167",
+      "split": "train",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/002037_2014-06-24_20-21-35_260595134347_rgbf000033-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/002037_2014-06-24_20-21-35_260595134347_rgbf000033-resize",
+      "image_md5": "ed9c7877a30c3bc25ba3af1cd3e1701d",
+      "num_objects": 3,
+      "classes_present": [
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00167.jpg",
+      "depth": "depth/sunrgbd_00167.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00168",
+      "split": "val",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0244",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU0244",
+      "image_md5": "7130aa6e7f916d4c2e0045a1e1a5eef7",
+      "num_objects": 6,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00168.jpg",
+      "depth": "depth/sunrgbd_00168.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00169",
+      "split": "val",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/000938_2014-06-09_16-56-54_260595134347_rgbf000138-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/000938_2014-06-09_16-56-54_260595134347_rgbf000138-resize",
+      "image_md5": "28a565f063101d24ce6d58ad3c45f458",
+      "num_objects": 5,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00169.jpg",
+      "depth": "depth/sunrgbd_00169.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00170",
+      "split": "val",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/000440_2014-06-08_11-25-22_260595134347_rgbf000080-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/000440_2014-06-08_11-25-22_260595134347_rgbf000080-resize",
+      "image_md5": "ae598805041f39683f956fb815e317dc",
+      "num_objects": 10,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "door",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00170.jpg",
+      "depth": "depth/sunrgbd_00170.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00171",
+      "split": "val",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/000590_2014-06-09_16-38-36_260595134347_rgbf000159-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/000590_2014-06-09_16-38-36_260595134347_rgbf000159-resize",
+      "image_md5": "aa20a608f7aec6b0178496674f02eebb",
+      "num_objects": 7,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "door",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00171.jpg",
+      "depth": "depth/sunrgbd_00171.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00172",
+      "split": "val",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0589",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU0589",
+      "image_md5": "6f5153c4b4cbb398547c4db6bbb4819c",
+      "num_objects": 6,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00172.jpg",
+      "depth": "depth/sunrgbd_00172.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00173",
+      "split": "val",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU1244",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU1244",
+      "image_md5": "73279ee393071edfaf3d368ddc7093c1",
+      "num_objects": 10,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "door",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00173.jpg",
+      "depth": "depth/sunrgbd_00173.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00174",
+      "split": "val",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0437",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU0437",
+      "image_md5": "3f124edb69d9b6117b4bef90a2bf0469",
+      "num_objects": 7,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00174.jpg",
+      "depth": "depth/sunrgbd_00174.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00175",
+      "split": "val",
+      "original_sequence": "SUNRGBD/realsense/sa/2014_10_23-15_50_09-1311000073",
+      "scene_group": "SUNRGBD/realsense/sa/2014_10_23-15_50_09-1311000073",
+      "image_md5": "a9f7863e50846236bb22138d088849a7",
+      "num_objects": 4,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00175.jpg",
+      "depth": "depth/sunrgbd_00175.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00176",
+      "split": "val",
+      "original_sequence": "SUNRGBD/xtion/sun3ddata/brown_bm_4/brown_bm_4/0001599-000053893908",
+      "scene_group": "SUNRGBD/xtion/sun3ddata/brown_bm_4/brown_bm_4",
+      "image_md5": "c23b58616fee2c3f9c95aabe77ce6a1f",
+      "num_objects": 4,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "chair",
+        "sofa"
+      ],
+      "image": "rgb/sunrgbd_00176.jpg",
+      "depth": "depth/sunrgbd_00176.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00177",
+      "split": "val",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/000549_2014-06-08_22-10-24_260595134347_rgbf000247-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/000549_2014-06-08_22-10-24_260595134347_rgbf000247-resize",
+      "image_md5": "17b0a7269c80352f9e4f58d5c5d31d53",
+      "num_objects": 16,
+      "classes_present": [
+        "chair",
+        "door",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00177.jpg",
+      "depth": "depth/sunrgbd_00177.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00178",
+      "split": "val",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU1251",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU1251",
+      "image_md5": "093774ff49fc14734bdce5628be26f49",
+      "num_objects": 4,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00178.jpg",
+      "depth": "depth/sunrgbd_00178.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00179",
+      "split": "val",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0436",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU0436",
+      "image_md5": "eb2190153c6a96b48f151ce0b5f7df61",
+      "num_objects": 4,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00179.jpg",
+      "depth": "depth/sunrgbd_00179.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00180",
+      "split": "val",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/000578_2014-06-08_11-06-25_260595134347_rgbf000260-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/000578_2014-06-08_11-06-25_260595134347_rgbf000260-resize",
+      "image_md5": "d71a5ae4425179d87e07319cb5572697",
+      "num_objects": 6,
+      "classes_present": [
+        "chair",
+        "door",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00180.jpg",
+      "depth": "depth/sunrgbd_00180.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00181",
+      "split": "val",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/001604_2014-06-20_11-17-57_260595134347_rgbf000035-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/001604_2014-06-20_11-17-57_260595134347_rgbf000035-resize",
+      "image_md5": "e8e6d5789c2095c97e1cb4bc7409674c",
+      "num_objects": 5,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00181.jpg",
+      "depth": "depth/sunrgbd_00181.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00182",
+      "split": "val",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU1436",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU1436",
+      "image_md5": "236b21088f4d7d0684abcce6fa8f61c4",
+      "num_objects": 7,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00182.jpg",
+      "depth": "depth/sunrgbd_00182.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00183",
+      "split": "val",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0238",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU0238",
+      "image_md5": "1b2af36a00ae8e12085482cfdfbc9bf8",
+      "num_objects": 9,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00183.jpg",
+      "depth": "depth/sunrgbd_00183.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00184",
+      "split": "val",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/000788_2014-06-08_22-34-36_260595134347_rgbf000131-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/000788_2014-06-08_22-34-36_260595134347_rgbf000131-resize",
+      "image_md5": "878c97bcf218e3c5ef7e8c00935b8b20",
+      "num_objects": 7,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00184.jpg",
+      "depth": "depth/sunrgbd_00184.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00185",
+      "split": "val",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0375",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU0375",
+      "image_md5": "31f02afa47e7a3b491854207cc09e85b",
+      "num_objects": 5,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00185.jpg",
+      "depth": "depth/sunrgbd_00185.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00186",
+      "split": "val",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU1341",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU1341",
+      "image_md5": "f52408376871eeca8100ba5475c1bd11",
+      "num_objects": 11,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00186.jpg",
+      "depth": "depth/sunrgbd_00186.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00187",
+      "split": "val",
+      "original_sequence": "SUNRGBD/xtion/sun3ddata/home_at/home_at_scan1_2013_jan_1/0002412-000080907624",
+      "scene_group": "SUNRGBD/xtion/sun3ddata/home_at/home_at_scan1_2013_jan_1",
+      "image_md5": "eee49df3826568f72cb5a4626e324a7c",
+      "num_objects": 10,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00187.jpg",
+      "depth": "depth/sunrgbd_00187.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00188",
+      "split": "val",
+      "original_sequence": "SUNRGBD/kv1/b3dodata/img_0244",
+      "scene_group": "SUNRGBD/kv1/b3dodata/img_0244",
+      "image_md5": "8d68f0dcf320e0b27f03b3a45a823c68",
+      "num_objects": 4,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00188.jpg",
+      "depth": "depth/sunrgbd_00188.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00189",
+      "split": "val",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/000772_2014-06-08_22-18-53_260595134347_rgbf000063-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/000772_2014-06-08_22-18-53_260595134347_rgbf000063-resize",
+      "image_md5": "17523032d79e693f71be9c6b21820f38",
+      "num_objects": 4,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00189.jpg",
+      "depth": "depth/sunrgbd_00189.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00190",
+      "split": "val",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/001430_2014-06-19_16-50-36_260595134347_rgbf000047-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/001430_2014-06-19_16-50-36_260595134347_rgbf000047-resize",
+      "image_md5": "c8afe075cdbff9c60270293f4e8cee6e",
+      "num_objects": 13,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00190.jpg",
+      "depth": "depth/sunrgbd_00190.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00191",
+      "split": "val",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/000951_2014-06-08_11-28-25_260595134347_rgbf000092-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/000951_2014-06-08_11-28-25_260595134347_rgbf000092-resize",
+      "image_md5": "27e139e6907d07a3c802ac01d206be35",
+      "num_objects": 9,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00191.jpg",
+      "depth": "depth/sunrgbd_00191.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00192",
+      "split": "val",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/002676_2014-06-13_16-09-53_094959634447_rgbf000153-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/002676_2014-06-13_16-09-53_094959634447_rgbf000153-resize",
+      "image_md5": "295707412588991da8894cc96926b1db",
+      "num_objects": 27,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00192.jpg",
+      "depth": "depth/sunrgbd_00192.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00193",
+      "split": "val",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/000787_2014-06-08_22-33-53_260595134347_rgbf000175-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/000787_2014-06-08_22-33-53_260595134347_rgbf000175-resize",
+      "image_md5": "bbd71bdde6051ef7b04729bb82467b7e",
+      "num_objects": 4,
+      "classes_present": [
+        "cabinet",
+        "door",
+        "sofa"
+      ],
+      "image": "rgb/sunrgbd_00193.jpg",
+      "depth": "depth/sunrgbd_00193.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00194",
+      "split": "val",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0380",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU0380",
+      "image_md5": "51425266ca4820452afd3bc52ea55d4c",
+      "num_objects": 4,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00194.jpg",
+      "depth": "depth/sunrgbd_00194.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00195",
+      "split": "val",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/000623_2014-06-08_11-23-58_260595134347_rgbf000109-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/000623_2014-06-08_11-23-58_260595134347_rgbf000109-resize",
+      "image_md5": "9a6efa39a29800251840dee4357bf500",
+      "num_objects": 6,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00195.jpg",
+      "depth": "depth/sunrgbd_00195.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00196",
+      "split": "val",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/002990_2014-06-15_12-25-36_094959634447_rgbf000150-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/002990_2014-06-15_12-25-36_094959634447_rgbf000150-resize",
+      "image_md5": "c8f1a82c0d1ba632c5e0709cca751779",
+      "num_objects": 7,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00196.jpg",
+      "depth": "depth/sunrgbd_00196.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00197",
+      "split": "val",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/001402_2014-06-19_16-12-57_260595134347_rgbf000056-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/001402_2014-06-19_16-12-57_260595134347_rgbf000056-resize",
+      "image_md5": "c7937a97c925106feea77f9c37e26449",
+      "num_objects": 8,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00197.jpg",
+      "depth": "depth/sunrgbd_00197.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00198",
+      "split": "val",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/003002_2014-06-15_12-37-55_094959634447_rgbf000150-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/003002_2014-06-15_12-37-55_094959634447_rgbf000150-resize",
+      "image_md5": "d73ff86fd259db40acde343971fa11ef",
+      "num_objects": 6,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00198.jpg",
+      "depth": "depth/sunrgbd_00198.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00199",
+      "split": "val",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/001011_2014-06-08_23-18-54_260595134347_rgbf000044-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/001011_2014-06-08_23-18-54_260595134347_rgbf000044-resize",
+      "image_md5": "d3fb8753428ff01eec188fdb01f288c2",
+      "num_objects": 8,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00199.jpg",
+      "depth": "depth/sunrgbd_00199.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00200",
+      "split": "val",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU1068",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU1068",
+      "image_md5": "8408cb424745dc519b9105df48deabda",
+      "num_objects": 4,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00200.jpg",
+      "depth": "depth/sunrgbd_00200.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00201",
+      "split": "val",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/001358_2014-06-19_15-47-34_260595134347_rgbf000028-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/001358_2014-06-19_15-47-34_260595134347_rgbf000028-resize",
+      "image_md5": "4cdac4580c2f944340388a80f73fdb36",
+      "num_objects": 3,
+      "classes_present": [
+        "door",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00201.jpg",
+      "depth": "depth/sunrgbd_00201.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00202",
+      "split": "val",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU1065",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU1065",
+      "image_md5": "4c80d83d3489b6e36780fde260ca9224",
+      "num_objects": 4,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "door"
+      ],
+      "image": "rgb/sunrgbd_00202.jpg",
+      "depth": "depth/sunrgbd_00202.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00203",
+      "split": "val",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/000543_2014-06-08_18-40-53_260595134347_rgbf000085-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/000543_2014-06-08_18-40-53_260595134347_rgbf000085-resize",
+      "image_md5": "b56aab6a3b8599299abc8a6666074786",
+      "num_objects": 3,
+      "classes_present": [
+        "door",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00203.jpg",
+      "depth": "depth/sunrgbd_00203.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00204",
+      "split": "val",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0964",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU0964",
+      "image_md5": "04550fa50d8b147a466f01594875af41",
+      "num_objects": 3,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "door"
+      ],
+      "image": "rgb/sunrgbd_00204.jpg",
+      "depth": "depth/sunrgbd_00204.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00205",
+      "split": "val",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU1064",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU1064",
+      "image_md5": "72ad398b45325dd7d1abc42fca812da7",
+      "num_objects": 3,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "door"
+      ],
+      "image": "rgb/sunrgbd_00205.jpg",
+      "depth": "depth/sunrgbd_00205.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00206",
+      "split": "val",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/002277_2014-06-28_18-55-00_260595134347_rgbf000024-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/002277_2014-06-28_18-55-00_260595134347_rgbf000024-resize",
+      "image_md5": "d4426aba337acb0f532ccf5b18806c36",
+      "num_objects": 5,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "sofa"
+      ],
+      "image": "rgb/sunrgbd_00206.jpg",
+      "depth": "depth/sunrgbd_00206.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00207",
+      "split": "val",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0012",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU0012",
+      "image_md5": "33bdd569ef7a7e5aa3abddf5bbc4a7db",
+      "num_objects": 4,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "door"
+      ],
+      "image": "rgb/sunrgbd_00207.jpg",
+      "depth": "depth/sunrgbd_00207.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00208",
+      "split": "val",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU1325",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU1325",
+      "image_md5": "9c9273693ec3aa15e596e8b21f0d22da",
+      "num_objects": 3,
+      "classes_present": [
+        "cabinet",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00208.jpg",
+      "depth": "depth/sunrgbd_00208.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00209",
+      "split": "val",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0064",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU0064",
+      "image_md5": "35f399b8927d37ef6737ad0f4e54aa66",
+      "num_objects": 3,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "door"
+      ],
+      "image": "rgb/sunrgbd_00209.jpg",
+      "depth": "depth/sunrgbd_00209.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00210",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU1315",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU1315",
+      "image_md5": "78ec5ef2e95a7aa2ca816a38520943ab",
+      "num_objects": 7,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "door",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00210.jpg",
+      "depth": "depth/sunrgbd_00210.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00211",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0635",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU0635",
+      "image_md5": "b625e4c3c670eab91edbb734a51f1d2d",
+      "num_objects": 6,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00211.jpg",
+      "depth": "depth/sunrgbd_00211.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00212",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0172",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU0172",
+      "image_md5": "4c0a00676f5bae6cf00b2e6cda1d5dd0",
+      "num_objects": 6,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "door",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00212.jpg",
+      "depth": "depth/sunrgbd_00212.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00213",
+      "split": "test",
+      "original_sequence": "SUNRGBD/xtion/sun3ddata/home_puigpunyen/home_puigpunyent_scan2_2012_aug_23/0004030-000267954010",
+      "scene_group": "SUNRGBD/xtion/sun3ddata/home_puigpunyen/home_puigpunyent_scan2_2012_aug_23",
+      "image_md5": "cf4a6c6491d1ebe162f56ba3f287dcf9",
+      "num_objects": 8,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00213.jpg",
+      "depth": "depth/sunrgbd_00213.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00214",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU1369",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU1369",
+      "image_md5": "9b8f02e5c49cf4f5152fdb33cdd3ebf3",
+      "num_objects": 9,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00214.jpg",
+      "depth": "depth/sunrgbd_00214.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00215",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU1288",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU1288",
+      "image_md5": "1d95dcb8ec546dd5c5e5080a7c4b6ee5",
+      "num_objects": 4,
+      "classes_present": [
+        "cabinet",
+        "door",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00215.jpg",
+      "depth": "depth/sunrgbd_00215.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00216",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0581",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU0581",
+      "image_md5": "cff06b0b55dafa04518dc72202737980",
+      "num_objects": 5,
+      "classes_present": [
+        "chair",
+        "door",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00216.jpg",
+      "depth": "depth/sunrgbd_00216.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00217",
+      "split": "test",
+      "original_sequence": "SUNRGBD/realsense/lg/2014_10_29-16_47_33-1311000073",
+      "scene_group": "SUNRGBD/realsense/lg/2014_10_29-16_47_33-1311000073",
+      "image_md5": "f85f68f643975dc57a6d94d530065b29",
+      "num_objects": 6,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00217.jpg",
+      "depth": "depth/sunrgbd_00217.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00218",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/000637_2014-06-08_16-39-29_260595134347_rgbf000076-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/000637_2014-06-08_16-39-29_260595134347_rgbf000076-resize",
+      "image_md5": "682c2d705b45d49ff95d16086446eabe",
+      "num_objects": 5,
+      "classes_present": [
+        "cabinet",
+        "door",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00218.jpg",
+      "depth": "depth/sunrgbd_00218.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00219",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0395",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU0395",
+      "image_md5": "63e9c27179e4ebc3ff3c82e1f0728479",
+      "num_objects": 5,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00219.jpg",
+      "depth": "depth/sunrgbd_00219.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00220",
+      "split": "test",
+      "original_sequence": "SUNRGBD/xtion/sun3ddata/mit_w59_conference/conference_w59_nov_6_2012_scan1_erika/0003807-000164194884",
+      "scene_group": "SUNRGBD/xtion/sun3ddata/mit_w59_conference/conference_w59_nov_6_2012_scan1_erika",
+      "image_md5": "8845912c85373f671d301dee1223ed75",
+      "num_objects": 4,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00220.jpg",
+      "depth": "depth/sunrgbd_00220.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00221",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/001169_2014-06-17_15-43-04_260595134347_rgbf000112-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/001169_2014-06-17_15-43-04_260595134347_rgbf000112-resize",
+      "image_md5": "21ae29e5413ff45f76e338ae27f799a4",
+      "num_objects": 7,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00221.jpg",
+      "depth": "depth/sunrgbd_00221.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00222",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0764",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU0764",
+      "image_md5": "0caba6c4a98afd31cc8b237fe0180d18",
+      "num_objects": 4,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00222.jpg",
+      "depth": "depth/sunrgbd_00222.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00223",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU1182",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU1182",
+      "image_md5": "b1a0f26e7f87e6c252600728a25bdc8c",
+      "num_objects": 4,
+      "classes_present": [
+        "chair",
+        "door",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00223.jpg",
+      "depth": "depth/sunrgbd_00223.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00224",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/003147_2014-05-12_11-16-44_094959634447_rgbf000101-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/003147_2014-05-12_11-16-44_094959634447_rgbf000101-resize",
+      "image_md5": "24ce4ac69d1324d5495da7be35dd113a",
+      "num_objects": 5,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00224.jpg",
+      "depth": "depth/sunrgbd_00224.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00225",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0201",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU0201",
+      "image_md5": "83ffad6fd087e5ecf8abcf1f3e27549a",
+      "num_objects": 4,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00225.jpg",
+      "depth": "depth/sunrgbd_00225.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00226",
+      "split": "test",
+      "original_sequence": "SUNRGBD/xtion/sun3ddata/mit_dorm_mcc_eflr6/dorm_mcc_eflr6_oct_31_2012_scan1_erika/0007889-000346801287",
+      "scene_group": "SUNRGBD/xtion/sun3ddata/mit_dorm_mcc_eflr6/dorm_mcc_eflr6_oct_31_2012_scan1_erika",
+      "image_md5": "0dd247db19ea39cab64048779698e678",
+      "num_objects": 4,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00226.jpg",
+      "depth": "depth/sunrgbd_00226.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00227",
+      "split": "test",
+      "original_sequence": "SUNRGBD/xtion/sun3ddata/mit_dorm_masseeh_xc/dorm_masseeh_xc_oct_29_2012_scan1_erika/0001352-000058820628",
+      "scene_group": "SUNRGBD/xtion/sun3ddata/mit_dorm_masseeh_xc/dorm_masseeh_xc_oct_29_2012_scan1_erika",
+      "image_md5": "3e6970776b54a5857c21e9939c0d32d4",
+      "num_objects": 5,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00227.jpg",
+      "depth": "depth/sunrgbd_00227.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00228",
+      "split": "test",
+      "original_sequence": "SUNRGBD/realsense/lg/2014_10_24-13_49_01-1311000073",
+      "scene_group": "SUNRGBD/realsense/lg/2014_10_24-13_49_01-1311000073",
+      "image_md5": "059beab914339d0096a1c04c3828d6e2",
+      "num_objects": 8,
+      "classes_present": [
+        "chair",
+        "door",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00228.jpg",
+      "depth": "depth/sunrgbd_00228.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00229",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0991",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU0991",
+      "image_md5": "e7b4ac3b7f0bdb13a113db9c4bb370a2",
+      "num_objects": 4,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00229.jpg",
+      "depth": "depth/sunrgbd_00229.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00230",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/001242_2014-06-17_16-41-29_260595134347_rgbf000080-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/001242_2014-06-17_16-41-29_260595134347_rgbf000080-resize",
+      "image_md5": "bfc16d518ba8ed2838d80d192998fe78",
+      "num_objects": 7,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00230.jpg",
+      "depth": "depth/sunrgbd_00230.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00231",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/001929_2014-06-22_14-20-41_260595134347_rgbf000031-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/001929_2014-06-22_14-20-41_260595134347_rgbf000031-resize",
+      "image_md5": "8b38b4dc819d7d9911f64ade061e2aa1",
+      "num_objects": 7,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00231.jpg",
+      "depth": "depth/sunrgbd_00231.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00232",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/001240_2014-06-17_16-40-26_260595134347_rgbf000115-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/001240_2014-06-17_16-40-26_260595134347_rgbf000115-resize",
+      "image_md5": "755933fe731c6afe3f402f764c7b35eb",
+      "num_objects": 4,
+      "classes_present": [
+        "chair",
+        "door",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00232.jpg",
+      "depth": "depth/sunrgbd_00232.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00233",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU1421",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU1421",
+      "image_md5": "f4a5109ca3e3c58b2a6f1ace8a80d799",
+      "num_objects": 9,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00233.jpg",
+      "depth": "depth/sunrgbd_00233.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00234",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/001151_2014-06-17_15-28-39_260595134347_rgbf000084-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/001151_2014-06-17_15-28-39_260595134347_rgbf000084-resize",
+      "image_md5": "6cdd6e0d4239b92d7f7f59cda1f80fd0",
+      "num_objects": 10,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00234.jpg",
+      "depth": "depth/sunrgbd_00234.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00235",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/000720_2014-06-08_18-37-27_260595134347_rgbf000203-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/000720_2014-06-08_18-37-27_260595134347_rgbf000203-resize",
+      "image_md5": "35fd45e9f55ca7d182a0959b8b710ca5",
+      "num_objects": 6,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00235.jpg",
+      "depth": "depth/sunrgbd_00235.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00236",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/002827_2014-06-22_20-24-55_094959634447_rgbf000076-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/002827_2014-06-22_20-24-55_094959634447_rgbf000076-resize",
+      "image_md5": "3b1c8ca1c0700b57bb332f7031b59c41",
+      "num_objects": 8,
+      "classes_present": [
+        "chair",
+        "door",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00236.jpg",
+      "depth": "depth/sunrgbd_00236.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00237",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/000272_2014-06-02_15-11-36_260595134347_rgbf000037-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/000272_2014-06-02_15-11-36_260595134347_rgbf000037-resize",
+      "image_md5": "bafc5744821bb6de53012688511b38b6",
+      "num_objects": 5,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00237.jpg",
+      "depth": "depth/sunrgbd_00237.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00238",
+      "split": "test",
+      "original_sequence": "SUNRGBD/xtion/sun3ddata/mit_32_d530/d530_scan_oldest/0000075-000112140999",
+      "scene_group": "SUNRGBD/xtion/sun3ddata/mit_32_d530/d530_scan_oldest",
+      "image_md5": "54e7129362ce061c9f8812fdeb85c92a",
+      "num_objects": 6,
+      "classes_present": [
+        "chair",
+        "door",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00238.jpg",
+      "depth": "depth/sunrgbd_00238.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00239",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv1/b3dodata/img_0788",
+      "scene_group": "SUNRGBD/kv1/b3dodata/img_0788",
+      "image_md5": "ebaf2861e6a66785ec17c89dd323e3fe",
+      "num_objects": 5,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00239.jpg",
+      "depth": "depth/sunrgbd_00239.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00240",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/001704_2014-06-26_19-22-23_260595134347_rgbf000063-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/001704_2014-06-26_19-22-23_260595134347_rgbf000063-resize",
+      "image_md5": "034bb24200a68d0476f939ba7e997496",
+      "num_objects": 12,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00240.jpg",
+      "depth": "depth/sunrgbd_00240.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00241",
+      "split": "test",
+      "original_sequence": "SUNRGBD/xtion/sun3ddata/mit_w85_playroom/westgate_playroom_1/0000764-000025583748",
+      "scene_group": "SUNRGBD/xtion/sun3ddata/mit_w85_playroom/westgate_playroom_1",
+      "image_md5": "febab98aed73c4636aa4188935403440",
+      "num_objects": 3,
+      "classes_present": [
+        "bookshelf",
+        "door",
+        "sofa"
+      ],
+      "image": "rgb/sunrgbd_00241.jpg",
+      "depth": "depth/sunrgbd_00241.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00242",
+      "split": "test",
+      "original_sequence": "SUNRGBD/xtion/sun3ddata/mit_32_lounge_d429/d4_lounge_1/0000156-000005194980",
+      "scene_group": "SUNRGBD/xtion/sun3ddata/mit_32_lounge_d429/d4_lounge_1",
+      "image_md5": "c510a7f586d2288982db905c35935140",
+      "num_objects": 3,
+      "classes_present": [
+        "cabinet",
+        "door",
+        "sofa"
+      ],
+      "image": "rgb/sunrgbd_00242.jpg",
+      "depth": "depth/sunrgbd_00242.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00243",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv1/b3dodata/img_0656",
+      "scene_group": "SUNRGBD/kv1/b3dodata/img_0656",
+      "image_md5": "de2fcde6d5301c30a1aaba8a088316c6",
+      "num_objects": 4,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00243.jpg",
+      "depth": "depth/sunrgbd_00243.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00244",
+      "split": "test",
+      "original_sequence": "SUNRGBD/xtion/sun3ddata/mit_w85g/g_0/0000430-000014378364",
+      "scene_group": "SUNRGBD/xtion/sun3ddata/mit_w85g/g_0",
+      "image_md5": "c2a3c119c8466a2ba0ae4350246a1204",
+      "num_objects": 3,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "sofa"
+      ],
+      "image": "rgb/sunrgbd_00244.jpg",
+      "depth": "depth/sunrgbd_00244.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00245",
+      "split": "test",
+      "original_sequence": "SUNRGBD/xtion/sun3ddata/mit_dorm_next_536/dorm_next_536_oct_29_2012_scan1_erika/0000005-000000201700",
+      "scene_group": "SUNRGBD/xtion/sun3ddata/mit_dorm_next_536/dorm_next_536_oct_29_2012_scan1_erika",
+      "image_md5": "3fb63fbc118e50eab7471355470c843f",
+      "num_objects": 3,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "door"
+      ],
+      "image": "rgb/sunrgbd_00245.jpg",
+      "depth": "depth/sunrgbd_00245.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00246",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU1145",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU1145",
+      "image_md5": "041e94a9d05281fc63b8546471e32905",
+      "num_objects": 4,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "door"
+      ],
+      "image": "rgb/sunrgbd_00246.jpg",
+      "depth": "depth/sunrgbd_00246.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00247",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv1/b3dodata/img_0718",
+      "scene_group": "SUNRGBD/kv1/b3dodata/img_0718",
+      "image_md5": "d23edbc9b198949e4125f92c17f27c78",
+      "num_objects": 3,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "door"
+      ],
+      "image": "rgb/sunrgbd_00247.jpg",
+      "depth": "depth/sunrgbd_00247.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00248",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU1285",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU1285",
+      "image_md5": "e2b424d0064059f1d5228ced688a6e91",
+      "num_objects": 3,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "sofa"
+      ],
+      "image": "rgb/sunrgbd_00248.jpg",
+      "depth": "depth/sunrgbd_00248.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00249",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU1337",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU1337",
+      "image_md5": "f5d6b5ee0bfcb65b24f7ee683f3371e1",
+      "num_objects": 6,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00249.jpg",
+      "depth": "depth/sunrgbd_00249.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00250",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv1/b3dodata/img_0775",
+      "scene_group": "SUNRGBD/kv1/b3dodata/img_0775",
+      "image_md5": "310b3ad5dfdd8cfd731e1237b092e36b",
+      "num_objects": 4,
+      "classes_present": [
+        "door",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00250.jpg",
+      "depth": "depth/sunrgbd_00250.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00251",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/001136_2014-06-17_15-19-41_260595134347_rgbf000076-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/001136_2014-06-17_15-19-41_260595134347_rgbf000076-resize",
+      "image_md5": "93bd697e229b5a519487e3e8f79a9dc6",
+      "num_objects": 6,
+      "classes_present": [
+        "bookshelf",
+        "chair",
+        "sofa"
+      ],
+      "image": "rgb/sunrgbd_00251.jpg",
+      "depth": "depth/sunrgbd_00251.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00252",
+      "split": "test",
+      "original_sequence": "SUNRGBD/xtion/sun3ddata/mit_32_g449/g449_1/0001347-000045112536",
+      "scene_group": "SUNRGBD/xtion/sun3ddata/mit_32_g449/g449_1",
+      "image_md5": "19cfdd83ee5fe6dace6eeeea2d6241ae",
+      "num_objects": 3,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "door"
+      ],
+      "image": "rgb/sunrgbd_00252.jpg",
+      "depth": "depth/sunrgbd_00252.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00253",
+      "split": "test",
+      "original_sequence": "SUNRGBD/xtion/xtion_align_data/2014_12_18_12_6_3",
+      "scene_group": "SUNRGBD/xtion/xtion_align_data/2014_12_18_12_6_3",
+      "image_md5": "91a23de52c402b9bb13fa8c2dbbb32ae",
+      "num_objects": 4,
+      "classes_present": [
+        "door",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00253.jpg",
+      "depth": "depth/sunrgbd_00253.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00254",
+      "split": "test",
+      "original_sequence": "SUNRGBD/xtion/sun3ddata/mit_46_4conf_2/bcs_floor4_conf_a/0000992-000033573730",
+      "scene_group": "SUNRGBD/xtion/sun3ddata/mit_46_4conf_2/bcs_floor4_conf_a",
+      "image_md5": "e0fad0f256f46ec6e47475d49deba35c",
+      "num_objects": 7,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "chair"
+      ],
+      "image": "rgb/sunrgbd_00254.jpg",
+      "depth": "depth/sunrgbd_00254.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00255",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/000652_2014-06-08_17-08-57_260595134347_rgbf000125-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/000652_2014-06-08_17-08-57_260595134347_rgbf000125-resize",
+      "image_md5": "bdfdb6c1874223793e255e27fe1218df",
+      "num_objects": 4,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "door"
+      ],
+      "image": "rgb/sunrgbd_00255.jpg",
+      "depth": "depth/sunrgbd_00255.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00256",
+      "split": "test",
+      "original_sequence": "SUNRGBD/realsense/lg/2014_10_29-16_49_57-1311000073",
+      "scene_group": "SUNRGBD/realsense/lg/2014_10_29-16_49_57-1311000073",
+      "image_md5": "d2dd105e2a6f46762ab9c0139ff06421",
+      "num_objects": 4,
+      "classes_present": [
+        "bookshelf",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00256.jpg",
+      "depth": "depth/sunrgbd_00256.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00257",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0583",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU0583",
+      "image_md5": "b3e10b9533118b56d486c05ebe73ab91",
+      "num_objects": 4,
+      "classes_present": [
+        "bookshelf",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00257.jpg",
+      "depth": "depth/sunrgbd_00257.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00258",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU1365",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU1365",
+      "image_md5": "0544e22afa0ac91e513a89dd819f09c6",
+      "num_objects": 7,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "door",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00258.jpg",
+      "depth": "depth/sunrgbd_00258.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00259",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/001733_2014-06-26_19-45-34_260595134347_rgbf000031-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/001733_2014-06-26_19-45-34_260595134347_rgbf000031-resize",
+      "image_md5": "0bd88317ea6d969801bd9664cbcb5b35",
+      "num_objects": 3,
+      "classes_present": [
+        "cabinet",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00259.jpg",
+      "depth": "depth/sunrgbd_00259.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00260",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/001846_2014-06-22_13-20-09_260595134347_rgbf000041-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/001846_2014-06-22_13-20-09_260595134347_rgbf000041-resize",
+      "image_md5": "59250da36e5ee3b4c3767bf7b2a990ac",
+      "num_objects": 7,
+      "classes_present": [
+        "bookshelf",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00260.jpg",
+      "depth": "depth/sunrgbd_00260.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00261",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/000657_2014-06-08_17-12-06_260595134347_rgbf000115-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/000657_2014-06-08_17-12-06_260595134347_rgbf000115-resize",
+      "image_md5": "2738c5296d038fc78f8ddfff3ec507a8",
+      "num_objects": 9,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "chair",
+        "door",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00261.jpg",
+      "depth": "depth/sunrgbd_00261.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00262",
+      "split": "test",
+      "original_sequence": "SUNRGBD/xtion/sun3ddata/mit_dorm_masseeh_md/dorm_masseeh_md_scan1_oct_26_2012_erika/0001253-000056945830",
+      "scene_group": "SUNRGBD/xtion/sun3ddata/mit_dorm_masseeh_md/dorm_masseeh_md_scan1_oct_26_2012_erika",
+      "image_md5": "a9f52eb8827d3384871ff3788e3ad9a7",
+      "num_objects": 3,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00262.jpg",
+      "depth": "depth/sunrgbd_00262.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00263",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv2/align_kv2/2014-12-18_12-25-01_260595134347",
+      "scene_group": "SUNRGBD/kv2/align_kv2/2014-12-18_12-25-01_260595134347",
+      "image_md5": "38e18d6c684aa37ac4d93bd8523c476f",
+      "num_objects": 3,
+      "classes_present": [
+        "bookshelf",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00263.jpg",
+      "depth": "depth/sunrgbd_00263.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00264",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/000263_2014-06-02_14-42-31_260595134347_rgbf000012-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/000263_2014-06-02_14-42-31_260595134347_rgbf000012-resize",
+      "image_md5": "f0540f1466d6f3f393baa65673167ffa",
+      "num_objects": 4,
+      "classes_present": [
+        "bookshelf",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00264.jpg",
+      "depth": "depth/sunrgbd_00264.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00265",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU1171",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU1171",
+      "image_md5": "1157bcec163f4f84b0b6d03f94861f29",
+      "num_objects": 3,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00265.jpg",
+      "depth": "depth/sunrgbd_00265.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00266",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/000273_2014-06-02_15-11-55_260595134347_rgbf000045-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/000273_2014-06-02_15-11-55_260595134347_rgbf000045-resize",
+      "image_md5": "02b53221b141fbe24fb1dc204cd8fbd9",
+      "num_objects": 4,
+      "classes_present": [
+        "bookshelf",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00266.jpg",
+      "depth": "depth/sunrgbd_00266.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00267",
+      "split": "test",
+      "original_sequence": "SUNRGBD/xtion/xtion_align_data/2014_12_18_13_58_10",
+      "scene_group": "SUNRGBD/xtion/xtion_align_data/2014_12_18_13_58_10",
+      "image_md5": "e898e9ca5fae5d6a91fc86d77935230e",
+      "num_objects": 11,
+      "classes_present": [
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00267.jpg",
+      "depth": "depth/sunrgbd_00267.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00268",
+      "split": "test",
+      "original_sequence": "SUNRGBD/xtion/sun3ddata/mit_lab_koch/lab_koch_bench_nov_2_2012_scan1_erika/0002196-000097403623",
+      "scene_group": "SUNRGBD/xtion/sun3ddata/mit_lab_koch/lab_koch_bench_nov_2_2012_scan1_erika",
+      "image_md5": "68b7fac99c87100b7c99874d78072c18",
+      "num_objects": 6,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00268.jpg",
+      "depth": "depth/sunrgbd_00268.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00269",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU1235",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU1235",
+      "image_md5": "ad7ee8f9b97b75b0981bcf7417180f91",
+      "num_objects": 3,
+      "classes_present": [
+        "bookshelf",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00269.jpg",
+      "depth": "depth/sunrgbd_00269.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00270",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/003274_2014-05-14_16-09-52_094959634447_rgbf000100-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/003274_2014-05-14_16-09-52_094959634447_rgbf000100-resize",
+      "image_md5": "115a9c0e670e4158d677532d59747c31",
+      "num_objects": 8,
+      "classes_present": [
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00270.jpg",
+      "depth": "depth/sunrgbd_00270.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00271",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0519",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU0519",
+      "image_md5": "8c6f4c40efe17013d6033e6a8e8b0d6a",
+      "num_objects": 3,
+      "classes_present": [
+        "bookshelf",
+        "cabinet",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00271.jpg",
+      "depth": "depth/sunrgbd_00271.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00272",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/000481_2014-06-09_20-40-39_260595134347_rgbf000199-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/000481_2014-06-09_20-40-39_260595134347_rgbf000199-resize",
+      "image_md5": "f1cf5eafc8ac675999b81e112ef117b9",
+      "num_objects": 6,
+      "classes_present": [
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00272.jpg",
+      "depth": "depth/sunrgbd_00272.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00273",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv2/kinect2data/000437_2014-06-09_22-25-37_260595134347_rgbf000206-resize",
+      "scene_group": "SUNRGBD/kv2/kinect2data/000437_2014-06-09_22-25-37_260595134347_rgbf000206-resize",
+      "image_md5": "40f9bd29e0900b9cc6f530a6bd4c7bf4",
+      "num_objects": 4,
+      "classes_present": [
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00273.jpg",
+      "depth": "depth/sunrgbd_00273.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00274",
+      "split": "test",
+      "original_sequence": "SUNRGBD/xtion/sun3ddata/mit_46_ted_lab1/ted_lab_1/0007976-000267436671",
+      "scene_group": "SUNRGBD/xtion/sun3ddata/mit_46_ted_lab1/ted_lab_1",
+      "image_md5": "ace20898b3ef164541d1ac6550b0bd0f",
+      "num_objects": 8,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00274.jpg",
+      "depth": "depth/sunrgbd_00274.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00275",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0781",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU0781",
+      "image_md5": "a7ff727b8e6d67d2b2da537b61238c16",
+      "num_objects": 10,
+      "classes_present": [
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00275.jpg",
+      "depth": "depth/sunrgbd_00275.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00276",
+      "split": "test",
+      "original_sequence": "SUNRGBD/xtion/sun3ddata/mit_32_g9_lounge/g9_lounge_1/0001404-000047022948",
+      "scene_group": "SUNRGBD/xtion/sun3ddata/mit_32_g9_lounge/g9_lounge_1",
+      "image_md5": "1ff3a8990495422b37587e88564bdfb4",
+      "num_objects": 17,
+      "classes_present": [
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00276.jpg",
+      "depth": "depth/sunrgbd_00276.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00277",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv1/NYUdata/NYU0773",
+      "scene_group": "SUNRGBD/kv1/NYUdata/NYU0773",
+      "image_md5": "0055247be1c7f56c945a6733703fa634",
+      "num_objects": 7,
+      "classes_present": [
+        "cabinet",
+        "chair",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00277.jpg",
+      "depth": "depth/sunrgbd_00277.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00278",
+      "split": "test",
+      "original_sequence": "SUNRGBD/kv2/align_kv2/2014-12-18_11-50-55_260595134347",
+      "scene_group": "SUNRGBD/kv2/align_kv2/2014-12-18_11-50-55_260595134347",
+      "image_md5": "fedbe350abcb713a4edc8ca811652660",
+      "num_objects": 14,
+      "classes_present": [
+        "chair",
+        "door",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00278.jpg",
+      "depth": "depth/sunrgbd_00278.npy"
+    },
+    {
+      "frame_id": "sunrgbd_00279",
+      "split": "test",
+      "original_sequence": "SUNRGBD/xtion/sun3ddata/mit_32_g5_lounge/g5_lounge_1/0002025-000067872026",
+      "scene_group": "SUNRGBD/xtion/sun3ddata/mit_32_g5_lounge/g5_lounge_1",
+      "image_md5": "72fb24d4f8512946eab652c8d0e980d5",
+      "num_objects": 5,
+      "classes_present": [
+        "chair",
+        "sofa",
+        "table"
+      ],
+      "image": "rgb/sunrgbd_00279.jpg",
+      "depth": "depth/sunrgbd_00279.npy"
     }
   ]
 }

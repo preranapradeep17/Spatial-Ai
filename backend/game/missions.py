@@ -36,13 +36,21 @@ COMPANION_AGENTS: Dict[str, Dict[str, Any]] = {
 }
 
 
-def _objective(objective_id: str, description: str, points: int, required_tools: List[str], required_item: Optional[str] = None) -> Dict[str, Any]:
+def _objective(
+    objective_id: str,
+    description: str,
+    points: int,
+    required_tools: List[str],
+    required_item: Optional[str] = None,
+    required_target: Optional[str] = None,
+) -> Dict[str, Any]:
     return {
         "objective_id": objective_id,
         "description": description,
         "points": points,
         "required_tools": required_tools,
         "required_item": required_item,
+        "required_target": required_target,
         "is_completed": False,
     }
 
@@ -71,7 +79,7 @@ def _mission_catalog(seed: int = 42) -> List[Dict[str, Any]]:
             "required_inventory": ["research_key"],
             "objectives": [
                 _objective("scout_01", "Ask: what objects are visible?", 100, ["get_visible_objects"]),
-                _objective("scout_02", "Locate the table in the facility", 100, ["locate_object"]),
+                _objective("scout_02", "Locate the table in the facility", 100, ["locate_object"], required_target="table"),
                 _objective("scout_03", "Retrieve the missing Research Key into your inventory", 150, ["interact_with_object"], required_item="research_key"),
             ],
         },
@@ -127,7 +135,7 @@ def _mission_catalog(seed: int = 42) -> List[Dict[str, Any]]:
             "objectives": [
                 _objective("clue_01", "Inspect a clue (datapad or safe)", 150, ["inspect_clue"]),
                 _objective("clue_02", "Search documents for the Door 3 override", 250, ["search_documents", "search_safety_manual"]),
-                _objective("clue_03", "Unlock Archive Door 3", 250, ["interact_with_object"]),
+                _objective("clue_03", "Unlock Archive Door 3", 250, ["interact_with_object"], required_target="door"),
             ],
         },
         {
@@ -147,7 +155,7 @@ def _mission_catalog(seed: int = 42) -> List[Dict[str, Any]]:
             "objectives": [
                 _objective("timed_01", "Detect objects in the lab", 100, ["get_visible_objects"]),
                 _objective("timed_02", "Retrieve override via RAG", 150, ["search_documents", "search_safety_manual"]),
-                _objective("timed_03", "Unlock Door 3 before time expires", 300, ["interact_with_object"]),
+                _objective("timed_03", "Unlock Door 3 before time expires", 300, ["interact_with_object"], required_target="door"),
             ],
         },
         {
@@ -164,7 +172,7 @@ def _mission_catalog(seed: int = 42) -> List[Dict[str, Any]]:
             "timed": False,
             "hint": "Locate the reception terminal table and survey all SUN RGB-D objects.",
             "objectives": [
-                _objective("term_01", "Locate the terminal table in Reception", 100, ["locate_object"]),
+                _objective("term_01", "Locate the terminal table in Reception", 100, ["locate_object"], required_target="table"),
                 _objective("term_02", "Survey visible SUN RGB-D classes in the facility", 200, ["get_visible_objects"]),
             ],
         },
@@ -299,43 +307,86 @@ class GameSession:
         return f"All objectives for {mission['title']} are completed! Proceed to the next location."
 
     def record_tools(self, tool_calls: List[Dict[str, Any]], tool_results: List[Dict[str, Any]]) -> List[str]:
-        """Marks objectives complete when the matching investigation tools fire."""
+        """Marks objectives complete ONLY when actual validated tools execute and succeed."""
         completed_now: List[str] = []
         if not tool_calls:
             return completed_now
 
-        # 1. Auto-inventory on clue inspection, safe unlock, or container interactions first
-        for call, res in zip(tool_calls, tool_results):
+        # Normalize tool calls paired with execution results (handle missing result entries cleanly)
+        paired = list(zip(tool_calls, tool_results)) if tool_results else [(c, {}) for c in tool_calls]
+
+        def _is_call_successful(call: Dict[str, Any], res: Dict[str, Any]) -> bool:
+            if not isinstance(res, dict):
+                return True
+            if res.get("success") is False or res.get("action") == "access_denied":
+                return False
+            inner = res.get("result")
+            if isinstance(inner, dict):
+                if (
+                    inner.get("success") is False
+                    or inner.get("action") == "access_denied"
+                    or inner.get("access_denied") is True
+                ):
+                    return False
+                if (call.get("tool") or call.get("name")) == "locate_object" and inner.get("found") is False:
+                    return False
+            return True
+
+        # 1. Auto-inventory ONLY when clue inspection or verified container interactions succeed
+        for call, res in paired:
             t_name = call.get("tool") or call.get("name")
-            if t_name == "inspect_clue" and res.get("success"):
-                clue_data = res.get("result", {}).get("data", {})
+            if not _is_call_successful(call, res):
+                continue
+            if t_name == "inspect_clue":
+                clue_data = res.get("result", {}).get("data", {}) if isinstance(res, dict) else {}
                 if clue_data:
                     c_id = call.get("arguments", {}).get("clue_id", "clue")
                     if c_id not in self.collected_clues:
                         self.collected_clues.append(c_id)
                     self.add_to_inventory(c_id, clue_data.get("name", "Clue Note"), clue_data.get("description", ""))
-            elif t_name == "interact_with_object" and res.get("success"):
+            elif t_name == "interact_with_object":
                 obj_id = call.get("arguments", {}).get("object_id", "")
                 if "safe" in obj_id.lower():
                     self.add_to_inventory("master_keycard", "Master Security Keycard", "Allows Level 3 access to Sector 4 Vault.")
                 elif any(k in obj_id.lower() for k in ("cabinet", "key", "drawer", "box", "desk")):
                     self.add_to_inventory("research_key", "Master Research Key", "Physical backup key for restricted lab cabinets and security consoles.")
 
-        used_successful = {
-            (call.get("tool") or call.get("name"))
-            for call, res in zip(tool_calls, tool_results)
-            if res.get("success", True) is not False
-        }
+        successful_pairs = [
+            (call, res) for call, res in paired if _is_call_successful(call, res)
+        ]
         mission = self.active_mission()
         timed_out = mission.get("timed") and self.remaining_timer() == 0.0
 
-        # 2. Mark objectives complete only if both required tools and required items are satisfied
+        # 2. Mark objectives complete only when matching tool succeeded on required target/item
         for objective in mission["objectives"]:
             if objective["is_completed"]:
                 continue
             if timed_out and objective["objective_id"] == "timed_03":
                 continue
-            if used_successful.intersection(objective["required_tools"]):
+            req_tools = set(objective["required_tools"])
+            req_target = (objective.get("required_target") or "").lower().strip()
+            matched_tool = False
+            for call, res in successful_pairs:
+                t_name = call.get("tool") or call.get("name")
+                if t_name not in req_tools:
+                    continue
+                if req_target:
+                    args = call.get("arguments", {}) or {}
+                    inner = res.get("result", {}) if isinstance(res, dict) and isinstance(res.get("result"), dict) else {}
+                    target_text = " ".join([
+                        str(args.get("object_name", "")),
+                        str(args.get("object_id", "")),
+                        str(args.get("destination", "")),
+                        str(inner.get("class_name", "")),
+                        str(inner.get("object_id", "")),
+                    ]).lower()
+                    aliases = ["table", "desk"] if req_target == "table" else (["door", "door_3"] if req_target == "door" else [req_target])
+                    if not any(a in target_text for a in aliases):
+                        continue
+                matched_tool = True
+                break
+
+            if matched_tool:
                 req_item = objective.get("required_item")
                 if req_item:
                     has_item = any(item["id"] == req_item for item in self.inventory)
@@ -383,9 +434,16 @@ class GameSession:
         active_objs_done = bool(mission["objectives"]) and all(obj["is_completed"] for obj in mission["objectives"])
         active_completed = active_objs_done and active_inv_done
 
+        try:
+            from backend.tools.registry import global_tool_registry
+            env_state = dict(global_tool_registry._environment_state)
+        except Exception:
+            env_state = {"door_3": "locked"}
+
         return {
             "score": self.score,
             "seed": self.seed,
+            "environment_state": env_state,
             "active_mission": {
                 "id": mission["id"],
                 "code": mission["code"],

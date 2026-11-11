@@ -4,8 +4,9 @@ import os
 import socket
 import sys
 
-# Ensure repository root is on sys.path regardless of where this script is called from
+# Ensure repository root is CWD and on sys.path regardless of where this script is called from
 REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+os.chdir(REPO_ROOT)
 if REPO_ROOT not in sys.path:
     sys.path.insert(0, REPO_ROOT)
 current_pp = os.environ.get("PYTHONPATH", "")
@@ -102,8 +103,8 @@ def main():
     print("   • Touch-drag on 3D canvas to look around")
     print("   • Left-thumb Virtual D-Pad for walking (▲ ◄ ▼ ►)")
     print("   • Right-thumb Action Buttons (✋ Interact, 👁️ Scan, 🔄 180°)")
-    print("   • Mobile View Switcher (📱 Split View | 🎮 3D World | 💬 Drone Chat)")
-    print("   • 1-Click Objective Execution Chips (💬 EXECUTE)")
+    print("   • Mobile View Switcher (3D Scene | AI Assistant | Objectives)")
+    print("   • Real-time Investigation Partner & Human Investigator")
     print("=" * 65)
     print(f"Starting server on {host}:{port}...")
     print("=" * 65)

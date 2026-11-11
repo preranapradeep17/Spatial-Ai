@@ -1,0 +1,170 @@
+{
+  "mAP_50": 0.2868,
+  "overall_precision": 0.2038,
+  "overall_recall": 0.4943,
+  "overall_f1": 0.2886,
+  "total_tp": 43,
+  "total_fp": 168,
+  "total_fn": 44,
+  "per_class_ap": {
+    "table": 0.3594,
+    "chair": 0.402,
+    "door": 0.0,
+    "bookshelf": 0.3636,
+    "sofa": 0.0,
+    "cabinet": 0.5955
+  },
+  "per_class_metrics": {
+    "table": {
+      "ap_50": 0.3594,
+      "precision": 0.3889,
+      "recall": 0.4242,
+      "f1": 0.4058,
+      "tp": 14,
+      "fp": 22,
+      "fn": 19,
+      "gt_count": 33,
+      "pred_count": 36
+    },
+    "chair": {
+      "ap_50": 0.402,
+      "precision": 0.1103,
+      "recall": 0.6957,
+      "f1": 0.1904,
+      "tp": 16,
+      "fp": 129,
+      "fn": 7,
+      "gt_count": 23,
+      "pred_count": 145
+    },
+    "door": {
+      "ap_50": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 1,
+      "gt_count": 1,
+      "pred_count": 0
+    },
+    "bookshelf": {
+      "ap_50": 0.3636,
+      "precision": 0.7143,
+      "recall": 0.3846,
+      "f1": 0.5,
+      "tp": 5,
+      "fp": 2,
+      "fn": 8,
+      "gt_count": 13,
+      "pred_count": 7
+    },
+    "sofa": {
+      "ap_50": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 6,
+      "gt_count": 6,
+      "pred_count": 0
+    },
+    "cabinet": {
+      "ap_50": 0.5955,
+      "precision": 0.3478,
+      "recall": 0.7273,
+      "f1": 0.4706,
+      "tp": 8,
+      "fp": 15,
+      "fn": 3,
+      "gt_count": 11,
+      "pred_count": 23
+    }
+  },
+  "gt_counts": {
+    "table": 33,
+    "chair": 23,
+    "door": 1,
+    "bookshelf": 13,
+    "sofa": 6,
+    "cabinet": 11
+  },
+  "confusion_matrix": {
+    "labels": [
+      "table",
+      "chair",
+      "door",
+      "bookshelf",
+      "sofa",
+      "cabinet",
+      "background"
+    ],
+    "matrix": [
+      [
+        14,
+        0,
+        0,
+        0,
+        0,
+        0,
+        19
+      ],
+      [
+        0,
+        16,
+        0,
+        0,
+        0,
+        0,
+        7
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        0,
+        0,
+        0,
+        5,
+        0,
+        0,
+        8
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        6
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        8,
+        3
+      ],
+      [
+        22,
+        129,
+        0,
+        2,
+        0,
+        15,
+        0
+      ]
+    ]
+  },
+  "mean_latency_ms": 7.54
+}
